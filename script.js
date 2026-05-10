@@ -286,10 +286,10 @@ function renderRechargeNudge(articleId, article) {
 
   return `
     <aside class="recharge-nudge" aria-label="ARABAI Credits note">
-      <p class="eyebrow">Coming soon</p>
+      <p class="eyebrow">Credit wallet</p>
       <h2>Small recharge, many AI tools</h2>
-      <p>ARABAI Credits is not open yet. Later, it will let frequent users try newer AI tools from one place with a small balance.</p>
-      <a href="credits.html">See the coming soon plan</a>
+      <p>ARABAI Credits will let frequent users try newer AI tools from one place. Contribution rewards can be recorded first; AI redemption opens later.</p>
+      <a href="credits.html">Learn about Credits</a>
     </aside>
   `;
 }
@@ -865,7 +865,7 @@ function getArabicTitle(id, fallback) {
 function arSectionLabel(section) {
   if (section === "beginner") return "مبتدئ AI";
   if (section === "advanced") return "استخدام AI";
-  return "محترف AI";
+  return "خطوة أعمق";
 }
 
 function arBackUrl(section) {

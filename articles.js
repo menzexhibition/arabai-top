@@ -210,7 +210,7 @@ function advancedArticle([id, title, intro, caseTitle, scenario, prompt, next]) 
 
   return {
     section: "advanced",
-    sectionLabel: "AI Advanced",
+    sectionLabel: "Use AI",
     backUrl: "advanced.html",
     title,
     intro,
@@ -560,7 +560,7 @@ function expertArticle([id, title, intro, next]) {
 
   return {
     section: "expert",
-    sectionLabel: "AI Expert",
+    sectionLabel: "Deeper Guide",
     backUrl: "expert.html",
     title,
     intro,
