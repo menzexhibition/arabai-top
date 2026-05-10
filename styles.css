@@ -9,8 +9,13 @@
   --teal-dark: #006d73;
   --green: #7daa3b;
   --gold: #d6a84f;
+  --clay: #b86f45;
+  --palm: #4f8a5b;
+  --sand: #efe4c8;
   --shadow: 0 18px 45px rgba(31, 37, 35, 0.08);
   --radius: 8px;
+  --page-max: 1160px;
+  --article-max: 54rem;
 }
 
 * {
@@ -24,8 +29,9 @@ html {
 body {
   margin: 0;
   background:
-    radial-gradient(circle at top left, rgba(0, 140, 149, 0.1), transparent 34rem),
-    linear-gradient(180deg, #f7f6f2 0%, #f3f2ed 100%);
+    linear-gradient(135deg, rgba(0, 140, 149, 0.08) 0 12%, transparent 12% 100%),
+    linear-gradient(225deg, rgba(214, 168, 79, 0.14) 0 10%, transparent 10% 100%),
+    linear-gradient(180deg, #f7f4eb 0%, #f2f0e8 52%, #f7f6f2 100%);
   color: var(--ink);
   font-family: "Outfit", "IBM Plex Sans Arabic", system-ui, sans-serif;
   letter-spacing: 0;
@@ -72,7 +78,7 @@ button:focus-visible {
   place-items: center;
   border-radius: 0.45rem;
   background:
-    linear-gradient(135deg, rgba(214, 168, 79, 0.9), rgba(0, 140, 149, 0.9)),
+    linear-gradient(135deg, var(--gold), var(--teal) 56%, var(--palm)),
     var(--ink);
   color: var(--surface);
   font-weight: 800;
@@ -143,7 +149,7 @@ button:focus-visible {
 }
 
 .language-switch .active {
-  background: var(--ink);
+  background: linear-gradient(135deg, var(--teal-dark), var(--ink));
   color: var(--surface);
 }
 
@@ -183,20 +189,23 @@ main {
   gap: clamp(2rem, 5vw, 5rem);
   align-items: end;
   min-height: 78vh;
-  padding: clamp(4rem, 9vw, 8rem) clamp(1rem, 4vw, 4rem) 3rem;
+  width: min(100%, var(--page-max));
+  margin: 0 auto;
+  padding: clamp(4rem, 9vw, 8rem) clamp(1rem, 4vw, 3rem) 3rem;
 }
 
 .home-hero {
-  min-height: 68vh;
+  width: 100%;
+  max-width: none;
+  min-height: 58vh;
   background:
-    linear-gradient(135deg, rgba(247, 246, 242, 0.9), rgba(247, 246, 242, 0.58)),
-    radial-gradient(circle at 85% 18%, rgba(214, 168, 79, 0.22), transparent 18rem),
-    radial-gradient(circle at 65% 62%, rgba(0, 140, 149, 0.14), transparent 26rem);
+    linear-gradient(110deg, rgba(247, 244, 235, 0.96) 0 58%, rgba(239, 228, 200, 0.7) 58% 76%, rgba(0, 140, 149, 0.14) 76% 100%),
+    repeating-linear-gradient(90deg, rgba(0, 140, 149, 0.08) 0 1px, transparent 1px 5.5rem);
 }
 
 .eyebrow {
   margin: 0 0 0.85rem;
-  color: var(--teal-dark);
+  color: var(--clay);
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -206,6 +215,7 @@ main {
 .hero h1 {
   max-width: 12ch;
   margin: 0;
+  color: var(--ink);
   font-size: clamp(4rem, 11vw, 9.4rem);
   line-height: 0.9;
   letter-spacing: 0;
@@ -213,6 +223,9 @@ main {
 
 .home-hero .hero h1,
 .home-hero h1 {
+  background: linear-gradient(105deg, var(--ink), var(--teal-dark) 45%, var(--clay) 78%, var(--gold));
+  background-clip: text;
+  color: transparent;
   letter-spacing: 0.04em;
 }
 
@@ -239,7 +252,7 @@ main {
   padding: 0.85rem 1.15rem;
   border: 1px solid var(--ink);
   border-radius: 999px;
-  background: var(--ink);
+  background: linear-gradient(135deg, var(--ink), #35413d);
   color: var(--surface);
   font-weight: 600;
   transition:
@@ -249,7 +262,7 @@ main {
 }
 
 .path-button:nth-child(2) {
-  background: var(--teal);
+  background: linear-gradient(135deg, var(--teal), var(--palm));
   border-color: var(--teal);
 }
 
@@ -291,11 +304,14 @@ main {
 .updates-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
+  gap: clamp(1.15rem, 2vw, 1.5rem);
+  width: min(100%, var(--page-max));
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .intro-grid {
-  padding: 0 clamp(1rem, 4vw, 4rem) 4rem;
+  padding: 0 clamp(1rem, 4vw, 3rem) clamp(5rem, 8vw, 7rem);
 }
 
 .path-card,
@@ -303,7 +319,9 @@ main {
 .updates-grid article {
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: rgba(255, 254, 250, 0.86);
+  background:
+    linear-gradient(180deg, rgba(255, 254, 250, 0.92), rgba(255, 254, 250, 0.78)),
+    var(--surface);
   transition:
     transform 180ms ease,
     border-color 180ms ease,
@@ -312,8 +330,17 @@ main {
 
 .path-card {
   display: block;
-  min-height: 16rem;
-  padding: 1.35rem;
+  min-height: 15rem;
+  padding: clamp(1.25rem, 2vw, 1.6rem);
+  box-shadow: inset 0 0.28rem 0 var(--teal);
+}
+
+.path-card:nth-child(2) {
+  box-shadow: inset 0 0.28rem 0 var(--gold);
+}
+
+.path-card:nth-child(3) {
+  box-shadow: inset 0 0.28rem 0 var(--teal-dark);
 }
 
 .path-card:hover,
@@ -325,7 +352,7 @@ main {
 }
 
 .card-number {
-  color: var(--gold);
+  color: var(--clay);
   font-weight: 700;
 }
 
@@ -337,8 +364,8 @@ main {
 }
 
 .path-card h2 {
-  margin-top: 3rem;
-  font-size: 1.8rem;
+  margin-top: 2.5rem;
+  font-size: clamp(1.55rem, 2vw, 1.85rem);
 }
 
 .path-card p,
@@ -361,12 +388,15 @@ main {
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   gap: clamp(2rem, 5vw, 5rem);
   align-items: start;
-  padding: 0 clamp(1rem, 4vw, 4rem) 4rem;
+  width: min(100%, var(--page-max));
+  margin: 0 auto;
+  padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 3rem) clamp(3rem, 6vw, 5rem);
 }
 
 .home-purpose h2 {
   max-width: 11ch;
   margin: 0;
+  color: var(--teal-dark);
   font-size: clamp(2.3rem, 5vw, 5.6rem);
   line-height: 0.95;
 }
@@ -380,15 +410,15 @@ main {
 
 .purpose-statement {
   display: grid;
-  gap: 0.55rem;
+  gap: 0.75rem;
   margin-top: 1.4rem;
-  font-size: clamp(1.8rem, 4vw, 4.2rem);
+  font-size: clamp(1.6rem, 3vw, 3.3rem);
   font-weight: 600;
-  line-height: 1.02;
+  line-height: 1.08;
 }
 
 .purpose-statement span:first-child {
-  color: var(--muted);
+  color: var(--clay);
 }
 
 .purpose-statement span:nth-child(2) {
@@ -396,8 +426,8 @@ main {
 }
 
 .purpose-statement strong {
-  color: var(--teal-dark);
-  font-size: clamp(2.2rem, 5vw, 5rem);
+  color: var(--palm);
+  font-size: clamp(2rem, 4vw, 4rem);
   font-weight: 700;
 }
 
@@ -406,7 +436,9 @@ main {
 }
 
 .page-hero {
-  padding: clamp(4rem, 8vw, 7rem) clamp(1rem, 4vw, 4rem) clamp(2.5rem, 5vw, 4rem);
+  width: min(100%, var(--page-max));
+  margin: 0 auto;
+  padding: clamp(4rem, 8vw, 7rem) clamp(1rem, 4vw, 3rem) clamp(2.5rem, 5vw, 4rem);
 }
 
 .page-hero h1 {
@@ -429,13 +461,32 @@ main {
 }
 
 .layout-section {
-  padding: clamp(4rem, 7vw, 6rem) clamp(1rem, 4vw, 4rem);
-  border-top: 1px solid rgba(227, 224, 215, 0.8);
+  position: relative;
+  padding: clamp(4rem, 7vw, 6rem) clamp(1rem, 4vw, 3rem);
+  border-top: 0;
+}
+
+.layout-section::before {
+  position: absolute;
+  top: 0;
+  right: clamp(1rem, 4vw, 3rem);
+  left: clamp(1rem, 4vw, 3rem);
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(0, 140, 149, 0.35), rgba(214, 168, 79, 0.55), rgba(184, 111, 69, 0.28), transparent);
+}
+
+.first-section::before {
+  height: 3px;
+  background: linear-gradient(90deg, var(--teal), var(--gold) 48%, var(--clay) 72%, transparent);
 }
 
 .section-heading {
+  width: min(100%, var(--page-max));
   max-width: 45rem;
+  margin-right: auto;
   margin-bottom: 1.5rem;
+  margin-left: auto;
 }
 
 .section-heading h2 {
@@ -444,16 +495,29 @@ main {
 }
 
 .directory-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .directory-grid.compact {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .directory-item {
-  min-height: 11rem;
-  padding: 1.1rem;
+  min-height: 10.5rem;
+  padding: clamp(1.15rem, 2vw, 1.4rem);
+  box-shadow: inset 0 0.24rem 0 rgba(0, 140, 149, 0.75);
+}
+
+.directory-item:nth-child(4n + 2) {
+  box-shadow: inset 0 0.24rem 0 rgba(214, 168, 79, 0.9);
+}
+
+.directory-item:nth-child(4n + 3) {
+  box-shadow: inset 0 0.24rem 0 rgba(0, 109, 115, 0.75);
+}
+
+.directory-item:nth-child(4n + 4) {
+  box-shadow: inset 0 0.24rem 0 rgba(214, 168, 79, 0.72);
 }
 
 .directory-item h3 {
@@ -463,16 +527,16 @@ main {
 
 .directory-item p {
   margin-bottom: 0;
-  font-size: 0.96rem;
+  font-size: 0.94rem;
 }
 
 .content-card {
-  min-height: 17rem;
+  min-height: 14.5rem;
 }
 
 .topic-label {
   display: inline-flex;
-  margin-bottom: 1.3rem;
+  margin-bottom: 1rem;
   color: var(--teal-dark);
   font-size: 0.78rem;
   font-weight: 700;
@@ -482,12 +546,16 @@ main {
 
 .content-card ul {
   display: grid;
-  gap: 0.45rem;
-  margin: 1rem 0 0;
+  gap: 0.35rem;
+  margin: 0.85rem 0 0;
   padding: 0;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   list-style: none;
+}
+
+.content-card li:nth-child(n + 3) {
+  display: none;
 }
 
 .content-card li {
@@ -503,7 +571,8 @@ main {
   height: 0.35rem;
   border-radius: 50%;
   content: "";
-  background: var(--gold);
+  background: currentColor;
+  color: var(--gold);
 }
 
 .easter-card {
@@ -542,7 +611,7 @@ main {
 }
 
 .tool-row.header {
-  background: #eeece4;
+  background: linear-gradient(90deg, rgba(0, 140, 149, 0.1), rgba(214, 168, 79, 0.16));
   color: var(--ink);
   font-size: 0.8rem;
   font-weight: 700;
@@ -592,7 +661,7 @@ main {
 }
 
 .article-page {
-  width: min(100%, 54rem);
+  width: min(100%, var(--article-max));
   margin: 0 auto;
   padding: clamp(2rem, 5vw, 4rem) 1rem clamp(5rem, 8vw, 7rem);
 }
@@ -619,6 +688,15 @@ main {
 
 .article-header {
   margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.article-header::after {
+  display: block;
+  width: min(14rem, 55vw);
+  height: 3px;
+  margin-top: 1.6rem;
+  content: "";
+  background: linear-gradient(90deg, var(--teal), var(--gold), var(--clay));
 }
 
 .article-header h1 {
@@ -704,7 +782,7 @@ blockquote {
   padding: 1.1rem 1.2rem;
   border-left: 4px solid var(--teal);
   border-radius: 0 var(--radius) var(--radius) 0;
-  background: #eeece4;
+  background: linear-gradient(135deg, rgba(0, 140, 149, 0.08), rgba(214, 168, 79, 0.14));
   color: var(--ink);
   font-size: 1.08rem;
   line-height: 1.6;
@@ -745,7 +823,7 @@ blockquote {
 
 .prompt-guide th {
   width: 9rem;
-  background: rgba(0, 140, 149, 0.08);
+  background: rgba(214, 168, 79, 0.16);
   color: var(--ink);
   font-size: 0.92rem;
 }
@@ -758,7 +836,8 @@ blockquote {
 .external-refs {
   margin-top: 2rem;
   padding-top: 1.2rem;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid transparent;
+  border-image: linear-gradient(90deg, rgba(0, 140, 149, 0.45), rgba(214, 168, 79, 0.55), transparent) 1;
 }
 
 .external-refs ul {
@@ -788,8 +867,8 @@ blockquote {
   margin-right: 0.5rem;
   padding: 0.2rem 0.48rem;
   border-radius: 999px;
-  background: rgba(0, 140, 149, 0.1);
-  color: var(--teal-dark);
+  background: rgba(184, 111, 69, 0.12);
+  color: var(--clay);
   font-size: 0.76rem;
   font-weight: 700;
   vertical-align: 0.08rem;
@@ -804,6 +883,7 @@ blockquote {
   margin: 2rem 0 0;
   padding: 1.2rem;
   border: 1px solid rgba(0, 140, 149, 0.22);
+  border-top: 3px solid var(--teal);
   border-radius: var(--radius);
   background: rgba(255, 254, 250, 0.74);
 }
@@ -851,6 +931,7 @@ blockquote {
   margin: 2rem 0 0;
   padding: 1.2rem;
   border: 1px solid rgba(214, 168, 79, 0.52);
+  border-top: 3px solid var(--gold);
   border-radius: var(--radius);
   background: linear-gradient(135deg, rgba(214, 168, 79, 0.12), rgba(0, 140, 149, 0.08));
 }
@@ -875,6 +956,9 @@ blockquote {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
+  width: min(100%, var(--page-max));
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .credit-grid article {
@@ -882,7 +966,9 @@ blockquote {
   padding: 1.1rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: rgba(255, 254, 250, 0.86);
+  background:
+    linear-gradient(135deg, rgba(0, 140, 149, 0.06), rgba(214, 168, 79, 0.08)),
+    rgba(255, 254, 250, 0.88);
 }
 
 .credit-grid h3 {
@@ -899,6 +985,9 @@ blockquote {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
+  width: min(100%, var(--page-max));
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .retention-grid article,
@@ -930,6 +1019,9 @@ blockquote {
   gap: 1.5rem;
   align-items: center;
   padding: clamp(1.2rem, 3vw, 2rem);
+  width: min(100%, var(--page-max));
+  margin-right: auto;
+  margin-left: auto;
   background:
     linear-gradient(135deg, rgba(0, 140, 149, 0.09), rgba(214, 168, 79, 0.11)),
     rgba(255, 254, 250, 0.9);

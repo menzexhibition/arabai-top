@@ -33,7 +33,7 @@ if (articleRoot && window.ARTICLES) {
   if (!article) {
     articleRoot.innerHTML = `
       <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="index.html">ARABAI</a>
+        <a href="en.html">ARABAI</a>
         <span>Article not found</span>
       </nav>
       <header class="article-header">
@@ -123,7 +123,7 @@ if (arArticleRoot && window.ARTICLES) {
   if (!article) {
     arArticleRoot.innerHTML = `
       <nav class="breadcrumb" aria-label="مسار الصفحة">
-        <a href="ar.html">ARABAI</a>
+        <a href="index.html">ARABAI</a>
         <span>المقال غير موجود</span>
       </nav>
       <header class="article-header">
