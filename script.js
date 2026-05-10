@@ -286,10 +286,10 @@ function renderRechargeNudge(articleId, article) {
 
   return `
     <aside class="recharge-nudge" aria-label="ARABAI Credits note">
-      <p class="eyebrow">For frequent AI users</p>
-      <h2>Want one wallet for multiple AI tools?</h2>
-      <p>ARABAI Credits is a planned wallet for people who use AI often and want a quieter way to reach common tools from one place.</p>
-      <a href="credits.html">Learn how credits will work</a>
+      <p class="eyebrow">Coming soon</p>
+      <h2>Small recharge, many AI tools</h2>
+      <p>ARABAI Credits is not open yet. Later, it will let frequent users try newer AI tools from one place with a small balance.</p>
+      <a href="credits.html">See the coming soon plan</a>
     </aside>
   `;
 }
