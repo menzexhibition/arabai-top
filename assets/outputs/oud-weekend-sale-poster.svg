@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="42%" r="58%">
+      <stop offset="0" stop-color="#8b6b38"/>
+      <stop offset="0.42" stop-color="#2d231b"/>
+      <stop offset="1" stop-color="#0f1110"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" x2="1">
+      <stop offset="0" stop-color="#f6df95"/>
+      <stop offset="0.45" stop-color="#c6953a"/>
+      <stop offset="1" stop-color="#7a5521"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" x2="1">
+      <stop offset="0" stop-color="#f7e4ac" stop-opacity="0.92"/>
+      <stop offset="0.35" stop-color="#815a24" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#27180c" stop-opacity="0.98"/>
+    </linearGradient>
+    <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="28" stdDeviation="28" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#glow)"/>
+  <circle cx="895" cy="170" r="130" fill="#d5a84f" opacity="0.08"/>
+  <circle cx="160" cy="890" r="190" fill="#d5a84f" opacity="0.08"/>
+  <path d="M128 170 C300 92, 772 92, 952 170" fill="none" stroke="#d5a84f" stroke-width="2" opacity="0.45"/>
+  <path d="M128 912 C300 990, 772 990, 952 912" fill="none" stroke="#d5a84f" stroke-width="2" opacity="0.45"/>
+  <g filter="url(#shadow)">
+    <rect x="436" y="298" width="208" height="382" rx="56" fill="url(#glass)" stroke="#f1d98a" stroke-width="5"/>
+    <rect x="478" y="244" width="124" height="86" rx="18" fill="url(#gold)"/>
+    <rect x="456" y="222" width="168" height="44" rx="20" fill="#21170e" stroke="#d9ad58" stroke-width="4"/>
+    <rect x="482" y="438" width="116" height="132" rx="18" fill="#141615" stroke="#d5a84f" stroke-width="3"/>
+    <text x="540" y="492" text-anchor="middle" fill="#f6df95" font-family="Georgia, serif" font-size="30" font-weight="700">OUD</text>
+    <text x="540" y="532" text-anchor="middle" fill="#d5a84f" font-family="Arial, sans-serif" font-size="18" letter-spacing="4">MYAI</text>
+  </g>
+  <text x="540" y="132" text-anchor="middle" fill="#f8e7b0" font-family="Arial, sans-serif" font-size="34" font-weight="700" letter-spacing="6">WEEKEND OUD SALE</text>
+  <text x="540" y="760" text-anchor="middle" fill="#f8e7b0" font-family="Georgia, serif" font-size="86" font-weight="700">Up to 30% OFF</text>
+  <text x="540" y="820" text-anchor="middle" fill="#d5a84f" font-family="Arial, sans-serif" font-size="32" font-weight="700">Friday &amp; Saturday Only</text>
+  <rect x="388" y="866" width="304" height="72" rx="36" fill="url(#gold)"/>
+  <text x="540" y="913" text-anchor="middle" fill="#15130e" font-family="Arial, sans-serif" font-size="28" font-weight="800">SHOP NOW</text>
+</svg>

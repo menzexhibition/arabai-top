@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+    <defs>
+      <radialGradient id="v" cx="50%" cy="45%" r="65%">
+        <stop offset="0" stop-color="#d5a84f" stop-opacity="0.36"/>
+        <stop offset="1" stop-color="#302114"/>
+      </radialGradient>
+    </defs>
+    <rect width="1280" height="720" fill="url(#v)"/>
+    <rect x="430" y="236" width="420" height="210" rx="34" fill="#2a1b13" stroke="#d5a84f" stroke-width="6"/>
+    <rect x="476" y="202" width="328" height="74" rx="22" fill="#b88937"/>
+    <circle cx="540" cy="344" r="34" fill="#6b3b1e"/>
+    <circle cx="626" cy="348" r="34" fill="#6b3b1e"/>
+    <circle cx="712" cy="344" r="34" fill="#6b3b1e"/>
+    <path d="M210 136 L238 194 L302 204 L256 248 L267 312 L210 282 L153 312 L164 248 L118 204 L182 194 Z" fill="#d5a84f" opacity=".26"/>
+    <path d="M1035 120 C980 164 980 252 1035 296 C1006 286 948 246 948 208 C948 170 1006 130 1035 120Z" fill="#d5a84f" opacity=".3"/>
+    <text x="640" y="540" text-anchor="middle" fill="#f8e7b0" font-family="Arial" font-size="56" font-weight="800">Elegant Ramadan Packaging</text>
+    <text x="640" y="596" text-anchor="middle" fill="#f4deb0" font-family="Arial" font-size="28">Gold ribbon placed on the box</text>
+  </svg>

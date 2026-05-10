@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1680" viewBox="0 0 1080 1680">
+  <rect width="1080" height="1680" fill="#f3f1eb"/>
+  <text x="50" y="42" fill="#17201d" font-family="Arial" font-size="26" font-weight="800">9-grid storyboard: Ramadan date gift video</text>
+  
+    <g transform="translate(50 70)">
+      <rect width="290" height="470" rx="28" fill="#20150f" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="58" y="128" width="174" height="112" rx="18" fill="#4a2a18" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="88" y="96" width="114" height="48" rx="14" fill="#b88937"/>
+      <circle cx="108" cy="192" r="18" fill="#8b4b24"/>
+      <circle cx="146" cy="194" r="18" fill="#8b4b24"/>
+      <circle cx="184" cy="192" r="18" fill="#8b4b24"/>
+      <path d="M58 306 C118 276 172 276 232 306" fill="none" stroke="#d5a84f" stroke-width="6" opacity="0.55"/>
+      <circle cx="232" cy="72" r="28" fill="#d5a84f" opacity="0.18"/>
+      <text x="26" y="50" fill="#f8e7b0" font-family="Arial" font-size="30" font-weight="800">1</text>
+      <text x="145" y="356" text-anchor="middle" fill="#f8e7b0" font-family="Arial" font-size="24" font-weight="800">Closed Gift Box</text>
+      <text x="145" y="394" text-anchor="middle" fill="#f4deb0" font-family="Arial" font-size="17">Warm table, lantern glow</text>
+    </g>
+  
+    <g transform="translate(380 70)">
+      <rect width="290" height="470" rx="28" fill="#2c2117" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="58" y="128" width="174" height="112" rx="18" fill="#4a2a18" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="88" y="96" width="114" height="48" rx="14" fill="#b88937"/>
+      <circle cx="108" cy="192" r="18" fill="#8b4b24"/>
+      <circle cx="146" cy="194" r="18" fill="#8b4b24"/>
+      <circle cx="184" cy="192" r="18" fill="#8b4b24"/>
+      <path d="M58 306 C118 276 172 276 232 306" fill="none" stroke="#d5a84f" stroke-width="6" opacity="0.55"/>
+      <circle cx="232" cy="72" r="28" fill="#d5a84f" opacity="0.18"/>
+      <text x="26" y="50" fill="#f8e7b0" font-family="Arial" font-size="30" font-weight="800">2</text>
+      <text x="145" y="356" text-anchor="middle" fill="#f8e7b0" font-family="Arial" font-size="24" font-weight="800">Box Opens</text>
+      <text x="145" y="394" text-anchor="middle" fill="#f4deb0" font-family="Arial" font-size="17">The story begins</text>
+    </g>
+  
+    <g transform="translate(710 70)">
+      <rect width="290" height="470" rx="28" fill="#17231e" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="58" y="128" width="174" height="112" rx="18" fill="#4a2a18" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="88" y="96" width="114" height="48" rx="14" fill="#b88937"/>
+      <circle cx="108" cy="192" r="18" fill="#8b4b24"/>
+      <circle cx="146" cy="194" r="18" fill="#8b4b24"/>
+      <circle cx="184" cy="192" r="18" fill="#8b4b24"/>
+      <path d="M58 306 C118 276 172 276 232 306" fill="none" stroke="#d5a84f" stroke-width="6" opacity="0.55"/>
+      <circle cx="232" cy="72" r="28" fill="#d5a84f" opacity="0.18"/>
+      <text x="26" y="50" fill="#f8e7b0" font-family="Arial" font-size="30" font-weight="800">3</text>
+      <text x="145" y="356" text-anchor="middle" fill="#f8e7b0" font-family="Arial" font-size="24" font-weight="800">Dates Close-Up</text>
+      <text x="145" y="394" text-anchor="middle" fill="#f4deb0" font-family="Arial" font-size="17">Show product detail</text>
+    </g>
+  
+    <g transform="translate(50 580)">
+      <rect width="290" height="470" rx="28" fill="#2b241a" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="58" y="128" width="174" height="112" rx="18" fill="#4a2a18" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="88" y="96" width="114" height="48" rx="14" fill="#b88937"/>
+      <circle cx="108" cy="192" r="18" fill="#8b4b24"/>
+      <circle cx="146" cy="194" r="18" fill="#8b4b24"/>
+      <circle cx="184" cy="192" r="18" fill="#8b4b24"/>
+      <path d="M58 306 C118 276 172 276 232 306" fill="none" stroke="#d5a84f" stroke-width="6" opacity="0.55"/>
+      <circle cx="232" cy="72" r="28" fill="#d5a84f" opacity="0.18"/>
+      <text x="26" y="50" fill="#f8e7b0" font-family="Arial" font-size="30" font-weight="800">4</text>
+      <text x="145" y="356" text-anchor="middle" fill="#f8e7b0" font-family="Arial" font-size="24" font-weight="800">Arabic Coffee</text>
+      <text x="145" y="394" text-anchor="middle" fill="#f4deb0" font-family="Arial" font-size="17">Add local feeling</text>
+    </g>
+  
+    <g transform="translate(380 580)">
+      <rect width="290" height="470" rx="28" fill="#302014" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="58" y="128" width="174" height="112" rx="18" fill="#4a2a18" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="88" y="96" width="114" height="48" rx="14" fill="#b88937"/>
+      <circle cx="108" cy="192" r="18" fill="#8b4b24"/>
+      <circle cx="146" cy="194" r="18" fill="#8b4b24"/>
+      <circle cx="184" cy="192" r="18" fill="#8b4b24"/>
+      <path d="M58 306 C118 276 172 276 232 306" fill="none" stroke="#d5a84f" stroke-width="6" opacity="0.55"/>
+      <circle cx="232" cy="72" r="28" fill="#d5a84f" opacity="0.18"/>
+      <text x="26" y="50" fill="#f8e7b0" font-family="Arial" font-size="30" font-weight="800">5</text>
+      <text x="145" y="356" text-anchor="middle" fill="#f8e7b0" font-family="Arial" font-size="24" font-weight="800">Gold Ribbon</text>
+      <text x="145" y="394" text-anchor="middle" fill="#f4deb0" font-family="Arial" font-size="17">Show premium packaging</text>
+    </g>
+  
+    <g transform="translate(710 580)">
+      <rect width="290" height="470" rx="28" fill="#1b2424" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="58" y="128" width="174" height="112" rx="18" fill="#4a2a18" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="88" y="96" width="114" height="48" rx="14" fill="#b88937"/>
+      <circle cx="108" cy="192" r="18" fill="#8b4b24"/>
+      <circle cx="146" cy="194" r="18" fill="#8b4b24"/>
+      <circle cx="184" cy="192" r="18" fill="#8b4b24"/>
+      <path d="M58 306 C118 276 172 276 232 306" fill="none" stroke="#d5a84f" stroke-width="6" opacity="0.55"/>
+      <circle cx="232" cy="72" r="28" fill="#d5a84f" opacity="0.18"/>
+      <text x="26" y="50" fill="#f8e7b0" font-family="Arial" font-size="30" font-weight="800">6</text>
+      <text x="145" y="356" text-anchor="middle" fill="#f8e7b0" font-family="Arial" font-size="24" font-weight="800">Gift Moment</text>
+      <text x="145" y="394" text-anchor="middle" fill="#f4deb0" font-family="Arial" font-size="17">Show why people buy</text>
+    </g>
+  
+    <g transform="translate(50 1090)">
+      <rect width="290" height="470" rx="28" fill="#171717" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="58" y="128" width="174" height="112" rx="18" fill="#4a2a18" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="88" y="96" width="114" height="48" rx="14" fill="#b88937"/>
+      <circle cx="108" cy="192" r="18" fill="#8b4b24"/>
+      <circle cx="146" cy="194" r="18" fill="#8b4b24"/>
+      <circle cx="184" cy="192" r="18" fill="#8b4b24"/>
+      <path d="M58 306 C118 276 172 276 232 306" fill="none" stroke="#d5a84f" stroke-width="6" opacity="0.55"/>
+      <circle cx="232" cy="72" r="28" fill="#d5a84f" opacity="0.18"/>
+      <text x="26" y="50" fill="#f8e7b0" font-family="Arial" font-size="30" font-weight="800">7</text>
+      <text x="145" y="356" text-anchor="middle" fill="#f8e7b0" font-family="Arial" font-size="24" font-weight="800">Ramadan Gift Collection</text>
+      <text x="145" y="394" text-anchor="middle" fill="#f4deb0" font-family="Arial" font-size="17">First caption frame</text>
+    </g>
+  
+    <g transform="translate(380 1090)">
+      <rect width="290" height="470" rx="28" fill="#252017" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="58" y="128" width="174" height="112" rx="18" fill="#4a2a18" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="88" y="96" width="114" height="48" rx="14" fill="#b88937"/>
+      <circle cx="108" cy="192" r="18" fill="#8b4b24"/>
+      <circle cx="146" cy="194" r="18" fill="#8b4b24"/>
+      <circle cx="184" cy="192" r="18" fill="#8b4b24"/>
+      <path d="M58 306 C118 276 172 276 232 306" fill="none" stroke="#d5a84f" stroke-width="6" opacity="0.55"/>
+      <circle cx="232" cy="72" r="28" fill="#d5a84f" opacity="0.18"/>
+      <text x="26" y="50" fill="#f8e7b0" font-family="Arial" font-size="30" font-weight="800">8</text>
+      <text x="145" y="356" text-anchor="middle" fill="#f8e7b0" font-family="Arial" font-size="24" font-weight="800">Perfect for Family & Friends</text>
+      <text x="145" y="394" text-anchor="middle" fill="#f4deb0" font-family="Arial" font-size="17">Second caption frame</text>
+    </g>
+  
+    <g transform="translate(710 1090)">
+      <rect width="290" height="470" rx="28" fill="#111514" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="58" y="128" width="174" height="112" rx="18" fill="#4a2a18" stroke="#d5a84f" stroke-width="4"/>
+      <rect x="88" y="96" width="114" height="48" rx="14" fill="#b88937"/>
+      <circle cx="108" cy="192" r="18" fill="#8b4b24"/>
+      <circle cx="146" cy="194" r="18" fill="#8b4b24"/>
+      <circle cx="184" cy="192" r="18" fill="#8b4b24"/>
+      <path d="M58 306 C118 276 172 276 232 306" fill="none" stroke="#d5a84f" stroke-width="6" opacity="0.55"/>
+      <circle cx="232" cy="72" r="28" fill="#d5a84f" opacity="0.18"/>
+      <text x="26" y="50" fill="#f8e7b0" font-family="Arial" font-size="30" font-weight="800">9</text>
+      <text x="145" y="356" text-anchor="middle" fill="#f8e7b0" font-family="Arial" font-size="24" font-weight="800">Order Yours Today</text>
+      <text x="145" y="394" text-anchor="middle" fill="#f4deb0" font-family="Arial" font-size="17">Final action frame</text>
+    </g>
+  
+</svg>

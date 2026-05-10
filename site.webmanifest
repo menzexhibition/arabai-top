@@ -1,0 +1,10 @@
+{
+  "name": "MyAI",
+  "short_name": "MyAI",
+  "description": "A practical AI guide for ordinary users.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f6f2",
+  "theme_color": "#008c95",
+  "icons": []
+}
