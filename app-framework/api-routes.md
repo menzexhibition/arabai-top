@@ -1,4 +1,4 @@
-# MyAI API Routes Draft
+# ARABAI API Routes Draft
 
 These routes are for a future backend. They are not implemented in the current static site.
 
@@ -85,6 +85,6 @@ GET  /api/marketplace/leads/:id
 
 Purpose:
 
-- let MyAI users post a custom AI task later
+- let ARABAI users post a custom AI task later
 - connect guide readers to a separate paid task platform
 

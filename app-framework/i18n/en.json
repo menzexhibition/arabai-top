@@ -1,12 +1,12 @@
 {
-  "site.name": "MyAI",
+  "site.name": "ARABAI",
   "nav.beginner": "AI Beginner",
   "nav.advanced": "AI Advanced",
   "nav.expert": "AI Expert",
   "nav.credits": "Credits",
-  "credits.title": "MyAI Credits",
+  "credits.title": "ARABAI Credits",
   "credits.subtitle": "Recharge once, then use common AI tasks from one place.",
-  "credits.freeContent": "MyAI articles, tutorials, prompts, examples, and bilingual guides stay free.",
+  "credits.freeContent": "ARABAI articles, tutorials, prompts, examples, and bilingual guides stay free.",
   "wallet.low": "Low",
   "wallet.medium": "Medium",
   "wallet.high": "High"

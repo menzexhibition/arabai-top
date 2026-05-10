@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://arabai.top/</loc></url>
+  <url><loc>https://arabai.top/ar.html</loc></url>
   <url><loc>https://arabai.top/beginner.html</loc></url>
+  <url><loc>https://arabai.top/ar-beginner.html</loc></url>
   <url><loc>https://arabai.top/advanced.html</loc></url>
+  <url><loc>https://arabai.top/ar-advanced.html</loc></url>
   <url><loc>https://arabai.top/expert.html</loc></url>
+  <url><loc>https://arabai.top/ar-expert.html</loc></url>
   <url><loc>https://arabai.top/credits.html</loc></url>
+  <url><loc>https://arabai.top/ar-credits.html</loc></url>
   <url><loc>https://arabai.top/privacy.html</loc></url>
   <url><loc>https://arabai.top/terms.html</loc></url>
   <url><loc>https://arabai.top/disclosure.html</loc></url>
@@ -22,4 +27,12 @@
   <url><loc>https://arabai.top/article.html?id=make-videos</loc></url>
   <url><loc>https://arabai.top/article.html?id=what-is-api</loc></url>
   <url><loc>https://arabai.top/article.html?id=ai-gateway</loc></url>
+  <url><loc>https://arabai.top/ar-article.html?id=what-is-ai</loc></url>
+  <url><loc>https://arabai.top/ar-article.html?id=ai-basic-words</loc></url>
+  <url><loc>https://arabai.top/ar-article.html?id=what-is-a-prompt</loc></url>
+  <url><loc>https://arabai.top/ar-article.html?id=common-ai-tools</loc></url>
+  <url><loc>https://arabai.top/ar-article.html?id=write-with-ai</loc></url>
+  <url><loc>https://arabai.top/ar-article.html?id=make-slides</loc></url>
+  <url><loc>https://arabai.top/ar-article.html?id=create-images</loc></url>
+  <url><loc>https://arabai.top/ar-article.html?id=make-videos</loc></url>
 </urlset>

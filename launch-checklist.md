@@ -1,4 +1,4 @@
-# MyAI Launch Checklist
+# ARABAI Launch Checklist
 
 This project is ready to publish as a static MVP after domain-specific values are updated.
 
@@ -10,7 +10,7 @@ This project is ready to publish as a static MVP after domain-specific values ar
 - Prompt explanations
 - Try this tool links
 - External reference links
-- MyAI Credits explanation page
+- ARABAI Credits explanation page
 - Privacy policy page
 - Terms page
 - External link disclosure page
@@ -26,14 +26,14 @@ Domain values now use `https://arabai.top/`. Replace the remaining business plac
 
 - contact details in `privacy.html`
 - production legal entity details in `terms.html`
-- final brand naming in analytics and disclosure copy if the public brand changes from MyAI to ArabAI
+- final brand naming in analytics and disclosure copy must use ARABAI consistently
 
 ## Not Yet Production Ready
 
 These require real accounts, keys, backend infrastructure, and compliance review:
 
 - user login
-- MyAI Credits wallet balance
+- ARABAI Credits wallet balance
 - payment checkout
 - refund logic
 - API calls to OpenRouter, SiliconFlow, or official APIs
@@ -72,7 +72,7 @@ Build one small paid feature before adding everything:
 User signs in.
 User tops up credits.
 User runs one chat task.
-MyAI deducts credits.
+ARABAI deducts credits.
 User sees usage history.
 ```
 
@@ -80,7 +80,7 @@ Only after this works should image, video, music, and slides be added.
 
 ## Launch Risk Notes
 
-- Do not sell official subscriptions unless MyAI has reseller permission.
+- Do not sell official subscriptions unless ARABAI has reseller permission.
 - Do not hide high video/image costs from users.
 - Do not show a recharge prompt to most users.
 - Do not charge for published guide content.

@@ -1,4 +1,4 @@
--- MyAI future app schema draft.
+-- ARABAI future app schema draft.
 -- Run this only after choosing a real database provider.
 
 create table users (

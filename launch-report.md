@@ -1,10 +1,10 @@
-# MyAI Launch Report
+# ARABAI Launch Report
 
 Date: 2026-05-10
 
 ## Result
 
-MyAI is ready as a static MVP launch candidate.
+ARABAI is ready as a static MVP launch candidate.
 
 It is not yet a full paid AI platform because payments, login, wallet balance, and live AI API calls require real providers, keys, legal/payment setup, and server deployment.
 
@@ -18,7 +18,7 @@ It is not yet a full paid AI platform because payments, login, wallet balance, a
 - Prompt explanation table
 - Try this tool link grouping
 - Useful external references
-- MyAI Credits explanation page
+- ARABAI Credits explanation page
 - 5% recharge exposure-control prototype
 - Privacy page
 - Terms page
@@ -80,7 +80,7 @@ These are intentionally scaffolded, not live:
 
 - real user login
 - real payment checkout
-- real MyAI Credits balance
+- real ARABAI Credits balance
 - real API calls to OpenRouter, SiliconFlow, or official APIs
 - production Arabic translation
 - production task marketplace

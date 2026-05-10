@@ -1,4 +1,4 @@
-# MyAI App Framework
+# ARABAI App Framework
 
 This folder is the future product framework for accounts, credits, payments, API calls, Arabic content, and task marketplace integration.
 
@@ -7,7 +7,7 @@ It does not contain real secrets and does not process real payments.
 ## What This Framework Covers
 
 - user accounts
-- MyAI Credits wallet
+- ARABAI Credits wallet
 - payment provider integration
 - AI provider integration
 - usage history
@@ -30,8 +30,8 @@ It does not contain real secrets and does not process real payments.
 
 ## Important Rule
 
-Published MyAI guide content remains free. Paid features are only:
+Published ARABAI guide content remains free. Paid features are only:
 
-- MyAI Credits usage
+- ARABAI Credits usage
 - future custom task marketplace services
 

@@ -1,6 +1,6 @@
-# MyAI Business Model
+# ARABAI Business Model
 
-MyAI is a free AI guide and practical tool entry point for ordinary users.
+ARABAI is a free AI guide and practical tool entry point for ordinary users.
 
 The site should not charge for tutorials, articles, prompts, templates, or bilingual content.
 
@@ -26,7 +26,7 @@ People come back when they need help.
 
 ## Revenue Line 1: Official Tool Links
 
-For official tools, MyAI sends users to the official website.
+For official tools, ARABAI sends users to the official website.
 
 Examples:
 
@@ -40,7 +40,7 @@ Examples:
 - Suno
 - Udio
 
-When available, MyAI can use:
+When available, ARABAI can use:
 
 - affiliate links
 - referral links
@@ -50,7 +50,7 @@ When available, MyAI can use:
 Rules:
 
 - Always label official links clearly.
-- Do not pretend MyAI owns the official tool.
+- Do not pretend ARABAI owns the official tool.
 - Do not sell official subscriptions unless there is a formal reseller agreement.
 - Keep the user experience helpful, not pushy.
 
@@ -74,11 +74,11 @@ I can check the price myself.
 I can follow a beginner tutorial if I need more help.
 ```
 
-## Revenue Line 2: MyAI Credits
+## Revenue Line 2: ARABAI Credits
 
-MyAI Credits is the future unified wallet.
+ARABAI Credits is the future unified wallet.
 
-The user charges MyAI Credits and uses common AI functions through MyAI.
+The user charges ARABAI Credits and uses common AI functions through ARABAI.
 
 Suggested top-up options:
 
@@ -99,7 +99,7 @@ Possible functions:
 - create music
 - build a simple slide draft
 
-Behind the scenes, MyAI can connect to:
+Behind the scenes, ARABAI can connect to:
 
 - official APIs
 - AI gateway platforms
@@ -153,7 +153,7 @@ Here, we keep the wallet simple: you choose a task, see the estimated credits, a
 
 ## Revenue Line 3: AI Task Marketplace
 
-MyAI does not sell tutorial membership.
+ARABAI does not sell tutorial membership.
 
 All content remains free.
 
@@ -171,11 +171,11 @@ Example tasks:
 
 Other people can accept and complete the tasks for payment.
 
-This platform should be separate from the free MyAI guide, but connected through soft links such as:
+This platform should be separate from the free ARABAI guide, but connected through soft links such as:
 
 ```text
 Need someone to do this for you?
-Post a task on the MyAI task platform.
+Post a task on the ARABAI task platform.
 ```
 
 The paid part is the custom task service, not the published content.
@@ -252,7 +252,7 @@ Solution:
 - keep all article content free
 - keep pricing links separate from learning links
 
-### Phase 2: MyAI Credits Prototype
+### Phase 2: ARABAI Credits Prototype
 
 - create user accounts
 - create wallet
@@ -274,4 +274,4 @@ Solution:
 - user posts AI tasks
 - workers accept tasks
 - escrow or milestone payment
-- MyAI can earn platform commission
+- ARABAI can earn platform commission

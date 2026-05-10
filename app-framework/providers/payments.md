@@ -1,6 +1,6 @@
 # Payment Provider Plan
 
-MyAI Credits needs a payment provider before real recharge can launch.
+ARABAI Credits needs a payment provider before real recharge can launch.
 
 ## Recommended First Version
 

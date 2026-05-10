@@ -1,15 +1,15 @@
-# MyAI 5% Recharge Exposure Control
+# ARABAI 5% Recharge Exposure Control
 
-MyAI should feel like a useful guide first, not a sales page.
+ARABAI should feel like a useful guide first, not a sales page.
 
-All MyAI content stays free. The recharge entry is only for users who may want to run AI tools through MyAI Credits.
+All ARABAI content stays free. The recharge entry is only for users who may want to run AI tools through ARABAI Credits.
 
-MyAI does not use paid tutorial membership as the business model.
+ARABAI does not use paid tutorial membership as the business model.
 
 The recharge entry should only appear to a small group of users who are already showing strong intent. The target is not "convert 5% of all visitors by force"; the target is:
 
 ```text
-Expose the gentle MyAI Credits entry to no more than 5% of eligible visitors.
+Expose the gentle ARABAI Credits entry to no more than 5% of eligible visitors.
 ```
 
 ## Why This Matters
@@ -28,7 +28,7 @@ Only a small group should see the quiet paid path:
 I use AI often.
 I compare tools and prices.
 I need one place to access many AI tools.
-MyAI Credits may save me time.
+ARABAI Credits may save me time.
 ```
 
 ## Eligibility Score
@@ -80,7 +80,7 @@ Use gentle wording:
 
 ```text
 Want one wallet for multiple AI tools?
-MyAI Credits is being designed for people who use AI often.
+ARABAI Credits is being designed for people who use AI often.
 ```
 
 Avoid direct sales wording:

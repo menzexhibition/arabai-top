@@ -23,6 +23,7 @@ if ("IntersectionObserver" in window) {
 }
 
 const articleRoot = document.querySelector("#article-root");
+const arArticleRoot = document.querySelector("#ar-article-root");
 
 if (articleRoot && window.ARTICLES) {
   const params = new URLSearchParams(window.location.search);
@@ -32,7 +33,7 @@ if (articleRoot && window.ARTICLES) {
   if (!article) {
     articleRoot.innerHTML = `
       <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="index.html">MyAI</a>
+        <a href="index.html">ARABAI</a>
         <span>Article not found</span>
       </nav>
       <header class="article-header">
@@ -42,7 +43,12 @@ if (articleRoot && window.ARTICLES) {
       </header>
     `;
   } else {
-    document.title = `${article.title} - MyAI`;
+    document.title = `${article.title} - ARABAI`;
+
+    const currentEnLink = document.querySelector("#article-current-en-link");
+    const arLink = document.querySelector("#article-ar-link");
+    if (currentEnLink) currentEnLink.href = `article.html?id=${encodeURIComponent(articleId)}`;
+    if (arLink) arLink.href = `ar-article.html?id=${encodeURIComponent(articleId)}`;
 
     document
       .querySelector(`[data-nav="${article.section}"]`)
@@ -99,6 +105,83 @@ if (articleRoot && window.ARTICLES) {
         ${toolLinks}
         ${externalRefs}
         ${rechargeNudge}
+        ${next}
+      </section>
+    `;
+  }
+}
+
+if (arArticleRoot && window.ARTICLES) {
+  const params = new URLSearchParams(window.location.search);
+  const articleId = params.get("id") || "what-is-ai";
+  const article = window.ARTICLES[articleId];
+  const arArticle = getArabicArticle(articleId, article);
+
+  const enLink = document.querySelector("#article-en-link");
+  if (enLink) enLink.href = `article.html?id=${encodeURIComponent(articleId)}`;
+
+  if (!article) {
+    arArticleRoot.innerHTML = `
+      <nav class="breadcrumb" aria-label="مسار الصفحة">
+        <a href="ar.html">ARABAI</a>
+        <span>المقال غير موجود</span>
+      </nav>
+      <header class="article-header">
+        <p class="eyebrow">مقال غير موجود</p>
+        <h1>لم نجد هذا المقال</h1>
+        <p>هذا المقال غير متاح حاليا.</p>
+      </header>
+    `;
+  } else {
+    document.title = `${arArticle.title} - ARABAI`;
+
+    document
+      .querySelector(`[data-nav="${article.section}"]`)
+      ?.setAttribute("aria-current", "page");
+
+    const footerLink = document.querySelector("#ar-article-footer-link");
+    if (footerLink) {
+      footerLink.href = arBackUrl(article.section);
+      footerLink.textContent = `العودة إلى ${arSectionLabel(article.section)}`;
+    }
+
+    const sections = arArticle.sections
+      .map(([heading, text]) => `<h2>${heading}</h2><p>${escapeHtml(text)}</p>`)
+      .join("");
+
+    const workflow = arArticle.workflow?.length
+      ? `<h2>اتبعها خطوة بخطوة</h2><ol class="workflow-list">${arArticle.workflow
+          .map((step) => `<li>${escapeHtml(step)}</li>`)
+          .join("")}</ol>`
+      : "";
+
+    const prompt = arArticle.prompt
+      ? `<h2>جرّب هذا الطلب</h2><blockquote>${escapeHtml(arArticle.prompt)}</blockquote>`
+      : "";
+
+    const toolLinks = renderToolLinks(article.externalRefs);
+    const externalRefs = renderExternalRefs(article.externalRefs);
+    const next = article.next
+      ? `<div class="next-step"><span>المقال التالي</span><a href="ar-article.html?id=${article.next[0]}">${getArabicTitle(article.next[0], article.next[1])}</a></div>`
+      : "";
+
+    arArticleRoot.innerHTML = `
+      <nav class="breadcrumb" aria-label="مسار الصفحة">
+        <a href="${arBackUrl(article.section)}">${arSectionLabel(article.section)}</a>
+        <span>${escapeHtml(arArticle.title)}</span>
+      </nav>
+      <header class="article-header">
+        <p class="eyebrow">${arSectionLabel(article.section)}</p>
+        <h1>${escapeHtml(arArticle.title)}</h1>
+        <p>${escapeHtml(arArticle.intro)}</p>
+      </header>
+      <section class="article-body">
+        ${sections}
+        ${renderArabicCaseStudy(arArticle.caseStudy)}
+        ${workflow}
+        ${prompt}
+        ${toolLinks}
+        ${externalRefs}
         ${next}
       </section>
     `;
@@ -202,10 +285,10 @@ function renderRechargeNudge(articleId, article) {
   writeRechargeState(state);
 
   return `
-    <aside class="recharge-nudge" aria-label="MyAI Credits note">
+    <aside class="recharge-nudge" aria-label="ARABAI Credits note">
       <p class="eyebrow">For frequent AI users</p>
       <h2>Want one wallet for multiple AI tools?</h2>
-      <p>MyAI Credits is a planned wallet for people who use AI often and want a quieter way to reach common tools from one place.</p>
+      <p>ARABAI Credits is a planned wallet for people who use AI often and want a quieter way to reach common tools from one place.</p>
       <a href="credits.html">Learn how credits will work</a>
     </aside>
   `;
@@ -270,7 +353,7 @@ function calculateRechargeIntentScore(views, article) {
 }
 
 function getRechargeBucket() {
-  const key = "myai_recharge_bucket";
+  const key = "arabai_recharge_bucket";
   const existing = localStorage.getItem(key);
   if (existing !== null && !Number.isNaN(Number(existing))) return Number(existing);
 
@@ -281,14 +364,14 @@ function getRechargeBucket() {
 
 function readRechargeState() {
   try {
-    return JSON.parse(localStorage.getItem("myai_recharge_state") || "{}");
+    return JSON.parse(localStorage.getItem("arabai_recharge_state") || "{}");
   } catch {
     return {};
   }
 }
 
 function writeRechargeState(state) {
-  localStorage.setItem("myai_recharge_state", JSON.stringify(state));
+  localStorage.setItem("arabai_recharge_state", JSON.stringify(state));
 }
 
 function renderExternalRefs(refs) {
@@ -383,6 +466,187 @@ function renderCaseStudy(caseStudy, section) {
       <div class="final-result">${caseStudy.result}</div>
     </section>
   `;
+}
+
+function renderArabicCaseStudy(caseStudy) {
+  if (!caseStudy) return "";
+
+  const steps = (caseStudy.steps || [])
+    .map(
+      (step, index) => `
+        <div class="case-step">
+          <span>${String(index + 1).padStart(2, "0")}</span>
+          <p>${escapeHtml(step)}</p>
+        </div>
+      `
+    )
+    .join("");
+
+  return `
+    <section class="case-study">
+      <p class="eyebrow">مثال عملي</p>
+      <h2>${escapeHtml(caseStudy.title)}</h2>
+      <p>${escapeHtml(caseStudy.scenario)}</p>
+      <div class="case-steps">${steps}</div>
+      ${caseStudy.note ? `<p class="output-note">${escapeHtml(caseStudy.note)}</p>` : ""}
+    </section>
+  `;
+}
+
+function getArabicArticle(id, article) {
+  const overrides = {
+    "what-is-ai": {
+      title: "ما هو الذكاء الاصطناعي؟",
+      intro: "تخيل أنك عيّنت مساعدا سريع الفهم، يعرف الكتابة والتلخيص والترجمة والتصميم، لكنه يحتاج منك طلبا واضحا.",
+      sections: [
+        ["لديك مساعد جديد", "AI مثل مساعد يجلس بجانبك: يكتب، يخطط، يترجم، يرسم، ويلخص، لكنه ينتظر منك أن تقول له ماذا تريد."],
+        ["لا يعرف ما في رأسك", "إذا كان طلبك غامضا ستكون الإجابة غامضة، وإذا شرحت له الهدف والنتيجة المطلوبة أصبحت الإجابة أقرب لما تريد."],
+        ["ابدأ بمهمة صغيرة", "لا تبدأ بسؤال كبير عن كل شيء؛ اطلب منه تحسين رسالة، تلخيص نص، أو ترتيب فكرة واحدة."]
+      ],
+      workflow: [
+        "افتح أداة محادثة AI واحدة.",
+        "اكتب مهمة حقيقية من عملك أو يومك.",
+        "أضف لمن ستُستخدم النتيجة وما النبرة المطلوبة.",
+        "اقرأ الإجابة كمسودة أولى.",
+        "اطلب منه تعديلها: أقصر، أو أوضح، أو ألطف."
+      ],
+      prompt: "اكتب رسالة قصيرة ولطيفة لعميل. أخبره أن الطلب سيتأخر يومين، واعتذر بلطف، واجعل الأسلوب واضحا ومهذبا."
+    },
+    "ai-basic-words": {
+      title: "مصطلحات AI الأساسية",
+      intro: "كلمات AI تبدو صعبة، لكنها تصبح سهلة عندما نتخيل AI كمطبخ كبير يعمل خلف الشاشة.",
+      sections: [
+        ["النموذج الكبير", "النموذج الكبير مثل طباخ تذوق ملايين الأطباق، لذلك يستطيع أن يخمن وصفة جيدة عندما تطلب منه شيئا جديدا."],
+        ["التوكن", "التوكن مثل لقمة صغيرة من الكلام؛ AI يعد هذه اللقم عندما يقرأ سؤالك ويكتب الإجابة."],
+        ["القدرة الحاسوبية", "القدرة الحاسوبية مثل حجم المطبخ وقوة النار: كلما كانت أكبر استطاع AI طبخ عمل أصعب وأسرع."],
+        ["البرومبت", "البرومبت هو طلبك للنادل؛ كلما كان الطلب أوضح اقترب الطبق من الصورة التي في بالك."],
+        ["السياق", "السياق هو الذاكرة الموضوعة على الطاولة، يستخدمها AI حتى لا يبدأ من الصفر كل مرة."]
+      ],
+      prompt: "اشرح لي هذه الكلمات كأني مبتدئ: النموذج الكبير، التوكن، القدرة الحاسوبية، البرومبت، السياق، API."
+    },
+    "what-is-a-prompt": {
+      title: "ما هو البرومبت؟",
+      intro: "البرومبت ليس كلمة سحرية؛ هو ببساطة الطلب الذي تعطيه للمساعد قبل أن يبدأ العمل.",
+      sections: [
+        ["تخيل AI كنادل", "إذا قلت فقط: أريد أكلا، سيضطر النادل للتخمين؛ أما إذا قلت نوع الأكل والحجم والملاحظات فستصل النتيجة أفضل."],
+        ["الطلب الجيد له أجزاء", "قل له الخلفية، المهمة، الجمهور، الأسلوب، وشكل النتيجة التي تريدها."],
+        ["لا ترضَ بأول نتيجة", "أول إجابة غالبا مسودة؛ قل له ماذا يبقي، ماذا يغير، وماذا يحذف."]
+      ],
+      prompt: "أدير متجر عطور في الرياض. ساعدني في كتابة برومبت لبوستر إنستغرام عن تخفيض عود في نهاية الأسبوع. الأسلوب فخم، أسود وذهبي، والكلمات واضحة على الجوال."
+    },
+    "common-ai-tools": {
+      title: "أشهر أدوات AI",
+      intro: "تخيل أنك دخلت سوق أدوات AI؛ كل أداة لها شخصية ووظيفة وسعر مختلف.",
+      sections: [
+        ["لأسئلة الحياة والعمل", "أدوات مثل ChatGPT و Gemini و Claude و Doubao تصلح للكتابة، الشرح، التلخيص، والردود اليومية."],
+        ["للعروض والمستندات", "Gamma مثل مصمم عروض يحول الموضوع إلى شرائح مرتبة، ويمكنك تعديلها قبل المشاركة."],
+        ["للصور والفيديو والموسيقى", "أدوات الصور والفيديو والموسيقى تشبه استوديو صغيرا؛ تحتاج وصفا واضحا للمشهد والأسلوب والنتيجة."]
+      ],
+      prompt: "أحتاج AI للكتابة، الصور، الفيديو، العروض، الترجمة، والموسيقى. رشح لي أداة أو أداتين لكل مهمة وقل لي من أين أبدأ مجانا."
+    },
+    "write-with-ai": {
+      title: "أريد أن أكتب باستخدام AI",
+      intro: "الكتابة مع AI مثل الجلوس مع محرر يساعدك أن تقول نفس الفكرة بوضوح أكثر.",
+      sections: [
+        ["ابدأ بنص حقيقي", "لا تقل: اكتب شيئا جميلا؛ أعطه الرسالة أو الفكرة أو المشكلة الحقيقية."],
+        ["قل له النبرة", "هل تريد النص ودودا، رسميا، قصيرا، أو مناسبا للواتساب؟ هذه التفاصيل تغير النتيجة."],
+        ["عدّل ولا تبدأ من جديد", "إذا كانت النتيجة طويلة، قل: اجعلها أقصر وأدفأ وأسهل للعميل."]
+      ],
+      caseStudy: {
+        title: "رسالة تأخير طلب لعميل",
+        scenario: "صاحب متجر يريد إخبار العميل أن الطلب سيتأخر يومين بدون أن يبدو باردا أو مهملا.",
+        steps: [
+          "افتح ChatGPT أو أداة كتابة مشابهة.",
+          "الصق الرسالة الأصلية والطلب الواضح.",
+          "اطلب نسخة أقصر وألطف إذا كانت النتيجة طويلة.",
+          "راجع الاسم والوقت والسبب قبل الإرسال."
+        ]
+      },
+      prompt: "أعد كتابة رسالة واتساب للعميل. اجعلها واضحة، مهذبة، دافئة، وليست طويلة. الرسالة الأصلية: مرحبا، طلبك تأخر وسيصل بعد يومين. نعتذر."
+    },
+    "make-slides": {
+      title: "أريد عمل عرض تقديمي",
+      intro: "عمل الشرائح مع AI مثل إعطاء ملاحظات مبعثرة لشخص يحولها إلى بداية ووسط ونهاية.",
+      sections: [
+        ["استخدم أداة مناسبة", "Gamma مناسب للمستخدم العادي لأنه يحول الفكرة إلى عرض قابل للتعديل بدون البدء من صفحة بيضاء."],
+        ["حدد عدد الشرائح", "قل له كم شريحة تريد، ومن الجمهور، وما النتيجة المطلوبة."],
+        ["راجع قبل التصدير", "افتح الشرائح واقرأ النصوص، ثم عدل العناوين والصور قبل مشاركة العرض."]
+      ],
+      prompt: "أنشئ عرضا من 6 شرائح باللغة الإنجليزية لصاحب مقهى صغير في الرياض. الموضوع: خطة ترويج نهاية الأسبوع باستخدام AI. اجعل اللغة سهلة وعملية."
+    },
+    "create-images": {
+      title: "أريد إنشاء صورة",
+      intro: "إنشاء الصور بالذكاء الاصطناعي مثل وصف مشهد لمصمم يبدأ بالرسم بسرعة.",
+      sections: [
+        ["اكتب الكلمات أولا", "قبل فتح أداة الصور، حدد الكلمات التي يجب أن تظهر في الصورة."],
+        ["صف المشهد والأسلوب", "قل نوع المنتج، الألوان، الإضاءة، الخلفية، والمزاج العام."],
+        ["افحص النتيجة على الجوال", "إذا كانت الكلمات غير واضحة أو المنتج تغيّر، اطلب إعادة توليد بتعليمات أدق."]
+      ],
+      prompt: "أنشئ بوستر مربع لإنستغرام عن تخفيض عطر عود. الكلمات: Weekend Oud Sale، Up to 30% OFF، Friday & Saturday Only، Shop Now. الأسلوب فخم سعودي، أسود وبني دافئ وذهبي."
+    },
+    "make-videos": {
+      title: "أريد عمل فيديو",
+      intro: "أسهل طريقة للمبتدئ: لا تبدأ بالفيديو مباشرة، ابدأ بصور القصة ثم اجمعها.",
+      sections: [
+        ["ابدأ بصورة", "استخدم أداة صور لإنشاء لقطات القصة أولا، لأن التحكم في الصورة أسهل من التحكم في الفيديو."],
+        ["اصنع 9 لقطات", "اكتب 9 مشاهد مرتبة: بداية، تفاصيل المنتج، الاستخدام، النص، ثم لقطة النهاية."],
+        ["اجمعها في محرر فيديو", "ضع الصور في CapCut أو Canva أو أي محرر، أضف حركة خفيفة وموسيقى، ثم صدّر الفيديو."]
+      ],
+      prompt: "أنشئ 9 صور عمودية لقصة فيديو مدته 15 ثانية عن صندوق هدايا تمر رمضاني. حافظ على نفس الصندوق، نفس الإضاءة الذهبية، ونفس الأسلوب الفخم في كل صورة."
+    }
+  };
+
+  const fallback = {
+    title: getArabicTitle(id, article?.title || "مقال AI"),
+    intro: "هذه نسخة عربية مختصرة من المقال. نعرض الفكرة الأساسية والخطوات العملية أولا، ثم يمكن الرجوع للنسخة الإنجليزية للتفاصيل الكاملة إلى أن نكمل الترجمة النهائية.",
+    sections: [
+      ["الفكرة ببساطة", article?.intro || "استخدم AI في مهمة صغيرة وواضحة بدلا من سؤال عام."],
+      ["كيف تستخدمها", "اختر أداة مناسبة، اكتب طلبا واضحا، راجع النتيجة، ثم اطلب تعديلا واحدا في كل مرة."],
+      ["ماذا تنتبه له", "لا ترسل معلومات خاصة، ولا تعتمد على النتيجة النهائية قبل مراجعتها بنفسك."]
+    ],
+    workflow: [
+      "افتح الأداة الرسمية.",
+      "اكتب المهمة الحقيقية.",
+      "أضف الجمهور والأسلوب والنتيجة المطلوبة.",
+      "راجع الإجابة.",
+      "اطلب تعديلا واضحا."
+    ],
+    prompt: article?.prompt || ""
+  };
+
+  return { ...fallback, ...(overrides[id] || {}) };
+}
+
+function getArabicTitle(id, fallback) {
+  const titles = {
+    "what-is-ai": "ما هو AI؟",
+    "ai-basic-words": "مصطلحات AI الأساسية",
+    "why-ai-costs-money": "لماذا يكلف AI مالا؟",
+    "what-is-a-prompt": "ما هو البرومبت؟",
+    "common-ai-tools": "أشهر أدوات AI",
+    "write-with-ai": "أريد أن أكتب",
+    "make-a-plan": "أريد خطة",
+    "make-slides": "أريد عرضا تقديميا",
+    "create-images": "أريد إنشاء صورة",
+    "make-videos": "أريد عمل فيديو",
+    "translate": "أريد ترجمة",
+    "what-is-api": "ما هو API؟",
+    "ai-gateway": "ما هو AI Gateway؟"
+  };
+
+  return titles[id] || fallback || "مقال AI";
+}
+
+function arSectionLabel(section) {
+  if (section === "beginner") return "مبتدئ AI";
+  if (section === "advanced") return "استخدام AI";
+  return "محترف AI";
+}
+
+function arBackUrl(section) {
+  if (section === "beginner") return "ar-beginner.html";
+  if (section === "advanced") return "ar-advanced.html";
+  return "ar-expert.html";
 }
 
 function renderPromptGuide(promptGuide, section) {

@@ -1,6 +1,6 @@
 # AI Provider Adapter Plan
 
-MyAI should use provider adapters so the app can switch between OpenRouter, SiliconFlow, and official APIs without rewriting the user experience.
+ARABAI should use provider adapters so the app can switch between OpenRouter, SiliconFlow, and official APIs without rewriting the user experience.
 
 ## Adapter Shape
 

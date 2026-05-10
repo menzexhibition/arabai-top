@@ -1,6 +1,6 @@
-# MyAI Backend Specification
+# ARABAI Backend Specification
 
-This document describes the backend needed for MyAI Credits.
+This document describes the backend needed for ARABAI Credits.
 
 The static website can launch without this backend. Credits and payment cannot.
 

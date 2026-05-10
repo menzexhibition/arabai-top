@@ -61,17 +61,23 @@ button:focus-visible {
   align-items: center;
   gap: 0.65rem;
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.18rem;
+  letter-spacing: 0.08em;
 }
 
 .brand-mark {
   display: grid;
-  width: 2.15rem;
-  height: 2.15rem;
+  width: 2.35rem;
+  height: 2.35rem;
   place-items: center;
-  border-radius: 50%;
-  background: var(--ink);
+  border-radius: 0.45rem;
+  background:
+    linear-gradient(135deg, rgba(214, 168, 79, 0.9), rgba(0, 140, 149, 0.9)),
+    var(--ink);
   color: var(--surface);
+  font-weight: 800;
+  letter-spacing: 0;
+  box-shadow: 0 10px 24px rgba(0, 140, 149, 0.18);
 }
 
 .main-nav {
@@ -122,7 +128,10 @@ button:focus-visible {
   background: rgba(255, 254, 250, 0.75);
 }
 
-.language-switch button {
+.language-switch a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: 2.4rem;
   border: 0;
   border-radius: 999px;
@@ -136,6 +145,32 @@ button:focus-visible {
 .language-switch .active {
   background: var(--ink);
   color: var(--surface);
+}
+
+[dir="rtl"] body,
+body.rtl {
+  direction: rtl;
+  font-family: "IBM Plex Sans Arabic", "Outfit", system-ui, sans-serif;
+}
+
+body.rtl .main-nav,
+body.rtl .site-header,
+body.rtl .site-footer {
+  direction: rtl;
+}
+
+body.rtl .main-nav a::after {
+  transform-origin: right;
+}
+
+body.rtl .hero h1,
+body.rtl .page-hero h1 {
+  max-width: 12ch;
+  line-height: 1;
+}
+
+body.rtl .eyebrow {
+  letter-spacing: 0;
 }
 
 main {
@@ -153,6 +188,10 @@ main {
 
 .home-hero {
   min-height: 68vh;
+  background:
+    linear-gradient(135deg, rgba(247, 246, 242, 0.9), rgba(247, 246, 242, 0.58)),
+    radial-gradient(circle at 85% 18%, rgba(214, 168, 79, 0.22), transparent 18rem),
+    radial-gradient(circle at 65% 62%, rgba(0, 140, 149, 0.14), transparent 26rem);
 }
 
 .eyebrow {
@@ -165,11 +204,16 @@ main {
 }
 
 .hero h1 {
-  max-width: 11ch;
+  max-width: 12ch;
   margin: 0;
   font-size: clamp(4rem, 11vw, 9.4rem);
   line-height: 0.9;
   letter-spacing: 0;
+}
+
+.home-hero .hero h1,
+.home-hero h1 {
+  letter-spacing: 0.04em;
 }
 
 .hero-text {

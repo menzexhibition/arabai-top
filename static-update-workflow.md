@@ -1,6 +1,6 @@
-# MyAI Static Site Update Workflow
+# ARABAI Static Site Update Workflow
 
-MyAI can stay a static website and still be updated often.
+ARABAI can stay a static website and still be updated often.
 
 A static site means the public website is made of HTML, CSS, JavaScript, images, videos, and audio files. It does not mean the content is frozen. The best setup is:
 
@@ -16,12 +16,12 @@ Cloudflare Pages or Netlify auto-publishes
 
 Use this order:
 
-1. Put the MyAI project in a GitHub repository.
+1. Put the ARABAI project in a GitHub repository.
 2. Connect the repository to Cloudflare Pages or Netlify.
 3. Set the production domain, currently `arabai.top`.
 4. Every time the approved files are pushed to the main branch, the host automatically rebuilds and publishes the site.
 
-This gives MyAI the same daily update ability as a normal website, while keeping the hosting simple and cheap.
+This gives ARABAI the same daily update ability as a normal website, while keeping the hosting simple and cheap.
 
 ## Two Update Modes
 
@@ -41,14 +41,14 @@ This is the safest first mode because the owner approves each change.
 
 ### Scheduled Scan Mode
 
-Later, MyAI can add a small scheduled workflow.
+Later, ARABAI can add a small scheduled workflow.
 
 Every few days it can:
 
 - scan selected ranking/source pages
 - collect tool names, official links, pricing pages, and release notes
 - create a draft update report
-- flag tools worth adding to MyAI
+- flag tools worth adding to ARABAI
 - avoid publishing automatically until the owner approves
 
 Important: the scheduled job should create drafts, not publish directly. AI tool information changes quickly, and prices or claims should be reviewed before going live.
@@ -66,7 +66,7 @@ Use different sources for different jobs:
 | LMArena / Artificial Analysis | Model quality signals |
 | Official blogs/docs/pricing pages | Final verification before publishing |
 
-Ranking sites are clues, not final truth. MyAI should always link to official websites for login, pricing, and payment.
+Ranking sites are clues, not final truth. ARABAI should always link to official websites for login, pricing, and payment.
 
 ## Content Pipeline For A New Tool
 
@@ -89,9 +89,9 @@ Only after testing or finding a clear beginner tutorial should the tool become a
 
 ## AI Coding And App Tools To Track
 
-These tools should be added to MyAI as a practical app category:
+These tools should be added to ARABAI as a practical app category:
 
-| Tool | Plain meaning | First MyAI placement |
+| Tool | Plain meaning | First ARABAI placement |
 |---|---|---|
 | Cursor | An AI code editor that helps write and edit software projects | Advanced app guide |
 | Claude Code | A command-line coding helper from Anthropic | Expert workflow guide |
@@ -128,7 +128,7 @@ A later backend or GitHub Actions workflow can do this:
 ```text
 Every 3 days:
   fetch selected sources
-  compare tool list with MyAI tool database
+  compare tool list with ARABAI tool database
   create draft report
   suggest article updates
   wait for owner approval
