@@ -667,7 +667,7 @@ function externalRefsFor(id) {
     ],
     "ai-basic-words": [
       ["OpenAI Academy: AI fundamentals", "https://openai.com/academy/using-chatgpt/", "Good starting point for basic AI learning paths."],
-      ["OpenAI Help: Prompting best practices", "https://help.openai.com/en/articles/10032626-prompt-ingineering-best-practices-for-chatgpt", "Useful for understanding prompts without going too deep."]
+      ["OpenAI Help: Prompting best practices", "https://help.openai.com/en/articles/10032626-prompt-engineering-best-practices-for-chatgpt", "Useful for understanding prompts without going too deep."]
     ],
     "what-is-a-prompt": [
       ["OpenAI Academy: Prompting fundamentals", "https://openai.com/academy/prompting/", "The clearest official beginner lesson on writing prompts."],
@@ -679,9 +679,11 @@ function externalRefsFor(id) {
       ["Gemini Apps Help", "https://support.google.com/gemini?hl=en", "Official Google help page showing common Gemini tasks."]
     ],
     "common-ai-tools": [
-      ["OpenAI ChatGPT", "https://chatgpt.com/", "Common first chat tool."],
-      ["Claude", "https://claude.ai/", "Common writing and document tool."],
-      ["Gemini", "https://gemini.google.com/", "Common Google-connected AI tool."]
+      ["ChatGPT sign up", "https://chatgpt.com/", "Start here for everyday writing, planning, translation, and summaries. Free access is useful for learning, but limits and available models can change."],
+      ["Claude start page", "https://claude.ai/", "Good for longer writing and document-style work. Free access may have usage limits."],
+      ["Gamma sign up", "https://gamma.app/signup", "Good for turning a topic into an editable presentation. Free features and export limits can change."],
+      ["Midjourney", "https://www.midjourney.com/", "Image tool usually used through a paid subscription; check the current plan before starting."],
+      ["Beginner prompt for first tool test", "https://chatgpt.com/", "Copy this first: I am new to AI. Help me choose one tool for writing, one for slides, one for images, and one for video. Explain the free starting point for each."]
     ],
     "how-to-start": [
       ["OpenAI Academy: Getting started with ChatGPT", "https://openai.com/academy/getting-started/", "Best official first-use walkthrough."],
