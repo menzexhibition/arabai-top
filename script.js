@@ -533,7 +533,7 @@ function renderArabicCaseStudy(caseStudy) {
       <div class="case-steps">${steps}</div>
       ${screens}
       ${renderOutput(caseStudy.output, "ar")}
-      ${caseStudy.result ? `<h3>النتيجة النهائية</h3><div class="final-result">${caseStudy.result}</div>` : ""}
+      ${caseStudy.result ? `<h3>النتيجة النهائية</h3><div class="final-result">${localizeArabicResult(caseStudy.result)}</div>` : ""}
       ${caseStudy.note ? `<p class="output-note">${escapeHtml(caseStudy.note)}</p>` : ""}
     </section>
   `;
@@ -556,6 +556,22 @@ function estimateTime(articleId, article, locale = "en") {
   if (advancedHeavy.has(articleId)) return "الوقت المتوقع: 20-35 دقيقة";
   if (expert) return "الوقت المتوقع: 10-20 دقيقة";
   return "الوقت المتوقع: 8-12 دقيقة";
+}
+
+function localizeArabicResult(html) {
+  return String(html)
+    .replaceAll("Final result from ChatGPT:", "النتيجة النهائية من ChatGPT:")
+    .replaceAll("Final result from image-2:", "النتيجة النهائية من image-2:")
+    .replaceAll("Final result:", "النتيجة النهائية:")
+    .replaceAll("Final deck you are aiming for:", "العرض النهائي الذي تستهدفه:")
+    .replaceAll("Copy this into Doubao, ChatGPT, or another table-friendly AI:", "انسخ هذا في Doubao أو ChatGPT أو أي أداة مناسبة للجداول:")
+    .replaceAll("Copy this into your image editing AI tool:", "انسخ هذا في أداة تعديل الصور:")
+    .replaceAll("Copy this into your music AI tool:", "انسخ هذا في أداة الموسيقى:")
+    .replaceAll("What you should get:", "ما النتيجة المتوقعة:")
+    .replaceAll("Important:", "مهم:")
+    .replaceAll("Product description:", "وصف المنتج:")
+    .replaceAll("Customer reply:", "رد العميل:")
+    .replaceAll("What you should finish:", "ما الذي يجب أن تنهيه:");
 }
 
 function mergeArabicCaseStudy(arCaseStudy, sourceCaseStudy) {
