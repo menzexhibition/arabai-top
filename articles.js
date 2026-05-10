@@ -47,12 +47,12 @@ const toolAdvanced = [
 ];
 
 const expertArticles = [
-  ["what-is-api", "What Is An API?", "An API is like a service window in the back of a restaurant: your software sends an order, and the AI sends back the prepared result.", "official-api-platforms"],
-  ["official-api-platforms", "Official API Platforms", "Official API platforms are like buying directly from the factory instead of through a middle shop.", "api-price-comparison"],
-  ["api-price-comparison", "API Price Comparison", "API pricing is like paying for water or electricity: small use feels cheap, but heavy use needs a meter and a budget.", "ai-gateway"],
-  ["ai-gateway", "What Is An AI Gateway?", "Some people call this an AI gateway; you can think of it as an AI train station with many different AI trains inside.", "gateway-platforms"],
-  ["gateway-platforms", "Common AI Gateway Platforms", "Gateway platforms are like train stations for AI models, but every station has different trains, prices, and rules.", "gateway-risks"],
-  ["gateway-risks", "AI Gateway Risks", "A gateway is convenient, but it is still a bridge, and every bridge should be checked before you drive heavy business across it.", "multi-model-management"],
+  ["what-is-api", "What Is An API?", "An API is like the service window behind a restaurant: ARABAI can send a user's order to AI in the background, then bring the finished answer back to the page.", "official-api-platforms"],
+  ["official-api-platforms", "Official API Platforms", "Official API platforms are the kitchens where AI ability is produced; a site like ARABAI can later buy from these kitchens and turn the result into simple user tasks.", "api-price-comparison"],
+  ["api-price-comparison", "API Price Comparison", "API pricing is the hidden meter behind every AI answer, image, video, or song, so credits must be planned before they are sold.", "ai-gateway"],
+  ["ai-gateway", "What Is An AI Gateway?", "An AI Gateway is like a train station with many AI trains inside: one entrance, one balance, many possible routes to the same destination.", "gateway-platforms"],
+  ["gateway-platforms", "Common AI Gateway Platforms", "Gateway platforms are train stations with different routes, prices, speeds, and rules, so ARABAI must choose routes carefully before giving them to users.", "gateway-risks"],
+  ["gateway-risks", "AI Gateway Risks", "A gateway can make AI easier to sell and easier to use, but it also becomes a business bridge that needs privacy, billing, and backup checks.", "multi-model-management"],
   ["multi-model-management", "Multi-Model Management", "Managing many AI models is like managing a team of specialists instead of forcing one person to do every job.", "ai-automation"],
   ["ai-automation", "AI Automation", "AI automation is like building a small conveyor belt where AI handles one step instead of waiting for you to copy and paste.", "ai-for-teams"],
   ["ai-for-teams", "AI For Teams", "Using AI in a team is like putting a shared assistant in the office, so everyone needs rules for how to ask and what not to share.", "ai-for-business"],
@@ -525,6 +525,38 @@ function basicArticle([id, title, intro, sections, prompt, next]) {
 
 function expertArticle([id, title, intro, next]) {
   const practice = expertPracticeFor(id, title);
+  const sectionsById = {
+    "what-is-api": [
+      ["What it means", "A normal chat page is like walking to the counter yourself, while an API lets your website send the order for the user and receive the result automatically."],
+      ["Why it matters for ARABAI", "If ARABAI later has its own chat, image, video, music, or PPT buttons, the API is the pipe that carries the user's request to the right AI tool behind the page."],
+      ["What users should understand", "Users do not need to see the API key or token details; they only need to know that every request uses real AI work in the background, and that work costs money."]
+    ],
+    "official-api-platforms": [
+      ["What it means", "Official API platforms are the original counters run by companies such as OpenAI, Anthropic, Google, and other model providers."],
+      ["Why it matters for ARABAI", "Buying from official platforms can give cleaner access, clearer rules, and stronger trust when ARABAI handles important user tasks."],
+      ["What users should understand", "The official platform is usually the safest source, but it may be harder for normal users, so ARABAI can translate that complexity into simple buttons and credits."]
+    ],
+    "api-price-comparison": [
+      ["What it means", "API price is like the meter in a taxi: a short ride is cheap, a long ride costs more, and different cars have different prices."],
+      ["Why it matters for ARABAI", "Before selling credits, ARABAI must know the cost of common jobs such as one chat answer, one image, one video clip, or one presentation draft."],
+      ["What users should understand", "Credits are not a mystery fee; they are a simple receipt for the AI work happening behind the screen."]
+    ],
+    "ai-gateway": [
+      ["What it means", "A gateway is not one AI model; it is a station that lets one account reach many AI models without rebuilding the whole system every time."],
+      ["Why it matters for ARABAI", "A gateway can help ARABAI test many models quickly and offer users a single wallet instead of sending them to many different websites."],
+      ["What users should understand", "The user sees one simple entrance, but ARABAI still needs to choose the right route for writing, image, video, music, or heavier work."]
+    ],
+    "gateway-platforms": [
+      ["What it means", "Different gateway platforms are like different stations: some have more trains, some are cheaper, some are faster, and some have better logs and controls."],
+      ["Why it matters for ARABAI", "ARABAI can connect to a gateway for speed and variety, but it should also keep official API options for important or sensitive tasks."],
+      ["What users should understand", "A good platform is not only the one with the most models; it is the one that gives stable service, clear billing, and a reliable route when users pay for work."]
+    ],
+    "gateway-risks": [
+      ["What it means", "A gateway is a useful bridge, but if the bridge closes, becomes expensive, or handles data badly, the business feels the pain."],
+      ["Why it matters for ARABAI", "Because ARABAI may later sell credits, every provider risk can become a user trust problem: missing results, surprise cost, weak support, or privacy concern."],
+      ["What users should understand", "A paid AI entrance should feel simple, but behind that simplicity ARABAI must check data rules, budget limits, backups, and refund logic."]
+    ]
+  };
 
   return {
     section: "expert",
@@ -532,7 +564,7 @@ function expertArticle([id, title, intro, next]) {
     backUrl: "expert.html",
     title,
     intro,
-    sections: [
+    sections: sectionsById[id] || [
       ["What it means", `${title} is easier to understand when you treat it like part of a working system, not a magic word.`],
       ["When people use it", "People use it when normal chat is not enough and they need control, scale, privacy, automation, or team rules."],
       ["What to check", "Check cost, privacy, reliability, access, and who is responsible for reviewing the final result."]
@@ -1146,12 +1178,12 @@ function beginnerStepsFor(id) {
 function expertPracticeFor(id, title) {
   const prompt = expertPromptFor(id, title);
   const scenarios = {
-    "what-is-api": "You want your website or app to ask AI for help without opening a chat page by hand.",
-    "official-api-platforms": "You need to create an official API account, add payment, and test one small request safely.",
-    "api-price-comparison": "You want to estimate the monthly API cost before building anything serious.",
-    "ai-gateway": "You want one station where different AI models can be tested without changing the whole workflow.",
-    "gateway-platforms": "You need to compare gateway platforms by models, price, payment method, and reliability.",
-    "gateway-risks": "You want convenience, but you need to check privacy, account, billing, and stability risk first.",
+    "what-is-api": "You want ARABAI to offer one simple button, such as Ask AI, while the website quietly sends the user's request to an AI provider in the background.",
+    "official-api-platforms": "You need to decide which official AI kitchens ARABAI should buy from before packaging the result as simple tasks for users.",
+    "api-price-comparison": "You want to estimate whether one ARABAI credit package can cover common jobs like chat answers, image generation, video tests, and music drafts.",
+    "ai-gateway": "You want one ARABAI wallet to reach many AI models without asking normal users to open five different accounts.",
+    "gateway-platforms": "You need to compare gateway platforms by model coverage, payment style, logs, stability, privacy, and backup options.",
+    "gateway-risks": "You want ARABAI to feel simple for users, but the business must check what happens when a provider fails, changes price, or handles data poorly.",
     "multi-model-management": "You want to stop forcing one AI to do every job and build a simple model map.",
     "ai-automation": "You want AI to handle one repeatable business step, such as turning a form into an email draft.",
     "ai-for-teams": "A small team wants shared AI use without mixing passwords, private files, and uncontrolled cost.",
@@ -1170,12 +1202,12 @@ function expertPracticeFor(id, title) {
 
 function expertPromptFor(id, title) {
   const prompts = {
-    "what-is-api": "I want my website to send a customer question to AI and receive a draft answer. Explain the steps in simple language: account, API key, request, response, cost, and human review.",
-    "official-api-platforms": "Help me compare official API platforms for writing, image, video, and audio. Tell me what account, payment, API key, usage limit, and safety setting I need to check.",
-    "api-price-comparison": "Estimate API cost for my use case: 1,000 customer questions per month, each with a short answer. Make a simple budget table and explain what can make the bill higher.",
-    "ai-gateway": "Explain how to use an AI Gateway like a train station for different AI models. Give me a safe beginner setup checklist.",
-    "gateway-platforms": "Make a comparison table for AI gateway platforms. Columns: supported models, payment style, API key handling, privacy notes, best user type, and risk.",
-    "gateway-risks": "Review this AI gateway before I use it for business. Check privacy, reliability, billing, model access, support, and what happens if the platform stops working.",
+    "what-is-api": "Explain API like I am building ARABAI for normal users. Use a restaurant service window example. Show how a user clicks a button, ARABAI sends the order to AI, AI returns the result, and credits pay for the work.",
+    "official-api-platforms": "Help me compare official API platforms for ARABAI. Cover writing, image, video, audio, account setup, API key, billing limit, privacy rule, and which jobs each platform is best for. Use simple language.",
+    "api-price-comparison": "Estimate a simple ARABAI credits budget. Use examples: 1,000 short chat answers, 100 images, 20 short video tests, and 50 music drafts per month. Make a table with cost driver, risk, and how to protect margin without confusing users.",
+    "ai-gateway": "Explain an AI Gateway like a train station for ARABAI. One wallet, many model routes, different prices and speeds. Give a beginner setup checklist and explain when to use gateway access versus official APIs.",
+    "gateway-platforms": "Make a comparison table for AI gateway platforms for ARABAI. Columns: supported model types, payment style, API key handling, usage logs, privacy notes, backup value, and risk.",
+    "gateway-risks": "Review the risks of using an AI gateway for a credit-based AI website like ARABAI. Check privacy, uptime, billing surprises, model availability, refunds, provider lock-in, and backup plan.",
     "multi-model-management": "Help me choose different AI models for writing, translation, image prompts, coding help, and document summaries. Make a simple model map.",
     "ai-automation": "Design one simple AI automation for my business. Input: customer form. AI task: draft reply. Output: message for human review. Include safety checks.",
     "ai-for-teams": "Create simple team rules for using AI: what tools to use, what data not to paste, who pays, who reviews answers, and how to store useful prompts.",
@@ -1188,32 +1220,32 @@ function expertPromptFor(id, title) {
 function expertStepsFor(id) {
   const steps = {
     "what-is-api": [
-      "Choose one small job for the API, such as drafting customer replies.",
-      "Create an account on the official AI platform.",
-      "Create one API key and keep it private.",
-      "Run one tiny test request before connecting real users.",
-      "Add human review before any AI answer is sent to customers."
+      "Choose one simple ARABAI job, such as Ask AI, Create Image, or Make Slide Outline.",
+      "Write what the user will type and what result they should receive.",
+      "Choose the AI provider that will do the work in the background.",
+      "Keep the API key on the server, never inside the public webpage.",
+      "Convert the provider's cost into a simple ARABAI credit cost."
     ],
     "official-api-platforms": [
-      "Open the official platform website.",
-      "Create or sign in to your account.",
-      "Add billing only if you are ready to test.",
-      "Create a test API key.",
-      "Set a small monthly budget or usage limit before building."
+      "List the jobs ARABAI wants to offer: chat, image, video, music, slides, documents.",
+      "Match each job to one official platform or provider.",
+      "Create official accounts only when you are ready to test.",
+      "Create test API keys and store them privately.",
+      "Set small monthly limits before any user-facing launch."
     ],
     "api-price-comparison": [
-      "Write how many users or tasks you expect each month.",
-      "Estimate average input length and output length.",
-      "Compare a cheap model and a stronger model.",
-      "Add a safety margin because usage usually grows.",
-      "Review the bill weekly during the first month."
+      "Write the common tasks users may buy with credits.",
+      "Estimate a small, normal, and heavy month for each task.",
+      "Compare cheap models, stronger models, and creative models separately.",
+      "Add a safety margin because images and videos can become expensive quickly.",
+      "Turn the result into simple credit packages that normal users can understand."
     ],
     "ai-gateway": [
-      "Choose the gateway only for testing first.",
-      "Add a small balance or low spending limit.",
-      "Test two models with the same prompt.",
-      "Compare speed, quality, price, and failure rate.",
-      "Use official APIs for sensitive business data when possible."
+      "Choose one gateway for testing, not for full business dependence on day one.",
+      "Add a small balance or strict spending limit.",
+      "Test the same ARABAI task across two or three models.",
+      "Compare speed, quality, price, error rate, and language quality for Arabic users.",
+      "Keep official API routes for sensitive or high-value tasks."
     ],
     "gateway-platforms": [
       "List the models you actually need.",
@@ -1270,12 +1302,12 @@ function expertStepsFor(id) {
 
 function expertResultFor(id) {
   const results = {
-    "what-is-api": "<p><strong>What you should finish:</strong> one tiny API use case written clearly enough for a developer or no-code builder to test.</p>",
-    "official-api-platforms": "<p><strong>What you should finish:</strong> one official account, one protected test API key, and one small usage limit.</p>",
-    "api-price-comparison": "<p><strong>What you should finish:</strong> a monthly API budget estimate with a low, normal, and high usage case.</p>",
-    "ai-gateway": "<p><strong>What you should finish:</strong> a gateway test comparing two models with the same prompt.</p>",
-    "gateway-platforms": "<p><strong>What you should finish:</strong> a platform comparison table and one backup option.</p>",
-    "gateway-risks": "<p><strong>What you should finish:</strong> a risk checklist before sending any real business data.</p>",
+    "what-is-api": "<p><strong>What you should finish:</strong> one ARABAI feature map: user button, AI provider, expected result, credit cost, and human review rule.</p>",
+    "official-api-platforms": "<p><strong>What you should finish:</strong> a provider map showing which official API can power chat, image, video, music, slides, and documents.</p>",
+    "api-price-comparison": "<p><strong>What you should finish:</strong> a simple credit budget with low, normal, and heavy usage cases before selling any wallet balance.</p>",
+    "ai-gateway": "<p><strong>What you should finish:</strong> a gateway test comparing routes for the same ARABAI task, with speed, quality, Arabic quality, and cost notes.</p>",
+    "gateway-platforms": "<p><strong>What you should finish:</strong> a gateway comparison table plus one official API backup route for important work.</p>",
+    "gateway-risks": "<p><strong>What you should finish:</strong> a launch checklist covering privacy, uptime, billing, refunds, provider changes, and backup routes.</p>",
     "multi-model-management": "<p><strong>What you should finish:</strong> a simple model map: which model handles writing, summaries, images, video, and stronger reasoning.</p>",
     "ai-automation": "<p><strong>What you should finish:</strong> one automation plan with input, AI step, output, reviewer, and stop rule.</p>",
     "ai-for-teams": "<p><strong>What you should finish:</strong> team AI rules that cover tools, data, review, templates, and monthly cost.</p>",
