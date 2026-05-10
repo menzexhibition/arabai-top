@@ -294,6 +294,32 @@ function outputFor(id) {
       src: "assets/outputs/luxury-perfume-background-music.mp3",
       note: "Use this as a structure sample. For a real campaign, paste the prompt below into a music AI tool and export the track you choose."
     },
+    "write-with-ai": {
+      type: "table",
+      title: "Finished writing result",
+      columns: ["Version", "Text"],
+      rows: [
+        ["Original", "Hi, your order is late. It will come after two days. Sorry."],
+        ["AI final", "Hi! Just a quick update - your order is running about 2 days late. So sorry about the delay, and thanks so much for your patience. We'll get it to you as soon as possible!"],
+        ["Human check", "Confirm order number, delivery date, and whether you should offer a small apology coupon."]
+      ],
+      summary: ["The user finishes with one message that can be copied into WhatsApp."]
+    },
+    "make-a-plan": {
+      type: "table",
+      title: "Finished 7-day launch checklist",
+      columns: ["Day", "Action"],
+      rows: [
+        ["Day 1", "Confirm drink name, price, ingredients, and target customer."],
+        ["Day 2", "Prepare cups, milk, ice, syrup, lids, napkins, and backup supplies."],
+        ["Day 3", "Train staff and write one customer sentence."],
+        ["Day 4", "Shoot product photos and short pouring clips."],
+        ["Day 5", "Post teaser and prepare launch caption."],
+        ["Day 6", "Schedule launch post and check stock."],
+        ["Day 7", "Launch, reply to customers, and record results."]
+      ],
+      summary: ["The user finishes with a plan that can be copied into Notes, Excel, or WhatsApp."]
+    },
     "image-tools-advanced": {
       type: "image",
       title: "Example output from a clear image prompt",
@@ -320,6 +346,61 @@ function outputFor(id) {
         ["Message", "A copy-ready reply for WhatsApp or email"]
       ],
       summary: ["Use Doubao when the question is common, quick, and practical."]
+    },
+    "chatgpt-advanced": {
+      type: "table",
+      title: "Finished ChatGPT first-use checklist",
+      columns: ["Step", "What the user learns"],
+      rows: [
+        ["Ask", "Type one real task, not a general question."],
+        ["Improve", "Reply with one change: shorter, warmer, clearer, or more practical."],
+        ["Use", "Copy the final result only after checking names, dates, and facts."]
+      ],
+      summary: ["ChatGPT is a good first tool for ordinary writing, planning, translation, summaries, and everyday work."]
+    },
+    "gemini-advanced": {
+      type: "table",
+      title: "Finished Gemini use map",
+      columns: ["Best use", "Example"],
+      rows: [
+        ["Quick explanation", "Explain a screenshot, webpage, or topic in simple language."],
+        ["Google-style work", "Turn rough notes into text for Docs, Gmail, or planning."],
+        ["Check", "Verify links, facts, and current details before using the answer."]
+      ],
+      summary: ["Use Gemini when the job is close to search, explanation, or Google work."]
+    },
+    "claude-advanced": {
+      type: "table",
+      title: "Finished Claude use map",
+      columns: ["Best use", "Example"],
+      rows: [
+        ["Long text", "Rewrite proposals, long emails, reports, and careful explanations."],
+        ["Tone", "Make writing clearer, calmer, more natural, or more professional."],
+        ["Review", "Ask Claude what is unclear or missing before sending the text."]
+      ],
+      summary: ["Use Claude when the work is mostly long writing or document understanding."]
+    },
+    "deepseek-advanced": {
+      type: "table",
+      title: "Finished DeepSeek use map",
+      columns: ["Best use", "Example"],
+      rows: [
+        ["Compare choices", "List pros, cons, risks, and a recommendation."],
+        ["Think through a problem", "Ask for options and tradeoffs in simple language."],
+        ["Check", "Use another source for facts, prices, and current information."]
+      ],
+      summary: ["Use DeepSeek when you want practical reasoning, but still verify important facts."]
+    },
+    "kimi-advanced": {
+      type: "table",
+      title: "Finished Kimi use map",
+      columns: ["Best use", "Example"],
+      rows: [
+        ["Long documents", "Summarize files, notes, meeting records, and long Chinese or mixed-language text."],
+        ["Action extraction", "Ask for deadlines, risks, decisions, and next steps."],
+        ["Check", "Open the original document again before making money or legal decisions."]
+      ],
+      summary: ["Use Kimi when the job starts with long material that needs to be read and organized."]
     },
     "translate": {
       type: "table",

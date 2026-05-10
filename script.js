@@ -177,7 +177,7 @@ if (arArticleRoot && window.ARTICLES) {
       </header>
       <section class="article-body">
         ${sections}
-        ${renderArabicCaseStudy(arArticle.caseStudy)}
+        ${renderArabicCaseStudy(mergeArabicCaseStudy(arArticle.caseStudy, article.caseStudy))}
         ${workflow}
         ${prompt}
         ${toolLinks}
@@ -482,15 +482,50 @@ function renderArabicCaseStudy(caseStudy) {
     )
     .join("");
 
+  const screens = (caseStudy.screens || [])
+    .map((screen) =>
+      screen.image
+        ? `
+          <figure class="real-screen">
+            <img src="${screen.image}" alt="${escapeHtml(screen.title)}" />
+            <figcaption>${escapeHtml(screen.title)}</figcaption>
+          </figure>
+        `
+        : `
+          <figure class="fake-screen">
+            <figcaption>${escapeHtml(screen.title)}</figcaption>
+            <pre>${escapeHtml(screen.text || "")}</pre>
+          </figure>
+        `
+    )
+    .join("");
+
   return `
     <section class="case-study">
       <p class="eyebrow">مثال عملي</p>
       <h2>${escapeHtml(caseStudy.title)}</h2>
       <p>${escapeHtml(caseStudy.scenario)}</p>
       <div class="case-steps">${steps}</div>
+      ${screens}
+      ${renderOutput(caseStudy.output)}
+      ${caseStudy.result ? `<h3>النتيجة النهائية</h3><div class="final-result">${caseStudy.result}</div>` : ""}
       ${caseStudy.note ? `<p class="output-note">${escapeHtml(caseStudy.note)}</p>` : ""}
     </section>
   `;
+}
+
+function mergeArabicCaseStudy(arCaseStudy, sourceCaseStudy) {
+  if (!arCaseStudy && !sourceCaseStudy) return null;
+  if (!sourceCaseStudy) return arCaseStudy;
+
+  return {
+    ...sourceCaseStudy,
+    ...arCaseStudy,
+    steps: arCaseStudy?.steps?.length ? arCaseStudy.steps : sourceCaseStudy.steps,
+    screens: arCaseStudy?.screens?.length ? arCaseStudy.screens : sourceCaseStudy.screens,
+    output: arCaseStudy?.output || sourceCaseStudy.output,
+    result: arCaseStudy?.result || sourceCaseStudy.result
+  };
 }
 
 function getArabicArticle(id, article) {
