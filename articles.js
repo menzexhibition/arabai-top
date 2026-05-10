@@ -1150,7 +1150,7 @@ function beginnerPracticeFor(id, title, prompt) {
     },
     "ai-basic-words": {
       scenario: "You will learn the common AI words like learning the names of tools in a kitchen: not to become a chef, but so you know what people are talking about.",
-      result: "<ul><li>Large model: the experienced chef.</li><li>Token: one small bite of language.</li><li>Computing power: the size and strength of the kitchen.</li><li>Prompt: your order to the waiter.</li><li>Context: the notes already on the table.</li><li>Hallucination: a confident but wrong answer that still needs checking.</li></ul>"
+      result: "<ul><li>Large model: the experienced chef.</li><li>Token: one small bite of language.</li><li>Computing power: the size and strength of the kitchen.</li><li>Prompt: your order to the waiter.</li><li>Context: the notes already on the table.</li><li>Training: the AI's long cooking school before it serves users.</li><li>Inference: the moment AI cooks your answer after you order.</li><li>Hallucination: a confident but wrong answer that still needs checking.</li><li>Model: one AI helper with its own habits and price.</li><li>API: the service window for apps and websites.</li></ul>"
     },
     "why-ai-costs-money": {
       scenario: "You will learn why one AI task may cost very little and another task may cost much more, without learning billing formulas.",

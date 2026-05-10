@@ -95,6 +95,7 @@ if (articleRoot && window.ARTICLES) {
         <p class="eyebrow">${article.sectionLabel}</p>
         <h1>${article.title}</h1>
         <p>${linkKeywords(article.intro, article.section)}</p>
+        <p class="article-meta">${estimateTime(articleId, article)}</p>
       </header>
       <section class="article-body">
         ${sections}
@@ -149,8 +150,10 @@ if (arArticleRoot && window.ARTICLES) {
       .map(([heading, text]) => `<h2>${heading}</h2><p>${escapeHtml(text)}</p>`)
       .join("");
 
-    const workflow = arArticle.workflow?.length
-      ? `<h2>اتبعها خطوة بخطوة</h2><ol class="workflow-list">${arArticle.workflow
+    const arCaseStudy = mergeArabicCaseStudy(arArticle.caseStudy, article.caseStudy);
+    const arWorkflow = arArticle.workflow?.length ? arArticle.workflow : arCaseStudy?.steps;
+    const workflow = arWorkflow?.length
+      ? `<h2>اتبعها خطوة بخطوة</h2><ol class="workflow-list">${arWorkflow
           .map((step) => `<li>${escapeHtml(step)}</li>`)
           .join("")}</ol>`
       : "";
@@ -159,8 +162,8 @@ if (arArticleRoot && window.ARTICLES) {
       ? `<h2>جرّب هذا الطلب</h2><blockquote>${escapeHtml(arArticle.prompt)}</blockquote>`
       : "";
 
-    const toolLinks = renderToolLinks(article.externalRefs);
-    const externalRefs = renderExternalRefs(article.externalRefs);
+    const toolLinks = renderToolLinks(article.externalRefs, "ar");
+    const externalRefs = renderExternalRefs(article.externalRefs, "ar");
     const next = article.next
       ? `<div class="next-step"><span>المقال التالي</span><a href="ar-article.html?id=${article.next[0]}">${getArabicTitle(article.next[0], article.next[1])}</a></div>`
       : "";
@@ -174,10 +177,11 @@ if (arArticleRoot && window.ARTICLES) {
         <p class="eyebrow">${arSectionLabel(article.section)}</p>
         <h1>${escapeHtml(arArticle.title)}</h1>
         <p>${escapeHtml(arArticle.intro)}</p>
+        <p class="article-meta">${estimateTime(articleId, article, "ar")}</p>
       </header>
       <section class="article-body">
         ${sections}
-        ${renderArabicCaseStudy(mergeArabicCaseStudy(arArticle.caseStudy, article.caseStudy))}
+        ${renderArabicCaseStudy(arCaseStudy)}
         ${workflow}
         ${prompt}
         ${toolLinks}
@@ -188,14 +192,31 @@ if (arArticleRoot && window.ARTICLES) {
   }
 }
 
-function renderToolLinks(refs) {
+function renderToolLinks(refs, locale = "en") {
   const groups = groupToolLinks(refs);
   if (!groups.official.length && !groups.pricing.length && !groups.tutorial.length) return "";
 
+  const labels =
+    locale === "ar"
+      ? {
+          official: "الموقع الرسمي",
+          pricing: "صفحة الأسعار",
+          tutorial: "شرح للمبتدئين",
+          eyebrow: "جرّب الأداة",
+          heading: "افتح المكان الصحيح"
+        }
+      : {
+          official: "Official website",
+          pricing: "Pricing page",
+          tutorial: "Beginner tutorial",
+          eyebrow: "Try this tool",
+          heading: "Open the right place"
+        };
+
   const columns = [
-    ["Official website", groups.official],
-    ["Pricing page", groups.pricing],
-    ["Beginner tutorial", groups.tutorial]
+    [labels.official, groups.official],
+    [labels.pricing, groups.pricing],
+    [labels.tutorial, groups.tutorial]
   ]
     .filter(([, items]) => items.length)
     .map(
@@ -218,8 +239,8 @@ function renderToolLinks(refs) {
 
   return `
     <section class="tool-links">
-      <p class="eyebrow">Try this tool</p>
-      <h2>Open the right place</h2>
+      <p class="eyebrow">${labels.eyebrow}</p>
+      <h2>${labels.heading}</h2>
       <div class="tool-link-grid">${columns}</div>
     </section>
   `;
@@ -374,13 +395,13 @@ function writeRechargeState(state) {
   localStorage.setItem("arabai_recharge_state", JSON.stringify(state));
 }
 
-function renderExternalRefs(refs) {
+function renderExternalRefs(refs, locale = "en") {
   if (!refs || !refs.length) return "";
 
   const items = refs
     .map(
       ([title, url, note]) => {
-        const badge = referenceBadge(title, url);
+        const badge = referenceBadge(title, url, locale);
         return `
         <li>
           <span class="ref-badge">${badge}</span>
@@ -394,17 +415,21 @@ function renderExternalRefs(refs) {
 
   return `
     <section class="external-refs">
-      <h2>Useful external references</h2>
+      <h2>${locale === "ar" ? "مراجع خارجية مفيدة" : "Useful external references"}</h2>
       <ul>${items}</ul>
     </section>
   `;
 }
 
-function referenceBadge(title, url) {
+function referenceBadge(title, url, locale = "en") {
   const lowerTitle = title.toLowerCase();
   const lowerUrl = url.toLowerCase();
+  const labels =
+    locale === "ar"
+      ? { video: "فيديو", official: "رسمي", pricing: "أسعار", reference: "مرجع" }
+      : { video: "Video", official: "Official", pricing: "Pricing", reference: "Reference" };
 
-  if (lowerUrl.includes("youtube.com")) return "Video";
+  if (lowerUrl.includes("youtube.com")) return labels.video;
   if (
     lowerUrl.includes("openai.com") ||
     lowerUrl.includes("help.openai.com") ||
@@ -416,11 +441,11 @@ function referenceBadge(title, url) {
     lowerUrl.includes("capcut.com") ||
     lowerUrl.includes("adobe.com")
   ) {
-    return "Official";
+    return labels.official;
   }
 
-  if (lowerTitle.includes("pricing")) return "Pricing";
-  return "Reference";
+  if (lowerTitle.includes("pricing")) return labels.pricing;
+  return labels.reference;
 }
 
 function renderCaseStudy(caseStudy, section) {
@@ -507,11 +532,30 @@ function renderArabicCaseStudy(caseStudy) {
       <p>${escapeHtml(caseStudy.scenario)}</p>
       <div class="case-steps">${steps}</div>
       ${screens}
-      ${renderOutput(caseStudy.output)}
+      ${renderOutput(caseStudy.output, "ar")}
       ${caseStudy.result ? `<h3>النتيجة النهائية</h3><div class="final-result">${caseStudy.result}</div>` : ""}
       ${caseStudy.note ? `<p class="output-note">${escapeHtml(caseStudy.note)}</p>` : ""}
     </section>
   `;
+}
+
+function estimateTime(articleId, article, locale = "en") {
+  const advancedHeavy = new Set(["make-slides", "create-images", "edit-images", "make-videos", "make-music"]);
+  const advancedMedium = new Set(["spreadsheets", "translate", "summarize-documents", "grow-business", "social-content"]);
+  const expert = article?.section === "expert";
+
+  let text = "Estimated time: 8-12 minutes";
+  if (article?.section === "beginner") text = "Estimated time: 5-8 minutes";
+  if (advancedMedium.has(articleId)) text = "Estimated time: 12-18 minutes";
+  if (advancedHeavy.has(articleId)) text = "Estimated time: 20-35 minutes";
+  if (expert) text = "Estimated time: 10-20 minutes";
+
+  if (locale !== "ar") return text;
+  if (article?.section === "beginner") return "الوقت المتوقع: 5-8 دقائق";
+  if (advancedMedium.has(articleId)) return "الوقت المتوقع: 12-18 دقيقة";
+  if (advancedHeavy.has(articleId)) return "الوقت المتوقع: 20-35 دقيقة";
+  if (expert) return "الوقت المتوقع: 10-20 دقيقة";
+  return "الوقت المتوقع: 8-12 دقيقة";
 }
 
 function mergeArabicCaseStudy(arCaseStudy, sourceCaseStudy) {
@@ -555,9 +599,14 @@ function getArabicArticle(id, article) {
         ["التوكن", "التوكن مثل لقمة صغيرة من الكلام؛ AI يعد هذه اللقم عندما يقرأ سؤالك ويكتب الإجابة."],
         ["القدرة الحاسوبية", "القدرة الحاسوبية مثل حجم المطبخ وقوة النار: كلما كانت أكبر استطاع AI طبخ عمل أصعب وأسرع."],
         ["البرومبت", "البرومبت هو طلبك للنادل؛ كلما كان الطلب أوضح اقترب الطبق من الصورة التي في بالك."],
-        ["السياق", "السياق هو الذاكرة الموضوعة على الطاولة، يستخدمها AI حتى لا يبدأ من الصفر كل مرة."]
+        ["السياق", "السياق هو الذاكرة الموضوعة على الطاولة، يستخدمها AI حتى لا يبدأ من الصفر كل مرة."],
+        ["التدريب", "التدريب مثل إرسال AI إلى مدرسة طبخ طويلة قبل أن يخدم أي مستخدم."],
+        ["الاستنتاج", "الاستنتاج هو لحظة طبخ الإجابة فعليا بعد أن تضع طلبك أمام AI."],
+        ["الهلوسة", "الهلوسة مثل نادل واثق يخترع طبقا غير موجود، لذلك يجب مراجعة الإجابات المهمة."],
+        ["النموذج", "النموذج هو مساعد AI واحد له عاداته وقوته وسرعته وسعره."],
+        ["API", "API مثل نافذة خدمة تسمح للتطبيق أن يطلب من AI في الخلفية بدون فتح صفحة المحادثة العادية."]
       ],
-      prompt: "اشرح لي هذه الكلمات كأني مبتدئ: النموذج الكبير، التوكن، القدرة الحاسوبية، البرومبت، السياق، API."
+      prompt: "اشرح لي هذه الكلمات كأني مبتدئ: النموذج الكبير، التوكن، القدرة الحاسوبية، البرومبت، السياق، التدريب، الاستنتاج، الهلوسة، النموذج، API."
     },
     "what-is-a-prompt": {
       title: "ما هو البرومبت؟",
@@ -696,6 +745,13 @@ function getArabicArticle(id, article) {
         ["للعروض والمستندات", "Gamma مثل مصمم عروض يحول الموضوع إلى شرائح مرتبة، ويمكنك تعديلها قبل المشاركة."],
         ["للصور والفيديو والموسيقى", "أدوات الصور والفيديو والموسيقى تشبه استوديو صغيرا؛ تحتاج وصفا واضحا للمشهد والأسلوب والنتيجة."]
       ],
+      workflow: [
+        "ابدأ بأداة محادثة واحدة مثل ChatGPT أو Gemini أو Claude أو Doubao.",
+        "جرّب مهمة كتابة قصيرة: رسالة عميل أو ملخص نص.",
+        "إذا احتجت عرضا تقديميا، افتح Gamma واكتب الموضوع وعدد الشرائح.",
+        "إذا احتجت صورة، افتح أداة صور واكتب المنتج والكلمات والألوان والمقاس.",
+        "إذا احتجت فيديو، حضّر 9 صور قصة أولا ثم اجمعها في محرر فيديو."
+      ],
       prompt: "أحتاج AI للكتابة، الصور، الفيديو، العروض، الترجمة، والموسيقى. رشح لي أداة أو أداتين لكل مهمة وقل لي من أين أبدأ مجانا."
     },
     "write-with-ai": {
@@ -726,6 +782,14 @@ function getArabicArticle(id, article) {
         ["حدد عدد الشرائح", "قل له كم شريحة تريد، ومن الجمهور، وما النتيجة المطلوبة."],
         ["راجع قبل التصدير", "افتح الشرائح واقرأ النصوص، ثم عدل العناوين والصور قبل مشاركة العرض."]
       ],
+      workflow: [
+        "افتح Gamma من الموقع الرسمي.",
+        "اختر إنشاء عرض تقديمي جديد.",
+        "اكتب أن العرض من 6 شرائح وباللغة الإنجليزية.",
+        "الصق البرومبت الكامل ثم راجع المخطط قبل التوليد.",
+        "بعد توليد الشرائح، افتح كل شريحة وعدل النص والصور.",
+        "صدّر العرض PDF أو PowerPoint عندما يصبح جاهزا."
+      ],
       prompt: "أنشئ عرضا من 6 شرائح باللغة الإنجليزية لصاحب مقهى صغير في الرياض. الموضوع: خطة ترويج نهاية الأسبوع باستخدام AI. اجعل اللغة سهلة وعملية."
     },
     "create-images": {
@@ -735,6 +799,14 @@ function getArabicArticle(id, article) {
         ["اكتب الكلمات أولا", "قبل فتح أداة الصور، حدد الكلمات التي يجب أن تظهر في الصورة."],
         ["صف المشهد والأسلوب", "قل نوع المنتج، الألوان، الإضاءة، الخلفية، والمزاج العام."],
         ["افحص النتيجة على الجوال", "إذا كانت الكلمات غير واضحة أو المنتج تغيّر، اطلب إعادة توليد بتعليمات أدق."]
+      ],
+      workflow: [
+        "اكتب الكلمات التي يجب أن تظهر في الصورة قبل فتح الأداة.",
+        "افتح image-2 أو أداة الصور التي تستخدمها.",
+        "الصق وصف المنتج، النص، الألوان، المقاس، والأسلوب.",
+        "ولّد النسخة الأولى.",
+        "افحص الأخطاء: هل النص صحيح؟ هل المنتج واضح؟ هل الصورة مناسبة للجوال؟",
+        "إذا كان النص خاطئا، اطلب تعديل النص والتخطيط فقط."
       ],
       prompt: "أنشئ بوستر مربع لإنستغرام عن تخفيض عطر عود. الكلمات: Weekend Oud Sale، Up to 30% OFF، Friday & Saturday Only، Shop Now. الأسلوب فخم سعودي، أسود وبني دافئ وذهبي."
     },
@@ -746,7 +818,84 @@ function getArabicArticle(id, article) {
         ["اصنع 9 لقطات", "اكتب 9 مشاهد مرتبة: بداية، تفاصيل المنتج، الاستخدام، النص، ثم لقطة النهاية."],
         ["اجمعها في محرر فيديو", "ضع الصور في CapCut أو Canva أو أي محرر، أضف حركة خفيفة وموسيقى، ثم صدّر الفيديو."]
       ],
+      workflow: [
+        "اكتب قصة الفيديو في 9 لقطات قبل فتح أداة الفيديو.",
+        "استخدم image-2 أو أداة صور لإنشاء كل لقطة عمودية 9:16.",
+        "تأكد أن المنتج نفسه يظهر في كل الصور بنفس اللون والإضاءة.",
+        "احذف أي لقطة غريبة وأعد توليدها وحدها.",
+        "افتح CapCut أو Canva أو محرر مشابه.",
+        "ضع الصور التسع بالترتيب، وأضف حركة زوم خفيفة ونصوصا وموسيقى.",
+        "صدّر MP4 وشاهده على الهاتف قبل النشر."
+      ],
       prompt: "أنشئ 9 صور عمودية لقصة فيديو مدته 15 ثانية عن صندوق هدايا تمر رمضاني. حافظ على نفس الصندوق، نفس الإضاءة الذهبية، ونفس الأسلوب الفخم في كل صورة."
+    },
+    "make-a-plan": {
+      title: "أريد خطة",
+      intro: "عمل الخطة مع AI مثل إفراغ حقيبة مليئة بالأفكار على الطاولة وطلب ترتيبها في صناديق واضحة.",
+      sections: [
+        ["ابدأ بالهدف", "قل له ماذا تريد أن تطلق أو تنظم، ومتى الموعد، ومن المسؤول."],
+        ["اطلب جدولا", "اطلب منه تقسيم الخطة إلى أيام أو خطوات حتى لا تبقى كلاما عاما."],
+        ["حوّلها إلى قائمة تنفيذ", "بعد الخطة الأولى، اطلب قائمة مهام قصيرة تستطيع نسخها إلى واتساب أو Excel."]
+      ],
+      workflow: [
+        "افتح أداة محادثة AI.",
+        "اكتب الهدف والموعد والجمهور والموارد المتاحة.",
+        "اطلب خطة 7 أيام مع المهام والمخاطر وقائمة مراجعة.",
+        "احذف الخطوات غير المناسبة لواقعك.",
+        "اطلب نسخة مختصرة كقائمة تنفيذ يومية."
+      ],
+      prompt: "أنشئ خطة إطلاق لمدة 7 أيام لمشروب قهوة مثلجة بالزعفران في مقهى صغير بالرياض. يوم الإطلاق الجمعة القادمة. أضف المهام اليومية، التجهيزات، دور الموظفين، محتوى إنستغرام، المخاطر، وقائمة مراجعة. استخدم لغة سهلة."
+    },
+    "translate": {
+      title: "أريد ترجمة",
+      intro: "الترجمة مع AI مثل عبور جسر بالمعنى، لا نقل الكلمات واحدة واحدة.",
+      sections: [
+        ["قل له الجمهور", "ترجمة رسالة لعميل سعودي تختلف عن ترجمة مستند رسمي أو إعلان."],
+        ["اطلب ترجمة طبيعية", "قل له لا تترجم حرفيا، بل اجعل النص طبيعيا ومفهوما."],
+        ["اطلب ترجمة عكسية", "إذا كنت لا تعرف اللغة الناتجة، اطلب ترجمة عكسية إلى اللغة التي تفهمها لمراجعة المعنى."]
+      ],
+      workflow: [
+        "الصق الرسالة الأصلية.",
+        "اكتب لمن ستُرسل الرسالة وفي أي بلد.",
+        "اطلب ترجمة طبيعية وليست حرفية.",
+        "اطلب ترجمة عكسية قصيرة لتفهم المعنى.",
+        "راجع الاسم والوقت والسعر والعنوان قبل الإرسال."
+      ],
+      prompt: "ترجم هذه الرسالة إلى عربية طبيعية لعملاء في السعودية. اجعلها ودودة وبسيطة: Hello, your order has been confirmed. Delivery will arrive tomorrow between 4 PM and 8 PM. Thank you for shopping with us. ثم أعطني ترجمة عكسية إنجليزية بسيطة حتى أراجع المعنى."
+    },
+    "grow-business": {
+      title: "أريد تطوير عملي",
+      intro: "استخدام AI في العمل مثل إضافة مساعد صغير خلف الكاونتر يكتب ويرتب ويرد بسرعة.",
+      sections: [
+        ["أعطه تفاصيل المنتج", "لا تطلب أفكارا عامة؛ اكتب اسم المنتج، العميل، المدينة، والسعر إن وجد."],
+        ["اطلب نصوصا جاهزة", "اطلب وصف منتج، رد واتساب، عناوين إعلان، وفكرة عرض واحدة."],
+        ["بدّل الأمثلة بتفاصيلك", "قبل النشر، أضف اسم متجرك، السعر الحقيقي، ومنطقة التوصيل."]
+      ],
+      workflow: [
+        "اكتب اسم المنتج والمدينة ونوع العملاء.",
+        "اطلب وصفا قصيرا ورد واتساب وثلاثة عناوين إعلان.",
+        "اختر النص الأقرب لأسلوب متجرك.",
+        "اطلب نسخة أقصر للواتساب أو إنستغرام.",
+        "راجع السعر والتوصيل واسم المتجر قبل النشر."
+      ],
+      prompt: "أبيع صندوق كيك تمر فاخر في الرياض. العملاء هم العائلات، مشترو الهدايا للمكاتب، ومشترو هدايا رمضان. اكتب لي: وصفا قصيرا للمنتج، رد واتساب عند سؤال العميل هل متوفر، ثلاثة عناوين إعلان لإنستغرام، وفكرة عرض بسيطة. استخدم لغة سهلة."
+    },
+    "choose-right-tool": {
+      title: "أي أداة أستخدم؟",
+      intro: "اختيار أداة AI مثل اختيار وسيلة سفر: الدراجة والسيارة والطائرة كلها تنقلك، لكن ليست لنفس الرحلة.",
+      sections: [
+        ["ابدأ بالمهمة", "لا تبدأ باسم الأداة؛ ابدأ بسؤال: هل أريد كتابة، صورة، فيديو، عرضا، أم تلخيصا؟"],
+        ["اختر أداة واحدة لكل نوع", "المبتدئ لا يحتاج عشر أدوات، بل أداة محادثة وأداة صور وأداة عروض وربما أداة فيديو."],
+        ["جرّب مجانا أولا", "ادفع فقط عندما تصبح الأداة جزءا من عملك وتوفر وقتا حقيقيا."]
+      ],
+      workflow: [
+        "اكتب قائمة مهامك: كتابة، صور، عروض، تلخيص، فيديو، موسيقى.",
+        "اطلب من AI ترشيح أداة أو أداتين لكل مهمة.",
+        "افتح الموقع الرسمي لكل أداة مرشحة.",
+        "جرّب الخطة المجانية إن وجدت.",
+        "احتفظ فقط بالأدوات التي استخدمتها فعلا خلال أسبوع."
+      ],
+      prompt: "لدي فريق تسويق صغير يحتاج إلى كتابة منشورات، عمل صور، عمل عروض، تلخيص مستندات، إنشاء فيديوهات قصيرة، وموسيقى خلفية بسيطة. رشح لي أداة أو أداتين لكل مهمة، وقل لي من أين أبدأ مجانا."
     },
     "what-is-api": {
       title: "ما هو API؟",
@@ -934,13 +1083,23 @@ function renderPromptGuide(promptGuide, section) {
   `;
 }
 
-function renderOutput(output) {
+function renderOutput(output, locale = "en") {
   if (!output) return "";
+  const title = locale === "ar" ? translateOutputTitle(output.title) : output.title;
+  const summaryItems =
+    locale === "ar" && output.arSummary?.length
+      ? output.arSummary
+      : output.summary || [];
+  const captionsList =
+    locale === "ar" && output.arCaptions?.length
+      ? output.arCaptions
+      : output.captions || [];
+  const note = locale === "ar" && output.arNote ? output.arNote : output.note;
 
   if (output.type === "image") {
     return `
       <div class="finished-output">
-        <h3>${escapeHtml(output.title)}</h3>
+        <h3>${escapeHtml(title)}</h3>
         <figure class="output-image">
           <img src="${output.src}" alt="${escapeHtml(output.alt || output.title)}" />
         </figure>
@@ -951,7 +1110,7 @@ function renderOutput(output) {
   if (output.type === "deck") {
     return `
       <div class="finished-output">
-        <h3>${escapeHtml(output.title)}</h3>
+        <h3>${escapeHtml(title)}</h3>
         <figure class="output-deck">
           <img src="${output.src}" alt="${escapeHtml(output.alt || output.title)}" />
         </figure>
@@ -966,12 +1125,12 @@ function renderOutput(output) {
     const rows = (output.rows || [])
       .map((row) => `<tr>${row.map((cell) => `<td>${escapeHtml(cell)}</td>`).join("")}</tr>`)
       .join("");
-    const summary = (output.summary || [])
+    const summary = summaryItems
       .map((item) => `<li>${escapeHtml(item)}</li>`)
       .join("");
     return `
       <div class="finished-output">
-        <h3>${escapeHtml(output.title)}</h3>
+        <h3>${escapeHtml(title)}</h3>
         <div class="output-table-wrap">
           <table class="output-table">
             <thead><tr>${headers}</tr></thead>
@@ -986,7 +1145,7 @@ function renderOutput(output) {
   if (output.type === "beforeAfter") {
     return `
       <div class="finished-output">
-        <h3>${escapeHtml(output.title)}</h3>
+        <h3>${escapeHtml(title)}</h3>
         <div class="before-after">
           <figure>
             <img src="${output.before}" alt="${escapeHtml(output.beforeLabel)}" />
@@ -1002,12 +1161,12 @@ function renderOutput(output) {
   }
 
   if (output.type === "video") {
-    const captions = (output.captions || [])
+    const captions = captionsList
       .map((caption) => `<li>${escapeHtml(caption)}</li>`)
       .join("");
     return `
       <div class="finished-output">
-        <h3>${escapeHtml(output.title)}</h3>
+        <h3>${escapeHtml(title)}</h3>
         <video class="output-video" src="${output.src}" controls playsinline preload="metadata"></video>
         ${captions ? `<ul class="output-captions">${captions}</ul>` : ""}
       </div>
@@ -1015,12 +1174,12 @@ function renderOutput(output) {
   }
 
   if (output.type === "storyboardVideo") {
-    const captions = (output.captions || [])
+    const captions = captionsList
       .map((caption) => `<li>${escapeHtml(caption)}</li>`)
       .join("");
     return `
       <div class="finished-output">
-        <h3>${escapeHtml(output.title)}</h3>
+        <h3>${escapeHtml(title)}</h3>
         <figure class="output-image storyboard-output">
           <img src="${output.storyboard}" alt="${escapeHtml(output.title)}" />
         </figure>
@@ -1033,14 +1192,47 @@ function renderOutput(output) {
   if (output.type === "audio") {
     return `
       <div class="finished-output">
-        <h3>${escapeHtml(output.title)}</h3>
+        <h3>${escapeHtml(title)}</h3>
         <audio class="output-audio" src="${output.src}" controls preload="metadata"></audio>
-        ${output.note ? `<p class="output-note">${escapeHtml(output.note)}</p>` : ""}
+        ${note ? `<p class="output-note">${escapeHtml(note)}</p>` : ""}
       </div>
     `;
   }
 
   return "";
+}
+
+function translateOutputTitle(title) {
+  const map = {
+    "Finished writing result": "نتيجة الكتابة النهائية",
+    "Finished 7-day launch checklist": "قائمة إطلاق نهائية لمدة 7 أيام",
+    "Finished 6-slide Gamma deck plan": "عرض Gamma نهائي من 6 شرائح",
+    "Finished spreadsheet example": "مثال جدول نهائي",
+    "Finished image-2 poster example": "مثال بوستر نهائي من image-2",
+    "Before and after product image": "صورة المنتج قبل وبعد",
+    "Finished 9-grid storyboard and stitched video example": "مثال 9 لقطات وفيديو نهائي",
+    "Playable 20-second background music example": "مثال موسيقى خلفية قابل للتشغيل",
+    "Finished translation check": "نتيجة الترجمة والمراجعة",
+    "Finished supplier summary": "ملخص مورد نهائي",
+    "Finished beginner lesson": "درس مبسط نهائي",
+    "Finished business copy pack": "حزمة نصوص عمل جاهزة",
+    "Finished 2-week salon content plan sample": "مثال خطة محتوى لأسبوعين",
+    "Finished tool choice map": "خريطة اختيار الأدوات",
+    "Finished AI app map": "خريطة تطبيقات AI",
+    "Finished safe login checklist": "قائمة دخول آمن",
+    "Finished payment decision table": "جدول قرار الدفع",
+    "Finished price comparison template": "قالب مقارنة الأسعار",
+    "Finished ChatGPT first-use checklist": "قائمة استخدام ChatGPT الأولى",
+    "Finished Gemini use map": "خريطة استخدام Gemini",
+    "Finished Claude use map": "خريطة استخدام Claude",
+    "Finished DeepSeek use map": "خريطة استخدام DeepSeek",
+    "Finished Kimi use map": "خريطة استخدام Kimi",
+    "Example output from a clear image prompt": "مثال نتيجة من برومبت صورة واضح",
+    "Example output from a shot list": "مثال نتيجة من قائمة لقطات",
+    "Example output from a music prompt": "مثال نتيجة من برومبت موسيقى"
+  };
+
+  return map[title] || title;
 }
 
 function linkKeywords(text, section) {
