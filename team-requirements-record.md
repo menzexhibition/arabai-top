@@ -219,10 +219,12 @@ The owner's long-term business direction:
   - SiliconFlow multi-model API access.
   - Poe subscription/compute points concept.
 - Current status:
-  - Credits/recharge/payment must be marked **Coming Soon**.
+  - Paid recharge/payment must still be marked **Coming Soon**.
   - Do not make real payment available yet.
-  - Do not imply users can already buy credits.
-  - Open Credits only after enough users are accumulated and payment, privacy, refund, account, API, and support rules are ready.
+  - Do not imply users can already buy paid credits.
+  - Free contribution Credits can be recorded after login and review.
+  - Recorded Credits cannot be redeemed for AI usage until AI tools, account rules, API, privacy, refund, and support systems are ready.
+  - Articles must remain free and must not require login.
 
 ## 14. API Focus
 
@@ -285,15 +287,19 @@ The owner's long-term business direction:
 
 New owner requirement:
 
-- Users should eventually be able to speak/participate on the site.
+- Users should be able to speak/participate on the site once login and submission are available.
 - User activity can become a selling point.
-- Active users may receive free Credits and use AI features for free.
+- Active users can receive recorded free Credits for approved useful contributions.
+- Credits can be recorded now in the product plan, but actual redemption/use waits until AI features open.
+- Login is required for reward records because Credits must be tied to a real user wallet.
+- Reading articles must not require login.
 - This should not be implemented as an uncontrolled public message board at first.
 - Recommended mechanism:
   - Users submit questions, examples, suggestions, or corrections.
   - Contributions are reviewed.
-  - Helpful participation earns Community Points.
-  - Points may later convert to free Credits.
+  - Helpful participation earns recorded free Credits.
+  - Credits are visible in the user's wallet/history.
+  - Credits are not redeemable until AI usage opens.
   - Abuse/spam should receive nothing.
 - Example contribution types:
   - Ask a useful beginner AI question.
@@ -303,10 +309,10 @@ New owner requirement:
   - Give feedback on unclear tutorials.
   - Write a short beginner tip.
 - Current status:
-  - The concept is published as **Coming Soon**.
-  - No real points are issued.
+  - The concept is published as a recordable reward mechanism.
+  - Login and backend are still required before real records can be stored.
   - No free Credits can be redeemed yet.
-  - Terms mention future review, anti-spam, abuse limits, and redemption rules.
+  - Terms mention login, review, anti-spam, abuse limits, and redemption rules.
 
 ## 18. Analytics Requirement
 
