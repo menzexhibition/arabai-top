@@ -461,6 +461,7 @@ function renderCaseStudy(caseStudy, section) {
     .join("");
 
   const screens = (caseStudy.screens || [])
+    .filter((screen) => !screen.image || isSafePublicImage(screen.image))
     .map(
       (screen) =>
         screen.image
@@ -508,6 +509,7 @@ function renderArabicCaseStudy(caseStudy) {
     .join("");
 
   const screens = (caseStudy.screens || [])
+    .filter((screen) => !screen.image || isSafePublicImage(screen.image))
     .map((screen) =>
       screen.image
         ? `
@@ -537,6 +539,10 @@ function renderArabicCaseStudy(caseStudy) {
       ${caseStudy.note ? `<p class="output-note">${escapeHtml(caseStudy.note)}</p>` : ""}
     </section>
   `;
+}
+
+function isSafePublicImage(src) {
+  return !String(src || "").includes("assets/screenshots/");
 }
 
 function estimateTime(articleId, article, locale = "en") {
