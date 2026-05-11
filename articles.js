@@ -74,25 +74,22 @@ const expertToolArticles = [
 function advancedArticle([id, title, intro, caseTitle, scenario, prompt, next]) {
   const realScreensById = {
     "write-with-ai": [
-      { title: "Step 1: ChatGPT creates the first email draft", image: "assets/screenshots/chatgpt-write-02-first-result.png" },
-      { title: "Step 2: Ask ChatGPT to make the message shorter and warmer", image: "assets/screenshots/chatgpt-write-03-revision-prompt.png" },
-      { title: "Step 3: Final WhatsApp-style result from ChatGPT", image: "assets/screenshots/chatgpt-write-04-final.png" }
+      { title: "Step 1: Open your AI chat tool", text: "Use ChatGPT, Claude, Gemini, Doubao, or another official chat tool. Start a new chat so the answer is not mixed with an old task." },
+      { title: "Step 2: Paste the customer message and the prompt", text: "Ask the AI to rewrite the message for WhatsApp, with a warm and polite tone, and tell it the message should stay short." },
+      { title: "Step 3: Ask for one revision", text: "If the reply feels cold, ask: make it warmer and shorter. If it is too long, ask: keep only the important sentence." }
     ],
     "make-a-plan": [
-      { title: "Step 1: Type a real launch planning request into ChatGPT", image: "assets/screenshots/chatgpt-plan-01-prompt.png" },
-      { title: "Step 2: ChatGPT gives a full launch plan", image: "assets/screenshots/chatgpt-plan-02-first-result.png" },
-      { title: "Step 3: Ask ChatGPT to make the plan shorter and easier to follow", image: "assets/screenshots/chatgpt-plan-03-revision-prompt.png" },
-      { title: "Step 4: Final 7-day checklist from ChatGPT", image: "assets/screenshots/chatgpt-plan-04-final.png" }
+      { title: "Step 1: Open your AI chat tool", text: "Start a new chat and tell the AI the product, launch date, city, team size, and what kind of plan you need." },
+      { title: "Step 2: Ask for a 7-day checklist", text: "Use the prompt below and ask for daily tasks, supplies, staff actions, Instagram content, risks, and a simple checklist." },
+      { title: "Step 3: Make it easier to follow", text: "After the first answer, ask: turn this into a short checklist I can follow day by day." },
+      { title: "Step 4: Copy it into your notes", text: "Keep only tasks you can really do this week, then add real prices, staff names, and dates." }
     ],
     "make-slides": [
-      { title: "Step 1: Open Gamma, choose Presentation, set 6 cards, and paste the English prompt", image: "assets/screenshots/gamma/04-english-prompt-filled.png" },
-      { title: "Step 2: Gamma creates an English outline that you can review before generating the deck", image: "assets/screenshots/gamma/05-english-outline-generated.png" },
-      { title: "Step 3: Confirm Gamma has 6 cards before you click Generate", image: "assets/screenshots/gamma/06-six-cards-before-generate.png" },
-      { title: "Step 4: Gamma generates a real editable 6-slide deck", image: "assets/screenshots/gamma/07-english-deck-final-overview.png" },
-      { title: "Step 5: Open a slide close-up and check the text and layout", image: "assets/screenshots/gamma/08-english-slide-closeup-title.png" },
-      { title: "Step 6: Check the action-plan slide because this is what the user will actually follow", image: "assets/screenshots/gamma/09-english-slide-closeup-action-plan.png" },
-      { title: "Step 7: Open Share if you want to send a link", image: "assets/screenshots/gamma/10-english-share-menu.png" },
-      { title: "Step 8: Open Export if you want PDF, PowerPoint, Google Slides, or PNG", image: "assets/screenshots/gamma/11-english-export-menu.png" }
+      { title: "Step 1: Open Gamma", text: "Go to the official Gamma website, choose Presentation, and start from a prompt instead of a blank page." },
+      { title: "Step 2: Set the deck size", text: "Choose about 6 cards or slides for a beginner case. A short deck is easier to check and edit." },
+      { title: "Step 3: Paste the prompt", text: "Use the prompt below. Keep the language English if your final website or client deck should be English." },
+      { title: "Step 4: Review the outline", text: "Before generating, check that the six slide titles match the story: title, problem, AI idea, target customers, action plan, expected result." },
+      { title: "Step 5: Export safely", text: "After editing, use Gamma export or share options to download PDF, PowerPoint, Google Slides, or a share link." }
     ],
     "spreadsheets": [
       { title: "Step 1: Prepare the messy notes", text: "May 1 Oud Oil quantity 2 sales 600 SAR\nMay 2 Bakhoor quantity 3 sales 450 SAR\nMay 3 Oud Oil quantity 3 sales 900 SAR\nMay 4 Perfume Spray quantity 2 sales 350 SAR" },
@@ -173,36 +170,36 @@ function advancedArticle([id, title, intro, caseTitle, scenario, prompt, next]) 
       { title: "Step 3: Choose one month, not forever", text: "For a new tool, start monthly. Upgrade yearly only after you have used it for real work several times." }
     ],
     "chatgpt-advanced": [
-      { title: "Step 1: Use ChatGPT for a real customer reply", image: "assets/screenshots/chatgpt-write-02-first-result.png" },
-      { title: "Step 2: Ask ChatGPT to make the answer shorter and warmer", image: "assets/screenshots/chatgpt-write-04-final.png" }
+      { title: "Step 1: Start with one real task", text: "Open ChatGPT and paste one customer reply, product idea, plan, or document summary task." },
+      { title: "Step 2: Improve the first answer", text: "Ask for a warmer tone, shorter wording, a table, or a checklist until the result is ready to use." }
     ],
     "gemini-advanced": [
-      { title: "Step 1: Use AI when you need quick research or to understand a screen", image: "assets/screenshots/chatgpt-core-batch-08-tools-login.png" },
-      { title: "Step 2: Compare where Gemini fits beside other daily tools", image: "assets/screenshots/chatgpt-core-batch-08-tools-login.png" }
+      { title: "Step 1: Use Gemini for explanation and Google-style work", text: "Open Gemini when you want help understanding a topic, drafting text, or working near Google documents and search-style questions." },
+      { title: "Step 2: Ask for a practical answer", text: "Request a simple table, summary, checklist, or customer-ready message instead of a general explanation." }
     ],
     "claude-advanced": [
-      { title: "Step 1: Use a writing AI when the text needs to sound clearer", image: "assets/screenshots/chatgpt-slides-02-first-result.png" },
-      { title: "Step 2: Ask for a cleaner version that is easier to copy", image: "assets/screenshots/chatgpt-slides-04-final.png" }
+      { title: "Step 1: Use Claude for careful writing", text: "Open Claude when you want a long message, policy, explanation, document rewrite, or cleaner English tone." },
+      { title: "Step 2: Ask for a copy-ready version", text: "Tell Claude who will read the text and ask it to produce the final version in the exact format you need." }
     ],
     "deepseek-advanced": [
-      { title: "Step 1: Use AI to compare practical business choices", image: "assets/screenshots/chatgpt-core-batch-08-tools-login.png" },
-      { title: "Step 2: Ask for pros, cons, risks, and a simple recommendation", image: "assets/screenshots/chatgpt-plan-04-final.png" }
+      { title: "Step 1: Use DeepSeek for reasoning and comparison", text: "Open DeepSeek when you want to compare choices, understand logic, or break a problem into steps." },
+      { title: "Step 2: Ask for pros, cons, risks, and recommendation", text: "A useful prompt is: compare these options, show pros and cons, risks, and tell me what a small business should do first." }
     ],
     "kimi-advanced": [
-      { title: "Step 1: Use a document AI when you have long text to read", image: "assets/screenshots/chatgpt-core-batch-05-summary-learn.png" },
-      { title: "Step 2: Ask for key points, action items, deadlines, and risks", image: "assets/screenshots/chatgpt-core-batch-05-summary-learn.png" }
+      { title: "Step 1: Use Kimi for long documents", text: "Open Kimi or another document-friendly AI when you have a long proposal, contract draft, article, or notes to summarize." },
+      { title: "Step 2: Ask for action items", text: "Ask for key points, deadlines, money terms, risks, and the next three actions." }
     ],
     "image-tools-advanced": [
-      { title: "Step 1: Write a complete image prompt before opening an image tool", image: "assets/screenshots/chatgpt-core-batch-02-spreadsheets-images.png" },
-      { title: "Step 2: Copy the prompt into your image AI tool", image: "assets/screenshots/chatgpt-core-batch-02-spreadsheets-images.png" }
+      { title: "Step 1: Write the picture before generating it", text: "Describe subject, style, background, colors, text, size, and what must stay readable." },
+      { title: "Step 2: Generate and correct one thing at a time", text: "If the text is wrong, ask only to fix the text. If the product changed, ask to keep the product exactly the same." }
     ],
     "video-tools-advanced": [
-      { title: "Step 1: Write scenes and camera directions before opening a video tool", image: "assets/screenshots/chatgpt-core-batch-03-edit-video.png" },
-      { title: "Step 2: Copy one scene at a time into your video AI tool", image: "assets/screenshots/chatgpt-core-batch-03-edit-video.png" }
+      { title: "Step 1: Write the shot list first", text: "A video tool works better when you give one scene at a time: subject, action, camera movement, lighting, and length." },
+      { title: "Step 2: Use images before motion", text: "For beginners, make key images first, arrange them into a 9-grid, then animate or stitch them into video." }
     ],
     "music-tools-advanced": [
-      { title: "Step 1: Describe mood, length, instruments, and vocal rules", image: "assets/screenshots/chatgpt-core-batch-04-music-translate.png" },
-      { title: "Step 2: Copy the finished music prompt into a music AI tool", image: "assets/screenshots/chatgpt-core-batch-04-music-translate.png" }
+      { title: "Step 1: Describe the mood and use", text: "Tell the music AI the length, mood, instruments, speed, and whether vocals are allowed." },
+      { title: "Step 2: Test it with the real video", text: "Play the generated music under your video. If it distracts from the product, ask for a simpler background version." }
     ]
   };
 

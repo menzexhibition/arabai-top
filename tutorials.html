@@ -14,12 +14,14 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png" />
+    <link rel="apple-touch-icon" href="assets/brand/arabai-icon-192.png" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header class="site-header">
       <a class="brand" href="en.html" aria-label="ARABAI home">
-        <span class="brand-mark">A</span>
+        <img class="brand-logo" src="assets/brand/arabai-logo-320.png" alt="" width="64" height="73" />
         <span>ARABAI</span>
       </a>
       <nav class="main-nav" aria-label="Main navigation">
@@ -54,45 +56,10 @@
           </p>
         </div>
 
-        <div class="video-library">
-          <article class="video-card">
-            <div class="video-card-copy">
-              <p class="topic-label">Gamma</p>
-              <h3>Make A Real PPT In Gamma</h3>
-              <p>Open Gamma, paste one strong prompt, review the outline, generate the deck, and export the final slides.</p>
-              <ul><li>Prompt writing</li><li>Outline check</li><li>Export process</li></ul>
-            </div>
-            <video controls playsinline preload="metadata" poster="assets/screenshots/gamma/07-english-deck-final-overview.png">
-              <source src="assets/tutorials/gamma-ppt-tutorial.mp4" type="video/mp4" />
-              <track kind="subtitles" srclang="ar" label="Arabic" src="assets/tutorials/gamma-ppt-tutorial.ar.vtt" default />
-            </video>
-          </article>
-
-          <article class="video-card">
-            <div class="video-card-copy">
-              <p class="topic-label">image-2</p>
-              <h3>Create One Sale Poster</h3>
-              <p>Write a clear product prompt, generate the image, then fine-tune the text and layout instead of restarting everything.</p>
-              <ul><li>Prompt structure</li><li>Result check</li><li>Fine-tuning pass</li></ul>
-            </div>
-            <video controls playsinline preload="metadata" poster="assets/outputs/oud-weekend-sale-poster-real.png">
-              <source src="assets/tutorials/image-poster-tutorial.mp4" type="video/mp4" />
-              <track kind="subtitles" srclang="ar" label="Arabic" src="assets/tutorials/image-poster-tutorial.ar.vtt" default />
-            </video>
-          </article>
-
-          <article class="video-card">
-            <div class="video-card-copy">
-              <p class="topic-label">Storyboard</p>
-              <h3>Make A Short Product Video</h3>
-              <p>Use the beginner-safe workflow: text to image, 9-scene storyboard, then stitch the images into one short promo video.</p>
-              <ul><li>Scene planning</li><li>9-grid method</li><li>Final MP4</li></ul>
-            </div>
-            <video controls playsinline preload="metadata">
-              <source src="assets/tutorials/video-storyboard-tutorial.mp4" type="video/mp4" />
-              <track kind="subtitles" srclang="ar" label="Arabic" src="assets/tutorials/video-storyboard-tutorial.ar.vtt" default />
-            </video>
-          </article>
+        <div class="notice-card">
+          <h3>Videos are being re-recorded</h3>
+          <p>The written tutorials and safe example outputs are still available. The video files will return after we record them with clean demo accounts and remove all private screenshots.</p>
+          <a class="text-link" href="advanced.html">Use the written tutorials</a>
         </div>
       </section>
 
@@ -102,32 +69,9 @@
           <p>These two videos explain the route clearly before full live payment and recharge are opened on the public site.</p>
         </div>
 
-        <div class="video-library">
-          <article class="video-card compact-video-card">
-            <div class="video-card-copy">
-              <p class="topic-label">Official API</p>
-              <h3>Buy API From The Official Source</h3>
-              <p>Understand the sequence: pricing page, account, billing, API key, safe storage, and first test call.</p>
-              <p class="video-note">Guidance video. Replace with live screen recording when the final provider and account flow are confirmed.</p>
-            </div>
-            <video controls playsinline preload="metadata">
-              <source src="assets/tutorials/official-api-purchase-tutorial.mp4" type="video/mp4" />
-              <track kind="subtitles" srclang="ar" label="Arabic" src="assets/tutorials/official-api-purchase-tutorial.ar.vtt" default />
-            </video>
-          </article>
-
-          <article class="video-card compact-video-card">
-            <div class="video-card-copy">
-              <p class="topic-label">ARABAI Wallet</p>
-              <h3>Buy From ARABAI Credits</h3>
-              <p>This shows the planned user experience: choose a small pack, spend by task, and keep the credit history visible.</p>
-              <p class="video-note">Simulation for now. Swap this with a full live recording after your own recharge and payment system is online.</p>
-            </div>
-            <video controls playsinline preload="metadata">
-              <source src="assets/tutorials/arabai-wallet-simulation.mp4" type="video/mp4" />
-              <track kind="subtitles" srclang="ar" label="Arabic" src="assets/tutorials/arabai-wallet-simulation.ar.vtt" default />
-            </video>
-          </article>
+        <div class="notice-card">
+          <h3>API videos are also paused</h3>
+          <p>The API and ARABAI Credits flows will be recorded again only after the final provider and clean demo billing flow are ready.</p>
         </div>
       </section>
     </main>
