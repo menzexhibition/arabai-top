@@ -6,10 +6,10 @@ const beginnerArticles = [
   ["what-can-ai-do", "What Can AI Do?", "Picture AI as an assistant you take from room to room, and in each room it finds a different way to help.", [["In the office", "AI is like an office helper who can draft emails, prepare reports, clean up notes, explain spreadsheets, and turn a rough idea into a clear document."], ["In the design room", "AI is like a fast sketch partner who can turn your words into poster ideas, product images, ad concepts, and social media visuals."], ["In the audio room", "AI is like a small music helper who can suggest lyrics, jingles, background music ideas, and audio styles."]], "Act like my work assistant. I run a small shop and need three short Instagram captions for a new product.", "common-ai-tools"],
   ["common-ai-tools", "Common AI Tools", "Imagine walking into an AI tool market where every helper has a different personality, a different speed, and a different job.", [["For daily questions", "Doubao is like a friendly front desk helper for common questions, quick writing, explanations, and daily work."], ["For slides and documents", "Gamma is like a presentation designer who can turn your topic into a real deck with layout, sections, and visual structure."], ["For images, video, and music", "image-2, Seedance, Lyria, and GPT Audio Mini are like a design studio, video studio, and music room."]], "I need AI for common questions, writing, PPT, images, video, music, and documents. Recommend one or two common tools for each task.", "how-to-start"],
   ["how-to-start", "How To Start Using AI", "Starting with AI is like walking into a new coffee shop: you do not need to know the whole menu before ordering your first drink.", [["Pick one door", "Choose one simple AI tool first, because trying five tools on the first day feels like opening five notebooks and writing in none of them."], ["Ask one real question", "Your first task should be something useful today, not a big test of what AI can do in the whole world."], ["Ask again", "Using AI is a conversation, so the first answer is often the first draft, not the final answer."]], "I am new to AI. Help me write my first useful prompt for improving an email to a customer.", "free-vs-paid"],
-  ["free-vs-paid", "Free vs Paid AI", "Free AI is like tasting food at a market, while paid AI is like buying a regular meal from the stall you already trust.", [["Free is enough to learn", "A free plan is usually enough for learning, testing, simple writing, small summaries, and discovering what AI can do."], ["Paid is for heavier use", "A paid plan is like hiring the assistant for longer hours, with better tools, higher limits, or faster access."], ["Do not pay too early", "Stay free until you find one task that saves you real time."]], "I use AI for emails, translation, and summaries twice a week. Should I stay on a free plan or pay?", "ai-tool-differences"],
-  ["ai-tool-differences", "How AI Tools Are Different", "AI tools are like people in a team: one writes better, one draws better, one reads better, and one handles numbers better.", [["Writing tools", "A writing AI is like an editor who helps you sound clear, polite, professional, or more natural."], ["Image tools", "An image AI is like a designer who needs you to describe the scene before it starts drawing."], ["Video and music tools", "Creative AI tools are like small studios that need scripts, scenes, mood, and style."]], "I need to write posts, make images, and summarize documents. Help me choose the right type of AI.", "ai-safety"],
-  ["ai-safety", "Things To Be Careful About", "AI is a helpful assistant, but you should not hand every key in your pocket to someone you just met.", [["Protect private information", "Do not put passwords, bank details, private IDs, or sensitive company information into AI unless you know how the tool handles data."], ["Check important answers", "AI can sound certain even when it is wrong, so treat important answers like a draft."], ["Watch for fake websites", "Some fake AI websites dress up like famous tools, so use official links when you log in or pay."]], "Review this text before I send it to a customer. Check if anything sounds risky, unclear, or too strong.", "beginner-path"],
-  ["beginner-path", "Beginner Path", "Learning AI is like learning to drive in a quiet street before entering a busy highway.", [["Day one", "Start with one chat tool and ask it to improve an email, explain a topic, or summarize a short text."], ["Day two", "Give AI one real work task, because a real task teaches you more than reading ten introductions."], ["After one week", "Choose one daily AI tool and one creative AI tool, then keep learning only when you need a new job done."]], "Make me a 5-day beginner plan to learn AI by doing small real tasks at work.", "private-jet-local-ai"],
+  ["free-vs-paid", "Free vs Paid AI", "Free AI is like a tasting spoon, while paid AI is like booking the same helper for the jobs you do every week.", [["What free plans are good for", "Free plans are enough for first questions, short writing, summaries, translation, and learning how AI fits your day."], ["What paid plans usually add", "Paid plans often give newer models, faster replies, file tools, higher limits, and sometimes stronger privacy controls."], ["When paying makes sense", "Pay when AI is already saving you real time every week, or when the free version keeps slowing down real work."], ["When free is still enough", "If you only use AI once in a while, or you are still testing what you like, stay free a little longer."]], "I use AI for emails, translation, and summaries twice a week. Should I stay on a free plan or pay?", "ai-tool-differences"],
+  ["ai-tool-differences", "How AI Tools Are Different", "AI tools are like workers in one busy shop: one talks well, one reads long files well, one designs well, and one helps you build things faster.", [["General chat tools", "Tools like ChatGPT, Claude, Gemini, and Doubao are good first doors for writing, asking questions, planning, and translation."], ["Image and video tools", "Image and video tools are more like a design studio: they need scene, style, mood, and format before they can make something useful."], ["Slides and document tools", "Tools like Gamma help turn a topic into a deck, outline, or page faster than starting from a blank screen."], ["Pick by task, not by hype", "Do not start with the biggest name; start with the job in front of you and choose the tool that was built for that job."]], "I need to write posts, make images, and summarize documents. Help me choose the right type of AI.", "ai-safety"],
+  ["ai-safety", "Things To Be Careful About", "AI is a helpful new assistant, but you still need to decide what it should see, what it should never see, and what must be checked by a human.", [["Protect private information", "Do not paste passwords, bank details, private IDs, customer files, or confidential company data unless you clearly trust how the tool handles it."], ["Check confident answers", "AI can sound calm and certain even when it is wrong, so important answers should be treated like a first draft, not the final truth."], ["Use official websites", "Fake AI websites copy familiar names and logos, so always log in, upload files, or pay through the official website."], ["Do not let AI decide everything", "AI can help with ideas, drafts, and summaries, but medical, legal, financial, and business-critical decisions still need human review."]], "Review this text before I send it to a customer. Check if anything sounds risky, unclear, or too strong.", "beginner-path"],
+  ["beginner-path", "Beginner Path", "Learning AI is like learning a new road: start with one safe lane, drive short distances, and get comfortable before you go faster.", [["Step 1: open one account", "Choose one well-known AI tool first, create a free account, and resist the urge to open five tools on the same day."], ["Step 2: learn what to type", "Good results usually come from clear requests that say what you want, how long it should be, and who it is for."], ["Step 3: try five small tasks", "Use AI for one question, one email, one summary, one brainstorm, and one simple explanation so your hands learn by doing."], ["Step 4: learn the limits", "AI can still be wrong, outdated, or overconfident, so learning when to check it is part of learning how to use it."]], "Make me a 5-day beginner plan to learn AI by doing small real tasks at work.", "private-jet-local-ai"],
   ["private-jet-local-ai", "Do You Want Your Own Private Jet?", "Most people ride public AI trains, but some people dream of owning a private jet that waits in their own hangar.", [["The normal way is like taking a train", "When you use online AI, you are like a passenger taking a powerful train that someone else owns and operates."], ["Local AI is like owning your own private jet", "A local AI model runs on your own computer, ready to fly without entering a public station."], ["Why it is not for everyone", "A private jet sounds exciting, but it needs a strong machine, setup time, storage space, maintenance, and patience."]], "Explain local AI like I am a beginner. Tell me whether my computer is suitable and whether I should start with online AI first.", "write-with-ai"]
 ];
 
@@ -49,12 +49,12 @@ const toolAdvanced = [
 const expertArticles = [
   ["what-is-api", "What Is An API?", "An API is like the service window behind a restaurant: ARABAI can send a user's order to AI in the background, then bring the finished answer back to the page.", "official-api-platforms"],
   ["official-api-platforms", "Official API Platforms", "Official API platforms are the kitchens where AI ability is produced; a site like ARABAI can later buy from these kitchens and turn the result into simple user tasks.", "api-price-comparison"],
-  ["api-price-comparison", "API Price Comparison", "API pricing is the hidden meter behind every AI answer, image, video, or song, so credits must be planned before they are sold.", "ai-gateway"],
-  ["ai-gateway", "What Is An AI Gateway?", "An AI Gateway is like a train station with many AI trains inside: one entrance, one balance, many possible routes to the same destination.", "gateway-platforms"],
-  ["gateway-platforms", "Common AI Gateway Platforms", "Gateway platforms are train stations with different routes, prices, speeds, and rules, so ARABAI must choose routes carefully before giving them to users.", "gateway-risks"],
+  ["api-price-comparison", "API Price Comparison", "API pricing is like a meter running behind the curtain: short text is a short ride, while images, video, and music are longer and heavier trips.", "ai-gateway"],
+  ["ai-gateway", "What Is An AI Gateway?", "An AI Gateway is like one control desk or train station for many AI routes: one entrance for you, many model choices behind it.", "gateway-platforms"],
+  ["gateway-platforms", "Common AI Gateway Platforms", "Gateway platforms are different stations with different model lists, billing rules, logs, and backup value, so ARABAI must compare them carefully before relying on them.", "gateway-risks"],
   ["gateway-risks", "AI Gateway Risks", "A gateway can make AI easier to sell and easier to use, but it also becomes a business bridge that needs privacy, billing, and backup checks.", "multi-model-management"],
   ["multi-model-management", "Multi-Model Management", "Managing many AI models is like managing a team of specialists instead of forcing one person to do every job.", "ai-automation"],
-  ["ai-automation", "AI Automation", "AI automation is like building a small conveyor belt where AI handles one step instead of waiting for you to copy and paste.", "ai-for-teams"],
+  ["ai-automation", "AI Automation", "AI automation is like hiring a careful office runner who watches one repeat job and does the same steps for you every time.", "ai-for-teams"],
   ["ai-for-teams", "AI For Teams", "Using AI in a team is like putting a shared assistant in the office, so everyone needs rules for how to ask and what not to share.", "ai-for-business"],
   ["ai-for-business", "AI For Business", "Bringing AI into a business is like hiring a powerful new department, so you need jobs, rules, budgets, and supervision.", "what-is-ai"]
 ];
@@ -618,17 +618,20 @@ function expertArticle([id, title, intro, next]) {
       ["What users should understand", "The official platform is usually the safest source, but it may be harder for normal users, so ARABAI can translate that complexity into simple buttons and credits."]
     ],
     "api-price-comparison": [
-      ["What it means", "API price is like the meter in a taxi: a short ride is cheap, a long ride costs more, and different cars have different prices."],
+      ["What it means", "API price is like a meter running behind the curtain: a short text job is a short ride, while image, video, and music jobs are longer and heavier rides."],
+      ["What makes the bill grow", "More input, longer output, stronger models, bigger files, and creative media all push the meter higher."],
       ["Why it matters for ARABAI", "Before selling credits, ARABAI must know the cost of common jobs such as one chat answer, one image, one video clip, or one presentation draft."],
       ["What users should understand", "Credits are not a mystery fee; they are a simple receipt for the AI work happening behind the screen."]
     ],
     "ai-gateway": [
-      ["What it means", "A gateway is not one AI model; it is a station that lets one account reach many AI models without rebuilding the whole system every time."],
+      ["What it means", "A gateway is not one AI model; it is a station or control desk that lets one account reach many AI models without rebuilding the whole system every time."],
+      ["Why businesses use it", "A gateway can hold routing, billing, logs, limits, and backup paths in one place instead of scattering them across many providers."],
       ["Why it matters for ARABAI", "A gateway can help ARABAI test many models quickly and offer users a single wallet instead of sending them to many different websites."],
       ["What users should understand", "The user sees one simple entrance, but ARABAI still needs to choose the right route for writing, image, video, music, or heavier work."]
     ],
     "gateway-platforms": [
       ["What it means", "Different gateway platforms are like different stations: some have more trains, some are cheaper, some are faster, and some have better logs and controls."],
+      ["How to compare them", "Do not compare only by number of models. Compare billing clarity, logs, rate limits, privacy notes, uptime, and backup value too."],
       ["Why it matters for ARABAI", "ARABAI can connect to a gateway for speed and variety, but it should also keep official API options for important or sensitive tasks."],
       ["What users should understand", "A good platform is not only the one with the most models; it is the one that gives stable service, clear billing, and a reliable route when users pay for work."]
     ],
@@ -636,6 +639,11 @@ function expertArticle([id, title, intro, next]) {
       ["What it means", "A gateway is a useful bridge, but if the bridge closes, becomes expensive, or handles data badly, the business feels the pain."],
       ["Why it matters for ARABAI", "Because ARABAI may later sell credits, every provider risk can become a user trust problem: missing results, surprise cost, weak support, or privacy concern."],
       ["What users should understand", "A paid AI entrance should feel simple, but behind that simplicity ARABAI must check data rules, budget limits, backups, and refund logic."]
+    ],
+    "ai-automation": [
+      ["What it means", "AI automation is not magic. It is one repeatable workflow where input goes in, AI does one job, a human reviews it, and the result moves forward."],
+      ["Where to start", "Start with a small weekly task such as turning a customer form into a draft reply, or turning rough notes into a clean summary."],
+      ["What keeps it safe", "The safe version uses test data first, clear stop rules, and a human approval step before anything reaches a real customer or real system."]
     ]
   };
 
@@ -692,10 +700,12 @@ function externalRefsFor(id) {
     "free-vs-paid": [
       ["ChatGPT Pricing", "https://openai.com/chatgpt/pricing", "Official ChatGPT plan page."],
       ["Claude Pricing", "https://www.claude.com/pricing", "Official Claude plan page."],
-      ["Google AI subscriptions", "https://gemini.google/subscriptions/", "Official Gemini/Google AI plan page."]
+      ["Google AI subscriptions", "https://gemini.google/subscriptions/", "Official Gemini/Google AI plan page."],
+      ["Gamma pricing", "https://gamma.app/pricing", "Useful example of how a presentation tool splits free and paid features."]
     ],
     "ai-tool-differences": [
       ["OpenAI Academy: Using ChatGPT", "https://openai.com/academy/using-chatgpt/", "Shows chat, files, search, image, and workflow categories."],
+      ["Claude", "https://claude.ai/", "Good example of a writing and long-document AI tool."],
       ["Gamma Help Center", "https://help.gamma.app/", "Good example of a tool focused on presentations and documents."],
       ["Runway Academy: Prompting Guide", "https://academy.runwayml.com/image-to-video-guide", "Good example of a tool focused on visual/video work."]
     ],
@@ -705,7 +715,8 @@ function externalRefsFor(id) {
     ],
     "beginner-path": [
       ["OpenAI Academy: Getting started with ChatGPT", "https://openai.com/academy/getting-started/", "Good Day 1 starting point."],
-      ["OpenAI Academy: Prompting fundamentals", "https://openai.com/academy/prompting/", "Good Day 2 prompt practice."]
+      ["OpenAI Academy: Prompting fundamentals", "https://openai.com/academy/prompting/", "Good Day 2 prompt practice."],
+      ["Google Gemini Help", "https://support.google.com/gemini?hl=en", "Another beginner-friendly starting point if Google tools feel more familiar."]
     ],
     "private-jet-local-ai": [
       ["Ollama", "https://ollama.com/", "Common beginner-friendly way to try local models."],
@@ -835,12 +846,19 @@ function externalRefsFor(id) {
     ],
     "ai-gateway": [
       ["OpenRouter", "https://openrouter.ai/", "Common AI gateway for comparing and accessing many models."],
-      ["OpenRouter Rankings", "https://openrouter.ai/rankings", "Useful market signal for popular models."]
+      ["OpenRouter Rankings", "https://openrouter.ai/rankings", "Useful market signal for popular models."],
+      ["Cloudflare AI Gateway", "https://www.cloudflare.com/application-services/products/ai-gateway/", "Useful for logging, routing, and traffic control around AI calls."]
     ],
     "gateway-platforms": [
       ["OpenRouter", "https://openrouter.ai/", "Common gateway platform."],
+      ["Portkey", "https://portkey.ai/", "Common gateway and observability platform for multi-model routing."],
       ["Together AI", "https://www.together.ai/", "Model hosting and API platform."],
       ["Replicate", "https://replicate.com/", "Common platform for image, video, and open model APIs."]
+    ],
+    "ai-automation": [
+      ["Zapier AI", "https://zapier.com/ai", "No-code starting point for connecting apps and AI tasks."],
+      ["Make", "https://www.make.com/en", "Visual workflow builder for beginners who want more control."],
+      ["n8n", "https://n8n.io/", "Popular automation tool for users who want deeper workflows later."]
     ],
     "gateway-risks": [
       ["OpenAI Data Controls FAQ", "https://help.openai.com/en/articles/7730893-chatgpt-privacy-practices", "Use as a privacy checklist example."],
@@ -1167,20 +1185,20 @@ function beginnerPracticeFor(id, title, prompt) {
       result: "<p><strong>What you should finish:</strong> your first AI answer, then a second improved version after you ask it to make the result clearer.</p>"
     },
     "free-vs-paid": {
-      scenario: "You want to know whether to pay, so you will compare the AI bill with time saved.",
-      result: "<p><strong>What you should finish:</strong> a simple decision: stay free, test one paid month, or wait.</p>"
+      scenario: "You want to know whether a paid plan really helps, so you will compare one real weekly task against the limits of a free account.",
+      result: "<p><strong>What you should finish:</strong> a clear decision: stay free, test one paid month, or wait until AI becomes part of weekly work.</p>"
     },
     "ai-tool-differences": {
-      scenario: "You have several tasks and need to send each one to the right kind of AI helper.",
-      result: "<p><strong>What you should finish:</strong> a task-to-tool map, so writing goes to a writing AI, images go to an image AI, and video goes to a video AI.</p>"
+      scenario: "You have different jobs in front of you, so you will match each job to the right kind of AI instead of forcing one tool to do everything.",
+      result: "<p><strong>What you should finish:</strong> a personal task-to-tool map for chat, images, video, and slides.</p>"
     },
     "ai-safety": {
-      scenario: "Before using AI for real work, you will clean your task so private information does not enter the chat.",
-      result: "<p><strong>What you should finish:</strong> a safer version of your task with names, passwords, IDs, and private numbers removed.</p>"
+      scenario: "Before using AI for real work, you will clean one real task so private information stays out and risky claims get checked.",
+      result: "<p><strong>What you should finish:</strong> a safer version of your task with names, IDs, passwords, and sensitive details removed or replaced.</p>"
     },
     "beginner-path": {
-      scenario: "You will follow a tiny five-day practice route, where every day produces one real result.",
-      result: "<ul><li>Day 1: improved email.</li><li>Day 2: simple plan.</li><li>Day 3: translated message.</li><li>Day 4: poster prompt.</li><li>Day 5: your own weekly AI habit.</li></ul>"
+      scenario: "You will follow a five-day beginner route where each day produces one small result and teaches one basic AI habit.",
+      result: "<ul><li>Day 1: one free AI account opened.</li><li>Day 2: one clear prompt written.</li><li>Day 3: one email, summary, and question tested.</li><li>Day 4: one image or slide task tried.</li><li>Day 5: one simple rule for when to trust AI and when to check it.</li></ul>"
     },
     "private-jet-local-ai": {
       scenario: "You will check whether local AI is worth trying before spending time installing anything.",
@@ -1218,12 +1236,33 @@ function beginnerStepsFor(id) {
       "Read the first answer.",
       "Reply: make it shorter, clearer, and easier for a normal person."
     ],
+    "free-vs-paid": [
+      "Open the free version of one tool you already use, such as ChatGPT, Claude, or Gemini.",
+      "Give it one real task you do every week.",
+      "Notice speed, limits, file access, and whether the answer quality is enough.",
+      "Write down what frustrated you and what was already good enough.",
+      "Only then decide whether one paid month would save more time than it costs."
+    ],
+    "ai-tool-differences": [
+      "Write down four jobs: chat, image, video, and slides or documents.",
+      "Choose one tool type for each job instead of looking for one magic app.",
+      "Test one small task in one tool only.",
+      "Compare the result with what you actually needed, not with hype online.",
+      "Keep the tools that feel easy and useful, and ignore the rest for now."
+    ],
     "ai-safety": [
       "Look at your task before pasting it into AI.",
       "Remove passwords, ID numbers, bank details, and private customer information.",
       "Replace real names with simple labels like Customer A or Company B.",
       "Ask AI to help with the cleaned version.",
       "Check the final answer yourself before sending or publishing."
+    ],
+    "beginner-path": [
+      "Day 1: open one free AI account and ask one simple question.",
+      "Day 2: write one better prompt with task, audience, and style.",
+      "Day 3: use AI for one email, one summary, and one explanation.",
+      "Day 4: try one creative task like an image prompt or slide outline.",
+      "Day 5: write down one rule for when you trust AI and one rule for when you double-check it."
     ],
     "private-jet-local-ai": [
       "Ask AI to explain local AI in beginner language.",
