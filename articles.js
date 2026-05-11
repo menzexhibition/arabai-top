@@ -723,10 +723,12 @@ function externalRefsFor(id) {
       ["LM Studio", "https://lmstudio.ai/", "Desktop app for trying local AI models without heavy coding."]
     ],
     "make-slides": [
+      ["ARABAI video tutorial: Gamma full walkthrough", "ar-tutorials.html", "Local ARABAI video tutorial with Arabic subtitles for the full Gamma flow."],
       ["Gamma Help: Create a new presentation, document, or webpage", "https://help.gamma.app/de/articles/7838093", "Official Gamma step-by-step creation guide."],
       ["MakeUseOf: How to use Gamma AI to create presentations", "https://www.makeuseof.com/use-gamma-ai-to-create-presentations/", "Screenshot-style article that is easy for beginners."]
     ],
     "create-images": [
+      ["ARABAI video tutorial: image-2 poster walkthrough", "ar-tutorials.html", "Local ARABAI video tutorial showing prompt writing and poster checking."],
       ["Canva: AI image generator", "https://www.canva.com/ai-image-generator/", "Beginner-friendly image generation tool page."],
       ["YouTube: Canva AI Image Generator Tutorial for Beginners", "https://www.youtube.com/watch?v=wTOHKRWapGI", "Step-by-step beginner video for image prompting."]
     ],
@@ -735,6 +737,7 @@ function externalRefsFor(id) {
       ["Adobe Express: Remove a background from a photo in one click", "https://www.adobe.com/learn/express/web/remove-background", "Official 1-minute beginner tutorial with clear steps."]
     ],
     "make-videos": [
+      ["ARABAI video tutorial: 9-grid video workflow", "ar-tutorials.html", "Local ARABAI video tutorial for the text-to-image, storyboard, and stitching method."],
       ["Runway: Image to Video Prompting Guide", "https://help.runwayml.com/hc/en-us/articles/48324313115155", "Best reference for the rule: image controls look, prompt controls motion."],
       ["CapCut Photo Video Maker", "https://www.capcut.com/create/photo-video-maker/", "Official reference for turning images into a photo video."],
       ["Runway Academy: Prompting Guide", "https://academy.runwayml.com/image-to-video-guide", "Easy visual guide for text-to-video and image-to-video thinking."]
@@ -835,6 +838,7 @@ function externalRefsFor(id) {
       ["Claude API quickstart", "https://platform.claude.com/docs/en/get-started", "Official Claude API starting point."]
     ],
     "official-api-platforms": [
+      ["ARABAI video tutorial: official API purchase flow", "ar-tutorials.html", "Local ARABAI guidance video for the official API route before live screen recording is finalized."],
       ["OpenAI Platform", "https://platform.openai.com/", "Official OpenAI API platform."],
       ["Anthropic Console", "https://console.anthropic.com/", "Official Claude API platform."],
       ["Google AI Studio", "https://aistudio.google.com/", "Official Gemini developer platform."]
