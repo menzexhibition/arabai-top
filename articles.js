@@ -667,20 +667,20 @@ function expertArticle([id, title, intro, next]) {
 function externalRefsFor(id) {
   const refs = {
     "what-is-ai": [
-      ["OpenAI Academy: Getting started with ChatGPT", "https://openai.com/academy/getting-started/", "Official beginner guide with a simple first-chat explanation."],
+      ["ChatGPT Learn: Getting started with ChatGPT", "https://chatgpt.com/", "Official starting point for a first ChatGPT session."],
       ["OpenAI Help: What is ChatGPT?", "https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq", "Plain FAQ for everyday users."]
     ],
     "ai-basic-words": [
-      ["OpenAI Academy: AI fundamentals", "https://openai.com/academy/using-chatgpt/", "Good starting point for basic AI learning paths."],
+      ["ChatGPT Learn: AI fundamentals", "https://chatgpt.com/", "Good starting point for basic AI learning paths."],
       ["OpenAI Help: Prompting best practices", "https://help.openai.com/en/articles/10032626-prompt-engineering-best-practices-for-chatgpt", "Useful for understanding prompts without going too deep."]
     ],
     "what-is-a-prompt": [
-      ["OpenAI Academy: Prompting fundamentals", "https://openai.com/academy/prompting/", "The clearest official beginner lesson on writing prompts."],
+      ["OpenAI Docs: Prompting basics", "https://platform.openai.com/docs/guides/prompt-engineering", "A solid official guide to writing clearer prompts."],
       ["Google Help: Prompt tips for Gemini in Docs, Sheets, Slides, Vids & Forms", "https://support.google.com/docs/answer/15013615?hl=en", "Simple four-part prompt idea: persona, task, context, format."],
       ["YouTube: Learn Google Gemini Prompting in 5 Minutes", "https://www.youtube.com/watch?v=mRWY7vpZ0b4", "Short video with beginner-friendly prompt components and timestamps."]
     ],
     "what-can-ai-do": [
-      ["OpenAI Academy: Using ChatGPT", "https://openai.com/academy/using-chatgpt/", "A broad official map of what ChatGPT can do."],
+      ["ChatGPT Learn: Using ChatGPT", "https://chatgpt.com/", "A broad official map of what ChatGPT can do."],
       ["Gemini Apps Help", "https://support.google.com/gemini?hl=en", "Official Google help page showing common Gemini tasks."]
     ],
     "common-ai-tools": [
@@ -691,7 +691,7 @@ function externalRefsFor(id) {
       ["Beginner prompt for first tool test", "https://chatgpt.com/", "Copy this first: I am new to AI. Help me choose one tool for writing, one for slides, one for images, and one for video. Explain the free starting point for each."]
     ],
     "how-to-start": [
-      ["OpenAI Academy: Getting started with ChatGPT", "https://openai.com/academy/getting-started/", "Best official first-use walkthrough."],
+      ["ChatGPT Learn: Getting started with ChatGPT", "https://chatgpt.com/", "Best official first-use walkthrough."],
       ["Claude Help: Get started with Claude", "https://support.claude.com/en/articles/8114491-get-started-with-claude", "Simple guide to access Claude and write a first prompt."]
     ],
     "free-vs-paid": [
@@ -701,7 +701,7 @@ function externalRefsFor(id) {
       ["Gamma pricing", "https://gamma.app/pricing", "Useful example of how a presentation tool splits free and paid features."]
     ],
     "ai-tool-differences": [
-      ["OpenAI Academy: Using ChatGPT", "https://openai.com/academy/using-chatgpt/", "Shows chat, files, search, image, and workflow categories."],
+      ["ChatGPT Learn: Using ChatGPT", "https://chatgpt.com/", "Shows chat, files, search, image, and workflow categories."],
       ["Claude", "https://claude.ai/", "Good example of a writing and long-document AI tool."],
       ["Gamma Help Center", "https://help.gamma.app/", "Good example of a tool focused on presentations and documents."],
       ["Runway Academy: Prompting Guide", "https://academy.runwayml.com/image-to-video-guide", "Good example of a tool focused on visual/video work."]
@@ -711,8 +711,8 @@ function externalRefsFor(id) {
       ["OpenAI Help: File uploads FAQ", "https://help.openai.com/en/articles/8555545-uploading-images-and-files-in-chatgpt", "Useful before uploading documents or images."]
     ],
     "beginner-path": [
-      ["OpenAI Academy: Getting started with ChatGPT", "https://openai.com/academy/getting-started/", "Good Day 1 starting point."],
-      ["OpenAI Academy: Prompting fundamentals", "https://openai.com/academy/prompting/", "Good Day 2 prompt practice."],
+      ["ChatGPT Learn: Getting started with ChatGPT", "https://chatgpt.com/", "Good Day 1 starting point."],
+      ["OpenAI Docs: Prompting basics", "https://platform.openai.com/docs/guides/prompt-engineering", "Good Day 2 prompt practice."],
       ["Google Gemini Help", "https://support.google.com/gemini?hl=en", "Another beginner-friendly starting point if Google tools feel more familiar."]
     ],
     "private-jet-local-ai": [
@@ -744,24 +744,24 @@ function externalRefsFor(id) {
       ["Udio", "https://www.udio.com/", "Popular music generation tool for songs and background ideas."]
     ],
     "spreadsheets": [
-      ["OpenAI Academy: Analyzing data with ChatGPT", "https://openai.com/academy/data-analysis/", "Official beginner guide for tables, CSVs, and analysis."],
+      ["OpenAI Docs: Data and file workflows", "https://platform.openai.com/docs/overview", "Official OpenAI docs entry point for file and data workflows."],
       ["OpenAI Help: Data analysis with ChatGPT", "https://help.openai.com/en/articles/8437071-data-analysis-with-chatgpt", "Official details about files, tables, and charts."]
     ],
     "translate": [
       ["Google Translate", "https://translate.google.com/", "Simple translation tool for quick checks."],
       ["DeepL Translator", "https://www.deepl.com/translator", "Useful second opinion for translation quality."],
-      ["OpenAI Academy: Working with files in ChatGPT", "https://openai.com/academy/working-with-files/", "Useful when translating or checking uploaded documents."]
+      ["ChatGPT Learn: Working with files", "https://chatgpt.com/", "Useful when translating or checking uploaded documents."]
     ],
     "summarize-documents": [
-      ["OpenAI Academy: Working with files in ChatGPT", "https://openai.com/academy/working-with-files/", "Official guide for uploading, summarizing, and extracting action items."],
+      ["ChatGPT Learn: Working with files", "https://chatgpt.com/", "Official starting point for uploading, summarizing, and extracting action items."],
       ["OpenAI Help: File uploads FAQ", "https://help.openai.com/en/articles/8555545-uploading-images-and-files-in-chatgpt", "Official help page for supported files and upload behavior."]
     ],
     "learn-something": [
-      ["OpenAI Academy: Using ChatGPT", "https://openai.com/academy/using-chatgpt/", "Good source for learning workflows."],
+      ["ChatGPT Learn: Using ChatGPT", "https://chatgpt.com/", "Good source for learning workflows."],
       ["Gemini Apps Help: Learn in creative ways", "https://support.google.com/gemini?hl=en", "Official Gemini help area for learning tasks."]
     ],
     "grow-business": [
-      ["OpenAI Academy: ChatGPT for work", "https://openai.com/academy/using-chatgpt/", "Practical work examples for everyday business use."],
+      ["ChatGPT Learn: ChatGPT for work", "https://chatgpt.com/", "Practical work examples for everyday business use."],
       ["Canva Magic Studio", "https://www.canva.com/magic/", "Useful for turning business copy into social visuals."]
     ],
     "social-content": [
@@ -769,7 +769,7 @@ function externalRefsFor(id) {
       ["CapCut Photo Video Maker", "https://www.capcut.com/create/photo-video-maker/", "Useful for turning product images into short social videos."]
     ],
     "choose-right-tool": [
-      ["OpenAI Academy: Using ChatGPT", "https://openai.com/academy/using-chatgpt/", "Good map of chat, files, images, and workflows."],
+      ["ChatGPT Learn: Using ChatGPT", "https://chatgpt.com/", "Good map of chat, files, images, and workflows."],
       ["Gamma Help Center", "https://help.gamma.app/", "Example of a presentation-focused AI tool."],
       ["Runway Academy", "https://academy.runwayml.com/image-to-video-guide", "Example of a video-focused AI tool."]
     ],
@@ -797,8 +797,8 @@ function externalRefsFor(id) {
       ["Google AI subscriptions", "https://gemini.google/subscriptions/", "Verify current Gemini prices here."]
     ],
     "chatgpt-advanced": [
-      ["OpenAI Academy: Getting started with ChatGPT", "https://openai.com/academy/getting-started/", "Best official beginner walkthrough."],
-      ["OpenAI Academy: Prompting fundamentals", "https://openai.com/academy/prompting/", "Simple prompt lesson for better answers."]
+      ["ChatGPT Learn: Getting started with ChatGPT", "https://chatgpt.com/", "Best official beginner walkthrough."],
+      ["OpenAI Docs: Prompting basics", "https://platform.openai.com/docs/guides/prompt-engineering", "Simple prompt lesson for better answers."]
     ],
     "claude-advanced": [
       ["Claude Help: Get started with Claude", "https://support.claude.com/en/articles/8114491-get-started-with-claude", "Official beginner guide."],

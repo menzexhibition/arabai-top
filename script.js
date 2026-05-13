@@ -27,21 +27,15 @@ const arArticleRoot = document.querySelector("#ar-article-root");
 
 if (articleRoot && window.ARTICLES) {
   const params = new URLSearchParams(window.location.search);
-  const articleId = params.get("id") || "what-is-ai";
+  const requestedId = params.get("id");
+  if (!requestedId) {
+    renderMissingArticle(articleRoot, "en");
+  } else {
+  const articleId = requestedId;
   const article = window.ARTICLES[articleId];
 
   if (!article) {
-    articleRoot.innerHTML = `
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="en.html">ARABAI</a>
-        <span>Article not found</span>
-      </nav>
-      <header class="article-header">
-        <p class="eyebrow">Missing article</p>
-        <h1>Article not found</h1>
-        <p>This article is not available yet.</p>
-      </header>
-    `;
+    renderMissingArticle(articleRoot, "en");
   } else {
     document.title = `${article.title} - ARABAI`;
 
@@ -110,30 +104,25 @@ if (articleRoot && window.ARTICLES) {
       </section>
     `;
   }
+  }
 }
 
 if (arArticleRoot && window.ARTICLES) {
   const params = new URLSearchParams(window.location.search);
-  const articleId = params.get("id") || "what-is-ai";
+  const requestedId = params.get("id");
+  if (!requestedId) {
+    renderMissingArticle(arArticleRoot, "ar");
+  } else {
+  const articleId = requestedId;
   const article = window.ARTICLES[articleId];
-  const arArticle = getArabicArticle(articleId, article);
 
   const enLink = document.querySelector("#article-en-link");
   if (enLink) enLink.href = `article.html?id=${encodeURIComponent(articleId)}`;
 
   if (!article) {
-    arArticleRoot.innerHTML = `
-      <nav class="breadcrumb" aria-label="مسار الصفحة">
-        <a href="index.html">ARABAI</a>
-        <span>المقال غير موجود</span>
-      </nav>
-      <header class="article-header">
-        <p class="eyebrow">مقال غير موجود</p>
-        <h1>لم نجد هذا المقال</h1>
-        <p>هذا المقال غير متاح حاليا.</p>
-      </header>
-    `;
+    renderMissingArticle(arArticleRoot, "ar");
   } else {
+    const arArticle = getArabicArticle(articleId, article);
     document.title = `${arArticle.title} - ARABAI`;
 
     document
@@ -190,6 +179,23 @@ if (arArticleRoot && window.ARTICLES) {
       </section>
     `;
   }
+  }
+}
+
+function renderMissingArticle(root, locale = "en") {
+  const ar = locale === "ar";
+  root.innerHTML = `
+    <nav class="breadcrumb" aria-label="${ar ? "مسار الصفحة" : "Breadcrumb"}">
+      <a href="${ar ? "index.html" : "en.html"}">ARABAI</a>
+      <span>${ar ? "اختر مقالا" : "Choose an article"}</span>
+    </nav>
+    <header class="article-header">
+      <p class="eyebrow">${ar ? "لا يوجد مقال محدد" : "No article selected"}</p>
+      <h1>${ar ? "اختر مقالا من الدليل" : "Choose an article from the guide"}</h1>
+      <p>${ar ? "افتح أحد أقسام ARABAI ثم اختر المقال الذي تريد قراءته." : "Open one of the ARABAI sections, then choose the article you want to read."}</p>
+      <p><a class="text-link" href="${ar ? "ar-beginner.html" : "beginner.html"}">${ar ? "العودة إلى مبتدئ AI" : "Back to AI Beginner"}</a></p>
+    </header>
+  `;
 }
 
 function renderToolLinks(refs, locale = "en") {
@@ -226,10 +232,13 @@ function renderToolLinks(refs, locale = "en") {
           ${items
             .slice(0, 3)
             .map(
-              ([title, url, note]) => `
-                <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(title)}</a>
-                <p>${escapeHtml(note)}</p>
+              ([title, url, note]) => {
+                const localized = localizeReference(title, note, locale);
+                return `
+                <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(localized.title)}</a>
+                <p>${escapeHtml(localized.note)}</p>
               `
+              }
             )
             .join("")}
         </div>
@@ -402,11 +411,12 @@ function renderExternalRefs(refs, locale = "en") {
     .map(
       ([title, url, note]) => {
         const badge = referenceBadge(title, url, locale);
+        const localized = localizeReference(title, note, locale);
         return `
         <li>
           <span class="ref-badge">${badge}</span>
-          <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(title)}</a>
-          <p>${escapeHtml(note)}</p>
+          <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(localized.title)}</a>
+          <p>${escapeHtml(localized.note)}</p>
         </li>
       `;
       }
@@ -419,6 +429,56 @@ function renderExternalRefs(refs, locale = "en") {
       <ul>${items}</ul>
     </section>
   `;
+}
+
+function localizeReference(title, note, locale = "en") {
+  if (locale !== "ar") return { title, note };
+
+  const titleMap = {
+    "ChatGPT Learn: Getting started with ChatGPT": "ابدأ مع ChatGPT",
+    "ChatGPT Learn: AI fundamentals": "أساسيات AI",
+    "OpenAI Docs: Prompting basics": "دليل OpenAI: كتابة البرومبت",
+    "ChatGPT Learn: Using ChatGPT": "استخدام ChatGPT",
+    "OpenAI Docs: Data and file workflows": "دليل OpenAI: الملفات والبيانات",
+    "ChatGPT Learn: Working with files": "استخدام الملفات في ChatGPT",
+    "ChatGPT Learn: ChatGPT for work": "ChatGPT للعمل",
+    "OpenAI Help: What is ChatGPT?": "مركز مساعدة OpenAI: ما هو ChatGPT؟",
+    "OpenAI Help: Prompting best practices": "مركز مساعدة OpenAI: نصائح البرومبت",
+    "OpenAI Help: Data Controls FAQ": "مركز مساعدة OpenAI: التحكم في البيانات",
+    "OpenAI Help: File uploads FAQ": "مركز مساعدة OpenAI: رفع الملفات",
+    "OpenAI Help: Data analysis with ChatGPT": "مركز مساعدة OpenAI: تحليل البيانات",
+    "ChatGPT sign up": "ابدأ ChatGPT",
+    "Claude start page": "ابدأ Claude",
+    "Gamma sign up": "ابدأ Gamma",
+    "Midjourney": "Midjourney",
+    "Beginner prompt for first tool test": "برومبت أول تجربة للمبتدئ"
+  };
+
+  const noteMap = {
+    "Official starting point for a first ChatGPT session.": "نقطة بداية رسمية لأول محادثة مع ChatGPT.",
+    "Plain FAQ for everyday users.": "أسئلة وأجوبة مبسطة للمستخدم العادي.",
+    "Good starting point for basic AI learning paths.": "نقطة بداية مناسبة لفهم AI بدون تعقيد.",
+    "Useful for understanding prompts without going too deep.": "مفيد لفهم البرومبت بدون دخول في التفاصيل التقنية.",
+    "A solid official guide to writing clearer prompts.": "دليل رسمي يساعدك على كتابة طلب أوضح.",
+    "A broad official map of what ChatGPT can do.": "خريطة عامة لما يمكن أن يساعدك فيه ChatGPT.",
+    "Shows chat, files, search, image, and workflow categories.": "يوضح الدردشة والملفات والبحث والصور وأنواع الاستخدام.",
+    "Best official first-use walkthrough.": "مدخل مناسب لأول تجربة استخدام.",
+    "Good Day 1 starting point.": "مناسب كبداية في اليوم الأول.",
+    "Good Day 2 prompt practice.": "مناسب للتدرب على البرومبت في اليوم الثاني.",
+    "Official OpenAI docs entry point for file and data workflows.": "مدخل رسمي لفهم استخدام الملفات والبيانات.",
+    "Useful when translating or checking uploaded documents.": "مفيد عند ترجمة الملفات أو مراجعتها.",
+    "Official starting point for uploading, summarizing, and extracting action items.": "نقطة بداية لرفع الملفات وتلخيصها واستخراج المطلوب.",
+    "Good source for learning workflows.": "مصدر مناسب لأفكار التعلم بالخطوات.",
+    "Practical work examples for everyday business use.": "أمثلة عملية لاستخدام ChatGPT في العمل اليومي.",
+    "Good map of chat, files, images, and workflows.": "خريطة مفيدة للدردشة والملفات والصور وسير العمل.",
+    "Best official beginner walkthrough.": "شرح رسمي مناسب للمبتدئ.",
+    "Simple prompt lesson for better answers.": "درس بسيط لكتابة برومبت يعطي نتيجة أفضل."
+  };
+
+  return {
+    title: titleMap[title] || title,
+    note: noteMap[note] || note
+  };
 }
 
 function referenceBadge(title, url, locale = "en") {
@@ -584,7 +644,7 @@ function mergeArabicCaseStudy(arCaseStudy, sourceCaseStudy) {
   if (!arCaseStudy && !sourceCaseStudy) return null;
   if (!sourceCaseStudy) return arCaseStudy;
 
-  return {
+  const merged = {
     ...sourceCaseStudy,
     ...arCaseStudy,
     steps: arCaseStudy?.steps?.length ? arCaseStudy.steps : sourceCaseStudy.steps,
@@ -592,6 +652,34 @@ function mergeArabicCaseStudy(arCaseStudy, sourceCaseStudy) {
     output: arCaseStudy?.output || sourceCaseStudy.output,
     result: arCaseStudy?.result || sourceCaseStudy.result
   };
+
+  if (!arCaseStudy) {
+    merged.title = localizeArabicCaseTitle(merged.title);
+    merged.scenario = localizeArabicCaseScenario(merged.scenario);
+  }
+
+  return merged;
+}
+
+function localizeArabicCaseTitle(title) {
+  if (!title) return "";
+  if (title.startsWith("Try it now:")) return "جرّب الآن";
+  return title
+    .replace("Prompt typed into AI", "الطلب الذي تكتبه في AI")
+    .replace("Copy this into your first AI chat", "انسخ هذا في أول محادثة AI");
+}
+
+function localizeArabicCaseScenario(text) {
+  if (!text) return "";
+  return String(text)
+    .replace("You will use this article to finish one small real task, not just understand an idea.", "ستستخدم هذا المقال لإنهاء مهمة صغيرة حقيقية، وليس فقط لفهم الفكرة.")
+    .replace("You will open one AI website, log in, and ask one real question instead of reading more introductions.", "ستفتح موقع AI واحدا، تسجل الدخول، وتسأل سؤالا حقيقيا بدلا من قراءة المزيد من المقدمات.")
+    .replace("You need to choose a first AI tool without getting lost in tool names.", "ستختار أول أداة AI بدون أن تضيع بين أسماء الأدوات.")
+    .replace("You want to know whether a paid plan really helps, so you will compare one real weekly task against the limits of a free account.", "ستقارن مهمة أسبوعية حقيقية بحدود الحساب المجاني لتعرف هل الدفع مفيد لك أم لا.")
+    .replace("You have different jobs in front of you, so you will match each job to the right kind of AI instead of forcing one tool to do everything.", "ستربط كل مهمة بنوع الأداة المناسب بدلا من إجبار أداة واحدة على فعل كل شيء.")
+    .replace("Before using AI for real work, you will clean one real task so private information stays out and risky claims get checked.", "قبل استخدام AI في عمل حقيقي، ستنظف مهمة واحدة من المعلومات الخاصة وتراجع الكلام المهم.")
+    .replace("You will follow a five-day beginner route where each day produces one small result and teaches one basic AI habit.", "ستتبع طريقا بسيطا من خمسة أيام، كل يوم فيه نتيجة صغيرة وعادة واحدة مفيدة.")
+    .replace("You will check whether local AI is worth trying before spending time installing anything.", "ستقرر هل يستحق AI المحلي التجربة قبل أن تضيع وقتك في التثبيت.");
 }
 
 function getArabicArticle(id, article) {
