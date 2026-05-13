@@ -27,7 +27,7 @@ const arArticleRoot = document.querySelector("#ar-article-root");
 
 if (articleRoot && window.ARTICLES) {
   const params = new URLSearchParams(window.location.search);
-  const requestedId = params.get("id");
+  const requestedId = params.get("id") || document.body.dataset.articleId;
   if (!requestedId) {
     renderMissingArticle(articleRoot, "en");
   } else {
@@ -37,7 +37,7 @@ if (articleRoot && window.ARTICLES) {
   if (!article) {
     renderMissingArticle(articleRoot, "en");
   } else {
-    document.title = `${article.title} - ARABAI`;
+    applyArticleSeo(articleId, article, "en");
 
     const currentEnLink = document.querySelector("#article-current-en-link");
     const arLink = document.querySelector("#article-ar-link");
@@ -109,7 +109,7 @@ if (articleRoot && window.ARTICLES) {
 
 if (arArticleRoot && window.ARTICLES) {
   const params = new URLSearchParams(window.location.search);
-  const requestedId = params.get("id");
+  const requestedId = params.get("id") || document.body.dataset.articleId;
   if (!requestedId) {
     renderMissingArticle(arArticleRoot, "ar");
   } else {
@@ -123,7 +123,7 @@ if (arArticleRoot && window.ARTICLES) {
     renderMissingArticle(arArticleRoot, "ar");
   } else {
     const arArticle = getArabicArticle(articleId, article);
-    document.title = `${arArticle.title} - ARABAI`;
+    applyArticleSeo(articleId, article, "ar");
 
     document
       .querySelector(`[data-nav="${article.section}"]`)
@@ -196,6 +196,26 @@ function renderMissingArticle(root, locale = "en") {
       <p><a class="text-link" href="${ar ? "ar-beginner.html" : "beginner.html"}">${ar ? "العودة إلى مبتدئ AI" : "Back to AI Beginner"}</a></p>
     </header>
   `;
+}
+
+function applyArticleSeo(articleId, article, locale) {
+  const currentPath = window.location.pathname;
+  const staticArticle = document.body.dataset.staticArticle === "true";
+  const seo = window.ARABAI_SEO?.getArticleSeo(articleId, article, locale);
+  if (!seo) {
+    document.title = `${article.title} - ARABAI`;
+    return;
+  }
+
+  if (staticArticle) {
+    const canonical = `${window.location.origin}${currentPath}`;
+    const alternateAr = locale === "ar" ? canonical : `${window.location.origin}/ar/articles/${encodeURIComponent(articleId)}.html`;
+    const alternateEn = locale === "en" ? canonical : `${window.location.origin}/en/articles/${encodeURIComponent(articleId)}.html`;
+    window.ARABAI_SEO.setSeoMeta({ ...seo, canonical, alternateAr, alternateEn });
+    return;
+  }
+
+  window.ARABAI_SEO.setSeoMeta(seo);
 }
 
 function renderToolLinks(refs, locale = "en") {
