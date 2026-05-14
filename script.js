@@ -25,10 +25,17 @@ if ("IntersectionObserver" in window) {
 const articleRoot = document.querySelector("#article-root");
 const arArticleRoot = document.querySelector("#ar-article-root");
 
+// Article HTML is assembled from trusted local content in articles.js. Do not
+// pass future user-generated comments, submissions, or community posts into
+// these innerHTML render paths without sanitizing them first.
 if (articleRoot && window.ARTICLES) {
   const params = new URLSearchParams(window.location.search);
   const requestedId = params.get("id") || document.body.dataset.articleId;
   if (!requestedId) {
+    const currentEnLink = document.querySelector("#article-current-en-link");
+    const arLink = document.querySelector("#article-ar-link");
+    if (currentEnLink) currentEnLink.href = "en.html";
+    if (arLink) arLink.href = "index.html";
     renderMissingArticle(articleRoot, "en");
   } else {
   const articleId = requestedId;
@@ -111,6 +118,10 @@ if (arArticleRoot && window.ARTICLES) {
   const params = new URLSearchParams(window.location.search);
   const requestedId = params.get("id") || document.body.dataset.articleId;
   if (!requestedId) {
+    const enLink = document.querySelector("#article-en-link");
+    const currentArLink = document.querySelector(".language-switch .active");
+    if (enLink) enLink.href = "en.html";
+    if (currentArLink) currentArLink.href = "index.html";
     renderMissingArticle(arArticleRoot, "ar");
   } else {
   const articleId = requestedId;
@@ -646,6 +657,40 @@ function estimateTime(articleId, article, locale = "en") {
 
 function localizeArabicResult(html) {
   return String(html)
+    .replaceAll("What you should finish:", "ما الذي يجب أن تنهيه:")
+    .replaceAll("one polite customer message that you can copy, edit, and send.", "رسالة مهذبة واحدة للعميل يمكنك نسخها وتعديلها وإرسالها.")
+    .replaceAll("one small AI result you can actually use.", "نتيجة AI صغيرة يمكنك استخدامها فعلا.")
+    .replaceAll("Large model: the experienced chef.", "النموذج الكبير: الطباخ الخبير.")
+    .replaceAll("Token: one small bite of language.", "التوكن: لقمة صغيرة من الكلام.")
+    .replaceAll("Computing power: the size and strength of the kitchen.", "القدرة الحاسوبية: حجم المطبخ وقوة النار.")
+    .replaceAll("Prompt: your order to the waiter.", "البرومبت: طلبك للنادل.")
+    .replaceAll("Context: the notes already on the table.", "السياق: الملاحظات الموجودة على الطاولة.")
+    .replaceAll("Training: the AI's long cooking school before it serves users.", "التدريب: مدرسة الطبخ الطويلة التي يدخلها AI قبل أن يخدم المستخدمين.")
+    .replaceAll("Inference: the moment AI cooks your answer after you order.", "الاستنتاج: لحظة طبخ الإجابة بعد أن تضع طلبك.")
+    .replaceAll("Hallucination: a confident but wrong answer that still needs checking.", "الهلوسة: إجابة واثقة لكنها قد تكون خاطئة وتحتاج مراجعة.")
+    .replaceAll("Model: one AI helper with its own habits and price.", "النموذج: مساعد AI واحد له عاداته وسعره.")
+    .replaceAll("API: the service window for apps and websites.", "API: نافذة الخدمة للتطبيقات والمواقع.")
+    .replaceAll("Short text is cheaper because it uses fewer language bites.", "النص القصير أرخص لأنه يستخدم لقمات كلام أقل.")
+    .replaceAll("Long documents cost more because AI must read and write more.", "المستندات الطويلة أغلى لأن AI يقرأ ويكتب أكثر.")
+    .replaceAll("Images cost more because AI must build a full picture.", "الصور أغلى لأن AI يبني صورة كاملة.")
+    .replaceAll("Video costs more because AI must create many changing pictures.", "الفيديو أغلى لأن AI ينشئ صورا كثيرة تتحرك.")
+    .replaceAll("Credits hide the technical counting so normal users can think by task.", "الرصيد يخفي الحساب التقني حتى يفكر المستخدم بالمهمة لا بالأرقام.")
+    .replaceAll("a short personal tool list: one chat tool, one image tool, one video tool, and one music tool.", "قائمة أدوات شخصية قصيرة: أداة محادثة، أداة صور، أداة فيديو، وأداة موسيقى.")
+    .replaceAll("your first AI answer, then a second improved version after you ask it to make the result clearer.", "أول إجابة من AI، ثم نسخة ثانية أوضح بعد أن تطلب منه التحسين.")
+    .replaceAll("a clear decision: stay free, test one paid month, or wait until AI becomes part of weekly work.", "قرار واضح: ابق مجانيا، جرّب شهرا مدفوعا، أو انتظر حتى يصبح AI جزءا من عملك الأسبوعي.")
+    .replaceAll("a personal task-to-tool map for chat, images, video, and slides.", "خريطة شخصية تربط المهمة بالأداة: محادثة، صور، فيديو، وعروض.")
+    .replaceAll("a safer version of your task with names, IDs, passwords, and sensitive details removed or replaced.", "نسخة أكثر أمانا من مهمتك بعد حذف أو استبدال الأسماء والأرقام وكلمات المرور والتفاصيل الحساسة.")
+    .replaceAll("Day 1: one free AI account opened.", "اليوم 1: فتح حساب AI مجاني واحد.")
+    .replaceAll("Day 2: one clear prompt written.", "اليوم 2: كتابة برومبت واضح واحد.")
+    .replaceAll("Day 3: one email, summary, and question tested.", "اليوم 3: تجربة رسالة وملخص وسؤال.")
+    .replaceAll("Day 4: one image or slide task tried.", "اليوم 4: تجربة مهمة صورة أو عرض.")
+    .replaceAll("Day 5: one simple rule for when to trust AI and when to check it.", "اليوم 5: قاعدة بسيطة لمتى تثق بـ AI ومتى تراجع.")
+    .replaceAll("a yes/no decision: keep using online AI for now, or try a beginner local AI app on your own computer.", "قرار نعم أو لا: استمر مع AI أونلاين الآن، أو جرّب تطبيق AI محلي بسيط على جهازك.")
+    .replaceAll("One short caption.", "تعليق قصير واحد.")
+    .replaceAll("One simple task plan.", "خطة مهمة بسيطة واحدة.")
+    .replaceAll("One small table.", "جدول صغير واحد.")
+    .replaceAll("One poster idea.", "فكرة بوستر واحدة.")
+    .replaceAll("One translated customer message.", "رسالة عميل مترجمة واحدة.")
     .replaceAll("Final result from ChatGPT:", "النتيجة النهائية من ChatGPT:")
     .replaceAll("Final result from image-2:", "النتيجة النهائية من image-2:")
     .replaceAll("Final result:", "النتيجة النهائية:")
@@ -678,6 +723,15 @@ function mergeArabicCaseStudy(arCaseStudy, sourceCaseStudy) {
     merged.scenario = localizeArabicCaseScenario(merged.scenario);
   }
 
+  merged.title = localizeArabicCaseTitle(merged.title);
+  merged.scenario = localizeArabicCaseScenario(merged.scenario);
+  merged.steps = (merged.steps || []).map(localizeArabicCaseStep);
+  merged.screens = (merged.screens || []).map((screen) => ({
+    ...screen,
+    title: localizeArabicCaseTitle(screen.title),
+    text: screen.text ? localizeArabicCaseStep(screen.text) : screen.text
+  }));
+
   return merged;
 }
 
@@ -685,6 +739,23 @@ function localizeArabicCaseTitle(title) {
   if (!title) return "";
   if (title.startsWith("Try it now:")) return "جرّب الآن";
   return title
+    .replace("Copy this into your first AI chat", "انسخ هذا في أول محادثة AI")
+    .replace("Prompt typed into AI", "الطلب الذي تكتبه في AI")
+    .replace("Write a customer delay email", "كتابة رسالة تأخير طلب لعميل")
+    .replace("Make a launch plan for a new coffee product", "عمل خطة إطلاق لمنتج قهوة جديد")
+    .replace("Create a 6-slide presentation in Gamma", "إنشاء عرض من 6 شرائح في Gamma")
+    .replace("Make a simple sales table from messy notes", "تحويل ملاحظات مبعثرة إلى جدول مبيعات")
+    .replace("Create an Instagram poster with image-2", "إنشاء بوستر إنستغرام باستخدام image-2")
+    .replace("Edit a product photo for an online shop", "تعديل صورة منتج لمتجر إلكتروني")
+    .replace("Make a 15-second product video from a 9-image storyboard", "عمل فيديو منتج من 15 ثانية عبر قصة من 9 صور")
+    .replace("Create background music for a short ad", "إنشاء موسيقى خلفية لإعلان قصير")
+    .replace("Translate a customer delivery message into Arabic", "ترجمة رسالة توصيل للعميل إلى العربية")
+    .replace("Summarize a supplier proposal", "تلخيص عرض مورد")
+    .replace("Learn VAT basics before a meeting", "تعلم أساسيات الضريبة قبل اجتماع")
+    .replace("Create product text and customer replies for a bakery", "كتابة وصف منتج وردود عملاء لمخبز")
+    .replace("Make a 2-week Instagram plan for a salon", "عمل خطة إنستغرام لأسبوعين لصالون")
+    .replace("Choose AI tools for a small marketing team", "اختيار أدوات AI لفريق تسويق صغير")
+    .replace("Compare AI prices before choosing a tool", "مقارنة أسعار AI قبل اختيار الأداة")
     .replace("Prompt typed into AI", "الطلب الذي تكتبه في AI")
     .replace("Copy this into your first AI chat", "انسخ هذا في أول محادثة AI");
 }
@@ -700,6 +771,39 @@ function localizeArabicCaseScenario(text) {
     .replace("Before using AI for real work, you will clean one real task so private information stays out and risky claims get checked.", "قبل استخدام AI في عمل حقيقي، ستنظف مهمة واحدة من المعلومات الخاصة وتراجع الكلام المهم.")
     .replace("You will follow a five-day beginner route where each day produces one small result and teaches one basic AI habit.", "ستتبع طريقا بسيطا من خمسة أيام، كل يوم فيه نتيجة صغيرة وعادة واحدة مفيدة.")
     .replace("You will check whether local AI is worth trying before spending time installing anything.", "ستقرر هل يستحق AI المحلي التجربة قبل أن تضيع وقتك في التثبيت.");
+}
+
+function localizeArabicCaseStep(text) {
+  if (!text) return "";
+  return String(text)
+    .replaceAll("Open the AI tool that fits this job.", "افتح أداة AI المناسبة لهذه المهمة.")
+    .replaceAll("Type the real task with background and goal.", "اكتب المهمة الحقيقية مع الخلفية والهدف.")
+    .replaceAll("Ask for a first result.", "اطلب نتيجة أولى.")
+    .replaceAll("Ask for one useful improvement.", "اطلب تعديلا واحدا مفيدا.")
+    .replaceAll("Check the final result before using it.", "راجع النتيجة النهائية قبل استخدامها.")
+    .replaceAll("Copy this into your first AI chat", "انسخ هذا في أول محادثة AI")
+    .replaceAll("Use ChatGPT, Claude, Gemini, Doubao, or another official chat tool. Start a new chat so the answer is not mixed with an old task.", "استخدم ChatGPT أو Claude أو Gemini أو Doubao أو أي أداة محادثة رسمية. ابدأ محادثة جديدة حتى لا تختلط المهمة بمحادثة قديمة.")
+    .replaceAll("Paste the customer message and the prompt", "الصق رسالة العميل والبرومبت")
+    .replaceAll("Ask the AI to rewrite the message for WhatsApp, with a warm and polite tone, and tell it the message should stay short.", "اطلب من AI إعادة كتابة الرسالة للواتساب بنبرة دافئة ومهذبة، وقل له أن تبقى قصيرة.")
+    .replaceAll("Ask for one revision", "اطلب تعديلا واحدا")
+    .replaceAll("If the reply feels cold, ask: make it warmer and shorter. If it is too long, ask: keep only the important sentence.", "إذا كانت الرسالة باردة، اطلب: اجعلها أدفأ وأقصر. وإذا كانت طويلة، اطلب: أبقِ الجملة المهمة فقط.")
+    .replaceAll("Start a new chat and tell the AI the product, launch date, city, team size, and what kind of plan you need.", "ابدأ محادثة جديدة واذكر المنتج، تاريخ الإطلاق، المدينة، حجم الفريق، ونوع الخطة التي تحتاجها.")
+    .replaceAll("Use the prompt below and ask for daily tasks, supplies, staff actions, Instagram content, risks, and a simple checklist.", "استخدم البرومبت أدناه واطلب مهام يومية، تجهيزات، أدوار الموظفين، محتوى إنستغرام، مخاطر، وقائمة مراجعة بسيطة.")
+    .replaceAll("After the first answer, ask: turn this into a short checklist I can follow day by day.", "بعد الإجابة الأولى، اطلب: حوّل هذا إلى قائمة قصيرة أستطيع اتباعها يوما بيوم.")
+    .replaceAll("Keep only tasks you can really do this week, then add real prices, staff names, and dates.", "احتفظ فقط بالمهام التي تستطيع تنفيذها هذا الأسبوع، ثم أضف الأسعار الحقيقية وأسماء الموظفين والتواريخ.")
+    .replaceAll("Go to the official Gamma website, choose Presentation, and start from a prompt instead of a blank page.", "افتح موقع Gamma الرسمي، اختر Presentation، وابدأ من برومبت بدل الصفحة البيضاء.")
+    .replaceAll("Choose about 6 cards or slides for a beginner case. A short deck is easier to check and edit.", "اختر حوالي 6 بطاقات أو شرائح في البداية. العرض القصير أسهل في المراجعة والتعديل.")
+    .replaceAll("Use the prompt below. Keep the language English if your final website or client deck should be English.", "استخدم البرومبت أدناه. اجعل اللغة إنجليزية إذا كان العرض النهائي للعميل أو الموقع بالإنجليزية.")
+    .replaceAll("Before generating, check that the six slide titles match the story: title, problem, AI idea, target customers, action plan, expected result.", "قبل التوليد، تأكد أن عناوين الشرائح الست تحكي القصة: العنوان، المشكلة، فكرة AI، العملاء المستهدفون، خطة العمل، النتيجة المتوقعة.")
+    .replaceAll("After editing, use Gamma export or share options to download PDF, PowerPoint, Google Slides, or a share link.", "بعد التعديل، استخدم خيارات التصدير أو المشاركة في Gamma لتنزيل PDF أو PowerPoint أو Google Slides أو رابط مشاركة.")
+    .replaceAll("Do not start with video. First ask image-2 or another image AI to create 9 vertical images for the product story. This gives you control before anything moves.", "لا تبدأ بالفيديو مباشرة. اطلب أولا من image-2 أو أداة صور أخرى إنشاء 9 صور عمودية لقصة المنتج، حتى تتحكم في المشاهد قبل أن تتحرك.")
+    .replaceAll("Open CapCut, Canva, 剪映, or another editor. Put the 9 images in order. Give each image about 1.5 to 2 seconds. Add soft zoom, simple transitions, captions, and background music.", "افتح CapCut أو Canva أو 剪映 أو أي محرر فيديو. ضع الصور التسع بالترتيب، واجعل كل صورة 1.5 إلى 2 ثانية تقريبا، ثم أضف زوما خفيفا وانتقالات بسيطة ونصوصا وموسيقى.")
+    .replaceAll("Watch the video on your phone. The product should stay clear, the order should make sense, the text should be readable, and the final frame should tell the viewer what to do.", "شاهد الفيديو على الهاتف. يجب أن يبقى المنتج واضحا، والترتيب مفهوما، والنص مقروءا، واللقطة الأخيرة تقول للمشاهد ماذا يفعل.")
+    .replaceAll("Step 1:", "الخطوة 1:")
+    .replaceAll("Step 2:", "الخطوة 2:")
+    .replaceAll("Step 3:", "الخطوة 3:")
+    .replaceAll("Step 4:", "الخطوة 4:")
+    .replaceAll("Step 5:", "الخطوة 5:");
 }
 
 function getArabicArticle(id, article) {

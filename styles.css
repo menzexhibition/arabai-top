@@ -33,6 +33,7 @@ body {
     linear-gradient(225deg, rgba(214, 168, 79, 0.14) 0 10%, transparent 10% 100%),
     linear-gradient(180deg, #f7f4eb 0%, #f2f0e8 52%, #f7f6f2 100%);
   color: var(--ink);
+  /* If Google Fonts is unavailable, system-ui/sans-serif keeps the site usable. */
   font-family: "Outfit", "IBM Plex Sans Arabic", system-ui, sans-serif;
   letter-spacing: 0;
 }

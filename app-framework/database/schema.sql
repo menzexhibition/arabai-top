@@ -47,6 +47,9 @@ create table ai_tasks (
 
 create table outbound_clicks (
   id uuid primary key,
+  -- Nullable by design: ARABAI public articles can be read without login, so
+  -- outbound clicks from anonymous visitors should still be measurable. When a
+  -- visitor is signed in, store users.id here; otherwise leave it null.
   user_id uuid references users(id),
   article_id text,
   link_label text,
@@ -75,4 +78,3 @@ create table task_marketplace_leads (
   status text default 'draft',
   created_at timestamptz default now()
 );
-
