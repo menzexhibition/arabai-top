@@ -563,7 +563,6 @@ function finalResultFor(id) {
     "spreadsheets": "<p><strong>Copy this into Doubao, ChatGPT, or another table-friendly AI:</strong></p><p>Turn these sales notes into a clean table. Then calculate total sales, average daily sales, and best-selling product: May 1 Oud Oil quantity 2 sales 600 SAR; May 2 Bakhoor quantity 3 sales 450 SAR; May 3 Oud Oil quantity 3 sales 900 SAR; May 4 Perfume Spray quantity 2 sales 350 SAR.</p><p><strong>What you should get:</strong> a table like the one above, plus the three summary answers. Then copy it into Excel or Google Sheets.</p>",
     "create-images": "<p><strong>Final result from image-2:</strong> a square Instagram poster with a realistic oud perfume bottle, gold luxury styling, readable English sale text, and a clear discount message.</p><p><strong>Check before posting:</strong> zoom out and read it like a customer on a phone. The headline, discount, date, and button must be easy to read. If the text is misspelled, ask image-2 to regenerate or fix only the typography.</p>",
     "edit-images": "<p><strong>Copy this into your image editing AI tool:</strong></p><p>Remove the messy background from this product photo and replace it with a clean white studio background for an online shop. Keep the product shape, colors, label, and shadow realistic. Improve brightness slightly. Do not change the product itself. Export in high quality PNG.</p><p><strong>What you should get:</strong> the same product, but clean enough to upload to an online store.</p>",
-    "make-videos": "<p><strong>The normal beginner-friendly method:</strong></p><ol><li><strong>Text to image:</strong> use image-2 or another image AI to generate 9 vertical key frames.</li><li><strong>9-grid storyboard:</strong> arrange the 9 images in order and check whether the story is clear before making it move.</li><li><strong>Stitch into video:</strong> put the images into CapCut, Canva, 剪映, or another editor; add slow zoom, captions, music, and export MP4.</li></ol><p><strong>What you should get:</strong> a short product video that is easier to control than one-click text-to-video, because you can fix individual frames before stitching.</p>",
     "make-videos": "<p><strong>The normal beginner-friendly method:</strong></p><ol><li><strong>Text to image:</strong> use image-2 or another image AI to generate 9 vertical key frames.</li><li><strong>9-grid storyboard:</strong> arrange the 9 images in order and check whether the story is clear before making it move.</li><li><strong>Stitch into video:</strong> put the images into CapCut, Canva, 剪映, or another editor; add slow zoom, captions, music, and export MP4.</li></ol><p><strong>What you should get:</strong> a short product video that is easier to control than one-click text-to-video, because you can fix individual frames before stitching.</p><p><strong>Important:</strong> this is the simplest method for now. AI video tools keep improving, so new ways will appear later. In the current ARABAI examples, GPT helps with the prompt and script, and Seedance helps with the video generation part.</p>",
     "make-music": "<p><strong>Copy this into your music AI tool:</strong></p><p>Create 20 seconds of luxury background music for a premium oud perfume advertisement. No vocals. Use soft Arabic percussion, warm strings, light oud instrument, deep ambient bass, and cinematic atmosphere. Mood should feel elegant, rich, modern, and relaxing.</p><p><strong>What you should get:</strong> a short background track like the playable sample above, suitable for putting under a product video.</p>",
     "translate": "<p><strong>Final result from ChatGPT:</strong></p><p dir=\"rtl\" lang=\"ar\">مرحباً، تم تأكيد طلبكم.<br>سيصل التوصيل غداً بين الساعة 4 مساءً و8 مساءً.<br>شكراً لتسوقكم معنا.</p>",
@@ -614,17 +613,22 @@ function expertArticle([id, title, intro, next]) {
     "what-is-api": [
       ["What it means", "A normal chat page is like walking to the counter yourself, while an API lets your website send the order for the user and receive the result automatically."],
       ["Why it matters for ARABAI", "If ARABAI later has its own chat, image, video, music, or PPT buttons, the API is the pipe that carries the user's request to the right AI tool behind the page."],
-      ["What users should understand", "Users do not need to see the API key or token details; they only need to know that every request uses real AI work in the background, and that work costs money."]
+      ["Two ways to use AI", "A normal user can open the official AI website directly, or later use ARABAI as one simple front desk that sends the task to the right AI through an API."],
+      ["What users should understand", "Users do not need to see the API key or token details; they only need to know that every request uses real AI work in the background, and that work costs money."],
+      ["Launch status", "ARABAI can explain the API route now, but real recharge, payment, account balance, and live AI generation should only open after backend, payment, privacy, and refund rules are ready."]
     ],
     "official-api-platforms": [
       ["What it means", "Official API platforms are the original counters run by companies such as OpenAI, Anthropic, Google, and other model providers."],
       ["Why it matters for ARABAI", "Buying from official platforms can give cleaner access, clearer rules, and stronger trust when ARABAI handles important user tasks."],
+      ["Official purchase route", "If a user wants full control, they can go to the official provider, create an account, add billing, create an API key, set a spending limit, and use that provider directly."],
+      ["ARABAI route", "If a user only wants to try small tasks, ARABAI can later hide the difficult setup and offer a simple credit wallet for approved AI tasks."],
       ["What users should understand", "The official platform is usually the safest source, but it may be harder for normal users, so ARABAI can translate that complexity into simple buttons and credits."]
     ],
     "api-price-comparison": [
       ["What it means", "API price is like a meter running behind the curtain: a short text job is a short ride, while image, video, and music jobs are longer and heavier rides."],
       ["What makes the bill grow", "More input, longer output, stronger models, bigger files, and creative media all push the meter higher."],
       ["Why it matters for ARABAI", "Before selling credits, ARABAI must know the cost of common jobs such as one chat answer, one image, one video clip, or one presentation draft."],
+      ["Simple user promise", "Before a user spends credits, ARABAI should show the task type, likely credit range, and whether the task is light, medium, or heavy."],
       ["What users should understand", "Credits are not a mystery fee; they are a simple receipt for the AI work happening behind the screen."]
     ],
     "ai-gateway": [
@@ -1511,21 +1515,24 @@ function expertStepsFor(id) {
       "Write what the user will type and what result they should receive.",
       "Choose the AI provider that will do the work in the background.",
       "Keep the API key on the server, never inside the public webpage.",
-      "Convert the provider's cost into a simple ARABAI credit cost."
+      "Convert the provider's cost into a simple ARABAI credit cost.",
+      "Mark the feature as coming soon until payment, refunds, account balance, and support rules are ready."
     ],
     "official-api-platforms": [
       "List the jobs ARABAI wants to offer: chat, image, video, music, slides, documents.",
       "Match each job to one official platform or provider.",
       "Create official accounts only when you are ready to test.",
       "Create test API keys and store them privately.",
-      "Set small monthly limits before any user-facing launch."
+      "Set small monthly limits before any user-facing launch.",
+      "Write a beginner explanation for the difference between official provider billing and ARABAI credits."
     ],
     "api-price-comparison": [
       "Write the common tasks users may buy with credits.",
       "Estimate a small, normal, and heavy month for each task.",
       "Compare cheap models, stronger models, and creative models separately.",
       "Add a safety margin because images and videos can become expensive quickly.",
-      "Turn the result into simple credit packages that normal users can understand."
+      "Turn the result into simple credit packages that normal users can understand.",
+      "Show the user an estimated credit range before any heavy image, video, or music task runs."
     ],
     "ai-gateway": [
       "Choose one gateway for testing, not for full business dependence on day one.",
@@ -1589,9 +1596,9 @@ function expertStepsFor(id) {
 
 function expertResultFor(id) {
   const results = {
-    "what-is-api": "<p><strong>What you should finish:</strong> one ARABAI feature map: user button, AI provider, expected result, credit cost, and human review rule.</p>",
-    "official-api-platforms": "<p><strong>What you should finish:</strong> a provider map showing which official API can power chat, image, video, music, slides, and documents.</p>",
-    "api-price-comparison": "<p><strong>What you should finish:</strong> a simple credit budget with low, normal, and heavy usage cases before selling any wallet balance.</p>",
+    "what-is-api": "<p><strong>What you should finish:</strong> one ARABAI feature map: user button, AI provider, expected result, credit cost, human review rule, and a clear Coming Soon note for anything not live yet.</p>",
+    "official-api-platforms": "<p><strong>What you should finish:</strong> a provider map showing which official API can power chat, image, video, music, slides, and documents, plus a simple explanation of official billing versus ARABAI credits.</p>",
+    "api-price-comparison": "<p><strong>What you should finish:</strong> a simple credit budget with low, normal, and heavy usage cases before selling any wallet balance, plus a rule for showing estimated credits before expensive media tasks.</p>",
     "ai-gateway": "<p><strong>What you should finish:</strong> a gateway test comparing routes for the same ARABAI task, with speed, quality, Arabic quality, and cost notes.</p>",
     "gateway-platforms": "<p><strong>What you should finish:</strong> a gateway comparison table plus one official API backup route for important work.</p>",
     "gateway-risks": "<p><strong>What you should finish:</strong> a launch checklist covering privacy, uptime, billing, refunds, provider changes, and backup routes.</p>",
