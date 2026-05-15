@@ -1188,11 +1188,31 @@ blockquote {
 }
 
 .fake-screen figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
   padding: 0.7rem 0.9rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   color: #f7f6f2;
   font-size: 0.86rem;
   font-weight: 700;
+}
+
+.fake-screen figcaption span {
+  padding: 0.2rem 0.45rem;
+  border: 1px solid rgba(214, 168, 79, 0.55);
+  border-radius: 999px;
+  color: #f5d487;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.simulated-screen {
+  background:
+    linear-gradient(180deg, rgba(247, 246, 242, 0.06), rgba(0, 140, 149, 0.08)),
+    #202725;
 }
 
 .fake-screen pre {
@@ -1308,6 +1328,11 @@ blockquote {
   box-shadow: var(--shadow);
 }
 
+.portrait-video {
+  max-width: 420px;
+  margin-inline: auto;
+}
+
 .output-audio {
   display: block;
   width: 100%;
@@ -1328,6 +1353,80 @@ blockquote {
   max-width: 720px;
   margin: 0.8rem 0 0;
   color: var(--muted);
+}
+
+.tutorial-video-card {
+  margin: 1.5rem 0;
+  padding: clamp(1rem, 3vw, 1.4rem);
+  border: 1px solid rgba(214, 168, 79, 0.32);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(135deg, rgba(214, 168, 79, 0.13), rgba(0, 140, 149, 0.08)),
+    var(--surface-strong);
+}
+
+.article-video-card {
+  margin-top: 2rem;
+}
+
+.compact-heading {
+  margin-bottom: 1rem;
+}
+
+.compact-heading h3 {
+  margin: 0.35rem 0;
+  font-size: clamp(1.35rem, 3vw, 1.8rem);
+}
+
+.video-chapters {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 254, 250, 0.72);
+}
+
+.video-chapters h3,
+.video-chapters h4 {
+  margin: 0 0 0.65rem;
+  font-size: 1.05rem;
+}
+
+.video-chapters ul {
+  margin: 0;
+  padding-inline-start: 1.2rem;
+  color: var(--muted);
+}
+
+.video-prompt-notes {
+  max-width: 820px;
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 254, 250, 0.72);
+}
+
+.video-prompt-notes h3 {
+  margin: 0 0 0.5rem;
+}
+
+.video-prompt-notes p {
+  margin: 0 0 0.85rem;
+  color: var(--muted);
+}
+
+.video-prompt-notes ul {
+  margin: 0;
+  padding-inline-start: 1.2rem;
+}
+
+.video-prompt-notes li + li {
+  margin-top: 0.85rem;
+}
+
+.video-prompt-notes blockquote {
+  margin: 0.45rem 0 0;
 }
 
 .video-library {
