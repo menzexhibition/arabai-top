@@ -2,7 +2,8 @@ const beginnerArticles = [
   ["what-is-ai", "What Is AI?", "Imagine you just hired a very capable assistant who works fast, does not get tired, and can help with many kinds of work.", [["You have a new assistant", "For everyday users, AI is like a new assistant sitting beside you: it can write, plan, translate, draw, summarize, and give ideas, but it waits for you to tell it what to do."], ["But the assistant does not know your mind", "Like any new assistant, AI cannot guess your real goal, so a vague instruction brings a vague answer, and a clear instruction brings a much better result."], ["You give it the first task", "When you do not know how to start, AI can act like someone who opens the notebook for you and writes the first draft, first plan, or first idea."]], "Write a short and friendly email to a customer. Tell them their order is delayed by two days, apologize, and keep the tone polite.", "ai-basic-words"],
   ["ai-basic-words", "AI Basic Words", "AI has many strange words, but most of them become simple when you imagine AI as a busy helper working in a big kitchen.", [["Large model", "A large model is like a chef who has tasted millions of dishes, so when you ask for a new meal, it can guess a good recipe."], ["Token", "A token is like one small bite of language, and AI counts these bites when it reads your question and writes an answer."], ["Computing power", "Computing power is like the size of the kitchen and the strength of the stove: the bigger it is, the faster the AI can cook complicated work."], ["Prompt", "A prompt is your order to the AI waiter, so the clearer you order, the closer the dish comes to what you imagined."], ["Context", "Context is the conversation memory on the table, and AI uses it to remember what you already said instead of starting from zero."], ["Training", "Training is like sending the AI to cooking school for a very long time before it ever serves you."], ["Inference", "Inference is the moment the trained AI is actually cooking your answer after you place an order."], ["Hallucination", "A hallucination is like a confident waiter inventing a menu item that the kitchen does not really have, so important answers still need checking."], ["Model", "A model is one AI helper with its own habits, strengths, speed, and price."], ["API", "An API is like a service window where your app can order from AI without opening the normal chat page."]], "Explain these AI words like I am a beginner: large model, token, computing power, prompt, context, training, inference, hallucination, model, API.", "why-ai-costs-money"],
   ["why-ai-costs-money", "Why AI Costs Money", "Paying for AI is easier to understand when you imagine every answer as a small job done in a busy kitchen.", [["Token", "A token is one small bite of language, so a short answer is a snack and a long document is a full meal."], ["Model", "A model is the helper you choose, and stronger helpers usually cost more because they can handle harder jobs."], ["Computing power", "Computing power is the stove, electricity, and kitchen team working behind the answer."], ["API", "An API is the service window ARABAI can use to order work from AI tools in the background."], ["Image and video cost", "Images and videos cost more because AI is not only writing words; it is building pictures, movement, lighting, and details."], ["Credits", "Credits are a simpler wallet name for all these small costs, so normal users do not need to count tokens."]], "Explain why AI costs money like I am a normal user. Use a restaurant or kitchen example and explain token, model, computing power, API, images, video, and credits.", "what-is-a-prompt"],
-  ["what-is-a-prompt", "What Is A Prompt?", "A prompt is not a magic spell; it is the order you give to your AI helper before it starts working.", [["Think of AI as a waiter", "If you only say food, the waiter has to guess, but if you say chicken sandwich, no onions, takeaway, the kitchen can make something close to what you want."], ["A good prompt has five parts", "Tell AI the background, the job, the audience, the style, and the shape of the answer you want."], ["Bad prompt, good prompt", "Make me a poster is weak, but make a square Instagram poster for a Riyadh oud shop with headline, discount, dates, and luxury gold style gives AI a real order."], ["You can correct the order", "If the first result is not right, do not start over; tell AI what to keep, what to change, and what to remove."]], "You are my AI assistant. I run a small perfume shop in Riyadh. Help me write a square Instagram poster prompt for a weekend oud sale. The poster must include: Weekend Oud Sale, Up to 30% OFF, Friday & Saturday Only, Shop Now. Style: premium, warm, black and gold, easy to read on a phone.", "what-can-ai-do"],
+  ["what-is-a-prompt", "What Is A Prompt?", "A prompt is the way you turn a messy thought into a clear job for AI.", [["Start with your raw idea", "Do not worry about style at the beginning. First pour out the background, the goal, the audience, and any notes you already have."], ["Ask AI to repeat back what it understood", "Before asking for the final result, let AI restate your idea in simple words. That way you can see whether it understood the real task."], ["Let AI clean up the order", "After the idea is clear, ask AI to turn the rough notes into a prompt with the job, audience, tone, and format."], ["Test before you trust it", "Ask for one sample result first. If it is close, keep going. If not, tell AI exactly what to keep, change, or remove."]], "I have a messy idea for a new product launch. Help me turn my rough notes into one clean prompt. First repeat back what you understood, then organize my notes into a simple brief I can use with AI.", "organize-prompt-first"],
+  ["organize-prompt-first", "Let GPT Organize Your Idea First", "You do not need to write a perfect prompt at the beginning; you can ask GPT to help clean your messy idea before the real work starts.", [["Pour everything onto the table", "Tell GPT your rough idea, goal, audience, examples you like, details you remember, and even what you are unsure about."], ["Do not ask for the final answer yet", "First say: do not create the final content yet; repeat what you understood and tell me what is missing."], ["Let GPT make the working prompt", "After GPT understands you, ask it to turn the messy notes into a clear prompt that another AI tool can use for writing, slides, images, or video."], ["Test with one small sample", "Before using the prompt for a big job, ask GPT to show one sample result. If the sample feels wrong, fix the prompt with normal words."]], "I have a rough idea but I cannot explain it well yet. Please do not create the final content. First repeat what you understood. Then ask me what information is missing. After that, turn my messy notes into a clean prompt I can copy into ChatGPT, Gemini, Claude, Gamma, image-2, or a video AI tool.", "what-can-ai-do"],
   ["what-can-ai-do", "What Can AI Do?", "Picture AI as an assistant you take from room to room, and in each room it finds a different way to help.", [["In the office", "AI is like an office helper who can draft emails, prepare reports, clean up notes, explain spreadsheets, and turn a rough idea into a clear document."], ["In the design room", "AI is like a fast sketch partner who can turn your words into poster ideas, product images, ad concepts, and social media visuals."], ["In the audio room", "AI is like a small music helper who can suggest lyrics, jingles, background music ideas, and audio styles."]], "Act like my work assistant. I run a small shop and need three short Instagram captions for a new product.", "common-ai-tools"],
   ["common-ai-tools", "Common AI Tools", "Imagine walking into an AI tool market where every helper has a different personality, a different speed, and a different job.", [["For daily questions", "Doubao is like a friendly front desk helper for common questions, quick writing, explanations, and daily work."], ["For slides and documents", "Gamma is like a presentation designer who can turn your topic into a real deck with layout, sections, and visual structure."], ["For images, video, and music", "image-2, Seedance, Lyria, and GPT Audio Mini are like a design studio, video studio, and music room."]], "I need AI for common questions, writing, PPT, images, video, music, and documents. Recommend one or two common tools for each task.", "how-to-start"],
   ["how-to-start", "How To Start Using AI", "Starting with AI is like walking into a new coffee shop: you do not need to know the whole menu before ordering your first drink.", [["Pick one door", "Choose one simple AI tool first, because trying five tools on the first day feels like opening five notebooks and writing in none of them."], ["Ask one real question", "Your first task should be something useful today, not a big test of what AI can do in the whole world."], ["Ask again", "Using AI is a conversation, so the first answer is often the first draft, not the final answer."]], "I am new to AI. Help me write my first useful prompt for improving an email to a customer.", "free-vs-paid"],
@@ -203,7 +204,8 @@ function advancedArticle([id, title, intro, caseTitle, scenario, prompt, next]) 
     ]
   };
 
-  const realScreens = realScreensById[id] || [{ title: "Prompt typed into AI", text: prompt }];
+  const realScreens = realScreensById[id] || [];
+  const simulatedScreens = simulatedScreensFor(id, title, prompt, actionStepsFor(id), finalResultFor(id));
 
   return {
     section: "advanced",
@@ -220,7 +222,7 @@ function advancedArticle([id, title, intro, caseTitle, scenario, prompt, next]) 
       title: caseTitle,
       scenario,
       steps: actionStepsFor(id),
-      screens: realScreens,
+      screens: [...simulatedScreens, ...realScreens],
       output: outputFor(id),
       result: finalResultFor(id)
     },
@@ -375,7 +377,11 @@ function outputFor(id) {
         ["Tone", "Make writing clearer, calmer, more natural, or more professional."],
         ["Review", "Ask Claude what is unclear or missing before sending the text."]
       ],
-      summary: ["Use Claude when the work is mostly long writing or document understanding."]
+      summary: [
+        "Use Claude when the work is mostly long writing or document understanding.",
+        "Claude is usually discussed in three model names: Opus for the strongest work, Sonnet for the balanced everyday choice, and Haiku for the faster lighter choice.",
+        "For beginners, the simple rule is: do not chase the name first; pick the model that fits the job and the budget."
+      ]
     },
     "deepseek-advanced": {
       type: "table",
@@ -558,6 +564,7 @@ function finalResultFor(id) {
     "create-images": "<p><strong>Final result from image-2:</strong> a square Instagram poster with a realistic oud perfume bottle, gold luxury styling, readable English sale text, and a clear discount message.</p><p><strong>Check before posting:</strong> zoom out and read it like a customer on a phone. The headline, discount, date, and button must be easy to read. If the text is misspelled, ask image-2 to regenerate or fix only the typography.</p>",
     "edit-images": "<p><strong>Copy this into your image editing AI tool:</strong></p><p>Remove the messy background from this product photo and replace it with a clean white studio background for an online shop. Keep the product shape, colors, label, and shadow realistic. Improve brightness slightly. Do not change the product itself. Export in high quality PNG.</p><p><strong>What you should get:</strong> the same product, but clean enough to upload to an online store.</p>",
     "make-videos": "<p><strong>The normal beginner-friendly method:</strong></p><ol><li><strong>Text to image:</strong> use image-2 or another image AI to generate 9 vertical key frames.</li><li><strong>9-grid storyboard:</strong> arrange the 9 images in order and check whether the story is clear before making it move.</li><li><strong>Stitch into video:</strong> put the images into CapCut, Canva, 剪映, or another editor; add slow zoom, captions, music, and export MP4.</li></ol><p><strong>What you should get:</strong> a short product video that is easier to control than one-click text-to-video, because you can fix individual frames before stitching.</p>",
+    "make-videos": "<p><strong>The normal beginner-friendly method:</strong></p><ol><li><strong>Text to image:</strong> use image-2 or another image AI to generate 9 vertical key frames.</li><li><strong>9-grid storyboard:</strong> arrange the 9 images in order and check whether the story is clear before making it move.</li><li><strong>Stitch into video:</strong> put the images into CapCut, Canva, 剪映, or another editor; add slow zoom, captions, music, and export MP4.</li></ol><p><strong>What you should get:</strong> a short product video that is easier to control than one-click text-to-video, because you can fix individual frames before stitching.</p><p><strong>Important:</strong> this is the simplest method for now. AI video tools keep improving, so new ways will appear later. In the current ARABAI examples, GPT helps with the prompt and script, and Seedance helps with the video generation part.</p>",
     "make-music": "<p><strong>Copy this into your music AI tool:</strong></p><p>Create 20 seconds of luxury background music for a premium oud perfume advertisement. No vocals. Use soft Arabic percussion, warm strings, light oud instrument, deep ambient bass, and cinematic atmosphere. Mood should feel elegant, rich, modern, and relaxing.</p><p><strong>What you should get:</strong> a short background track like the playable sample above, suitable for putting under a product video.</p>",
     "translate": "<p><strong>Final result from ChatGPT:</strong></p><p dir=\"rtl\" lang=\"ar\">مرحباً، تم تأكيد طلبكم.<br>سيصل التوصيل غداً بين الساعة 4 مساءً و8 مساءً.<br>شكراً لتسوقكم معنا.</p>",
     "summarize-documents": "<p><strong>Final result from ChatGPT:</strong></p><ul><li>500 gift boxes at 18 SAR each.</li><li>Delivery time: 10 days.</li><li>Payment: 50% upfront and 50% after delivery.</li><li>Free logo sticker included.</li><li>Action items: confirm quantity, approve logo, arrange advance payment.</li><li>Main risk: possible delay during peak season.</li></ul>",
@@ -575,7 +582,7 @@ function finalResultFor(id) {
     "deepseek-advanced": "<p><strong>Final result:</strong></p><p>DeepSeek is useful when you want practical thinking: compare two choices, list pros and cons, find risks, and ask for a simple recommendation that a normal business owner can understand.</p>",
     "kimi-advanced": "<p><strong>Final result:</strong></p><p>Kimi is useful when you have long documents, Chinese-language material, notes, files, or meeting text. Ask it for key points, action items, deadlines, and risks.</p>",
     "image-tools-advanced": "<p><strong>Final result:</strong></p><p>Image AI tools work best when you bring a finished prompt: subject, style, colors, text, layout, and size. Do not just write 'make a poster'; describe the poster like you are talking to a designer.</p>",
-    "video-tools-advanced": "<p><strong>Final result:</strong></p><p>Video AI tools work best when you prepare scene-by-scene instructions: what appears first, camera movement, caption, mood, and length. Treat the AI like a small film crew that needs a shot list.</p>",
+    "video-tools-advanced": "<p><strong>Final result:</strong></p><p>Video AI tools work best when you prepare scene-by-scene instructions: what appears first, camera movement, caption, mood, and length. Treat the AI like a small film crew that needs a shot list.</p><p><strong>Simple note:</strong> GPT is used here for planning and prompting, while Seedance is one of the models that can help generate the video itself.</p>",
     "music-tools-advanced": "<p><strong>Final result:</strong></p><p>Music AI tools work best when you describe length, mood, instruments, speed, and whether vocals are allowed. For business videos, always say if you need background music only.</p>"
   };
 
@@ -678,6 +685,11 @@ function externalRefsFor(id) {
       ["OpenAI Docs: Prompting basics", "https://platform.openai.com/docs/guides/prompt-engineering", "A solid official guide to writing clearer prompts."],
       ["Google Help: Prompt tips for Gemini in Docs, Sheets, Slides, Vids & Forms", "https://support.google.com/docs/answer/15013615?hl=en", "Simple four-part prompt idea: persona, task, context, format."],
       ["YouTube: Learn Google Gemini Prompting in 5 Minutes", "https://www.youtube.com/watch?v=mRWY7vpZ0b4", "Short video with beginner-friendly prompt components and timestamps."]
+    ],
+    "organize-prompt-first": [
+      ["Claude Docs: Prompt engineering overview", "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview", "Official Claude guidance: clear instructions, examples, and step-by-step prompt improvement."],
+      ["Gemini Docs: Prompt design strategies", "https://ai.google.dev/gemini-api/docs/prompting-strategies", "Official Gemini guidance: give examples, break complex tasks into steps, and place the final question clearly."],
+      ["Google Help: Prompt tips for Gemini in Docs, Sheets, Slides, Vids & Forms", "https://support.google.com/docs/answer/15013615?hl=en", "Simple four-part prompt idea: persona, task, context, format."]
     ],
     "what-can-ai-do": [
       ["ChatGPT Learn: Using ChatGPT", "https://chatgpt.com/", "A broad official map of what ChatGPT can do."],
@@ -859,7 +871,8 @@ function externalRefsFor(id) {
     "ai-automation": [
       ["Zapier AI", "https://zapier.com/ai", "No-code starting point for connecting apps and AI tasks."],
       ["Make", "https://www.make.com/en", "Visual workflow builder for beginners who want more control."],
-      ["n8n", "https://n8n.io/", "Popular automation tool for users who want deeper workflows later."]
+      ["n8n", "https://n8n.io/", "Popular automation tool for users who want deeper workflows later."],
+      ["YouTube: From LLM to Agent Skill", "https://www.youtube.com/watch?v=7qO8-kx3gW8", "Chinese expert-level video suggested by the owner. Useful for understanding LLM, token, context, prompt, tools, MCP, agent, and agent skill before we rewrite it in ARABAI's Arabic style."]
     ],
     "gateway-risks": [
       ["OpenAI Data Controls FAQ", "https://help.openai.com/en/articles/7730893-chatgpt-privacy-practices", "Use as a privacy checklist example."],
@@ -879,11 +892,18 @@ function externalRefsFor(id) {
 function promptGuideFor(id, prompt) {
   const guides = {
     "what-is-a-prompt": [
-      ["Role", "You are my AI assistant."],
-      ["Background", "I run a small perfume shop in Riyadh."],
-      ["Task", "Help me write a square Instagram poster prompt."],
-      ["Must include", "Weekend Oud Sale, Up to 30% OFF, Friday & Saturday Only, Shop Now."],
-      ["Style", "Premium, warm, black and gold, easy to read on a phone."]
+      ["Step 1", "Dump your raw idea, background, and goal first."],
+      ["Step 2", "Ask AI to repeat back what it understood."],
+      ["Step 3", "Let AI clean the notes into a usable prompt."],
+      ["Step 4", "Test one sample result before using the full prompt."],
+      ["Step 5", "Ask for changes by saying what to keep, change, or remove."]
+    ],
+    "organize-prompt-first": [
+      ["Raw idea", "Tell GPT the messy thought in your own words."],
+      ["Stop rule", "Say: do not create the final answer yet."],
+      ["Understanding check", "Ask GPT to repeat what it understood."],
+      ["Missing details", "Ask what it still needs before writing."],
+      ["Clean prompt", "Ask GPT to turn everything into one copy-ready prompt."]
     ],
     "why-ai-costs-money": [
       ["Token", "One small bite of language."],
@@ -1177,6 +1197,10 @@ function beginnerPracticeFor(id, title, prompt) {
       scenario: "You will learn why one AI task may cost very little and another task may cost much more, without learning billing formulas.",
       result: "<ul><li>Short text is cheaper because it uses fewer language bites.</li><li>Long documents cost more because AI must read and write more.</li><li>Images cost more because AI must build a full picture.</li><li>Video costs more because AI must create many changing pictures.</li><li>Credits hide the technical counting so normal users can think by task.</li></ul>"
     },
+    "organize-prompt-first": {
+      scenario: "You have a rough idea for a product video, but the idea is still messy. Instead of forcing yourself to write a perfect prompt, you will let GPT help organize the brief first.",
+      result: "<p><strong>What you should finish:</strong> one clean prompt that can be copied into a writing tool, image tool, slide tool, or video tool.</p><ul><li>A short summary of your idea.</li><li>A list of missing details.</li><li>One final copy-ready prompt.</li><li>One small sample result to check the direction.</li></ul>"
+    },
     "common-ai-tools": {
       scenario: "You need to choose a first AI tool without getting lost in tool names.",
       result: "<p><strong>What you should finish:</strong> a short personal tool list: one chat tool, one image tool, one video tool, and one music tool.</p>"
@@ -1216,13 +1240,22 @@ function beginnerPracticeFor(id, title, prompt) {
     title: `Try it now: ${title}`,
     scenario: selected.scenario,
     steps: beginnerStepsFor(id),
-    screens: [{ title: "Copy this into your first AI chat", text: prompt }],
+    screens: simulatedScreensFor(id, title, prompt, beginnerStepsFor(id), selected.result),
     result: selected.result
   };
 }
 
 function beginnerStepsFor(id) {
   const steps = {
+    "organize-prompt-first": [
+      "Open ChatGPT, Gemini, Claude, or another chat AI.",
+      "Paste your messy idea exactly as you would explain it to a friend.",
+      "Add this sentence: do not create the final content yet; first repeat what you understood.",
+      "Read the AI's understanding and correct anything wrong.",
+      "Ask: what information is missing before you can write a strong prompt?",
+      "Answer the missing questions in simple words.",
+      "Ask AI to turn everything into one clean prompt you can copy into the tool you need."
+    ],
     "common-ai-tools": [
       "Write the jobs you want help with: writing, image, video, translation, study, or business.",
       "Choose one main chat tool first, such as ChatGPT, Gemini, Claude, DeepSeek, or Kimi.",
@@ -1317,10 +1350,141 @@ function expertPracticeFor(id, title) {
     title: `Build it carefully: ${title}`,
     scenario: scenarios[id] || `You want to use ${title} in a real workflow, not only understand the name.`,
     steps: expertStepsFor(id),
-    screens: [{ title: "Copy this planning prompt before you build", text: prompt }],
+    screens: simulatedScreensFor(id, title, prompt, expertStepsFor(id), expertResultFor(id)),
     result: expertResultFor(id),
     prompt
   };
+}
+
+function simulatedScreensFor(id, title, prompt, steps, result) {
+  const tool = toolFor(id);
+  const goal = goalFor(id, title);
+  const firstResult = firstResultFor(id);
+  const refinement = refinementFor(id);
+  const safeResult = plainText(result).slice(0, 520);
+
+  return [
+    {
+      kind: "simulated",
+      title: "Simulated screen 1: Open the right place",
+      text: `ARABAI simulated guide screen
+Tool: ${tool}
+Goal: ${goal}
+What to do first: ${steps?.[0] || "Open the tool and start a new task."}
+Privacy check: use a clean demo account and do not paste private data.`
+    },
+    {
+      kind: "simulated",
+      title: "Simulated screen 2: Paste the prompt",
+      text: `Prompt box
+${prompt}
+
+Beginner tip: replace the example product, city, date, customer, or task with your own real details before sending.`
+    },
+    {
+      kind: "simulated",
+      title: "Simulated screen 3: Read the first result",
+      text: `First result preview
+${firstResult}
+
+Do not stop here. Treat the first answer as a draft, not the final version.`
+    },
+    {
+      kind: "simulated",
+      title: "Simulated screen 4: Refine and finish",
+      text: `Refinement prompt
+${refinement}
+
+Final check
+${safeResult || "Check names, dates, prices, spelling, layout, privacy, and whether the result can be used by a normal customer."}`
+    }
+  ];
+}
+
+function toolFor(id) {
+  if (id.includes("slides")) return "Gamma";
+  if (id.includes("image") || id === "create-images" || id === "edit-images") return "image-2 or an image AI tool";
+  if (id.includes("video") || id === "make-videos") return "image-2 plus CapCut, Canva, or another video editor";
+  if (id.includes("music") || id === "make-music") return "Suno, Udio, Lyria, or another music AI tool";
+  if (id.includes("api") || id.includes("gateway") || id.includes("model") || id.includes("automation") || id.includes("business") || id.includes("teams")) return "ARABAI planning workspace plus official provider pages";
+  if (id.includes("login") || id.includes("subscription") || id.includes("price")) return "Official tool website and pricing page";
+  if (id.includes("spreadsheet")) return "ChatGPT, Doubao, Gemini, Excel, or Google Sheets";
+  if (id.includes("translate")) return "ChatGPT, Gemini, DeepL, or Google Translate";
+  if (id.includes("document") || id.includes("kimi")) return "Kimi, Claude, ChatGPT, or another document-friendly AI";
+  return "ChatGPT, Claude, Gemini, Doubao, or another official AI chat tool";
+}
+
+function goalFor(id, title) {
+  const goals = {
+    "what-is-ai": "finish one small AI task so the idea becomes real",
+    "ai-basic-words": "understand basic AI words through a kitchen story",
+    "why-ai-costs-money": "understand why text, images, video, and credits cost differently",
+    "what-is-a-prompt": "turn a messy idea into a clear AI prompt",
+    "common-ai-tools": "choose one starting tool for each job",
+    "how-to-start": "send your first useful AI request",
+    "free-vs-paid": "decide whether free AI is enough for now",
+    "make-slides": "create a small editable presentation",
+    "create-images": "create a poster image with readable text",
+    "make-videos": "build a short video from 9 planned images",
+    "make-music": "create a short background music idea",
+    "what-is-api": "understand how ARABAI can send a user request to AI in the background",
+    "ai-gateway": "understand one wallet and many AI model routes"
+  };
+
+  return goals[id] || `complete the task: ${title}`;
+}
+
+function firstResultFor(id) {
+  const results = {
+    "write-with-ai": "The AI writes a polite customer message, but it may still be too long or too formal.",
+    "make-a-plan": "The AI gives a 7-day plan with daily actions, but some tasks may need to be shortened for a small team.",
+    "make-slides": "Gamma gives an outline for 6 slides. You should read the outline before generating the full deck.",
+    "spreadsheets": "The AI turns messy sales notes into a table and suggests total sales, average sales, and best product.",
+    "create-images": "The image tool creates a poster draft. The picture may look good, but the text or layout may need correction.",
+    "edit-images": "The image tool cleans the background. Check whether the product label, cap, color, and shape stayed correct.",
+    "make-videos": "The image tool creates the first set of 9 frames. Some frames may not match the same product style.",
+    "make-music": "The music tool creates a first track. It may be too loud, too busy, or too much like a full song.",
+    "translate": "The AI translates the message into Arabic and gives a back-translation so you can check meaning.",
+    "summarize-documents": "The AI extracts price, delivery, payment terms, risks, and next actions from the proposal.",
+    "what-is-api": "The AI explains the hidden service window: user clicks, ARABAI sends the request, AI returns the answer.",
+    "ai-gateway": "The AI explains the train-station idea: one entrance, many routes, different prices and speeds."
+  };
+
+  return results[id] || "The AI gives a first draft. It may be useful, but it still needs checking and one clear improvement request.";
+}
+
+function refinementFor(id) {
+  const refinements = {
+    "write-with-ai": "Make it shorter, warmer, and suitable for WhatsApp. Keep only the important details.",
+    "make-a-plan": "Turn this into a checklist I can follow day by day. Remove anything a small team cannot do.",
+    "make-slides": "Make the outline more practical for a small shop owner. Keep six slides and use simple English.",
+    "spreadsheets": "Show the formulas I can copy into Excel, and explain the total and best product in one sentence.",
+    "create-images": "Fix only the text and layout. Keep the product, black and gold style, and square Instagram format.",
+    "edit-images": "Keep the product exactly the same. Only improve the background, light, and shadow.",
+    "make-videos": "Make all 9 frames use the same product, same color, same lighting, and clear final call to action.",
+    "make-music": "Make it simpler and softer so it works as background music under a product video.",
+    "translate": "Make the Arabic more natural for Saudi customers, then give me a simple English back-translation.",
+    "summarize-documents": "Separate facts from suggestions and turn the result into action items.",
+    "what-is-api": "Explain it with one user story and do not mention code unless absolutely needed.",
+    "ai-gateway": "Compare gateway access with official API access using the train-station example."
+  };
+
+  return refinements[id] || "Make the result shorter, clearer, more practical, and easier for a normal beginner to use.";
+}
+
+function plainText(html) {
+  return String(html || "")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/(p|li|h[1-6]|tr)>/gi, "\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, "\"")
+    .replace(/&#039;/g, "'")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
 function expertPromptFor(id, title) {
@@ -1454,5 +1618,191 @@ for (const item of expertArticles) ARTICLES[item[0]] = expertArticle(item);
 for (const [id, title] of expertToolArticles) {
   ARTICLES[id] = expertArticle([id, title, `${title} is like moving from using a tool by hand to placing that tool inside a real workflow.`, "what-is-api"]);
 }
+
+ARTICLES["gemini-advanced"].tutorialVideo = {
+  title: "شرح Gemini بالفيديو",
+  summary: "الفيديو الأصلي بالصينية، وARABAI يضيف لك شرحا عربيا مبسطا. ستتعلم متى تستخدم Deep Research، إنشاء الصور، إنشاء الفيديو، Canvas، وLearning Tutor.",
+  src: "/assets/videos/gemini-tools-guide-arabai-ar-voice.mp4",
+  subtitles: "/assets/subtitles/gemini-tools-guide-ar.vtt",
+  link: "/ar-tutorials.html#gemini-video",
+  chapters: [
+    "00:44 - Deep Research للبحث العميق",
+    "02:46 - إنشاء الصور",
+    "05:17 - إنشاء الفيديو",
+    "08:03 - Canvas",
+    "10:21 - Learning Tutor"
+  ],
+  promptNotes: [
+    {
+      label: "برومبت البحث العميق",
+      text: "استخدم Deep Research لعمل تقرير مبسط عن سوق القهوة المختصة في السعودية. أريد أهم الاتجاهات الحالية، أنواع العملاء، فرص المتاجر الصغيرة، المخاطر، وخلاصة عملية لصاحب مقهى مبتدئ. اكتب بلغة سهلة وغير تقنية."
+    },
+    {
+      label: "برومبت الصورة",
+      text: "أنشئ بوستر مربعا لإنستغرام عن عطر عود فاخر. الخلفية سوداء وبنية دافئة. الإضاءة ذهبية. المنتج واضح في المنتصف. النص سهل القراءة على الهاتف."
+    },
+    {
+      label: "برومبت الفيديو",
+      text: "أنشئ فيديو قصيرا مدته ثماني ثوان. المشهد: صحراء واسعة وقت الغروب. الحركة: الكاميرا تتحرك ببطء فوق الرمال. الأسلوب: واقعي وسينمائي. الإضاءة: ضوء ذهبي ناعم. لا تضف أشخاصا أو نصوصا داخل الفيديو."
+    },
+    {
+      label: "برومبت المدرس التعليمي",
+      text: "تصرف كمدرس خاص. أريد تعلم أساسيات المحاسبة لمتجر صغير. ابدأ بسؤالين لتعرف مستواي، ثم اشرح لي الدرس الأول بمثال بسيط، وبعدها اختبرني بثلاثة أسئلة وصحح إجاباتي."
+    }
+  ]
+};
+
+ARTICLES["chatgpt-advanced"].tutorialVideo = {
+  title: "شرح ChatGPT بالفيديو",
+  summary: "الفيديو الأصلي بالصينية، وARABAI يضيف لك شرحا عربيا مبسطا. ستتعلم كيف تستخدم ChatGPT مع الصور، الصوت، الملفات، البحث العميق، Canvas، والمشاريع.",
+  src: "/assets/videos/chatgpt-guide-arabai-ar-voice-fixed.mp4",
+  subtitles: "/assets/subtitles/chatgpt-guide-ar.vtt",
+  link: "/ar-tutorials.html#chatgpt-video",
+  chapters: [
+    "00:28 - GPT-4o وفهم النص والصورة والصوت",
+    "02:26 - تحليل الملفات والجداول",
+    "03:44 - Deep Research",
+    "05:44 - GPT خاص للمهام المتكررة",
+    "06:40 - Canvas",
+    "07:44 - المشاريع وتنظيم العمل",
+    "09:10 - Sora والفيديو القصير"
+  ],
+  promptNotes: [
+    {
+      label: "برومبت فهم صورة منتج",
+      text: "اشرح لي ما في هذه الصورة، واكتب ثلاث جمل إعلانية بأسلوب بسيط وممتع."
+    },
+    {
+      label: "برومبت تلخيص تسجيل صوتي",
+      text: "لخص هذا التسجيل. اكتب أهم النقاط، استخرج المهام المطلوبة، واقترح ثلاث خطوات متابعة."
+    },
+    {
+      label: "برومبت تحليل جدول",
+      text: "حلل هذا الجدول. استخرج الاتجاه العام، اعرض أفضل المنتجات، واكتب لي ثلاث نصائح عملية."
+    },
+    {
+      label: "برومبت البحث العميق",
+      text: "استخدم البحث العميق لعمل تقرير مبسط عن سوق المقاهي المختصة في السعودية. أريد الاتجاهات الحالية، أنواع العملاء، الفرص، المخاطر، وخلاصة عملية لصاحب مشروع صغير. اكتب بلغة سهلة وغير تقنية."
+    },
+    {
+      label: "برومبت فيديو قصير",
+      text: "أنشئ فيديو قصيرا لمدينة في الليل، بإضاءة نيون، وحركة كاميرا بطيئة، وبأسلوب سينمائي."
+    }
+  ]
+};
+
+ARTICLES["claude-advanced"].tutorialVideo = {
+  title: "شرح Claude بالفيديو",
+  summary: "الفيديو الأصلي بالصينية، وARABAI يضيف لك شرحا عربيا مبسطا. ستتعرف على التسجيل، اختيار النموذج، رفع الملفات، Projects، Skills، Connectors، وArtifacts.",
+  src: "/assets/videos/claude-guide-arabai-ar-voice.mp4",
+  subtitles: "/assets/subtitles/claude-guide-ar.vtt",
+  link: "/ar-tutorials.html#claude-video",
+  chapters: [
+    "00:25 - التسجيل والنسخة المجانية",
+    "00:55 - متى تستخدم Claude؟",
+    "01:25 - رفع الملفات والصور",
+    "01:57 - Projects وSkills",
+    "02:37 - Connectors والبحث في الويب",
+    "03:43 - Artifacts",
+    "04:10 - متى تحتاج الاشتراك؟"
+  ],
+  promptNoteText: "هذا الفيديو يركز أكثر على التعرف على الواجهة وطريقة البدء، وليس على برومبتات طويلة محددة. لذلك خذه كفيديو فهم للأقسام الرئيسية: الملفات، Projects، Skills، Connectors، وArtifacts."
+};
+
+ARTICLES["make-slides"].tutorialVideo = {
+  title: "شرح Gamma بالفيديو",
+  summary: "الفيديو الأصلي بالصينية، وARABAI يضيف لك شرحا عربيا مبسطا. ستتعلم كيف تحول النص أو الموضوع إلى عرض تقديمي، ثم تراجع المخطط والقالب والصور.",
+  src: "/assets/videos/gamma-guide-arabai-ar-voice.mp4",
+  subtitles: "/assets/subtitles/gamma-guide-ar.vtt",
+  link: "/ar-tutorials.html#gamma-video",
+  chapters: [
+    "00:18 - الدخول إلى Gamma",
+    "00:38 - لصق النص واختيار نوع العرض",
+    "01:05 - ضبط طول النص",
+    "01:31 - اختيار مصدر الصور",
+    "01:57 - اختيار القالب والتوليد",
+    "02:18 - البدء من موضوع فقط"
+  ],
+  promptNotes: [
+    {
+      label: "برومبت موضوع فقط",
+      text: "أنشئ عرضا عن تطور الذكاء الاصطناعي في السنوات الأخيرة، وأهم استخداماته في العمل، وما الاتجاهات المتوقعة في المستقبل."
+    },
+    {
+      label: "تعليمات مراجعة المخطط",
+      text: "اجعل المخطط أوضح للمبتدئين، ورتب الشرائح من التعريف إلى التطبيقات ثم الخلاصة."
+    }
+  ]
+};
+
+ARTICLES["create-images"].tutorialVideo = {
+  title: "شرح image-2 بالفيديو",
+  summary: "الفيديو الأصلي بالصينية، وARABAI يلخصه لك بالعربية بطريقة عملية. هذا الفيديو لا يشرح زرارا واحدا فقط، بل يريك كيف يستخدم image-2 في البوسترات، تحسين صور المنتجات، صفحات المتاجر، والشرح البصري الطويل.",
+  src: "/assets/videos/image2-guide-arabai-ar-voice.mp4",
+  subtitles: "/assets/subtitles/image2-guide-ar.vtt",
+  link: "/ar-tutorials.html#image2-video",
+  chapters: [
+    "00:00 - ما هو image-2 ولماذا يهم المصمم والمبتدئ",
+    "01:20 - تعديل صورة موجودة بدل البدء من الصفر",
+    "02:30 - كتابة وصف طويل لتحسين النتيجة",
+    "03:10 - تحويل صورة منتج عادية إلى صورة إعلان أقوى",
+    "04:30 - استخدامه في بوسترات ومنشورات التجارة",
+    "05:40 - إنشاء صفحات طويلة وعرض معلومات كثيرة بصريا",
+    "06:50 - تصميم هوية وعناصر علامة تجارية",
+    "07:40 - استخراج عناصر التصميم وتحليل الصور",
+    "08:20 - متى يناسبك image-2 ومتى تحتاج أداة أخرى"
+  ],
+  promptNotes: [
+    {
+      label: "ترجمة فكرة البرومبت: عدل الصورة الحالية ولا تغيّر الجو العام",
+      text: "عدّل هذه الصورة اعتمادا على النسخة الحالية. حافظ على الإضاءة الأساسية والألوان العامة، لكن اجعل التكوين أنظف وأكثر جاذبية، وامنح المشهد إحساسا إعلانيا أجمل."
+    },
+    {
+      label: "ترجمة فكرة البرومبت: حول صورة منتج عادية إلى صورة إعلان",
+      text: "استخدم صورة المنتج هذه كمرجع أساسي. حافظ على شكل العبوة والشعار واللون، ثم أنشئ نسخة إعلانية أكثر احترافية بخلفية قوية، وإضاءة أوضح، وتفاصيل تجعل المنتج يبدو جاهزا للحملة التسويقية."
+    },
+    {
+      label: "ترجمة فكرة البرومبت: أنشئ بوستر أو صفحة طويلة من منتج واحد",
+      text: "أنشئ بوسترا أو صفحة تعريف طويلة لهذا المنتج. اجعل العنوان واضحا، ووزّع المزايا في أقسام سهلة القراءة، وأضف صورا فرعية أو زوايا مختلفة تساعد العميل على الفهم بسرعة."
+    },
+    {
+      label: "ترجمة فكرة البرومبت: اشرح المنتج بصريا",
+      text: "حوّل هذه المعلومات أو هذه الصورة إلى تصميم بصري يشرح الفكرة خطوة بخطوة. استخدم عناوين قصيرة، وأجزاء منفصلة، ورسومات أو مؤشرات تساعد الشخص العادي على الفهم من أول نظرة."
+    },
+    {
+      label: "ترجمة فكرة البرومبت: أنشئ هوية أولية للعلامة",
+      text: "صمّم اتجاها بصريا أوليا لهذه العلامة يشمل الشعار، ألوانا مناسبة، أسلوب الصور، وأمثلة سريعة على التغليف أو الملابس أو المواد الدعائية، حتى أستطيع تقييم الاتجاه قبل التنفيذ النهائي."
+    }
+  ]
+};
+
+ARTICLES["make-videos"].tutorialVideo = {
+  title: "شرح صناعة فيديو AI بالفيديو",
+  summary: "الفيديو الأصلي بالصينية، وARABAI يضع لك الفكرة بالعربية: للمبتدئ لا تبدأ بالفيديو مباشرة، بل اصنع 9 صور متسلسلة أولا، ثم حوّلها إلى فيديو قصير.",
+  src: "/assets/videos/videomake-guide-arabai-ar-voice.mp4",
+  subtitles: "/assets/subtitles/videomake-guide-ar.vtt",
+  link: "/ar-tutorials.html#videomake-video",
+  chapters: [
+    "00:00 - لماذا نبدأ بتسع صور بدلا من فيديو مباشر؟",
+    "00:15 - كتابة برومبت يحافظ على نفس الشخصية في كل الصور",
+    "00:30 - توليد الصور التسع كلوحة قصة",
+    "00:45 - تحويل الصور المتناسقة إلى فيديو قصير",
+    "00:54 - الخلاصة: الصور أولا، ثم الحركة"
+  ],
+  promptNotes: [
+    {
+      label: "ترجمة البرومبت الأساسي من الفيديو",
+      text: "أنت خبير في صناعة القصص المصورة بالذكاء الاصطناعي. أنشئ 9 صور متسلسلة لفيديو قصير. حافظ على نفس الشخصيات، نفس الأسلوب، نفس الإضاءة، ونفس الجو في كل الصور. لا تغيّر شكل الشخصيات بين لقطة وأخرى."
+    },
+    {
+      label: "هيكل التسع لقطات",
+      text: "اللقطة 1: بداية المشهد. اللقطة 2 إلى 4: بداية الحركة. اللقطة 5 إلى 7: الحدث الأساسي. اللقطة 8: ما قبل النهاية. اللقطة 9: لقطة النهاية."
+    },
+    {
+      label: "تعليمات الاتساق",
+      text: "اجعل كل الصور بنفس الأسلوب البصري، واحتفظ بنفس الشخصيات أو المنتج، ولا تولد صورا متفرقة تبدو كأنها من قصص مختلفة."
+    }
+  ]
+};
 
 window.ARTICLES = ARTICLES;

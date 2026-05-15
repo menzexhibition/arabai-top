@@ -184,6 +184,7 @@ if (arArticleRoot && window.ARTICLES) {
         ${renderArabicCaseStudy(arCaseStudy)}
         ${workflow}
         ${prompt}
+        ${renderTutorialVideo(article.tutorialVideo, "ar")}
         ${toolLinks}
         ${externalRefs}
         ${next}
@@ -483,6 +484,8 @@ function localizeReference(title, note, locale = "en") {
     "Gamma sign up": "ابدأ Gamma",
     "Midjourney": "Midjourney",
     "Beginner prompt for first tool test": "برومبت أول تجربة للمبتدئ"
+    ,"Claude Docs: Prompt engineering overview": "دليل Claude: أساسيات كتابة البرومبت"
+    ,"Gemini Docs: Prompt design strategies": "دليل Gemini: طريقة تصميم البرومبت"
   };
 
   const noteMap = {
@@ -504,6 +507,9 @@ function localizeReference(title, note, locale = "en") {
     "Good map of chat, files, images, and workflows.": "خريطة مفيدة للدردشة والملفات والصور وسير العمل.",
     "Best official beginner walkthrough.": "شرح رسمي مناسب للمبتدئ.",
     "Simple prompt lesson for better answers.": "درس بسيط لكتابة برومبت يعطي نتيجة أفضل."
+    ,"Official Claude guidance: clear instructions, examples, and step-by-step prompt improvement.": "إرشادات رسمية من Claude عن وضوح الطلب، استخدام الأمثلة، وتحسين البرومبت خطوة بخطوة."
+    ,"Official Gemini guidance: give examples, break complex tasks into steps, and place the final question clearly.": "إرشادات رسمية من Gemini: استخدم أمثلة، قسّم المهمة الكبيرة، واجعل السؤال النهائي واضحا."
+    ,"Simple four-part prompt idea: persona, task, context, format.": "فكرة بسيطة من أربعة أجزاء: الدور، المهمة، السياق، وشكل النتيجة."
   };
 
   return {
@@ -524,6 +530,8 @@ function referenceBadge(title, url, locale = "en") {
   if (
     lowerUrl.includes("openai.com") ||
     lowerUrl.includes("help.openai.com") ||
+    lowerUrl.includes("docs.anthropic.com") ||
+    lowerUrl.includes("ai.google.dev") ||
     lowerUrl.includes("support.google.com") ||
     lowerUrl.includes("support.claude.com") ||
     lowerUrl.includes("help.gamma.app") ||
@@ -563,8 +571,8 @@ function renderCaseStudy(caseStudy, section) {
             </figure>
           `
           : `
-            <figure class="fake-screen">
-              <figcaption>${screen.title}</figcaption>
+            <figure class="fake-screen${screen.kind === "simulated" ? " simulated-screen" : ""}">
+              <figcaption>${screen.title}${screen.kind === "simulated" ? "<span>ARABAI simulated guide</span>" : ""}</figcaption>
               <pre>${escapeHtml(screen.text)}</pre>
             </figure>
           `
@@ -610,8 +618,8 @@ function renderArabicCaseStudy(caseStudy) {
           </figure>
         `
         : `
-          <figure class="fake-screen">
-            <figcaption>${escapeHtml(screen.title)}</figcaption>
+          <figure class="fake-screen${screen.kind === "simulated" ? " simulated-screen" : ""}">
+            <figcaption>${escapeHtml(screen.title)}${screen.kind === "simulated" ? "<span>شاشة تعليمية محاكاة من ARABAI</span>" : ""}</figcaption>
             <pre>${escapeHtml(screen.text || "")}</pre>
           </figure>
         `
@@ -628,6 +636,58 @@ function renderArabicCaseStudy(caseStudy) {
       ${renderOutput(caseStudy.output, "ar")}
       ${caseStudy.result ? `<h3>النتيجة النهائية</h3><div class="final-result">${localizeArabicResult(caseStudy.result)}</div>` : ""}
       ${caseStudy.note ? `<p class="output-note">${escapeHtml(caseStudy.note)}</p>` : ""}
+    </section>
+  `;
+}
+
+function renderTutorialVideo(video, locale = "en") {
+  if (!video || locale !== "ar") return "";
+
+  const chapters = (video.chapters || [])
+    .map((chapter) => `<li>${escapeHtml(chapter)}</li>`)
+    .join("");
+
+  const promptNotes = Array.isArray(video.promptNotes) && video.promptNotes.length
+    ? `
+      <div class="video-prompt-notes">
+        <h3>ترجمة البرومبتات الواردة في الفيديو</h3>
+        <p>النصوص التالية هي ترجمة عربية للبرومبتات أو أوامر المهمة التي ظهرت في الفيديو الأصلي بالصينية، حتى يتمكن المستخدم العربي من نسخها والتجربة مباشرة.</p>
+        <ul>
+          ${video.promptNotes
+            .map(
+              (item) => `
+                <li>
+                  <strong>${escapeHtml(item.label)}</strong>
+                  <blockquote>${escapeHtml(item.text)}</blockquote>
+                </li>`
+            )
+            .join("")}
+        </ul>
+      </div>
+    `
+    : video.promptNoteText
+      ? `
+      <div class="video-prompt-notes">
+        <h3>ملاحظة عن البرومبتات</h3>
+        <p>${escapeHtml(video.promptNoteText)}</p>
+      </div>
+    `
+      : "";
+
+  return `
+    <section class="tutorial-video-card article-video-card">
+      <div class="section-heading compact-heading">
+        <span class="topic-label">فيديو</span>
+        <h2>${escapeHtml(video.title)}</h2>
+        <p>${escapeHtml(video.summary)}</p>
+      </div>
+      <video class="output-video" controls playsinline preload="metadata">
+        <source src="${escapeHtml(video.src)}" type="video/mp4" />
+        <track src="${escapeHtml(video.subtitles)}" kind="subtitles" srclang="ar" label="العربية" default />
+      </video>
+      ${chapters ? `<div class="video-chapters"><h3>الفصول</h3><ul>${chapters}</ul></div>` : ""}
+      ${promptNotes}
+      ${video.link ? `<a class="text-link" href="${escapeHtml(video.link)}">افتح صفحة الفيديو</a>` : ""}
     </section>
   `;
 }
@@ -738,7 +798,12 @@ function mergeArabicCaseStudy(arCaseStudy, sourceCaseStudy) {
 function localizeArabicCaseTitle(title) {
   if (!title) return "";
   if (title.startsWith("Try it now:")) return "جرّب الآن";
+  if (title.startsWith("Build it carefully:")) return title.replace("Build it carefully:", "ابنه بحذر:");
   return title
+    .replace("Simulated screen 1: Open the right place", "شاشة محاكاة 1: افتح المكان الصحيح")
+    .replace("Simulated screen 2: Paste the prompt", "شاشة محاكاة 2: الصق البرومبت")
+    .replace("Simulated screen 3: Read the first result", "شاشة محاكاة 3: اقرأ النتيجة الأولى")
+    .replace("Simulated screen 4: Refine and finish", "شاشة محاكاة 4: عدّل وأنهِ المهمة")
     .replace("Copy this into your first AI chat", "انسخ هذا في أول محادثة AI")
     .replace("Prompt typed into AI", "الطلب الذي تكتبه في AI")
     .replace("Write a customer delay email", "كتابة رسالة تأخير طلب لعميل")
@@ -776,6 +841,67 @@ function localizeArabicCaseScenario(text) {
 function localizeArabicCaseStep(text) {
   if (!text) return "";
   return String(text)
+    .replaceAll("ARABAI simulated guide screen", "شاشة تعليمية محاكاة من ARABAI")
+    .replaceAll("Tool:", "الأداة:")
+    .replaceAll("Goal:", "الهدف:")
+    .replaceAll("What to do first:", "ماذا تفعل أولا:")
+    .replaceAll("Privacy check: use a clean demo account and do not paste private data.", "فحص الخصوصية: استخدم حسابا تجريبيا نظيفا ولا تلصق بيانات خاصة.")
+    .replaceAll("Prompt box", "صندوق البرومبت")
+    .replaceAll("Beginner tip: replace the example product, city, date, customer, or task with your own real details before sending.", "نصيحة للمبتدئ: بدّل المنتج أو المدينة أو التاريخ أو العميل أو المهمة بتفاصيلك الحقيقية قبل الإرسال.")
+    .replaceAll("First result preview", "معاينة النتيجة الأولى")
+    .replaceAll("Do not stop here. Treat the first answer as a draft, not the final version.", "لا تتوقف هنا. تعامل مع أول إجابة كمسودة، وليس كنسخة نهائية.")
+    .replaceAll("Refinement prompt", "برومبت التعديل")
+    .replaceAll("Final check", "الفحص النهائي")
+    .replaceAll("Open the tool and start a new task.", "افتح الأداة وابدأ مهمة جديدة.")
+    .replaceAll("ChatGPT, Claude, Gemini, Doubao, or another official AI chat tool", "ChatGPT أو Claude أو Gemini أو Doubao أو أي أداة محادثة AI رسمية")
+    .replaceAll("image-2 or an image AI tool", "image-2 أو أداة صور AI")
+    .replaceAll("image-2 plus CapCut, Canva, or another video editor", "image-2 مع CapCut أو Canva أو أي محرر فيديو")
+    .replaceAll("Suno, Udio, Lyria, or another music AI tool", "Suno أو Udio أو Lyria أو أي أداة موسيقى AI")
+    .replaceAll("Gamma", "Gamma")
+    .replaceAll("ARABAI planning workspace plus official provider pages", "مساحة تخطيط ARABAI مع صفحات المزودين الرسمية")
+    .replaceAll("Official tool website and pricing page", "الموقع الرسمي للأداة وصفحة الأسعار")
+    .replaceAll("ChatGPT, Doubao, Gemini, Excel, or Google Sheets", "ChatGPT أو Doubao أو Gemini أو Excel أو Google Sheets")
+    .replaceAll("ChatGPT, Gemini, DeepL, or Google Translate", "ChatGPT أو Gemini أو DeepL أو Google Translate")
+    .replaceAll("Kimi, Claude, ChatGPT, or another document-friendly AI", "Kimi أو Claude أو ChatGPT أو أداة AI مناسبة للمستندات")
+    .replaceAll("finish one small AI task so the idea becomes real", "إنهاء مهمة AI صغيرة حتى تصبح الفكرة ملموسة")
+    .replaceAll("understand basic AI words through a kitchen story", "فهم كلمات AI الأساسية من خلال قصة المطبخ")
+    .replaceAll("understand why text, images, video, and credits cost differently", "فهم لماذا تختلف تكلفة النصوص والصور والفيديو والرصيد")
+    .replaceAll("write one clear prompt instead of a vague request", "كتابة برومبت واضح بدل طلب غامض")
+    .replaceAll("choose one starting tool for each job", "اختيار أداة بداية واحدة لكل مهمة")
+    .replaceAll("send your first useful AI request", "إرسال أول طلب AI مفيد")
+    .replaceAll("decide whether free AI is enough for now", "تحديد هل المجاني يكفي حاليا")
+    .replaceAll("create a small editable presentation", "إنشاء عرض صغير قابل للتعديل")
+    .replaceAll("create a poster image with readable text", "إنشاء بوستر بنص مقروء")
+    .replaceAll("build a short video from 9 planned images", "بناء فيديو قصير من 9 صور مخططة")
+    .replaceAll("create a short background music idea", "إنشاء فكرة موسيقى خلفية قصيرة")
+    .replaceAll("understand how ARABAI can send a user request to AI in the background", "فهم كيف يمكن لـ ARABAI إرسال طلب المستخدم إلى AI في الخلفية")
+    .replaceAll("understand one wallet and many AI model routes", "فهم محفظة واحدة وطرق كثيرة لنماذج AI")
+    .replaceAll("The AI gives a first draft. It may be useful, but it still needs checking and one clear improvement request.", "يعطي AI مسودة أولى. قد تكون مفيدة، لكنها تحتاج مراجعة وطلب تحسين واضح.")
+    .replaceAll("The AI writes a polite customer message, but it may still be too long or too formal.", "يكتب AI رسالة مهذبة للعميل، لكنها قد تكون طويلة أو رسمية أكثر من اللازم.")
+    .replaceAll("The AI gives a 7-day plan with daily actions, but some tasks may need to be shortened for a small team.", "يعطي AI خطة 7 أيام مع مهام يومية، لكن بعض المهام قد تحتاج تبسيطا لفريق صغير.")
+    .replaceAll("Gamma gives an outline for 6 slides. You should read the outline before generating the full deck.", "يعطي Gamma مخططا من 6 شرائح. اقرأ المخطط قبل توليد العرض الكامل.")
+    .replaceAll("The AI turns messy sales notes into a table and suggests total sales, average sales, and best product.", "يحوّل AI ملاحظات المبيعات المبعثرة إلى جدول ويقترح الإجمالي والمتوسط وأفضل منتج.")
+    .replaceAll("The image tool creates a poster draft. The picture may look good, but the text or layout may need correction.", "تنشئ أداة الصور مسودة بوستر. قد تبدو الصورة جيدة، لكن النص أو التخطيط قد يحتاج تصحيحا.")
+    .replaceAll("The image tool cleans the background. Check whether the product label, cap, color, and shape stayed correct.", "تنظف أداة الصور الخلفية. افحص هل بقي الملصق والغطاء واللون والشكل صحيحا.")
+    .replaceAll("The image tool creates the first set of 9 frames. Some frames may not match the same product style.", "تنشئ أداة الصور أول مجموعة من 9 لقطات. قد لا تطابق بعض اللقطات نفس أسلوب المنتج.")
+    .replaceAll("The music tool creates a first track. It may be too loud, too busy, or too much like a full song.", "تنشئ أداة الموسيقى أول مقطع. قد يكون عاليا أو مزدحما أو قريبا من أغنية كاملة.")
+    .replaceAll("The AI translates the message into Arabic and gives a back-translation so you can check meaning.", "يترجم AI الرسالة إلى العربية ويعطي ترجمة عكسية حتى تراجع المعنى.")
+    .replaceAll("The AI extracts price, delivery, payment terms, risks, and next actions from the proposal.", "يستخرج AI السعر والتوصيل وشروط الدفع والمخاطر والخطوات التالية من العرض.")
+    .replaceAll("The AI explains the hidden service window: user clicks, ARABAI sends the request, AI returns the answer.", "يشرح AI نافذة الخدمة المخفية: المستخدم يضغط، ARABAI يرسل الطلب، وAI يعيد الإجابة.")
+    .replaceAll("The AI explains the train-station idea: one entrance, many routes, different prices and speeds.", "يشرح AI فكرة محطة القطار: مدخل واحد، طرق كثيرة، أسعار وسرعات مختلفة.")
+    .replaceAll("Make the result shorter, clearer, more practical, and easier for a normal beginner to use.", "اجعل النتيجة أقصر وأوضح وأكثر عملية وأسهل للمبتدئ العادي.")
+    .replaceAll("Make it shorter, warmer, and suitable for WhatsApp. Keep only the important details.", "اجعلها أقصر وأدفأ ومناسبة للواتساب. أبقِ التفاصيل المهمة فقط.")
+    .replaceAll("Turn this into a checklist I can follow day by day. Remove anything a small team cannot do.", "حوّل هذا إلى قائمة أستطيع اتباعها يوما بيوم. احذف أي شيء لا يستطيع فريق صغير تنفيذه.")
+    .replaceAll("Make the outline more practical for a small shop owner. Keep six slides and use simple English.", "اجعل المخطط أكثر عملية لصاحب متجر صغير. أبقِ 6 شرائح واستخدم إنجليزية بسيطة.")
+    .replaceAll("Show the formulas I can copy into Excel, and explain the total and best product in one sentence.", "اعرض الصيغ التي أستطيع نسخها إلى Excel، واشرح الإجمالي وأفضل منتج في جملة واحدة.")
+    .replaceAll("Fix only the text and layout. Keep the product, black and gold style, and square Instagram format.", "أصلح النص والتخطيط فقط. أبقِ المنتج والأسلوب الأسود والذهبي ومقاس إنستغرام المربع.")
+    .replaceAll("Keep the product exactly the same. Only improve the background, light, and shadow.", "أبقِ المنتج كما هو تماما. حسّن الخلفية والضوء والظل فقط.")
+    .replaceAll("Make all 9 frames use the same product, same color, same lighting, and clear final call to action.", "اجعل اللقطات التسع تستخدم نفس المنتج ونفس اللون ونفس الإضاءة ودعوة واضحة في النهاية.")
+    .replaceAll("Make it simpler and softer so it works as background music under a product video.", "اجعلها أبسط وأهدأ حتى تصلح كموسيقى خلفية تحت فيديو منتج.")
+    .replaceAll("Make the Arabic more natural for Saudi customers, then give me a simple English back-translation.", "اجعل العربية طبيعية أكثر للعملاء السعوديين، ثم أعطني ترجمة عكسية إنجليزية بسيطة.")
+    .replaceAll("Separate facts from suggestions and turn the result into action items.", "افصل الحقائق عن الاقتراحات وحوّل النتيجة إلى مهام تنفيذية.")
+    .replaceAll("Explain it with one user story and do not mention code unless absolutely needed.", "اشرحه بقصة مستخدم واحدة ولا تذكر الكود إلا عند الضرورة.")
+    .replaceAll("Compare gateway access with official API access using the train-station example.", "قارن الوصول عبر Gateway مع API الرسمي باستخدام مثال محطة القطار.")
     .replaceAll("Open the AI tool that fits this job.", "افتح أداة AI المناسبة لهذه المهمة.")
     .replaceAll("Type the real task with background and goal.", "اكتب المهمة الحقيقية مع الخلفية والهدف.")
     .replaceAll("Ask for a first result.", "اطلب نتيجة أولى.")
@@ -851,6 +977,57 @@ function getArabicArticle(id, article) {
         ["لا ترضَ بأول نتيجة", "أول إجابة غالبا مسودة؛ قل له ماذا يبقي، ماذا يغير، وماذا يحذف."]
       ],
       prompt: "أدير متجر عطور في الرياض. ساعدني في كتابة برومبت لبوستر إنستغرام عن تخفيض عود في نهاية الأسبوع. الأسلوب فخم، أسود وذهبي، والكلمات واضحة على الجوال."
+    },
+    "organize-prompt-first": {
+      title: "دع GPT يرتب فكرتك أولا",
+      intro: "لا تحتاج أن تكتب برومبت مثاليا من أول مرة؛ اشرح فكرتك كما هي، ثم اطلب من GPT أن يرتبها قبل أن تبدأ المهمة الحقيقية.",
+      sections: [
+        ["افرغ الفكرة كما هي", "اكتب كل ما في رأسك: الهدف، الجمهور، الأمثلة التي تعجبك، التفاصيل التي تعرفها، وما الذي لا تعرفه بعد."],
+        ["لا تطلب النتيجة النهائية مباشرة", "قل له بوضوح: لا تكتب المحتوى النهائي الآن؛ فقط أخبرني ماذا فهمت، وما المعلومات الناقصة."],
+        ["اجعل GPT يصنع البرومبت", "بعد أن تتأكد أنه فهمك، اطلب منه تحويل الكلام المبعثر إلى برومبت واضح يصلح للكتابة أو الصور أو العروض أو الفيديو."],
+        ["اختبر عينة صغيرة", "قبل أن تستخدم البرومبت في عمل كبير، اطلب مثالا صغيرا. إذا كان الاتجاه خاطئا، عدله بكلام عادي."]
+      ],
+      workflow: [
+        "افتح ChatGPT أو Gemini أو Claude.",
+        "اكتب فكرتك المبعثرة كما تشرحها لصديق.",
+        "أضف: لا تنشئ المحتوى النهائي الآن؛ أولا أعد شرح ما فهمته.",
+        "صحح أي فهم خاطئ.",
+        "اسأله: ما المعلومات الناقصة قبل كتابة برومبت قوي؟",
+        "أجب عن الأسئلة الناقصة ببساطة.",
+        "اطلب منه تحويل كل ذلك إلى برومبت جاهز للنسخ."
+      ],
+      prompt: "لدي فكرة غير مرتبة ولا أعرف كيف أشرحها جيدا. لا تنشئ المحتوى النهائي الآن. أولا أعد شرح ما فهمته مني. ثم اسألني عن المعلومات الناقصة. بعد ذلك حوّل كلامي إلى برومبت واضح أستطيع نسخه في ChatGPT أو Gemini أو Claude أو Gamma أو image-2 أو أداة فيديو.",
+      caseStudy: {
+        title: "جرّب الآن: حوّل فكرة مبعثرة إلى برومبت واضح",
+        scenario: "لديك فكرة لفيديو منتج أو عرض أو صورة، لكنها لا تزال في رأسك بشكل غير مرتب. بدلا من محاولة كتابة برومبت مثالي وحدك، اجعل GPT يرتب الفكرة معك أولا.",
+        steps: [
+          "افتح أداة محادثة مثل ChatGPT أو Gemini أو Claude.",
+          "اكتب فكرتك كما هي، حتى لو كانت غير مرتبة.",
+          "قل له: لا تكتب النتيجة النهائية الآن؛ فقط أعد شرح ما فهمته.",
+          "صحح أي نقطة فهمها بشكل خاطئ.",
+          "اطلب منه أن يسألك عن المعلومات الناقصة.",
+          "أجب ببساطة، ثم اطلب منه برومبتا نهائيا جاهزا للنسخ.",
+          "اختبر البرومبت بعينة صغيرة قبل استخدامه في عمل كبير."
+        ],
+        screens: [
+          {
+            kind: "simulated",
+            title: "شاشة تعليمية 1: اكتب الفكرة كما هي",
+            text: "لدي فكرة لفيديو قصير عن علبة تمر فاخرة في رمضان. أريد أن يظهر المنتج بشكل راق، لكن لا أعرف كيف أكتب البرومبت."
+          },
+          {
+            kind: "simulated",
+            title: "شاشة تعليمية 2: اطلب الفهم أولا",
+            text: "لا تنشئ الفيديو الآن. أولا أعد شرح ما فهمته من فكرتي، ثم اسألني عن المعلومات الناقصة."
+          },
+          {
+            kind: "simulated",
+            title: "شاشة تعليمية 3: البرومبت النهائي",
+            text: "أنشئ 9 لقطات عمودية لفيديو قصير عن علبة تمر فاخرة في رمضان. حافظ على نفس العلبة، نفس الإضاءة الذهبية، ونفس الأسلوب الراقي في كل اللقطات..."
+          }
+        ],
+        result: "<p><strong>ما الذي يجب أن تنهيه:</strong> برومبت واضح واحد يمكن نسخه في أداة كتابة أو صور أو عروض أو فيديو.</p><ul><li>ملخص قصير للفكرة.</li><li>قائمة بالمعلومات الناقصة.</li><li>برومبت نهائي جاهز للنسخ.</li><li>عينة صغيرة لاختبار الاتجاه.</li></ul>"
+      }
     },
     "why-ai-costs-money": {
       title: "لماذا يكلف AI مالا؟",
@@ -1478,6 +1655,7 @@ function getArabicTitle(id, fallback) {
     "ai-basic-words": "مصطلحات AI الأساسية",
     "why-ai-costs-money": "لماذا يكلف AI مالا؟",
     "what-is-a-prompt": "ما هو البرومبت؟",
+    "organize-prompt-first": "دع GPT يرتب فكرتك أولا",
     "common-ai-tools": "أشهر أدوات AI",
     "write-with-ai": "أريد أن أكتب",
     "make-a-plan": "أريد خطة",
