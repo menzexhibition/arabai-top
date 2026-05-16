@@ -349,8 +349,8 @@ function renderRechargeNudge(articleId, article) {
   return `
     <aside class="recharge-nudge" aria-label="ARABAI Credits note">
       <p class="eyebrow">Credit wallet</p>
-      <h2>Small recharge, many AI tools</h2>
-      <p>ARABAI Credits will let frequent users try newer AI tools from one place. Contribution rewards can be recorded first; AI redemption opens later.</p>
+      <h2>Start with SAR 10, try many top AI models</h2>
+      <p>ARABAI Credits will let frequent users test chat, image, video, music, and slide tools from one place. Contribution rewards can be recorded first; paid AI use opens later.</p>
       <a href="credits.html">Learn about Credits</a>
     </aside>
   `;
@@ -566,7 +566,7 @@ function renderCaseStudy(caseStudy, section) {
         screen.image
           ? `
             <figure class="real-screen">
-              <img src="${screen.image}" alt="${escapeHtml(screen.title)}" />
+              <img src="${assetUrl(screen.image)}" alt="${escapeHtml(screen.title)}" />
               <figcaption>${screen.title}</figcaption>
             </figure>
           `
@@ -613,7 +613,7 @@ function renderArabicCaseStudy(caseStudy) {
       screen.image
         ? `
           <figure class="real-screen">
-            <img src="${screen.image}" alt="${escapeHtml(screen.title)}" />
+            <img src="${assetUrl(screen.image)}" alt="${escapeHtml(screen.title)}" />
             <figcaption>${escapeHtml(screen.title)}</figcaption>
           </figure>
         `
@@ -1670,6 +1670,7 @@ function getArabicTitle(id, fallback) {
     "make-slides": "أريد عرضا تقديميا",
     "create-images": "أريد إنشاء صورة",
     "make-videos": "أريد عمل فيديو",
+    "make-music": "أريد إنشاء موسيقى",
     "translate": "أريد ترجمة",
     "what-is-api": "ما هو API؟",
     "official-api-platforms": "منصات API الرسمية",
@@ -1680,6 +1681,12 @@ function getArabicTitle(id, fallback) {
   };
 
   return titles[id] || fallback || "مقال AI";
+}
+
+function assetUrl(src) {
+  if (!src || /^(https?:)?\/\//.test(src) || src.startsWith("/")) return src;
+  if (src.startsWith("assets/")) return `/${src}`;
+  return src;
 }
 
 function arSectionLabel(section) {
@@ -1737,7 +1744,7 @@ function renderOutput(output, locale = "en") {
       <div class="finished-output">
         <h3>${escapeHtml(title)}</h3>
         <figure class="output-image">
-          <img src="${output.src}" alt="${escapeHtml(output.alt || output.title)}" />
+          <img src="${assetUrl(output.src)}" alt="${escapeHtml(output.alt || output.title)}" />
         </figure>
       </div>
     `;
@@ -1748,7 +1755,7 @@ function renderOutput(output, locale = "en") {
       <div class="finished-output">
         <h3>${escapeHtml(title)}</h3>
         <figure class="output-deck">
-          <img src="${output.src}" alt="${escapeHtml(output.alt || output.title)}" />
+          <img src="${assetUrl(output.src)}" alt="${escapeHtml(output.alt || output.title)}" />
         </figure>
       </div>
     `;
@@ -1784,11 +1791,11 @@ function renderOutput(output, locale = "en") {
         <h3>${escapeHtml(title)}</h3>
         <div class="before-after">
           <figure>
-            <img src="${output.before}" alt="${escapeHtml(output.beforeLabel)}" />
+            <img src="${assetUrl(output.before)}" alt="${escapeHtml(output.beforeLabel)}" />
             <figcaption>${escapeHtml(output.beforeLabel)}</figcaption>
           </figure>
           <figure>
-            <img src="${output.after}" alt="${escapeHtml(output.afterLabel)}" />
+            <img src="${assetUrl(output.after)}" alt="${escapeHtml(output.afterLabel)}" />
             <figcaption>${escapeHtml(output.afterLabel)}</figcaption>
           </figure>
         </div>
@@ -1803,7 +1810,7 @@ function renderOutput(output, locale = "en") {
     return `
       <div class="finished-output">
         <h3>${escapeHtml(title)}</h3>
-        <video class="output-video" src="${output.src}" controls playsinline preload="metadata"></video>
+        <video class="output-video" src="${assetUrl(output.src)}" controls playsinline preload="metadata"></video>
         ${captions ? `<ul class="output-captions">${captions}</ul>` : ""}
       </div>
     `;
@@ -1817,9 +1824,9 @@ function renderOutput(output, locale = "en") {
       <div class="finished-output">
         <h3>${escapeHtml(title)}</h3>
         <figure class="output-image storyboard-output">
-          <img src="${output.storyboard}" alt="${escapeHtml(output.title)}" />
+          <img src="${assetUrl(output.storyboard)}" alt="${escapeHtml(output.title)}" />
         </figure>
-        <video class="output-video" src="${output.video}" controls playsinline preload="metadata"></video>
+        <video class="output-video" src="${assetUrl(output.video)}" controls playsinline preload="metadata"></video>
         ${captions ? `<ul class="output-captions">${captions}</ul>` : ""}
       </div>
     `;
@@ -1829,7 +1836,7 @@ function renderOutput(output, locale = "en") {
     return `
       <div class="finished-output">
         <h3>${escapeHtml(title)}</h3>
-        <audio class="output-audio" src="${output.src}" controls preload="metadata"></audio>
+        <audio class="output-audio" src="${assetUrl(output.src)}" controls preload="metadata"></audio>
         ${note ? `<p class="output-note">${escapeHtml(note)}</p>` : ""}
       </div>
     `;
