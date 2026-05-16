@@ -38,6 +38,7 @@ create table public.profiles (
   phone text,
   display_name text,
   country text,
+  registration_number bigint generated always as identity unique,
   preferred_language text not null default 'ar',
   role public.app_role not null default 'user',
   referral_code text unique not null default encode(gen_random_bytes(6), 'hex'),

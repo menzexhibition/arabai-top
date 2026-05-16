@@ -7,6 +7,7 @@ create table users (
   phone text,
   display_name text,
   country text,
+  registration_number bigint unique,
   preferred_language text default 'en',
   role text not null default 'user' check (role in ('user', 'moderator', 'admin')),
   referral_code text unique,

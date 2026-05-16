@@ -40,6 +40,7 @@ Purpose:
 Main sections:
 
 - balance summary
+- signup success card with "You are ARABAI user #N" when the user has just registered
 - founding user campaign banner, only when enabled and still available
 - starter packages
 - reward summary
@@ -57,6 +58,20 @@ English:
 
 ```text
 Credits are for trying paid AI capabilities. They are not unlimited use and do not replace official memberships.
+```
+
+Signup success copy:
+
+Arabic:
+
+```text
+أنت المستخدم رقم 124 في ARABAI.
+```
+
+English:
+
+```text
+You are ARABAI user #124.
 ```
 
 ## Page 2: Use AI

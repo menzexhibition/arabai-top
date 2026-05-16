@@ -12,6 +12,7 @@ POST /api/auth/verify
 ```
 
 On first verified sign-in, backend may create a wallet and grant the signup reward.
+It should also return the server-assigned registration number, for example "You are ARABAI user #124".
 Suggested signup reward: 20 credits, about 2 SAR equivalent.
 During the early launch campaign, the backend may also grant 100 credits to the first 100 verified users when the campaign flag is enabled.
 

@@ -3,6 +3,7 @@ import { packages, rewardRules } from "../src/config/credits.js";
 import { canUseFreeCredits, estimateTaskCredits, providerCostToCredits } from "../src/services/pricing.js";
 import { createWallet } from "../src/services/wallet.js";
 import { confirmTaskRoute, estimateTaskRoute, runTaskRoute } from "../src/routes/task-routes.js";
+import { verifiedSigninRoute } from "../src/routes/auth-routes.js";
 import { grantFoundingUserRewardRoute, grantSignupRewardRoute } from "../src/routes/wallet-routes.js";
 
 const saStarter = packages.find((item) => item.id === "sa_starter_10");
@@ -99,6 +100,25 @@ assert.throws(
     }),
   /limit reached/
 );
+rewardRules.foundingUserCampaign.enabled = false;
+
+const signinUser = {
+  id: "user-101",
+  email: "new@example.com",
+  verified: true,
+  signupRewardGranted: false,
+  foundingUserRewardGranted: false
+};
+rewardRules.foundingUserCampaign.enabled = true;
+const signinResult = verifiedSigninRoute({
+  user: signinUser,
+  currentRegistrationCount: 123,
+  currentFoundingRewardCount: 20
+});
+assert.equal(signinResult.user.registrationNumber, 124);
+assert.match(signinResult.message, /#124/);
+assert.equal(signinResult.foundingUserReward.granted, true);
+assert.equal(signinResult.wallet.creditBalance, 120);
 rewardRules.foundingUserCampaign.enabled = false;
 
 const task = confirmTaskRoute({

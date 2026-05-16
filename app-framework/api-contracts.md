@@ -24,6 +24,7 @@ Returns the current user and wallet summary.
   "user": {
     "id": "uuid",
     "email": "user@example.com",
+    "registrationNumber": 124,
     "preferredLanguage": "ar",
     "country": "SA",
     "role": "user",
@@ -50,10 +51,37 @@ Called after auth provider verifies email, phone, Google, or magic link.
 Server actions:
 
 1. Upsert profile.
-2. Create wallet if missing.
-3. Grant signup reward once if eligible.
-4. Grant daily login reward if eligible.
-5. If founding user campaign is enabled, grant 100 credits to the first 100 verified users after anti-abuse checks.
+2. Assign a server-side registration number if this is a new verified user.
+3. Create wallet if missing.
+4. Grant signup reward once if eligible.
+5. Grant daily login reward if eligible.
+6. If founding user campaign is enabled, grant 100 credits to the first 100 verified users after anti-abuse checks.
+
+Response should include the registration number so the UI can show it after signup:
+
+```json
+{
+  "user": {
+    "id": "uuid",
+    "email": "user@example.com",
+    "registrationNumber": 124
+  },
+  "foundingUserReward": {
+    "eligible": true,
+    "granted": true,
+    "credits": 100,
+    "remainingSlots": 79
+  },
+  "message": "You are ARABAI user #124. Your early user trial credits have been added."
+}
+```
+
+Arabic UI copy:
+
+```text
+أنت المستخدم رقم 124 في ARABAI.
+تمت إضافة رصيد التجربة المبكرة إلى حسابك.
+```
 
 ## Wallet
 

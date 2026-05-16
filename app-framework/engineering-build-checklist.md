@@ -35,6 +35,7 @@ Do not build:
 ## Auth And Wallet
 
 - [ ] Create profile after verified sign-in.
+- [ ] Assign and return a server-side registration number after verified signup.
 - [ ] Create wallet after profile creation.
 - [ ] Grant signup reward only once.
 - [ ] Keep founding user campaign disabled by default.
@@ -42,6 +43,7 @@ Do not build:
 - [ ] Confirm founding user reward cannot be claimed twice by the same user.
 - [ ] Grant daily login reward only within weekly cap.
 - [ ] Show wallet balance.
+- [ ] Show "You are user #N" on the signup success screen.
 - [ ] Show transaction history.
 - [ ] Confirm users cannot edit wallet from browser.
 

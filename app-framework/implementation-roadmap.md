@@ -39,6 +39,7 @@ Build:
 - sign in
 - sign out
 - user profile
+- registration number on signup success
 - wallet read-only page
 - wallet transaction history
 - signup reward after verification
@@ -51,6 +52,7 @@ Do not connect real AI generation yet.
 Acceptance checks:
 
 - Articles remain readable without login.
+- Signup success screen shows the user's server-assigned registration number.
 - Signup reward is granted only once.
 - Founding user reward grants only to the first 100 verified users when enabled.
 - Daily login reward respects weekly cap.
