@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ARABAI App Prototype</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <a class="brand" href="../../index.html" aria-label="ARABAI">
+        <span class="brand-mark">A</span>
+        <span>ARABAI</span>
+      </a>
+      <nav aria-label="App navigation">
+        <a href="#wallet">الرصيد</a>
+        <a href="#use-ai">استخدم AI</a>
+        <a href="#rewards">المكافآت</a>
+        <a href="#referrals">الدعوات</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">نموذج أولي للتطبيق</p>
+          <h1>جرّب قدرات AI المدفوعة برصيد صغير وواضح.</h1>
+          <p>
+            هذه واجهة تجريبية فقط لتوضيح رحلة المستخدم: يرى الرصيد، يختار مهمة، يشاهد التكلفة المتوقعة، ثم يؤكد التشغيل لاحقا.
+          </p>
+        </div>
+        <aside class="status-card">
+          <span>حالة الخدمة</span>
+          <strong>Coming Soon</strong>
+          <p>الشحن الحقيقي وتشغيل AI مغلقان حتى تجهيز الدفع والحسابات.</p>
+        </aside>
+      </section>
+
+      <section id="wallet" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Wallet</p>
+          <h2>رصيد الحساب</h2>
+          <p>المقالات والدروس تبقى مجانية. الرصيد فقط لتجربة قدرات AI المدفوعة عند فتح الخدمة.</p>
+        </div>
+        <div class="wallet-grid">
+          <article>
+            <span>الرصيد الكلي</span>
+            <strong id="creditBalance">100</strong>
+            <p>credits</p>
+          </article>
+          <article>
+            <span>قابل للاستخدام</span>
+            <strong id="redeemableBalance">100</strong>
+            <p>credits</p>
+          </article>
+          <article>
+            <span>محجوز</span>
+            <strong id="reservedBalance">0</strong>
+            <p>credits</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Packages</p>
+          <h2>باقات التجربة</h2>
+          <p>كل الباقات هنا معروضة كنموذج فقط، ولن تعمل قبل تفعيل الدفع الحقيقي.</p>
+        </div>
+        <div id="packageGrid" class="package-grid"></div>
+      </section>
+
+      <section id="use-ai" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Use AI</p>
+          <h2>اختر المهمة، وليس اسم API.</h2>
+          <p>المستخدم العادي لا يحتاج رؤية التوكن أو مفاتيح API. هو يختار ما يريد إنجازه.</p>
+        </div>
+        <div id="taskGrid" class="task-grid"></div>
+      </section>
+
+      <section class="section result-panel" aria-live="polite">
+        <div>
+          <p class="eyebrow">Estimate</p>
+          <h2 id="estimateTitle">اختر مهمة أولا</h2>
+          <p id="estimateMessage">سيظهر هنا عدد credits المتوقع قبل تشغيل المهمة.</p>
+        </div>
+        <button id="confirmButton" type="button" disabled>تأكيد المهمة</button>
+      </section>
+
+      <section id="rewards" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Rewards</p>
+          <h2>كيف يحصل المستخدم على credits مجانية؟</h2>
+        </div>
+        <div class="reward-list">
+          <article><strong>20 credits</strong><span>تسجيل موثق جديد</span></article>
+          <article><strong>1-2 credits</strong><span>دخول يومي، حتى 10 أسبوعيا</span></article>
+          <article><strong>20 credits</strong><span>دعوة مستخدم موثق</span></article>
+          <article><strong>5-15 credits</strong><span>سؤال أو ملاحظة مفيدة بعد المراجعة</span></article>
+        </div>
+      </section>
+
+      <section id="referrals" class="section note-section">
+        <h2>قاعدة مهمة</h2>
+        <p>
+          الرصيد المجاني لا يمكن سحبه أو تحويله إلى مال، ولا يستخدم للمهام عالية التكلفة مثل الفيديو الحقيقي أو الصور الكثيرة دفعة واحدة.
+        </p>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

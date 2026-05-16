@@ -1,0 +1,253 @@
+:root {
+  color-scheme: light;
+  --bg: #f6f4ef;
+  --surface: #fffefa;
+  --ink: #19201f;
+  --muted: #64706d;
+  --line: #ded8c9;
+  --teal: #008c95;
+  --gold: #d6a84f;
+  --radius: 12px;
+  font-family: "IBM Plex Sans Arabic", "Outfit", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(135deg, rgba(0, 140, 149, 0.08), transparent 26rem),
+    linear-gradient(45deg, transparent, rgba(214, 168, 79, 0.09) 34rem),
+    var(--bg);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.85rem 1.25rem;
+  color: white;
+  background: var(--teal);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem clamp(1rem, 4vw, 4rem);
+  border-bottom: 1px solid rgba(222, 216, 201, 0.86);
+  background: rgba(246, 244, 239, 0.88);
+  backdrop-filter: blur(16px);
+}
+
+.brand,
+.app-header nav {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+}
+
+.brand {
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.brand-mark {
+  display: grid;
+  width: 2.4rem;
+  height: 2.4rem;
+  place-items: center;
+  border-radius: 50%;
+  color: white;
+  background: linear-gradient(135deg, var(--teal), var(--gold));
+}
+
+.app-header nav {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+main {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+}
+
+.hero,
+.section {
+  margin: 1rem 0;
+  padding: clamp(1.2rem, 3vw, 2rem);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.6fr);
+  gap: 1rem;
+  align-items: stretch;
+  min-height: 20rem;
+}
+
+.hero h1 {
+  max-width: 46rem;
+  margin: 0;
+  font-size: clamp(2.2rem, 6vw, 4.8rem);
+  line-height: 1.02;
+}
+
+.hero p,
+.section-heading p,
+.status-card p,
+.package-grid p,
+.task-grid p,
+.note-section p,
+.result-panel p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.eyebrow,
+.status-card span,
+.wallet-grid span,
+.package-grid span,
+.task-grid span {
+  color: var(--teal);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.status-card,
+.section {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 254, 250, 0.86);
+  box-shadow: 0 18px 44px rgba(31, 37, 35, 0.06);
+}
+
+.status-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.2rem;
+}
+
+.status-card strong {
+  margin: 0.35rem 0;
+  color: var(--gold);
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1;
+}
+
+.section-heading {
+  max-width: 48rem;
+  margin-bottom: 1rem;
+}
+
+.section-heading h2,
+.note-section h2,
+.result-panel h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+}
+
+.wallet-grid,
+.package-grid,
+.task-grid,
+.reward-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.wallet-grid article,
+.package-grid article,
+.task-grid article,
+.reward-list article {
+  min-height: 10rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(135deg, rgba(0, 140, 149, 0.06), rgba(214, 168, 79, 0.08)),
+    var(--surface);
+}
+
+.wallet-grid strong,
+.reward-list strong {
+  display: block;
+  margin: 0.45rem 0;
+  font-size: 2rem;
+}
+
+.package-grid h3,
+.task-grid h3 {
+  margin: 0.45rem 0;
+  font-size: 1.25rem;
+}
+
+.task-grid article {
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease;
+}
+
+.task-grid article:hover,
+.task-grid article.active {
+  border-color: rgba(0, 140, 149, 0.55);
+  transform: translateY(-2px);
+}
+
+.result-panel {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.note-section {
+  margin-bottom: 4rem;
+}
+
+@media (max-width: 780px) {
+  .app-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .app-header nav {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 0.2rem;
+  }
+
+  .hero,
+  .wallet-grid,
+  .package-grid,
+  .task-grid,
+  .reward-list {
+    grid-template-columns: 1fr;
+  }
+
+  .result-panel {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
