@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { packages, pricingRules } from "../prototype/src/config/credits.js";
 import { createWallet } from "../prototype/src/services/wallet.js";
 import { estimateTaskRoute, confirmTaskRoute, runTaskRoute } from "../prototype/src/routes/task-routes.js";
+import { createGatewayAdapter, createMockGatewayAdapter } from "../prototype/src/providers/gateway-adapter.js";
 
 const rootDir = fileURLToPath(new URL("..", import.meta.url));
 const publicDir = join(rootDir, "prototype/public");
@@ -13,6 +14,8 @@ const state = {
   wallet: createWallet(100),
   tasks: new Map()
 };
+
+const adapter = createRuntimeAdapter();
 
 const server = createServer(async (req, res) => {
   try {
@@ -75,7 +78,7 @@ const server = createServer(async (req, res) => {
         wallet: state.wallet,
         task,
         requestBody: body,
-        adapter: createMockAdapter()
+        adapter
       });
       state.tasks.set(task.id, completed);
 
@@ -131,24 +134,18 @@ function walletView() {
   };
 }
 
-function createMockAdapter() {
-  return {
-    async runTextTask(input) {
-      return {
-        outputText: `Demo result for ${input.pricingRuleId}: ARABAI would call the paid AI provider here.`,
-        actualCredits: undefined,
-        providerCost: 0.01
-      };
-    },
-    async runImageTask(input) {
-      return {
-        outputText: `Demo image task accepted for ${input.pricingRuleId}.`,
-        outputUrl: null,
-        actualCredits: undefined,
-        providerCost: 0.05
-      };
-    }
-  };
+function createRuntimeAdapter() {
+  if (process.env.USE_REAL_AI_GATEWAY === "true") {
+    return createGatewayAdapter({
+      baseUrl: process.env.AI_GATEWAY_BASE_URL,
+      apiKey: process.env.AI_GATEWAY_API_KEY,
+      defaultTextModel: process.env.AI_GATEWAY_TEXT_MODEL || "gpt-4o-mini",
+      defaultImageModel: process.env.AI_GATEWAY_IMAGE_MODEL || "gpt-image-1",
+      timeoutMs: Number(process.env.AI_GATEWAY_TIMEOUT_MS || 60000)
+    });
+  }
+
+  return createMockGatewayAdapter();
 }
 
 async function serveStatic(pathname, res) {
@@ -183,4 +180,3 @@ function json(res, payload, status = 200) {
   res.writeHead(status, { "content-type": "application/json; charset=utf-8" });
   res.end(JSON.stringify(payload, null, 2));
 }
-
