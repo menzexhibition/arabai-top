@@ -349,8 +349,8 @@ function renderRechargeNudge(articleId, article) {
   return `
     <aside class="recharge-nudge" aria-label="ARABAI Credits note">
       <p class="eyebrow">Credit wallet</p>
-      <h2>Start with $5, try all top AI models worldwide</h2>
-      <p>ARABAI Credits will let frequent users test leading global chat, image, video, music, and slide tools from one place. Contribution rewards can be recorded first; paid AI use opens later.</p>
+      <h2>Start with $5, try paid AI capabilities</h2>
+      <p>ARABAI Credits will let frequent users test paid-level chat, file analysis, image generation, slide drafts, and selected media tasks from one place. Contribution rewards can be recorded first; paid AI use opens later.</p>
       <a href="credits.html">Learn about Credits</a>
     </aside>
   `;

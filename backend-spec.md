@@ -128,15 +128,25 @@ completed_at
 
 1. User signs in and verifies email or phone.
 2. Backend may grant a one-time `signup_reward`.
-3. Reward should have anti-abuse limits.
+3. Suggested launch reward: 20 credits, about 2 SAR equivalent.
+4. Reward should have anti-abuse limits.
+
+### Daily Login Reward
+
+1. User signs in on a new day.
+2. Backend may grant 1-2 credits.
+3. Cap daily login rewards at 10 credits per week.
+4. Login rewards should not unlock high-cost video, batch images, or high-tier image editing.
 
 ### Referral Reward
 
 1. Signed-in user shares a referral link or code.
 2. New user registers and verifies.
 3. Backend records a pending referral.
-4. Reward is granted only after verification and abuse checks.
-5. If referral recharge rewards are added later, reward only after successful payment and refund window rules.
+4. Suggested verified-registration reward: 20 credits, about 2 SAR equivalent.
+5. Suggested first-paid-package bonus: additional 20 credits after successful payment and refund-risk checks.
+6. Reward is granted only after verification and abuse checks.
+7. If referral recharge rewards are added later, reward only after successful payment and refund window rules.
 
 ### Top Up
 
@@ -145,6 +155,13 @@ completed_at
 3. Payment provider confirms payment.
 4. Backend adds credits to wallet.
 5. Transaction is recorded.
+
+Starter package rules:
+
+- 10 SAR package should grant about 100 credits.
+- $5 package should grant about 185 credits, adjusted by exchange rate and payment fees.
+- Provider/API cost should target no more than 50% of paid package value.
+- Public copy must describe Credits as paid AI capability access, not unlimited model use.
 
 ### Run AI Task
 
@@ -160,6 +177,8 @@ completed_at
 ## Credit Rules
 
 Never run high-cost tasks without confirmation.
+
+Credits are for trying paid-level AI capabilities such as stronger chat models, file analysis, image generation, slide drafts, and selected media tasks. They should not be positioned as free-tool access or provider-token resale.
 
 Reward Credits can be recorded before AI usage opens, but they cannot be redeemed until the system has:
 
@@ -195,6 +214,25 @@ Estimated credits
 What they will get
 Whether failed attempts may still cost credits
 ```
+
+First launch task charges should be stored in an editable backend pricing table. Suggested initial charges:
+
+- premium short chat: 2 credits
+- prompt improvement: 2 credits
+- premium long answer: 5 credits
+- long document summary: 10-20 credits
+- table/file analysis: 10-20 credits
+- image prompt and review: 3 credits
+- low-tier image generation: 20-40 credits
+- high-tier image generation: 50-80 credits
+- image edit: 40-80 credits
+- PPT outline: 8-15 credits
+- PPT first draft: 30-60 credits
+- video script: 8-15 credits
+- 9-grid storyboard text: 15-25 credits
+- 9-grid storyboard images: 120-250 credits
+- real video generation: manual pricing or coming soon
+- music generation: 30-80 credits
 
 ## Provider Strategy
 
