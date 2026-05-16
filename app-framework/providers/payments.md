@@ -8,8 +8,9 @@ Use test mode first.
 
 Suggested provider:
 
-- Stripe for global card payments
-- later add a regional provider for Saudi/Middle East if needed
+- Airwallex for the first global card / Apple Pay capable payment route if the merchant account supports it.
+- Later add a regional provider for Saudi/Middle East if Mada and STC Pay are needed.
+- Keep Stripe as a backup option for global card payments if Airwallex setup is delayed.
 
 ## Checkout Flow
 
@@ -26,12 +27,23 @@ Suggested provider:
 Draft packages:
 
 ```text
-$10 Starter
-$20 Regular
-$50 Creative
+10 SAR Starter = 100 credits
+$5 Starter = about 185 credits
+25 SAR Regular = 250 credits
+$10 Regular = about 370 credits
+50 SAR Creative = 500 credits
+$20 Creative = about 740 credits
 ```
 
 These are product examples, not final legal pricing.
+
+Provider/API cost target:
+
+```text
+maximum provider cost = about 50% of user payment value
+```
+
+Payment fees, chargeback risk, retries, server cost, storage, and support come from the remaining 50%.
 
 ## Refund Rules To Define
 
@@ -49,4 +61,10 @@ Before accepting money, define:
 - Only trust verified payment webhooks.
 - Keep full transaction history.
 - Admin adjustments must be logged.
+- Do not enable real recharge until refund, privacy, terms, and support pages match the live product.
 
+## Saudi Payment Notes
+
+If ARABAI later needs Mada and STC Pay, evaluate Tap Payments, PayTabs, HyperPay, Moyasar, or another licensed/regional provider.
+
+The payment provider must confirm whether it can onboard the business entity and support digital AI credits. Do not promise Mada/STC Pay publicly until the provider account is approved.
