@@ -37,6 +37,9 @@ Do not build:
 - [ ] Create profile after verified sign-in.
 - [ ] Create wallet after profile creation.
 - [ ] Grant signup reward only once.
+- [ ] Keep founding user campaign disabled by default.
+- [ ] Grant founding user campaign credits only to the first 100 verified users when enabled.
+- [ ] Confirm founding user reward cannot be claimed twice by the same user.
 - [ ] Grant daily login reward only within weekly cap.
 - [ ] Show wallet balance.
 - [ ] Show transaction history.
@@ -98,5 +101,5 @@ Do not enable real recharge until:
 - [ ] Admin reversal tools work.
 - [ ] Cost dashboard works.
 - [ ] Daily spend caps are active.
+- [ ] Founding user campaign cap and anti-abuse checks are active before promotion starts.
 - [ ] Customer support channel is visible.
-

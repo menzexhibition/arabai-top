@@ -63,8 +63,39 @@ Payment fees, failed retries, storage, support, and promotion must come from the
 
 Free credits are marketing and retention credits, not cash. They cannot be withdrawn, refunded, or transferred.
 
+## Launch Campaign: First 100 Verified Users
+
+For the first month or cold-start period, ARABAI can run a founding user campaign:
+
+```text
+First 100 verified registered users receive starter credits for free.
+```
+
+Suggested campaign value:
+
+- Saudi-facing message: 10 SAR starter credits
+- English/international message: $5 starter credits
+- Internal grant: 100 credits
+- Campaign cap: 100 verified users
+- Status before launch: disabled until owner turns it on
+
+Conditions:
+
+- user must register and verify email or phone
+- one reward per real user/device/payment identity signal
+- credits cannot be withdrawn, refunded, transferred, or exchanged for cash
+- free campaign credits cannot run high-cost video, batch images, high-tier image editing, or other manual-price tasks
+- campaign can stop early if abuse, provider cost, or gateway stability becomes a problem
+
+Purpose:
+
+- let early users feel paid AI capabilities without paying first
+- collect usage data before opening Airwallex recharge
+- test provider cost and task pricing before real money goes live
+
 | Action | Suggested reward | SAR value | Controls |
 |---|---:|---:|---|
+| First 100 verified users campaign | 100 credits | about 10 SAR / $5 reference | Verification, campaign cap, anti-abuse checks |
 | New verified user registration | 20 credits | about 2 SAR | Email or phone verification required |
 | Daily login | 1-2 credits | about 0.1-0.2 SAR | Maximum 10 credits per week |
 | Useful beginner question | 5-10 credits | about 0.5-1 SAR | Manual or moderation approval |
@@ -192,4 +223,3 @@ Phase 3: Paid starter
 Phase 4: Media expansion
 
 - Add high-tier images, PPT draft generation, music sample, and selected video tests after cost data is reliable.
-

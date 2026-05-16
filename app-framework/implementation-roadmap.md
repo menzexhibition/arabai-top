@@ -42,6 +42,7 @@ Build:
 - wallet read-only page
 - wallet transaction history
 - signup reward after verification
+- optional founding user campaign, disabled by default
 - daily login reward
 - referral code creation
 
@@ -51,6 +52,7 @@ Acceptance checks:
 
 - Articles remain readable without login.
 - Signup reward is granted only once.
+- Founding user reward grants only to the first 100 verified users when enabled.
 - Daily login reward respects weekly cap.
 - Referral reward stays pending until verification.
 - Wallet balances never update from the browser directly.
@@ -221,4 +223,3 @@ Before enabling real recharge:
 - cost dashboard ready
 - high-cost task caps ready
 - customer support contact visible
-

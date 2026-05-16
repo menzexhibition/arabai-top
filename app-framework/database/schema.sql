@@ -28,7 +28,7 @@ create table wallets (
 create table wallet_transactions (
   id uuid primary key,
   user_id uuid not null references users(id),
-  type text not null check (type in ('signup_reward', 'daily_login_reward', 'contribution_reward', 'referral_reward', 'top_up', 'spend', 'refund', 'adjustment', 'reserve', 'release', 'expire')),
+  type text not null check (type in ('signup_reward', 'founding_user_reward', 'daily_login_reward', 'contribution_reward', 'referral_reward', 'top_up', 'spend', 'refund', 'adjustment', 'reserve', 'release', 'expire')),
   status text not null default 'pending' check (status in ('pending', 'approved', 'rejected', 'available', 'redeemable', 'reserved', 'spent', 'reversed')),
   credits numeric(12, 2) not null,
   money_amount numeric(12, 2),
@@ -40,6 +40,18 @@ create table wallet_transactions (
   reviewed_at timestamptz,
   note text,
   created_at timestamptz default now()
+);
+
+create table campaign_rewards (
+  id uuid primary key,
+  campaign_id text not null,
+  user_id uuid not null references users(id),
+  credits numeric(12, 2) not null,
+  status text not null default 'granted' check (status in ('pending', 'granted', 'reversed', 'expired')),
+  granted_at timestamptz default now(),
+  reversed_at timestamptz,
+  note text,
+  unique (campaign_id, user_id)
 );
 
 create table credit_packages (

@@ -40,6 +40,7 @@ Purpose:
 Main sections:
 
 - balance summary
+- founding user campaign banner, only when enabled and still available
 - starter packages
 - reward summary
 - transaction history
@@ -131,6 +132,7 @@ Show users how to earn free credits without making content paid.
 
 Reward list:
 
+- first 100 verified users: 100 credits while campaign is active
 - verified registration: 20 credits
 - daily login: 1-2 credits, up to 10 per week
 - useful beginner question: 5-10 credits after approval
@@ -201,4 +203,3 @@ Mobile rules:
 - balance should stay easy to read
 - Arabic text must be RTL
 - do not use tiny tables for wallet history; use stacked transaction rows
-

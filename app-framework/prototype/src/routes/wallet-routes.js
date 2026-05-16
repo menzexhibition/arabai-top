@@ -41,3 +41,27 @@ export function grantSignupRewardRoute({ wallet, user }) {
   return getWalletRoute({ wallet });
 }
 
+export function grantFoundingUserRewardRoute({ wallet, user, campaignCount }) {
+  const rule = rewardRules.foundingUserCampaign;
+  if (!rule.enabled) {
+    throw new Error("Founding user campaign is not enabled.");
+  }
+  if (!user.verified) {
+    throw new Error("User must verify email or phone before founding user reward.");
+  }
+  if (user.foundingUserRewardGranted) {
+    throw new Error("Founding user reward already granted.");
+  }
+  if (campaignCount >= rule.maxUsers) {
+    throw new Error("Founding user campaign limit reached.");
+  }
+
+  addCredits(wallet, {
+    type: "founding_user_reward",
+    credits: rule.credits,
+    note: "First 100 verified users starter credit campaign"
+  });
+
+  user.foundingUserRewardGranted = true;
+  return getWalletRoute({ wallet });
+}

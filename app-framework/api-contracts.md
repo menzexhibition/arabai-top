@@ -53,6 +53,7 @@ Server actions:
 2. Create wallet if missing.
 3. Grant signup reward once if eligible.
 4. Grant daily login reward if eligible.
+5. If founding user campaign is enabled, grant 100 credits to the first 100 verified users after anti-abuse checks.
 
 ## Wallet
 
@@ -244,6 +245,29 @@ Response for immediate/queued:
 
 ## Rewards
 
+### `POST /api/rewards/founding-user`
+
+This endpoint should usually be called internally after verified sign-in, not by a public button.
+
+Rules:
+
+- campaign disabled by default
+- max 100 verified users
+- grant 100 credits
+- one reward per real user
+- no cash withdrawal, refund, or transfer
+- cannot be used for high-cost video, batch image generation, or manual-price tasks
+
+Response:
+
+```json
+{
+  "granted": true,
+  "credits": 100,
+  "message": "Founding user starter credits granted."
+}
+```
+
 ### `POST /api/rewards/daily-login`
 
 Server grants 1-2 credits if eligible and weekly cap is not reached.
@@ -321,4 +345,3 @@ document
 music
 video
 ```
-

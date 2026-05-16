@@ -3,7 +3,7 @@ import { packages, rewardRules } from "../src/config/credits.js";
 import { canUseFreeCredits, estimateTaskCredits, providerCostToCredits } from "../src/services/pricing.js";
 import { createWallet } from "../src/services/wallet.js";
 import { confirmTaskRoute, estimateTaskRoute, runTaskRoute } from "../src/routes/task-routes.js";
-import { grantSignupRewardRoute } from "../src/routes/wallet-routes.js";
+import { grantFoundingUserRewardRoute, grantSignupRewardRoute } from "../src/routes/wallet-routes.js";
 
 const saStarter = packages.find((item) => item.id === "sa_starter_10");
 assert.equal(saStarter.priceAmount, 10);
@@ -18,6 +18,11 @@ assert.equal(usdStarter.credits, 185);
 assert.equal(usdStarter.maxProviderCostAmount, 2.5);
 
 assert.equal(rewardRules.signupVerified.credits, 20);
+assert.equal(rewardRules.foundingUserCampaign.enabled, false);
+assert.equal(rewardRules.foundingUserCampaign.maxUsers, 100);
+assert.equal(rewardRules.foundingUserCampaign.credits, 100);
+assert.equal(rewardRules.foundingUserCampaign.sarValue, 10);
+assert.equal(rewardRules.foundingUserCampaign.usdReferenceValue, 5);
 assert.equal(rewardRules.referralVerifiedRegistration.credits, 20);
 assert.equal(rewardRules.referralFirstPaidPackage.credits, 20);
 assert.equal(rewardRules.dailyLogin.weeklyCap, 10);
@@ -60,6 +65,42 @@ grantSignupRewardRoute({ wallet, user });
 assert.equal(wallet.creditBalance, 120);
 assert.equal(wallet.redeemableCreditBalance, 120);
 
+const campaignWallet = createWallet(0);
+const campaignUser = { verified: true, foundingUserRewardGranted: false };
+assert.throws(
+  () => grantFoundingUserRewardRoute({ wallet: campaignWallet, user: campaignUser, campaignCount: 0 }),
+  /not enabled/
+);
+
+rewardRules.foundingUserCampaign.enabled = true;
+grantFoundingUserRewardRoute({ wallet: campaignWallet, user: campaignUser, campaignCount: 99 });
+assert.equal(campaignWallet.creditBalance, 100);
+assert.equal(campaignWallet.transactions.at(-1).type, "founding_user_reward");
+assert.equal(campaignUser.foundingUserRewardGranted, true);
+assert.throws(
+  () => grantFoundingUserRewardRoute({ wallet: campaignWallet, user: campaignUser, campaignCount: 99 }),
+  /already granted/
+);
+assert.throws(
+  () =>
+    grantFoundingUserRewardRoute({
+      wallet: createWallet(0),
+      user: { verified: false, foundingUserRewardGranted: false },
+      campaignCount: 1
+    }),
+  /verify/
+);
+assert.throws(
+  () =>
+    grantFoundingUserRewardRoute({
+      wallet: createWallet(0),
+      user: { verified: true, foundingUserRewardGranted: false },
+      campaignCount: 100
+    }),
+  /limit reached/
+);
+rewardRules.foundingUserCampaign.enabled = false;
+
 const task = confirmTaskRoute({
   wallet,
   taskId: "task-1",
@@ -92,4 +133,3 @@ assert.equal(wallet.creditBalance, 118);
 assert.equal(wallet.reservedCreditBalance, 0);
 
 console.log("ARABAI pricing prototype tests passed.");
-

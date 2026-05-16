@@ -131,6 +131,19 @@ completed_at
 3. Suggested launch reward: 20 credits, about 2 SAR equivalent.
 4. Reward should have anti-abuse limits.
 
+### Founding User Campaign
+
+For the cold-start period, ARABAI may grant starter credits to the first 100 verified registered users.
+
+1. Campaign must be disabled by default until owner enables it.
+2. User must register and verify email or phone.
+3. Backend checks current approved campaign count.
+4. If count is under 100 and abuse checks pass, backend grants 100 credits.
+5. This equals about 10 SAR starter value, or a $5 reference starter promotion.
+6. Credits cannot be withdrawn, refunded, transferred, or exchanged for cash.
+7. Campaign credits cannot run high-cost video, batch images, high-tier image editing, or manual-price tasks.
+8. Admin can pause the campaign early if abuse or provider costs are too high.
+
 ### Daily Login Reward
 
 1. User signs in on a new day.

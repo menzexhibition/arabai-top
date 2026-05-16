@@ -61,6 +61,15 @@ export const packages = [
 ];
 
 export const rewardRules = {
+  foundingUserCampaign: {
+    enabled: false,
+    maxUsers: 100,
+    credits: 100,
+    sarValue: 10,
+    usdReferenceValue: 5,
+    requiresVerification: true,
+    notes: "Launch campaign: first 100 verified users can receive starter credits for controlled paid AI capability tests."
+  },
   signupVerified: {
     credits: 20,
     sarValue: 2,
@@ -261,4 +270,3 @@ export const launchFeatureFlags = {
   referrals: true,
   mediaTasks: false
 };
-

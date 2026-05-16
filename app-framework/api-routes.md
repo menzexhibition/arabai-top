@@ -13,6 +13,7 @@ POST /api/auth/verify
 
 On first verified sign-in, backend may create a wallet and grant the signup reward.
 Suggested signup reward: 20 credits, about 2 SAR equivalent.
+During the early launch campaign, the backend may also grant 100 credits to the first 100 verified users when the campaign flag is enabled.
 
 ## Wallet
 
@@ -123,6 +124,7 @@ Real video generation should stay `coming_soon` or manual pricing until provider
 
 ```text
 POST /api/rewards/daily-login
+POST /api/rewards/founding-user
 POST /api/community/submissions
 GET  /api/community/submissions
 POST /api/referrals/create-code
@@ -132,6 +134,7 @@ GET  /api/referrals
 Reward rules:
 
 - signup reward: 20 credits after verification
+- founding user campaign: 100 credits for the first 100 verified users when enabled, equivalent to the planned 10 SAR starter trial
 - daily login: 1-2 credits, max 10 per week
 - verified referral registration: 20 credits
 - referred user's first paid package: additional 20 credits after refund-risk checks

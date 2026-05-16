@@ -6,6 +6,7 @@ create extension if not exists "pgcrypto";
 create type public.app_role as enum ('user', 'moderator', 'admin');
 create type public.transaction_type as enum (
   'signup_reward',
+  'founding_user_reward',
   'daily_login_reward',
   'contribution_reward',
   'referral_reward',
@@ -42,6 +43,7 @@ create table public.profiles (
   referral_code text unique not null default encode(gen_random_bytes(6), 'hex'),
   referred_by_user_id uuid references public.profiles(id),
   signup_reward_granted boolean not null default false,
+  founding_user_reward_granted boolean not null default false,
   last_login_at timestamptz,
   created_at timestamptz not null default now()
 );
@@ -71,6 +73,18 @@ create table public.wallet_transactions (
   reviewed_at timestamptz,
   note text,
   created_at timestamptz not null default now()
+);
+
+create table public.campaign_rewards (
+  id uuid primary key default gen_random_uuid(),
+  campaign_id text not null,
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  credits numeric(12, 2) not null,
+  status text not null default 'granted' check (status in ('pending', 'granted', 'reversed', 'expired')),
+  granted_at timestamptz not null default now(),
+  reversed_at timestamptz,
+  note text,
+  unique (campaign_id, user_id)
 );
 
 create table public.credit_packages (
@@ -203,6 +217,7 @@ create table public.referrals (
 );
 
 create index wallet_transactions_user_created_idx on public.wallet_transactions (user_id, created_at desc);
+create index campaign_rewards_campaign_granted_idx on public.campaign_rewards (campaign_id, granted_at);
 create index ai_tasks_user_created_idx on public.ai_tasks (user_id, created_at desc);
 create index ai_tasks_status_created_idx on public.ai_tasks (status, created_at);
 create index provider_cost_logs_task_idx on public.provider_cost_logs (task_id);
@@ -212,6 +227,7 @@ create index referrals_referrer_idx on public.referrals (referrer_user_id, creat
 alter table public.profiles enable row level security;
 alter table public.wallets enable row level security;
 alter table public.wallet_transactions enable row level security;
+alter table public.campaign_rewards enable row level security;
 alter table public.credit_packages enable row level security;
 alter table public.credit_pricing_rules enable row level security;
 alter table public.ai_tasks enable row level security;
@@ -225,6 +241,7 @@ create policy "users can update own profile" on public.profiles for update using
 
 create policy "users can read own wallet" on public.wallets for select using (auth.uid() = user_id);
 create policy "users can read own transactions" on public.wallet_transactions for select using (auth.uid() = user_id);
+create policy "users can read own campaign rewards" on public.campaign_rewards for select using (auth.uid() = user_id);
 
 create policy "public can read enabled packages" on public.credit_packages for select using (enabled = true);
 create policy "authenticated can read pricing rules" on public.credit_pricing_rules for select using (auth.role() = 'authenticated' and enabled = true);
@@ -237,4 +254,3 @@ create policy "users can read own referrals" on public.referrals for select usin
 
 -- Writes that change balances, task status, payment state, rewards, or provider costs
 -- should be performed through service-role backend functions only.
-
