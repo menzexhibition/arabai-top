@@ -97,12 +97,20 @@ Each card should show:
 - estimated credit range
 - whether free credits can be used
 - button: estimate first
+- guided article excerpt that can be copied and used immediately
 
 Do not show:
 
 - token formulas
 - provider API keys
 - raw model pricing
+
+Guided AI Mode:
+
+- The user should not jump between an article page and the AI task page.
+- When the user chooses a task, show the matching ARABAI article guidance beside the task.
+- For image generation, show a ready-to-copy prompt, the exact steps, common refinement sentences, and a link to the full image tutorial.
+- Treat this as a credibility layer: ARABAI articles explain the method, and the app lets the user apply it immediately.
 
 ## Page 3: Task Estimate
 

@@ -118,7 +118,9 @@ main {
 .package-grid p,
 .task-grid p,
 .note-section p,
-.result-panel p {
+.result-panel p,
+.guide-card p,
+.guide-card li {
   color: var(--muted);
   line-height: 1.65;
 }
@@ -199,7 +201,8 @@ main {
 }
 
 .package-grid h3,
-.task-grid h3 {
+.task-grid h3,
+.guide-card h3 {
   margin: 0.45rem 0;
   font-size: 1.25rem;
 }
@@ -226,6 +229,62 @@ main {
   margin-bottom: 4rem;
 }
 
+.guided-mode {
+  background:
+    linear-gradient(135deg, rgba(214, 168, 79, 0.13), transparent 24rem),
+    rgba(255, 254, 250, 0.92);
+}
+
+.guide-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
+  gap: 1rem;
+}
+
+.guide-card {
+  min-height: 12rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.guide-primary {
+  grid-row: span 2;
+}
+
+.guide-card span {
+  color: var(--teal);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.guide-card ol,
+.guide-card ul {
+  margin: 0.8rem 0 0;
+  padding-inline-start: 1.2rem;
+}
+
+.prompt-card pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  margin: 0.8rem 0 0;
+  padding: 1rem;
+  border: 1px solid rgba(0, 140, 149, 0.22);
+  border-radius: calc(var(--radius) - 4px);
+  color: var(--ink);
+  background: #f3efe4;
+  font: inherit;
+  line-height: 1.7;
+}
+
+.guide-link {
+  display: inline-flex;
+  margin-top: 0.8rem;
+  color: var(--teal);
+  font-weight: 800;
+}
+
 @media (max-width: 780px) {
   .app-header {
     align-items: flex-start;
@@ -242,7 +301,8 @@ main {
   .wallet-grid,
   .package-grid,
   .task-grid,
-  .reward-list {
+  .reward-list,
+  .guide-content {
     grid-template-columns: 1fr;
   }
 

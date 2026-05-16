@@ -12,6 +12,7 @@ const taskGrid = document.querySelector("#taskGrid");
 const estimateTitle = document.querySelector("#estimateTitle");
 const estimateMessage = document.querySelector("#estimateMessage");
 const confirmButton = document.querySelector("#confirmButton");
+const guideContent = document.querySelector("#guideContent");
 
 await boot();
 
@@ -53,6 +54,7 @@ async function boot() {
   renderWallet();
   await renderPackages();
   renderTasks();
+  renderGuide(null);
 }
 
 function renderWallet() {
@@ -122,6 +124,7 @@ function renderTasks() {
       const requestBody = selectedTaskRequest();
       selectedEstimate = apiMode ? await estimateWithApi(requestBody) : estimateTaskCredits(requestBody);
       renderEstimate();
+      renderGuide(selectedTask);
     });
   });
 }
@@ -160,10 +163,11 @@ async function confirmWithApi() {
 }
 
 function selectedTaskRequest() {
+  const guide = taskGuides[selectedTask];
   return {
     pricingRuleId: selectedTask,
     taskType: pricingRules.find((rule) => rule.id === selectedTask).taskType,
-    prompt: "Demo prompt for ARABAI app prototype.",
+    prompt: guide?.copyPrompt || "Demo prompt for ARABAI app prototype.",
     options: { quality: selectedTask.includes("image") ? "standard" : "normal" }
   };
 }
@@ -209,3 +213,141 @@ function translateTask(id) {
     video_script: "سكربت فيديو قصير"
   }[id] || id;
 }
+
+function renderGuide(ruleId) {
+  const guide = taskGuides[ruleId] || defaultGuide;
+  guideContent.innerHTML = `
+    <article class="guide-card guide-primary">
+      <span>${guide.label}</span>
+      <h3>${guide.title}</h3>
+      <p>${guide.summary}</p>
+      <ol>
+        ${guide.steps.map((step) => `<li>${step}</li>`).join("")}
+      </ol>
+    </article>
+    <article class="guide-card prompt-card">
+      <span>Prompt جاهز للنسخ</span>
+      <h3>انسخ هذا النص وعدّل الكلمات بين الأقواس.</h3>
+      <pre dir="rtl">${guide.copyPrompt}</pre>
+    </article>
+    <article class="guide-card">
+      <span>بعد النتيجة</span>
+      <h3>جمل تعديل سريعة</h3>
+      <ul>
+        ${guide.refinements.map((item) => `<li>${item}</li>`).join("")}
+      </ul>
+    </article>
+    <article class="guide-card">
+      <span>من مقالات ARABAI</span>
+      <h3>اقرأ الدرس الكامل عند الحاجة</h3>
+      <p>${guide.articleNote}</p>
+      <a class="guide-link" href="${guide.articleHref}">افتح المقال المرتبط</a>
+    </article>
+  `;
+}
+
+const defaultGuide = {
+  label: "ابدأ هنا",
+  title: "اختر مهمة حتى تظهر التعليمات المناسبة.",
+  summary: "كل مهمة في ARABAI يجب أن تأتي مع شرح عملي قصير، حتى يستطيع المستخدم النسخ والتجربة مباشرة.",
+  steps: ["اختر المهمة من البطاقات.", "اقرأ تقدير الرصيد.", "انسخ البرومبت الجاهز وعدله.", "شغّل المهمة ثم اطلب تعديلا واضحا."],
+  copyPrompt: "أريد استخدام AI في: (اكتب المهمة هنا). النتيجة المطلوبة: (رسالة / صورة / عرض / سكربت). الجمهور: (من سيقرأ أو يشاهد). الأسلوب: (بسيط / رسمي / تجاري).",
+  refinements: ["اجعل النتيجة أبسط.", "غيّر الأسلوب ليكون أكثر ودية.", "اعطني نسخة أقصر.", "اعطني 3 بدائل."],
+  articleNote: "هذه المنطقة تربط استخدام API بالمقالات، حتى لا تبقى المقالات منفصلة عن التجربة.",
+  articleHref: "../../ar-beginner.html"
+};
+
+const taskGuides = {
+  image_generation_low: {
+    label: "توليد صورة",
+    title: "حوّل الفكرة إلى صورة خطوة بخطوة.",
+    summary: "لا تكتب كلمة واحدة فقط مثل مطعم أو عطر. عامل AI كرسام يحتاج وصفا واضحا: الشيء الرئيسي، المكان، الإضاءة، الأسلوب، وما لا تريده.",
+    steps: [
+      "اكتب الشيء الرئيسي في الصورة: منتج، شخص، مكان، أو مشهد.",
+      "أضف الاستخدام: إعلان، منشور إنستغرام، صورة منتج، أو خلفية عرض.",
+      "حدد الأسلوب: واقعي، فاخر، بسيط، كرتوني، أو سينمائي.",
+      "أضف تفاصيل مهمة مثل اللون، الإضاءة، الزاوية، والخلفية.",
+      "بعد أول نتيجة، لا تبدأ من الصفر؛ اطلب تعديلا واحدا واضحا."
+    ],
+    copyPrompt:
+      "أنشئ صورة مربعة لاستخدامها في (إعلان / منشور / عرض تقديمي).\nالموضوع الرئيسي: (اكتب المنتج أو الفكرة).\nالجمهور: (عملاء مطعم / طلاب / أصحاب شركات / عائلة).\nالأسلوب: واقعي، نظيف، احترافي، مناسب للسوق السعودي.\nالخلفية: (بسيطة / فاخرة / مكتبية / خارجية).\nالإضاءة: ناعمة وواضحة.\nتجنب: النصوص الكثيرة، الشعارات العشوائية، الوجوه غير الطبيعية.",
+    refinements: [
+      "اجعل الصورة أكثر فخامة وأقل ازدحاما.",
+      "غيّر الخلفية إلى لون أفتح ومناسب للإعلانات.",
+      "قرّب المنتج واجعله واضحا في منتصف الصورة.",
+      "احذف أي نص غير مفهوم داخل الصورة.",
+      "اعطني نسخة مناسبة لمنشور إنستغرام."
+    ],
+    articleNote: "هذا هو نفس منطق مقال توليد الصور: وصف واضح أولا، ثم تعديل صغير بعد النتيجة.",
+    articleHref: "../../ar/articles/make-images.html"
+  },
+  image_prompt_review: {
+    label: "برومبت صورة",
+    title: "اكتب وصف الصورة قبل توليدها.",
+    summary: "هذه المهمة أرخص من توليد الصورة نفسها، ومفيدة عندما تريد تجهيز وصف قوي قبل أن تصرف credits على الصورة.",
+    steps: [
+      "اكتب فكرتك بالكلام العادي.",
+      "اطلب من AI تحويلها إلى برومبت صورة مرتب.",
+      "راجع هل فيه منتج، خلفية، أسلوب، إضاءة، ومقاس.",
+      "استخدم البرومبت النهائي في أداة الصور.",
+      "إذا ظهرت نتيجة ضعيفة، عدّل جزءا واحدا فقط."
+    ],
+    copyPrompt:
+      "حوّل هذه الفكرة إلى برومبت صورة واضح:\nالفكرة: (اكتب الفكرة ببساطة).\nالاستخدام: (إعلان / منشور / عرض / صورة منتج).\nأريد البرومبت أن يحتوي على: الموضوع الرئيسي، الخلفية، الإضاءة، الأسلوب، الألوان، وما يجب تجنبه.\nاكتب النتيجة بالعربية ثم أعطني نسخة إنجليزية مناسبة لأدوات الصور.",
+    refinements: [
+      "اجعل البرومبت أقصر وأسهل للنسخ.",
+      "أضف تفاصيل عن الإضاءة والزاوية.",
+      "اجعل الأسلوب مناسب للسوق الخليجي.",
+      "أعطني نسخة إنجليزية فقط.",
+      "أضف قائمة بالأشياء التي يجب تجنبها."
+    ],
+    articleNote: "هذه خطوة تحضيرية تساعد المستخدم على تقليل التجارب الضائعة في أدوات الصور.",
+    articleHref: "../../ar/articles/make-images.html"
+  },
+  prompt_improvement: {
+    label: "تحسين البرومبت",
+    title: "حوّل الكلام المبعثر إلى طلب يفهمه AI.",
+    summary: "البرومبت الجيد يشبه طلبا واضحا لموظف ذكي: قل له المهمة، الجمهور، الأسلوب، والشكل النهائي.",
+    steps: [
+      "اكتب فكرتك كما هي حتى لو كانت غير مرتبة.",
+      "اطلب من AI أن يسألك عن الناقص.",
+      "اختر الشكل النهائي: جدول، نقاط، رسالة، خطة، أو نص إعلان.",
+      "انسخ النسخة المحسنة واستخدمها في المهمة الأصلية.",
+      "احتفظ بالقالب إذا كانت المهمة تتكرر."
+    ],
+    copyPrompt:
+      "سأعطيك فكرة غير مرتبة. حوّلها إلى برومبت واضح يمكن نسخه واستخدامه مع AI.\nالفكرة: (اكتب فكرتك هنا).\nاسألني أولا عن أي معلومة ناقصة، ثم اكتب البرومبت النهائي بشكل بسيط ومنظم.",
+    refinements: [
+      "اجعل البرومبت أقصر.",
+      "حوّله إلى قالب أستطيع استخدامه كل مرة.",
+      "أضف خانة للجمهور وخانة للأسلوب.",
+      "اكتب نسخة عربية ونسخة إنجليزية.",
+      "اجعل النتيجة مناسبة للمبتدئين."
+    ],
+    articleNote: "هذا يربط مباشرة بين استخدام الأداة ومقال ARABAI عن البرومبت.",
+    articleHref: "../../ar/articles/prompt-guide.html"
+  },
+  ppt_outline: {
+    label: "عرض تقديمي",
+    title: "ابدأ بمخطط واضح قبل فتح أداة PPT.",
+    summary: "قبل أن تطلب من Gamma أو أي أداة بناء عرض، اجعل AI يرتب القصة: العنوان، الجمهور، عدد الشرائح، والرسالة الأساسية.",
+    steps: [
+      "اكتب موضوع العرض والجمهور.",
+      "حدد عدد الشرائح والهدف من العرض.",
+      "اطلب عناوين الشرائح قبل التفاصيل.",
+      "راجع الترتيب: هل يحكي قصة مفهومة؟",
+      "بعدها استخدم المخطط في Gamma أو أداة عروض أخرى."
+    ],
+    copyPrompt:
+      "أريد إعداد عرض تقديمي عن: (الموضوع).\nالجمهور: (طلاب / عملاء / إدارة / مستثمرون).\nعدد الشرائح: (مثلا 8).\nالهدف: (شرح / بيع / تدريب / إقناع).\nاكتب لي مخطط الشرائح: عنوان كل شريحة، النقاط الرئيسية، واقتراح بسيط للصورة أو الرسم المناسب.",
+    refinements: [
+      "اجعل العرض أكثر إقناعا.",
+      "قلل عدد الشرائح إلى 6.",
+      "أضف شريحة مقارنة.",
+      "اجعل اللغة أبسط للمبتدئين.",
+      "حوّل المخطط إلى نص مناسب لـ Gamma."
+    ],
+    articleNote: "الهدف أن يرى المستخدم كيف ينتقل من فكرة إلى مخطط ثم إلى أداة PPT.",
+    articleHref: "../../ar/articles/make-slides.html"
+  }
+};
