@@ -1,6 +1,15 @@
 dist/
 arabai-top-static-site.zip
 .DS_Store
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+*.pem
+*.key
+secrets/
 *.log
 node_modules/
 research/
