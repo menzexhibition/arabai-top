@@ -138,6 +138,7 @@ Reward rules:
 - founding user campaign: 100 credits for the first 100 verified users when enabled, equivalent to the planned 10 SAR starter trial
 - daily login: 1-2 credits, max 10 per week
 - verified referral registration: 20 credits
+- founding-user referral bonus: extra 20 credits for the first 100 users when their invited user verifies, capped per month
 - referred user's first paid package: additional 20 credits after refund-risk checks
 - useful approved contribution: 5-15 credits depending on quality
 

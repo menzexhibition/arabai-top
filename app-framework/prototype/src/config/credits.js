@@ -83,7 +83,11 @@ export const rewardRules = {
   referralVerifiedRegistration: {
     credits: 20,
     sarValue: 2,
-    requiresVerification: true
+    requiresVerification: true,
+    founderBonusCredits: 20,
+    founderBonusSarValue: 2,
+    founderMonthlyReferralCap: 10,
+    notes: "Founding users can stack extra trial chances by inviting verified real users, with monthly caps and anti-abuse checks."
   },
   referralFirstPaidPackage: {
     credits: 20,

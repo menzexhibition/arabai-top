@@ -42,6 +42,8 @@ Do not build:
 - [ ] Grant founding user campaign credits only to the first 100 verified users when enabled.
 - [ ] Confirm founding user reward cannot be claimed twice by the same user.
 - [ ] Grant daily login reward only within weekly cap.
+- [ ] Grant founding-user referral bonus only after invited user verification and anti-abuse checks.
+- [ ] Enforce monthly referral bonus cap for founding users.
 - [ ] Show wallet balance.
 - [ ] Show "You are user #N" on the signup success screen.
 - [ ] Show transaction history.

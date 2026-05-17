@@ -103,6 +103,32 @@ Purpose:
 | Referral registration verified | 20 credits | about 2 SAR | Device/IP/fingerprint checks |
 | Referral first paid package | additional 20 credits | about 2 SAR | Grant after payment and refund-risk window |
 
+## Founding User Referral Stacking
+
+The first 100 verified users should be treated as founding users. They can earn more trial chances by inviting real new users.
+
+Recommended rule:
+
+```text
+Founding user invites a new verified user -> founding user receives extra credits.
+```
+
+Suggested reward:
+
+- normal referral reward: 20 credits
+- founding-user extra referral bonus: additional 20 credits
+- total possible reward for a founding user referral: 40 credits
+- monthly cap: 10 rewarded referrals per founding user
+- abuse review: required for unusual traffic, repeated devices, repeated IP ranges, or fake-looking accounts
+
+Important:
+
+- The invited user should also receive the normal signup reward if eligible.
+- Referral rewards should stay pending until the invited user verifies email or phone.
+- If a referred account is later marked abusive, ARABAI must be able to reverse the reward.
+- Referral credits are not cash and cannot be withdrawn.
+- Referral credits should stay blocked from high-cost video, batch image generation, and manual-price tasks.
+
 User requirement:
 
 - New user and referral rewards should land around 2-4 SAR equivalent.

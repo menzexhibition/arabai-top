@@ -25,6 +25,8 @@ assert.equal(rewardRules.foundingUserCampaign.credits, 100);
 assert.equal(rewardRules.foundingUserCampaign.sarValue, 10);
 assert.equal(rewardRules.foundingUserCampaign.usdReferenceValue, 5);
 assert.equal(rewardRules.referralVerifiedRegistration.credits, 20);
+assert.equal(rewardRules.referralVerifiedRegistration.founderBonusCredits, 20);
+assert.equal(rewardRules.referralVerifiedRegistration.founderMonthlyReferralCap, 10);
 assert.equal(rewardRules.referralFirstPaidPackage.credits, 20);
 assert.equal(rewardRules.dailyLogin.weeklyCap, 10);
 

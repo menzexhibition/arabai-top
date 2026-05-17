@@ -316,6 +316,15 @@ Moderator later approves and assigns 5-15 credits.
 
 ### `POST /api/referrals/create-code`
 
+Founding user stacking rule:
+
+- If the referrer is one of the first 100 verified users, the backend may grant an extra founding referral bonus after the invited user verifies.
+- Normal referral reward: 20 credits.
+- Founding-user extra bonus: 20 credits.
+- Monthly cap: 10 rewarded referrals per founding user.
+- Reward status should stay pending until verification and anti-abuse checks pass.
+- Backend must support reversal if referred accounts are later marked abusive.
+
 Returns user's referral code and link.
 
 ```json
