@@ -2,8 +2,9 @@ import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
-import { packages, pricingRules } from "../prototype/src/config/credits.js";
+import { packages, pricingRules, rewardRules } from "../prototype/src/config/credits.js";
 import { createWallet } from "../prototype/src/services/wallet.js";
+import { verifiedSigninRoute } from "../prototype/src/routes/auth-routes.js";
 import { estimateTaskRoute, confirmTaskRoute, runTaskRoute } from "../prototype/src/routes/task-routes.js";
 import { createGatewayAdapter, createMockGatewayAdapter } from "../prototype/src/providers/gateway-adapter.js";
 
@@ -11,21 +12,38 @@ const rootDir = fileURLToPath(new URL("..", import.meta.url));
 const publicDir = join(rootDir, "prototype/public");
 
 const state = {
-  wallet: createWallet(100),
+  user: null,
+  wallet: createWallet(0),
+  registrationCount: 57,
+  foundingRewardCount: 57,
   tasks: new Map()
 };
 
 const adapter = createRuntimeAdapter();
+rewardRules.foundingUserCampaign.enabled = true;
 
 const server = createServer(async (req, res) => {
   try {
     const url = new URL(req.url, "http://127.0.0.1");
 
     if (url.pathname === "/api/me" && req.method === "GET") {
+      if (!state.user) {
+        return json(res, {
+          user: null,
+          wallet: walletView(),
+          flags: {
+            realRecharge: false,
+            aiRedemption: false,
+            requiresSignin: true
+          }
+        });
+      }
+
       return json(res, {
         user: {
-          id: "demo-user",
-          email: "demo@arabai.top",
+          id: state.user.id,
+          email: state.user.email,
+          registrationNumber: state.user.registrationNumber,
           preferredLanguage: "ar",
           country: "SA",
           role: "user",
@@ -37,6 +55,36 @@ const server = createServer(async (req, res) => {
           aiRedemption: true
         }
       });
+    }
+
+    if (url.pathname === "/api/auth/verified-signin" && req.method === "POST") {
+      const body = await readJson(req);
+      const user =
+        state.user ||
+        {
+          id: crypto.randomUUID(),
+          email: body.email || "demo@arabai.top",
+          verified: true,
+          signupRewardGranted: false,
+          foundingUserRewardGranted: false
+        };
+
+      const result = verifiedSigninRoute({
+        user,
+        currentRegistrationCount: state.registrationCount,
+        currentFoundingRewardCount: state.foundingRewardCount
+      });
+
+      if (result.isNewUser) {
+        state.registrationCount += 1;
+      }
+      if (result.foundingUserReward.granted) {
+        state.foundingRewardCount += 1;
+      }
+
+      state.user = user;
+      state.wallet = result.wallet;
+      return json(res, result);
     }
 
     if (url.pathname === "/api/wallet/packages" && req.method === "GET") {
@@ -66,6 +114,14 @@ const server = createServer(async (req, res) => {
     }
 
     if (url.pathname === "/api/tasks/confirm" && req.method === "POST") {
+      if (!state.user) {
+        return json(
+          res,
+          { error: { code: "AUTH_REQUIRED", message: "Sign in before running AI tasks." } },
+          401
+        );
+      }
+
       const body = await readJson(req);
       const task = confirmTaskRoute({
         wallet: state.wallet,

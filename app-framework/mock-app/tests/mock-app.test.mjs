@@ -10,8 +10,27 @@ try {
   const baseUrl = `http://127.0.0.1:${port}`;
 
   const me = await getJson(`${baseUrl}/api/me`);
-  assert.equal(me.user.email, "demo@arabai.top");
-  assert.equal(me.wallet.creditBalance, 100);
+  assert.equal(me.user, null);
+  assert.equal(me.wallet.creditBalance, 0);
+
+  const blockedBeforeSignin = await postJson(`${baseUrl}/api/tasks/confirm`, {
+    pricingRuleId: "premium_short_chat",
+    taskType: "chat",
+    prompt: "Rewrite this message."
+  });
+  assert.equal(blockedBeforeSignin.error.code, "AUTH_REQUIRED");
+
+  const signedIn = await postJson(`${baseUrl}/api/auth/verified-signin`, {
+    email: "demo@arabai.top"
+  });
+  assert.equal(signedIn.user.email, "demo@arabai.top");
+  assert.equal(signedIn.user.registrationNumber, 58);
+  assert.equal(signedIn.wallet.creditBalance, 120);
+
+  const meAfterSignin = await getJson(`${baseUrl}/api/me`);
+  assert.equal(meAfterSignin.user.email, "demo@arabai.top");
+  assert.equal(meAfterSignin.user.registrationNumber, 58);
+  assert.equal(meAfterSignin.wallet.creditBalance, 120);
 
   const packages = await getJson(`${baseUrl}/api/wallet/packages`);
   assert.ok(packages.packages.some((item) => item.id === "sa_starter_10"));
@@ -30,7 +49,7 @@ try {
   });
   assert.equal(confirmed.status, "completed");
   assert.equal(confirmed.actualCredits, 2);
-  assert.equal(confirmed.wallet.creditBalance, 98);
+  assert.equal(confirmed.wallet.creditBalance, 118);
 
   const task = await getJson(`${baseUrl}/api/tasks/${confirmed.taskId}`);
   assert.equal(task.status, "completed");
@@ -44,10 +63,13 @@ try {
 
   console.log("ARABAI mock app tests passed.");
 } finally {
-  state.wallet.creditBalance = 100;
-  state.wallet.redeemableCreditBalance = 100;
+  state.user = null;
+  state.wallet.creditBalance = 0;
+  state.wallet.redeemableCreditBalance = 0;
   state.wallet.reservedCreditBalance = 0;
   state.wallet.transactions = [];
+  state.registrationCount = 57;
+  state.foundingRewardCount = 57;
   state.tasks.clear();
   server.close();
 }
@@ -65,4 +87,3 @@ async function postJson(url, body) {
   });
   return response.json();
 }
-

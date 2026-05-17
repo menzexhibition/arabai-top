@@ -36,6 +36,22 @@
         </aside>
       </section>
 
+      <section id="signup" class="section signup-panel">
+        <div>
+          <p class="eyebrow">Start Free Trial</p>
+          <h2>سجل أولا حتى نحفظ رصيدك وتجاربك.</h2>
+          <p>
+            قراءة الدروس لا تحتاج تسجيل. لكن تشغيل AI، تسجيل الرصيد، ومعرفة رقمك بين المستخدمين تحتاج حسابا موثقا.
+          </p>
+        </div>
+        <form id="signupForm" class="signup-form">
+          <label for="signupEmail">البريد الإلكتروني</label>
+          <input id="signupEmail" name="email" type="email" value="demo@arabai.top" autocomplete="email" />
+          <button type="submit">تسجيل وتجربة مجانية</button>
+          <p id="signupMessage">في النسخة الحقيقية سنرسل رابط تحقق أو رمز للجوال.</p>
+        </form>
+      </section>
+
       <section id="wallet" class="section">
         <div class="section-heading">
           <p class="eyebrow">Wallet</p>
@@ -43,6 +59,11 @@
           <p>المقالات والدروس تبقى مجانية. الرصيد فقط لتجربة قدرات AI المدفوعة عند فتح الخدمة.</p>
         </div>
         <div class="wallet-grid">
+          <article>
+            <span>رقم المستخدم</span>
+            <strong id="registrationNumber">-</strong>
+            <p>بعد التسجيل</p>
+          </article>
           <article>
             <span>الرصيد الكلي</span>
             <strong id="creditBalance">100</strong>

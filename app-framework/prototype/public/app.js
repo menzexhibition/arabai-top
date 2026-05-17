@@ -4,9 +4,13 @@ import { createWallet, reserveCredits } from "../src/services/wallet.js";
 
 const wallet = createWallet(100);
 let apiMode = false;
+let signedIn = false;
+let currentUser = null;
 let selectedTask = null;
 let selectedEstimate = null;
 
+const signupForm = document.querySelector("#signupForm");
+const signupMessage = document.querySelector("#signupMessage");
 const packageGrid = document.querySelector("#packageGrid");
 const taskGrid = document.querySelector("#taskGrid");
 const operationSelect = document.querySelector("#operationSelect");
@@ -17,6 +21,12 @@ const confirmButton = document.querySelector("#confirmButton");
 const guideContent = document.querySelector("#guideContent");
 
 await boot();
+
+signupForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const formData = new FormData(signupForm);
+  await signinWithApi(formData.get("email") || "demo@arabai.top");
+});
 
 confirmButton.addEventListener("click", async () => {
   if (!selectedTask || !selectedEstimate?.estimatedCredits) return;
@@ -44,10 +54,7 @@ async function boot() {
     if (response.ok) {
       const data = await response.json();
       apiMode = true;
-      wallet.creditBalance = data.wallet.creditBalance;
-      wallet.redeemableCreditBalance = data.wallet.redeemableCreditBalance;
-      wallet.reservedCreditBalance = data.wallet.reservedCreditBalance;
-      wallet.pendingCreditBalance = data.wallet.pendingCreditBalance;
+      hydrateSession(data);
     }
   } catch {
     apiMode = false;
@@ -60,7 +67,41 @@ async function boot() {
   renderGuide(null);
 }
 
+async function signinWithApi(email) {
+  if (!apiMode) {
+    signedIn = true;
+    currentUser = { email, registrationNumber: 58 };
+    wallet.creditBalance = 120;
+    wallet.redeemableCreditBalance = 120;
+    signupMessage.textContent = "أنت المستخدم رقم 58 في ARABAI. تمت إضافة رصيد التجربة المجانية.";
+    renderWallet();
+    return;
+  }
+
+  const response = await fetch("/api/auth/verified-signin", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ email })
+  });
+  const data = await response.json();
+  hydrateSession(data);
+  signupMessage.textContent = arabicSigninMessage(data);
+  renderWallet();
+}
+
+function hydrateSession(data) {
+  currentUser = data.user;
+  signedIn = Boolean(data.user);
+  wallet.creditBalance = data.wallet.creditBalance;
+  wallet.redeemableCreditBalance = data.wallet.redeemableCreditBalance;
+  wallet.reservedCreditBalance = data.wallet.reservedCreditBalance;
+  wallet.pendingCreditBalance = data.wallet.pendingCreditBalance;
+}
+
 function renderWallet() {
+  document.querySelector("#registrationNumber").textContent = currentUser?.registrationNumber
+    ? `#${currentUser.registrationNumber}`
+    : "-";
   document.querySelector("#creditBalance").textContent = wallet.creditBalance.toFixed(0);
   document.querySelector("#redeemableBalance").textContent = wallet.redeemableCreditBalance.toFixed(0);
   document.querySelector("#reservedBalance").textContent = wallet.reservedCreditBalance.toFixed(0);
@@ -163,6 +204,12 @@ async function estimateWithApi(requestBody) {
 }
 
 async function confirmWithApi() {
+  if (!signedIn) {
+    estimateTitle.textContent = "سجل أولا";
+    estimateMessage.textContent = "تشغيل AI يحتاج حسابا حتى نحفظ الرصيد والنتيجة وسجل الاستخدام.";
+    return;
+  }
+
   try {
     const response = await fetch("/api/tasks/confirm", {
       method: "POST",
@@ -184,6 +231,14 @@ async function confirmWithApi() {
     estimateTitle.textContent = "تعذر تشغيل المهمة";
     estimateMessage.textContent = error instanceof Error ? error.message : "حدث خطأ.";
   }
+}
+
+function arabicSigninMessage(data) {
+  if (!data.user?.registrationNumber) return "تم تسجيل الدخول.";
+  if (data.foundingUserReward?.granted) {
+    return `أنت المستخدم رقم ${data.user.registrationNumber} في ARABAI. تمت إضافة رصيد التجربة المبكرة إلى حسابك.`;
+  }
+  return `أنت المستخدم رقم ${data.user.registrationNumber} في ARABAI.`;
 }
 
 function selectedTaskRequest() {

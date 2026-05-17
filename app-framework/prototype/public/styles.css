@@ -40,6 +40,16 @@ button {
   cursor: pointer;
 }
 
+input {
+  width: min(100%, 24rem);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.85rem 1rem;
+  color: var(--ink);
+  background: var(--surface);
+  font: inherit;
+}
+
 select {
   width: min(100%, 24rem);
   border: 1px solid var(--line);
@@ -191,6 +201,35 @@ main {
   gap: 1rem;
 }
 
+.signup-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.8fr);
+  gap: 1rem;
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(0, 140, 149, 0.1), transparent 26rem),
+    rgba(255, 254, 250, 0.92);
+}
+
+.signup-form {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid rgba(0, 140, 149, 0.2);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.signup-form label {
+  font-weight: 800;
+}
+
+.signup-form p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
 .operation-picker {
   display: grid;
   gap: 0.55rem;
@@ -331,6 +370,7 @@ main {
   }
 
   .hero,
+  .signup-panel,
   .wallet-grid,
   .package-grid,
   .task-grid,
