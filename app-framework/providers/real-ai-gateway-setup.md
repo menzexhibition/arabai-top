@@ -21,6 +21,27 @@ AI_GATEWAY_IMAGE_MODEL=your-image-model
 AI_GATEWAY_TIMEOUT_MS=60000
 ```
 
+For the current MyTokenLand/New API gateway draft, use this routing shape and fill only the real API key manually:
+
+```bash
+USE_REAL_AI_GATEWAY=true
+AI_GATEWAY_PROVIDER=new-api
+AI_GATEWAY_BASE_URL=https://api.mytokenland.com
+AI_GATEWAY_API_KEY=your-server-side-key
+
+AI_GATEWAY_TEXT_MODEL=claude-sonnet-4-6
+AI_GATEWAY_IMAGE_MODEL=gpt-image-2
+
+AI_MODEL_FREE_CHAT=doubao-seed-2.0-lite
+AI_MODEL_DEFAULT_CHAT=claude-sonnet-4-6
+AI_MODEL_PREMIUM_CHAT=gpt-5.4-mini
+AI_MODEL_TOP_CHAT=gpt-5.4
+AI_MODEL_REASONING=deepseek-v4-flash
+AI_MODEL_STRONG_REASONING=deepseek-v4-pro
+AI_MODEL_CODING=gpt-5.3-codex
+AI_MODEL_IMAGE=gpt-image-2
+```
+
 Never put `AI_GATEWAY_API_KEY` in frontend JavaScript, GitHub Pages, browser localStorage, or public HTML.
 
 ## Expected Gateway Compatibility
@@ -136,4 +157,3 @@ Before using real API with public users:
 - Failed provider calls release/refund reserved credits.
 - Admin can disable provider/model quickly.
 - Logs do not store sensitive user data unnecessarily.
-
