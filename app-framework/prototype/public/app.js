@@ -25,7 +25,13 @@ await boot();
 signupForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const formData = new FormData(signupForm);
-  await signinWithApi(formData.get("email") || "demo@arabai.top");
+  await signinWithApi({
+    displayName: formData.get("displayName") || "ARABAI user",
+    email: formData.get("email") || "",
+    phone: formData.get("phone") || "",
+    country: formData.get("country") || "SA",
+    preferredLanguage: formData.get("preferredLanguage") || "ar"
+  });
 });
 
 confirmButton.addEventListener("click", async () => {
@@ -67,10 +73,15 @@ async function boot() {
   renderGuide(null);
 }
 
-async function signinWithApi(email) {
+async function signinWithApi(profile) {
+  if (!profile.email && !profile.phone) {
+    signupMessage.textContent = "أدخل بريدا إلكترونيا أو رقم جوال حتى نحفظ رصيدك.";
+    return;
+  }
+
   if (!apiMode) {
     signedIn = true;
-    currentUser = { email, registrationNumber: 58 };
+    currentUser = { ...profile, registrationNumber: 58 };
     wallet.creditBalance = 120;
     wallet.redeemableCreditBalance = 120;
     signupMessage.textContent = "أنت المستخدم رقم 58 في ARABAI. تمت إضافة رصيد التجربة المجانية.";
@@ -81,7 +92,7 @@ async function signinWithApi(email) {
   const response = await fetch("/api/auth/verified-signin", {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ email })
+    body: JSON.stringify(profile)
   });
   const data = await response.json();
   hydrateSession(data);

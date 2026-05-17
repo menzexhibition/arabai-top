@@ -45,10 +45,29 @@
           </p>
         </div>
         <form id="signupForm" class="signup-form">
+          <label for="signupName">الاسم أو اللقب</label>
+          <input id="signupName" name="displayName" type="text" value="ARABAI user" autocomplete="name" />
           <label for="signupEmail">البريد الإلكتروني</label>
           <input id="signupEmail" name="email" type="email" value="demo@arabai.top" autocomplete="email" />
+          <label for="signupPhone">رقم الجوال</label>
+          <input id="signupPhone" name="phone" type="tel" value="+966500000000" autocomplete="tel" />
+          <label for="signupCountry">الدولة</label>
+          <select id="signupCountry" name="country">
+            <option value="SA">السعودية</option>
+            <option value="AE">الإمارات</option>
+            <option value="KW">الكويت</option>
+            <option value="QA">قطر</option>
+            <option value="BH">البحرين</option>
+            <option value="OM">عمان</option>
+            <option value="OTHER">دولة أخرى</option>
+          </select>
+          <label for="signupLanguage">لغة الواجهة</label>
+          <select id="signupLanguage" name="preferredLanguage">
+            <option value="ar">العربية</option>
+            <option value="en">English</option>
+          </select>
           <button type="submit">تسجيل وتجربة مجانية</button>
-          <p id="signupMessage">في النسخة الحقيقية سنرسل رابط تحقق أو رمز للجوال.</p>
+          <p id="signupMessage">نحتاج وسيلة تواصل واحدة على الأقل لحفظ الرصيد. لا نطلب هوية أو عنوانا أو معلومات دفع.</p>
         </form>
       </section>
 

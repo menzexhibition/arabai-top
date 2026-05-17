@@ -21,9 +21,15 @@ try {
   assert.equal(blockedBeforeSignin.error.code, "AUTH_REQUIRED");
 
   const signedIn = await postJson(`${baseUrl}/api/auth/verified-signin`, {
-    email: "demo@arabai.top"
+    displayName: "Demo User",
+    email: "demo@arabai.top",
+    phone: "+966500000000",
+    country: "SA",
+    preferredLanguage: "ar"
   });
   assert.equal(signedIn.user.email, "demo@arabai.top");
+  assert.equal(signedIn.user.phone, "+966500000000");
+  assert.equal(signedIn.user.country, "SA");
   assert.equal(signedIn.user.registrationNumber, 58);
   assert.equal(signedIn.wallet.creditBalance, 120);
 

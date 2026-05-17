@@ -50,6 +50,11 @@ input {
   font: inherit;
 }
 
+.signup-form input,
+.signup-form select {
+  width: 100%;
+}
+
 select {
   width: min(100%, 24rem);
   border: 1px solid var(--line);

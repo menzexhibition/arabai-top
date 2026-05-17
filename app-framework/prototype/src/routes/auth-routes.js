@@ -51,6 +51,10 @@ export function verifiedSigninRoute({ user, currentRegistrationCount, currentFou
     user: {
       id: user.id,
       email: user.email,
+      phone: user.phone,
+      displayName: user.displayName,
+      country: user.country,
+      preferredLanguage: user.preferredLanguage,
       registrationNumber: user.registrationNumber,
       verified: user.verified
     },

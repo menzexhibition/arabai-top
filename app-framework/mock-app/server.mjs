@@ -43,9 +43,11 @@ const server = createServer(async (req, res) => {
         user: {
           id: state.user.id,
           email: state.user.email,
+          phone: state.user.phone,
+          displayName: state.user.displayName,
           registrationNumber: state.user.registrationNumber,
-          preferredLanguage: "ar",
-          country: "SA",
+          preferredLanguage: state.user.preferredLanguage || "ar",
+          country: state.user.country || "SA",
           role: "user",
           referralCode: "arabai-demo"
         },
@@ -64,6 +66,10 @@ const server = createServer(async (req, res) => {
         {
           id: crypto.randomUUID(),
           email: body.email || "demo@arabai.top",
+          phone: body.phone || "",
+          displayName: body.displayName || "ARABAI user",
+          country: body.country || "SA",
+          preferredLanguage: body.preferredLanguage || "ar",
           verified: true,
           signupRewardGranted: false,
           foundingUserRewardGranted: false

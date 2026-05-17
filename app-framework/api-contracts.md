@@ -48,6 +48,15 @@ Returns the current user and wallet summary.
 
 Called after auth provider verifies email, phone, Google, or magic link.
 
+Recommended lightweight signup fields:
+
+- display name or nickname
+- email or phone, at least one required
+- country or region
+- preferred language
+
+Do not request national ID, exact address, birthday, employer, payment details, or other sensitive data for the basic ARABAI signup.
+
 Server actions:
 
 1. Upsert profile.

@@ -35,6 +35,8 @@ Do not build:
 ## Auth And Wallet
 
 - [ ] Create profile after verified sign-in.
+- [ ] Require email or phone, plus optional display name, country, and preferred language.
+- [ ] Do not collect ID documents, exact address, birthday, or payment details during basic signup.
 - [ ] Assign and return a server-side registration number after verified signup.
 - [ ] Create wallet after profile creation.
 - [ ] Grant signup reward only once.
