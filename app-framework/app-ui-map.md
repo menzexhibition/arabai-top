@@ -80,6 +80,13 @@ Purpose:
 
 Normal users choose tasks, not APIs.
 
+Primary interaction:
+
+- show a simple operation dropdown first
+- operation options: text, image, video, slides/plan
+- each operation maps to one backend model route
+- do not ask normal users to choose between model names
+
 First task cards:
 
 - Ask a stronger AI model

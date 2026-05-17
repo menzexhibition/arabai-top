@@ -40,6 +40,17 @@ button {
   cursor: pointer;
 }
 
+select {
+  width: min(100%, 24rem);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.85rem 1rem;
+  color: var(--ink);
+  background: var(--surface);
+  font: inherit;
+  font-weight: 700;
+}
+
 button:disabled {
   cursor: not-allowed;
   opacity: 0.45;
@@ -178,6 +189,28 @@ main {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
+}
+
+.operation-picker {
+  display: grid;
+  gap: 0.55rem;
+  max-width: 42rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(0, 140, 149, 0.2);
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(0, 140, 149, 0.06), rgba(214, 168, 79, 0.08));
+}
+
+.operation-picker label {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.operation-picker p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
 }
 
 .wallet-grid article,

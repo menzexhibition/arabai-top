@@ -9,6 +9,8 @@ let selectedEstimate = null;
 
 const packageGrid = document.querySelector("#packageGrid");
 const taskGrid = document.querySelector("#taskGrid");
+const operationSelect = document.querySelector("#operationSelect");
+const operationHelp = document.querySelector("#operationHelp");
 const estimateTitle = document.querySelector("#estimateTitle");
 const estimateMessage = document.querySelector("#estimateMessage");
 const confirmButton = document.querySelector("#confirmButton");
@@ -53,6 +55,7 @@ async function boot() {
 
   renderWallet();
   await renderPackages();
+  renderOperationSelect();
   renderTasks();
   renderGuide(null);
 }
@@ -91,19 +94,9 @@ async function renderPackages() {
 }
 
 function renderTasks() {
-  const visibleRules = [
-    "premium_short_chat",
-    "prompt_improvement",
-    "premium_long_answer",
-    "long_document_summary",
-    "image_prompt_review",
-    "image_generation_low",
-    "ppt_outline",
-    "video_script"
-  ];
+  const visibleRules = operationGroups.flatMap((group) => group.tasks);
 
-  taskGrid.innerHTML = pricingRules
-    .filter((rule) => visibleRules.includes(rule.id))
+  taskGrid.innerHTML = getVisibleRules(visibleRules)
     .map(
       (rule) => `
         <article data-rule-id="${rule.id}">
@@ -127,6 +120,37 @@ function renderTasks() {
       renderGuide(selectedTask);
     });
   });
+}
+
+function renderOperationSelect() {
+  operationSelect.innerHTML = [
+    `<option value="">اختر العملية</option>`,
+    ...operationGroups.map((group) => `<option value="${group.id}">${group.label}</option>`)
+  ].join("");
+
+  operationSelect.addEventListener("change", () => {
+    clearSelection();
+    renderTasks();
+    const group = operationGroups.find((item) => item.id === operationSelect.value);
+    operationHelp.textContent = group
+      ? `${group.description} يستخدم ARABAI نموذجا واحدا مناسبا لهذه العملية في الخلفية.`
+      : "كل عملية تستخدم نموذجا واحدا مناسبا في الخلفية حتى لا يحتار المستخدم.";
+  });
+}
+
+function getVisibleRules(allTaskIds) {
+  const selectedGroup = operationGroups.find((group) => group.id === operationSelect.value);
+  const taskIds = selectedGroup ? selectedGroup.tasks : allTaskIds;
+  return pricingRules.filter((rule) => taskIds.includes(rule.id));
+}
+
+function clearSelection() {
+  selectedTask = null;
+  selectedEstimate = null;
+  estimateTitle.textContent = "اختر مهمة أولا";
+  estimateMessage.textContent = "سيظهر هنا عدد credits المتوقع قبل تشغيل المهمة.";
+  confirmButton.disabled = true;
+  renderGuide(null);
 }
 
 async function estimateWithApi(requestBody) {
@@ -164,11 +188,15 @@ async function confirmWithApi() {
 
 function selectedTaskRequest() {
   const guide = taskGuides[selectedTask];
+  const operation = operationGroups.find((group) => group.tasks.includes(selectedTask));
   return {
     pricingRuleId: selectedTask,
     taskType: pricingRules.find((rule) => rule.id === selectedTask).taskType,
     prompt: guide?.copyPrompt || "Demo prompt for ARABAI app prototype.",
-    options: { quality: selectedTask.includes("image") ? "standard" : "normal" }
+    options: {
+      quality: selectedTask.includes("image") ? "standard" : "normal",
+      modelRoute: operation?.modelRoute
+    }
   };
 }
 
@@ -213,6 +241,37 @@ function translateTask(id) {
     video_script: "سكربت فيديو قصير"
   }[id] || id;
 }
+
+const operationGroups = [
+  {
+    id: "text",
+    label: "نص وكتابة",
+    description: "للأسئلة، الكتابة، إعادة الصياغة، والخطط القصيرة.",
+    modelRoute: "AI_MODEL_DEFAULT_CHAT",
+    tasks: ["premium_short_chat", "prompt_improvement", "premium_long_answer", "long_document_summary"]
+  },
+  {
+    id: "image",
+    label: "صورة",
+    description: "لتحضير برومبت صورة أو توليد صورة بسيطة.",
+    modelRoute: "AI_MODEL_IMAGE",
+    tasks: ["image_prompt_review", "image_generation_low"]
+  },
+  {
+    id: "slides",
+    label: "عرض أو خطة",
+    description: "لبناء مخطط عرض تقديمي أو ترتيب فكرة مشروع.",
+    modelRoute: "AI_MODEL_DEFAULT_CHAT",
+    tasks: ["ppt_outline"]
+  },
+  {
+    id: "video",
+    label: "فيديو",
+    description: "لكتابة سكربت فيديو وتقسيمه إلى مشاهد قبل استخدام أداة الفيديو.",
+    modelRoute: "AI_MODEL_DEFAULT_CHAT",
+    tasks: ["video_script"]
+  }
+];
 
 function renderGuide(ruleId) {
   const guide = taskGuides[ruleId] || defaultGuide;

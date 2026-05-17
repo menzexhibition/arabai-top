@@ -73,8 +73,15 @@
       <section id="use-ai" class="section">
         <div class="section-heading">
           <p class="eyebrow">Use AI</p>
-          <h2>اختر المهمة، وليس اسم API.</h2>
-          <p>المستخدم العادي لا يحتاج رؤية التوكن أو مفاتيح API. هو يختار ما يريد إنجازه.</p>
+          <h2>اختر نوع العملية فقط.</h2>
+          <p>المستخدم العادي لا يحتاج اختيار النموذج. ARABAI يختار نموذجا مناسبا لكل نوع: نص، صورة، فيديو، أو عرض.</p>
+        </div>
+        <div class="operation-picker">
+          <label for="operationSelect">ماذا تريد أن تفعل؟</label>
+          <select id="operationSelect">
+            <option value="">اختر العملية</option>
+          </select>
+          <p id="operationHelp">كل عملية تستخدم نموذجا واحدا مناسبا في الخلفية حتى لا يحتار المستخدم.</p>
         </div>
         <div id="taskGrid" class="task-grid"></div>
       </section>
