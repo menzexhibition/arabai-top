@@ -31,6 +31,20 @@ It does not contain real secrets and does not process real payments.
 12. Add video/music only after cost controls are proven.
 13. Add Arabic app UI once the backend flow is stable.
 
+## Vercel MVP Entry
+
+This repository now includes a small Vercel-compatible MVP:
+
+```text
+/app
+/api/me
+/api/auth/verified-signin
+/api/tasks/estimate
+/api/tasks/confirm
+```
+
+It is still a demo gateway until Supabase persistence is connected. Use it to test the online flow first, then replace the in-memory state with Supabase tables.
+
 ## Important Rule
 
 Published ARABAI guide content remains free. Paid features are only:

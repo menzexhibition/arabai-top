@@ -2,12 +2,13 @@ import assert from "node:assert/strict";
 import { once } from "node:events";
 import { server, state } from "../server.mjs";
 
-const port = 8891;
+const port = 0;
 server.listen(port, "127.0.0.1");
 await once(server, "listening");
 
 try {
-  const baseUrl = `http://127.0.0.1:${port}`;
+  const address = server.address();
+  const baseUrl = `http://127.0.0.1:${address.port}`;
 
   const me = await getJson(`${baseUrl}/api/me`);
   assert.equal(me.user, null);

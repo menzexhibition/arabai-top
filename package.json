@@ -1,0 +1,10 @@
+{
+  "name": "arabai-top",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check api/app.js && node --check app-framework/prototype/public/app.js && node api/app.test.mjs && node app-framework/prototype/tests/pricing.test.mjs",
+    "check:mock": "node app-framework/mock-app/tests/mock-app.test.mjs"
+  }
+}
