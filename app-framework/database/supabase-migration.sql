@@ -1,88 +1,87 @@
--- ARABAI Supabase migration draft.
--- Review before running in production.
+-- ARABAI Supabase migration for the lightweight app-persistence mode.
+-- This schema matches the current Vercel API optional store in api/app.js.
+-- It does not depend on Supabase Auth tables. User identity is stored in public.users
+-- and linked to a lightweight server-side session cookie.
 
 create extension if not exists "pgcrypto";
 
-create type public.app_role as enum ('user', 'moderator', 'admin');
-create type public.transaction_type as enum (
-  'signup_reward',
-  'founding_user_reward',
-  'daily_login_reward',
-  'contribution_reward',
-  'referral_reward',
-  'top_up',
-  'spend',
-  'refund',
-  'adjustment',
-  'reserve',
-  'release',
-  'expire'
-);
-create type public.transaction_status as enum (
-  'pending',
-  'approved',
-  'rejected',
-  'available',
-  'redeemable',
-  'reserved',
-  'spent',
-  'reversed'
-);
-create type public.task_type as enum ('chat', 'prompt', 'image', 'video', 'music', 'slides', 'document');
-create type public.task_status as enum ('draft', 'estimated', 'confirmed', 'queued', 'running', 'completed', 'failed', 'refunded', 'cancelled');
-create type public.cost_level as enum ('low', 'medium', 'high', 'manual');
-
-create table public.profiles (
-  id uuid primary key references auth.users(id) on delete cascade,
+create table public.users (
+  id uuid primary key,
   email text unique,
   phone text,
   display_name text,
   country text,
-  registration_number bigint generated always as identity unique,
-  preferred_language text not null default 'ar',
-  role public.app_role not null default 'user',
-  referral_code text unique not null default encode(gen_random_bytes(6), 'hex'),
-  referred_by_user_id uuid references public.profiles(id),
+  registration_number bigint unique,
+  preferred_language text default 'en',
+  role text not null default 'user' check (role in ('user', 'moderator', 'admin')),
+  referral_code text unique,
+  referred_by_user_id uuid references public.users(id),
   signup_reward_granted boolean not null default false,
   founding_user_reward_granted boolean not null default false,
   last_login_at timestamptz,
-  created_at timestamptz not null default now()
+  created_at timestamptz default now()
 );
 
 create table public.wallets (
-  user_id uuid primary key references public.profiles(id) on delete cascade,
+  user_id uuid primary key references public.users(id),
   credit_balance numeric(12, 2) not null default 0,
   pending_credit_balance numeric(12, 2) not null default 0,
   redeemable_credit_balance numeric(12, 2) not null default 0,
   reserved_credit_balance numeric(12, 2) not null default 0,
   currency text not null default 'SAR',
-  updated_at timestamptz not null default now()
+  updated_at timestamptz default now()
 );
 
 create table public.wallet_transactions (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid not null references public.profiles(id) on delete cascade,
-  type public.transaction_type not null,
-  status public.transaction_status not null default 'pending',
+  id uuid primary key,
+  user_id uuid not null references public.users(id),
+  type text not null check (
+    type in (
+      'signup_reward',
+      'founding_user_reward',
+      'daily_login_reward',
+      'contribution_reward',
+      'referral_reward',
+      'top_up',
+      'spend',
+      'refund',
+      'adjustment',
+      'reserve',
+      'release',
+      'expire'
+    )
+  ),
+  status text not null default 'pending' check (
+    status in (
+      'pending',
+      'approved',
+      'rejected',
+      'available',
+      'redeemable',
+      'reserved',
+      'spent',
+      'reversed'
+    )
+  ),
   credits numeric(12, 2) not null,
   money_amount numeric(12, 2),
   currency text default 'SAR',
   provider text,
   provider_reference text,
   source_id uuid,
-  reviewed_by uuid references public.profiles(id),
+  reviewed_by uuid references public.users(id),
   reviewed_at timestamptz,
   note text,
-  created_at timestamptz not null default now()
+  created_at timestamptz default now()
 );
 
 create table public.campaign_rewards (
-  id uuid primary key default gen_random_uuid(),
+  id uuid primary key,
   campaign_id text not null,
-  user_id uuid not null references public.profiles(id) on delete cascade,
+  user_id uuid not null references public.users(id),
   credits numeric(12, 2) not null,
   status text not null default 'granted' check (status in ('pending', 'granted', 'reversed', 'expired')),
-  granted_at timestamptz not null default now(),
+  granted_at timestamptz default now(),
   reversed_at timestamptz,
   note text,
   unique (campaign_id, user_id)
@@ -96,7 +95,7 @@ create table public.credit_packages (
   credits numeric(12, 2) not null,
   max_provider_cost_amount numeric(12, 2) not null,
   enabled boolean not null default false,
-  created_at timestamptz not null default now()
+  created_at timestamptz default now()
 );
 
 insert into public.credit_packages (id, name, price_amount, currency, credits, max_provider_cost_amount, enabled) values
@@ -110,16 +109,16 @@ on conflict (id) do nothing;
 
 create table public.credit_pricing_rules (
   id text primary key,
-  task_type public.task_type not null,
+  task_type text not null check (task_type in ('chat', 'prompt', 'image', 'video', 'music', 'slides', 'document')),
   label text not null,
   min_credits numeric(12, 2) not null,
   max_credits numeric(12, 2) not null,
-  cost_level public.cost_level not null,
+  cost_level text not null check (cost_level in ('low', 'medium', 'high', 'manual')),
   free_credits_allowed boolean not null default false,
   requires_confirmation boolean not null default true,
   enabled boolean not null default true,
   notes text,
-  updated_at timestamptz not null default now()
+  updated_at timestamptz default now()
 );
 
 insert into public.credit_pricing_rules (id, task_type, label, min_credits, max_credits, cost_level, free_credits_allowed, requires_confirmation, notes) values
@@ -142,11 +141,11 @@ insert into public.credit_pricing_rules (id, task_type, label, min_credits, max_
 on conflict (id) do nothing;
 
 create table public.ai_tasks (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid not null references public.profiles(id) on delete cascade,
-  task_type public.task_type not null,
+  id uuid primary key,
+  user_id uuid not null references public.users(id),
+  task_type text not null check (task_type in ('chat', 'prompt', 'image', 'video', 'music', 'slides', 'document')),
   pricing_rule_id text references public.credit_pricing_rules(id),
-  status public.task_status not null default 'draft',
+  status text not null check (status in ('draft', 'estimated', 'confirmed', 'queued', 'running', 'completed', 'failed', 'refunded', 'cancelled')),
   estimated_credits numeric(12, 2) not null,
   actual_credits numeric(12, 2),
   reserved_credits numeric(12, 2),
@@ -158,41 +157,14 @@ create table public.ai_tasks (
   output_url text,
   output_text text,
   error_message text,
-  created_at timestamptz not null default now(),
+  created_at timestamptz default now(),
   started_at timestamptz,
   completed_at timestamptz
 );
 
-create table public.payment_events (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid references public.profiles(id),
-  provider text not null,
-  provider_event_id text unique not null,
-  package_id text references public.credit_packages(id),
-  amount numeric(12, 2),
-  currency text,
-  status text not null,
-  raw_event jsonb,
-  processed_at timestamptz,
-  created_at timestamptz not null default now()
-);
-
-create table public.provider_cost_logs (
-  id uuid primary key default gen_random_uuid(),
-  task_id uuid references public.ai_tasks(id) on delete cascade,
-  provider text not null,
-  model_name text,
-  input_units numeric(18, 6),
-  output_units numeric(18, 6),
-  cost_amount numeric(12, 6),
-  currency text,
-  raw_meta jsonb,
-  created_at timestamptz not null default now()
-);
-
 create table public.community_submissions (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid not null references public.profiles(id) on delete cascade,
+  id uuid primary key,
+  user_id uuid not null references public.users(id),
   type text not null check (type in ('question', 'ai_example', 'tool_suggestion', 'correction', 'tutorial_feedback', 'beginner_tip')),
   title text not null,
   content text not null,
@@ -200,58 +172,57 @@ create table public.community_submissions (
   status text not null default 'submitted' check (status in ('submitted', 'under_review', 'approved', 'rejected', 'spam')),
   quality_score int,
   reward_credits numeric(12, 2),
-  reviewed_by uuid references public.profiles(id),
+  reviewed_by uuid references public.users(id),
   review_note text,
-  created_at timestamptz not null default now(),
+  created_at timestamptz default now(),
   reviewed_at timestamptz
 );
 
 create table public.referrals (
-  id uuid primary key default gen_random_uuid(),
-  referrer_user_id uuid not null references public.profiles(id) on delete cascade,
-  referred_user_id uuid references public.profiles(id),
+  id uuid primary key,
+  referrer_user_id uuid not null references public.users(id),
+  referred_user_id uuid references public.users(id),
   status text not null default 'pending' check (status in ('pending', 'verified', 'rewarded', 'rejected')),
   reward_credits numeric(12, 2),
-  created_at timestamptz not null default now(),
+  created_at timestamptz default now(),
   verified_at timestamptz,
   rewarded_at timestamptz
+);
+
+create table public.outbound_clicks (
+  id uuid primary key,
+  user_id uuid references public.users(id),
+  article_id text,
+  link_label text,
+  target_url text not null,
+  link_type text,
+  created_at timestamptz default now()
+);
+
+create table public.recharge_exposure_events (
+  id uuid primary key,
+  user_id uuid references public.users(id),
+  anonymous_bucket int,
+  intent_score int,
+  article_id text,
+  shown boolean default false,
+  created_at timestamptz default now()
+);
+
+create table public.task_marketplace_leads (
+  id uuid primary key,
+  user_id uuid references public.users(id),
+  task_title text not null,
+  task_type text,
+  budget_amount numeric(12, 2),
+  currency text default 'USD',
+  status text default 'draft',
+  created_at timestamptz default now()
 );
 
 create index wallet_transactions_user_created_idx on public.wallet_transactions (user_id, created_at desc);
 create index campaign_rewards_campaign_granted_idx on public.campaign_rewards (campaign_id, granted_at);
 create index ai_tasks_user_created_idx on public.ai_tasks (user_id, created_at desc);
 create index ai_tasks_status_created_idx on public.ai_tasks (status, created_at);
-create index provider_cost_logs_task_idx on public.provider_cost_logs (task_id);
 create index community_submissions_status_idx on public.community_submissions (status, created_at);
 create index referrals_referrer_idx on public.referrals (referrer_user_id, created_at desc);
-
-alter table public.profiles enable row level security;
-alter table public.wallets enable row level security;
-alter table public.wallet_transactions enable row level security;
-alter table public.campaign_rewards enable row level security;
-alter table public.credit_packages enable row level security;
-alter table public.credit_pricing_rules enable row level security;
-alter table public.ai_tasks enable row level security;
-alter table public.payment_events enable row level security;
-alter table public.provider_cost_logs enable row level security;
-alter table public.community_submissions enable row level security;
-alter table public.referrals enable row level security;
-
-create policy "users can read own profile" on public.profiles for select using (auth.uid() = id);
-create policy "users can update own profile" on public.profiles for update using (auth.uid() = id);
-
-create policy "users can read own wallet" on public.wallets for select using (auth.uid() = user_id);
-create policy "users can read own transactions" on public.wallet_transactions for select using (auth.uid() = user_id);
-create policy "users can read own campaign rewards" on public.campaign_rewards for select using (auth.uid() = user_id);
-
-create policy "public can read enabled packages" on public.credit_packages for select using (enabled = true);
-create policy "authenticated can read pricing rules" on public.credit_pricing_rules for select using (auth.role() = 'authenticated' and enabled = true);
-
-create policy "users can read own tasks" on public.ai_tasks for select using (auth.uid() = user_id);
-create policy "users can read own payment events" on public.payment_events for select using (auth.uid() = user_id);
-create policy "users can read own submissions" on public.community_submissions for select using (auth.uid() = user_id);
-create policy "users can create own submissions" on public.community_submissions for insert with check (auth.uid() = user_id);
-create policy "users can read own referrals" on public.referrals for select using (auth.uid() = referrer_user_id or auth.uid() = referred_user_id);
-
--- Writes that change balances, task status, payment state, rewards, or provider costs
--- should be performed through service-role backend functions only.
