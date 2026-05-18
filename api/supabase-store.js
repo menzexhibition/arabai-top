@@ -1,0 +1,188 @@
+const SUPABASE_URL = process.env.SUPABASE_URL || "";
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+
+export function createSupabaseStore() {
+  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) return null;
+
+  return {
+    isReady: true,
+    async findUserById(id) {
+      const rows = await selectRows("users", { id });
+      return rows[0] || null;
+    },
+    async findUserByEmailOrPhone({ email, phone }) {
+      if (email) {
+        const byEmail = await selectRows("users", { email });
+        if (byEmail[0]) return byEmail[0];
+      }
+      if (phone) {
+        const byPhone = await selectRows("users", { phone });
+        if (byPhone[0]) return byPhone[0];
+      }
+      return null;
+    },
+    async countUsers() {
+      const rows = await selectRows("users", {}, ["id"]);
+      return rows.length;
+    },
+    async createUser(user) {
+      const rows = await insertRows("users", [user]);
+      return rows[0] || null;
+    },
+    async updateUser(id, patch) {
+      const rows = await patchRows("users", { id }, patch);
+      return rows[0] || null;
+    },
+    async countFoundingRewardsGranted() {
+      const rows = await selectRows("users", { founding_user_reward_granted: "eq.true" }, ["id"]);
+      return rows.length;
+    },
+    async getWallet(userId) {
+      const rows = await selectRows("wallets", { user_id: userId });
+      return rows[0] || null;
+    },
+    async upsertWallet(userId, wallet) {
+      const rows = await upsertRows(
+        "wallets",
+        [
+          {
+            user_id: userId,
+            credit_balance: numberOrZero(wallet.creditBalance),
+            pending_credit_balance: numberOrZero(wallet.pendingCreditBalance),
+            redeemable_credit_balance: numberOrZero(wallet.redeemableCreditBalance),
+            reserved_credit_balance: numberOrZero(wallet.reservedCreditBalance),
+            updated_at: new Date().toISOString()
+          }
+        ],
+        "user_id"
+      );
+      return rows[0] || null;
+    },
+    async listTransactions(userId, limit = 50) {
+      return selectRows(
+        "wallet_transactions",
+        { user_id: userId },
+        [
+          "id",
+          "user_id",
+          "type",
+          "status",
+          "credits",
+          "money_amount",
+          "currency",
+          "provider",
+          "provider_reference",
+          "source_id",
+          "reviewed_by",
+          "reviewed_at",
+          "note",
+          "created_at"
+        ],
+        `created_at.asc&limit=${limit}`
+      );
+    },
+    async insertTransactions(userId, transactions) {
+      if (!transactions.length) return [];
+      return insertRows(
+        "wallet_transactions",
+        transactions.map((transaction) => ({
+          id: crypto.randomUUID(),
+          user_id: userId,
+          type: transaction.type,
+          status: transaction.status || "available",
+          credits: numberOrZero(transaction.credits),
+          money_amount: transaction.moneyAmount ?? null,
+          currency: transaction.currency || "SAR",
+          provider: transaction.provider || null,
+          provider_reference: transaction.providerReference || null,
+          source_id: transaction.sourceId || null,
+          note: transaction.note || null,
+          created_at: transaction.createdAt || new Date().toISOString()
+        }))
+      );
+    },
+    async getTask(taskId) {
+      const rows = await selectRows("ai_tasks", { id: taskId });
+      return rows[0] || null;
+    },
+    async insertTask(task) {
+      const rows = await insertRows("ai_tasks", [task]);
+      return rows[0] || null;
+    },
+    async updateTask(taskId, patch) {
+      const rows = await patchRows("ai_tasks", { id: taskId }, patch);
+      return rows[0] || null;
+    }
+  };
+}
+
+async function selectRows(table, filters = {}, columns = ["*"], orderQuery = "") {
+  const params = new URLSearchParams();
+  params.set("select", columns.join(","));
+  for (const [key, value] of Object.entries(filters)) {
+    if (value === undefined || value === null || value === "") continue;
+    if (value === "eq.true" || value === "eq.false") {
+      params.set(key, value);
+    } else {
+      params.set(key, `eq.${value}`);
+    }
+  }
+  const query = orderQuery ? `&${orderQuery}` : "";
+  const response = await request(`/rest/v1/${table}?${params.toString()}${query}`, { method: "GET" });
+  return response.ok ? response.json() : [];
+}
+
+async function insertRows(table, rows) {
+  const response = await request(`/rest/v1/${table}`, {
+    method: "POST",
+    headers: {
+      Prefer: "return=representation"
+    },
+    body: JSON.stringify(rows)
+  });
+  return response.ok ? response.json() : [];
+}
+
+async function patchRows(table, filters, patch) {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(filters)) {
+    params.set(key, `eq.${value}`);
+  }
+  const response = await request(`/rest/v1/${table}?${params.toString()}`, {
+    method: "PATCH",
+    headers: {
+      Prefer: "return=representation"
+    },
+    body: JSON.stringify(patch)
+  });
+  return response.ok ? response.json() : [];
+}
+
+async function upsertRows(table, rows, conflict) {
+  const response = await request(`/rest/v1/${table}?on_conflict=${conflict}`, {
+    method: "POST",
+    headers: {
+      Prefer: "resolution=merge-duplicates,return=representation"
+    },
+    body: JSON.stringify(rows)
+  });
+  return response.ok ? response.json() : [];
+}
+
+async function request(path, init) {
+  const response = await fetch(`${SUPABASE_URL}${path}`, {
+    ...init,
+    headers: {
+      apikey: SUPABASE_SERVICE_ROLE_KEY,
+      authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+      "content-type": "application/json",
+      ...(init.headers || {})
+    }
+  });
+  return response;
+}
+
+function numberOrZero(value) {
+  const num = Number(value || 0);
+  return Number.isFinite(num) ? num : 0;
+}

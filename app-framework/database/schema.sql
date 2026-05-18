@@ -3,7 +3,7 @@
 
 create table users (
   id uuid primary key,
-  email text unique not null,
+  email text unique,
   phone text,
   display_name text,
   country text,
@@ -12,6 +12,8 @@ create table users (
   role text not null default 'user' check (role in ('user', 'moderator', 'admin')),
   referral_code text unique,
   referred_by_user_id uuid references users(id),
+  signup_reward_granted boolean not null default false,
+  founding_user_reward_granted boolean not null default false,
   last_login_at timestamptz,
   created_at timestamptz default now()
 );

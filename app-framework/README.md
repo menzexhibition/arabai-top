@@ -45,6 +45,22 @@ This repository now includes a small Vercel-compatible MVP:
 
 It is still a demo gateway until Supabase persistence is connected. Use it to test the online flow first, then replace the in-memory state with Supabase tables.
 
+## Optional Supabase Store
+
+The Vercel API now has a guarded Supabase persistence mode. It stays off by default so the live demo does not break while the database is being prepared.
+
+To enable it later:
+
+1. Run `app-framework/database/schema.sql` in Supabase SQL Editor.
+2. Add these Vercel environment variables:
+   - `SUPABASE_URL`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+   - `ENABLE_SUPABASE_STORE=true`
+3. Keep `ENABLE_REAL_RECHARGE=false` until payment is approved.
+4. Keep `USE_REAL_AI_GATEWAY=false` until the provider key and cost limits are tested.
+
+When enabled, `/api/auth/verified-signin`, `/api/me`, `/api/wallet`, `/api/wallet/transactions`, and `/api/tasks/confirm` can save and read users, wallets, transactions, and task records from Supabase.
+
 ## Important Rule
 
 Published ARABAI guide content remains free. Paid features are only:
