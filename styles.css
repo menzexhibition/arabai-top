@@ -165,8 +165,8 @@ body.rtl .main-nav a::after {
 
 body.rtl .hero h1,
 body.rtl .page-hero h1 {
-  max-width: 12ch;
-  line-height: 1;
+  max-width: 14ch;
+  line-height: 1.08;
 }
 
 body.rtl .eyebrow {
@@ -459,14 +459,15 @@ main {
 .page-hero {
   width: min(100%, var(--page-max));
   margin: 0 auto;
-  padding: clamp(4rem, 8vw, 7rem) clamp(1rem, 4vw, 3rem) clamp(2.5rem, 5vw, 4rem);
+  padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 3rem) clamp(2rem, 4vw, 3.25rem);
 }
 
 .page-hero h1 {
-  max-width: 9ch;
+  max-width: 14ch;
   margin: 0;
-  font-size: clamp(3.8rem, 10vw, 8.5rem);
-  line-height: 0.9;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 1.04;
+  text-wrap: balance;
 }
 
 .page-hero p:not(.eyebrow) {
@@ -722,8 +723,9 @@ main {
 
 .article-header h1 {
   margin: 0;
-  font-size: clamp(3.4rem, 9vw, 7.8rem);
-  line-height: 0.9;
+  font-size: clamp(2.5rem, 6vw, 4.1rem);
+  line-height: 1.08;
+  text-wrap: balance;
 }
 
 .article-header p {
@@ -1673,11 +1675,15 @@ body.rtl .video-note {
   }
 
   .hero h1 {
-    font-size: clamp(3.2rem, 18vw, 5rem);
+    font-size: clamp(2.8rem, 15vw, 4.2rem);
   }
 
   .page-hero h1 {
-    font-size: clamp(3.2rem, 18vw, 5rem);
+    font-size: clamp(2.6rem, 14vw, 3.8rem);
+  }
+
+  .article-header h1 {
+    font-size: clamp(2.3rem, 12vw, 3.4rem);
   }
 
   .hero-actions {
