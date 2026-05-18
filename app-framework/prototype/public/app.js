@@ -8,6 +8,22 @@ let signedIn = false;
 let currentUser = null;
 let selectedTask = null;
 let selectedEstimate = null;
+let appFlags = {
+  realRecharge: false,
+  aiRedemption: false,
+  requiresSignin: true,
+  persisted: false
+};
+let healthState = {
+  ok: false,
+  mode: "offline",
+  features: {
+    recharge: false,
+    aiRedemption: false,
+    realGateway: false
+  }
+};
+let localTaskHistory = [];
 
 const signupForm = document.querySelector("#signupForm");
 const signupMessage = document.querySelector("#signupMessage");
@@ -19,6 +35,14 @@ const estimateTitle = document.querySelector("#estimateTitle");
 const estimateMessage = document.querySelector("#estimateMessage");
 const confirmButton = document.querySelector("#confirmButton");
 const guideContent = document.querySelector("#guideContent");
+const serviceMode = document.querySelector("#serviceMode");
+const serviceNote = document.querySelector("#serviceNote");
+const serviceFeatures = document.querySelector("#serviceFeatures");
+const transactionList = document.querySelector("#transactionList");
+const transactionSummary = document.querySelector("#transactionSummary");
+const packageMessage = document.querySelector("#packageMessage");
+const taskHistoryList = document.querySelector("#taskHistoryList");
+const taskHistorySummary = document.querySelector("#taskHistorySummary");
 
 await boot();
 
@@ -43,8 +67,21 @@ confirmButton.addEventListener("click", async () => {
   }
 
   try {
-    reserveCredits(wallet, `demo-${Date.now()}`, selectedEstimate.estimatedCredits);
+    const demoTaskId = `demo-${Date.now()}`;
+    reserveCredits(wallet, demoTaskId, selectedEstimate.estimatedCredits);
+    localTaskHistory.unshift({
+      id: demoTaskId,
+      status: "reserved",
+      taskType: pricingRules.find((rule) => rule.id === selectedTask)?.taskType || "chat",
+      pricingRuleId: selectedTask,
+      estimatedCredits: selectedEstimate.estimatedCredits,
+      actualCredits: null,
+      outputText: "هذه معاينة محلية. عند ربط الخادم الحقيقي ستظهر النتيجة الفعلية هنا.",
+      createdAt: new Date().toISOString()
+    });
     renderWallet();
+    renderTransactionHistory(wallet.transactions);
+    renderTaskHistory(localTaskHistory);
     estimateTitle.textContent = "تم حجز الرصيد لهذه المهمة";
     estimateMessage.textContent = "في التطبيق الحقيقي ستدخل المهمة الآن إلى التشغيل أو قائمة الانتظار.";
     confirmButton.disabled = true;
@@ -55,22 +92,33 @@ confirmButton.addEventListener("click", async () => {
 });
 
 async function boot() {
-  try {
-    const response = await fetch("/api/me");
-    if (response.ok) {
-      const data = await response.json();
-      apiMode = true;
-      hydrateSession(data);
-    }
-  } catch {
-    apiMode = false;
-  }
+  await detectBackend();
 
+  renderServiceStatus();
   renderWallet();
+  renderTransactionHistory(wallet.transactions);
+  renderTaskHistory([]);
   await renderPackages();
   renderOperationSelect();
   renderTasks();
   renderGuide(null);
+  await refreshAccountViews();
+}
+
+async function detectBackend() {
+  const requests = await Promise.allSettled([fetch("/api/health"), fetch("/api/me")]);
+  const [healthResponse, meResponse] = requests;
+
+  if (healthResponse.status === "fulfilled" && healthResponse.value.ok) {
+    apiMode = true;
+    healthState = await healthResponse.value.json();
+  }
+
+  if (meResponse.status === "fulfilled" && meResponse.value.ok) {
+    apiMode = true;
+    const data = await meResponse.value.json();
+    hydrateSession(data);
+  }
 }
 
 async function signinWithApi(profile) {
@@ -84,8 +132,19 @@ async function signinWithApi(profile) {
     currentUser = { ...profile, registrationNumber: 58 };
     wallet.creditBalance = 120;
     wallet.redeemableCreditBalance = 120;
+    wallet.transactions = [
+      {
+        type: "signup_reward",
+        status: "available",
+        credits: 20,
+        note: "رصيد تجربة أول تسجيل.",
+        createdAt: new Date().toISOString()
+      }
+    ];
     signupMessage.textContent = "أنت المستخدم رقم 58 في ARABAI. تمت إضافة رصيد التجربة المجانية.";
     renderWallet();
+    renderTransactionHistory(wallet.transactions);
+    renderTaskHistory(localTaskHistory);
     return;
   }
 
@@ -98,15 +157,21 @@ async function signinWithApi(profile) {
   hydrateSession(data);
   signupMessage.textContent = arabicSigninMessage(data);
   renderWallet();
+  await refreshAccountViews();
 }
 
 function hydrateSession(data) {
   currentUser = data.user;
   signedIn = Boolean(data.user);
+  appFlags = {
+    ...appFlags,
+    ...(data.flags || {})
+  };
   wallet.creditBalance = data.wallet.creditBalance;
   wallet.redeemableCreditBalance = data.wallet.redeemableCreditBalance;
   wallet.reservedCreditBalance = data.wallet.reservedCreditBalance;
   wallet.pendingCreditBalance = data.wallet.pendingCreditBalance;
+  wallet.transactions = Array.isArray(data.wallet.transactions) ? data.wallet.transactions : wallet.transactions;
 }
 
 function renderWallet() {
@@ -139,10 +204,29 @@ async function renderPackages() {
           <h3>${formatPrice(item)}</h3>
           <p>${item.credits} credits</p>
           <p>Coming Soon - التكلفة الحقيقية للـ API لا تتجاوز تقريبا 50% من قيمة الباقة.</p>
+          <button type="button" data-package-id="${item.id}">اطلب هذه الباقة</button>
         </article>
       `
     )
     .join("");
+
+  packageGrid.querySelectorAll("button[data-package-id]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      await handleTopUpClick(button.dataset.packageId);
+    });
+  });
+
+  if (apiMode) {
+    void fetch("/api/recharge-exposure", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        articleId: "app-wallet-packages",
+        shown: true,
+        anonymousBucket: signedIn ? 1 : 0
+      })
+    }).catch(() => {});
+  }
 }
 
 function renderTasks() {
@@ -238,6 +322,7 @@ async function confirmWithApi() {
     estimateTitle.textContent = "تم تشغيل المهمة التجريبية";
     estimateMessage.textContent = data.outputText || "اكتملت المهمة التجريبية.";
     confirmButton.disabled = true;
+    await refreshAccountViews();
   } catch (error) {
     estimateTitle.textContent = "تعذر تشغيل المهمة";
     estimateMessage.textContent = error instanceof Error ? error.message : "حدث خطأ.";
@@ -284,6 +369,210 @@ function renderEstimate() {
 function formatPrice(item) {
   if (item.currency === "USD") return `$${item.priceAmount}`;
   return `${item.priceAmount} SAR`;
+}
+
+async function handleTopUpClick(packageId) {
+  if (!signedIn) {
+    packageMessage.textContent = "سجل أولا حتى نربط أي شحن مستقبلي بحسابك ورصيدك.";
+    return;
+  }
+
+  if (!apiMode) {
+    packageMessage.textContent = "هذه نسخة عرض محلية. في النشر الحقيقي سيظهر هنا مسار الشحن عند فتح الدفع.";
+    return;
+  }
+
+  try {
+    const response = await fetch("/api/wallet/top-up/create-checkout", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ packageId, currencyHint: currentUser?.country === "SA" ? "SAR" : "USD" })
+    });
+    const data = await response.json();
+    packageMessage.textContent = data.error?.message || "الشحن غير متاح حاليا.";
+  } catch {
+    packageMessage.textContent = "تعذر الوصول إلى خدمة الشحن حاليا.";
+  }
+}
+
+function renderServiceStatus() {
+  const modeLabel = {
+    demo: "Demo Mode",
+    supabase: "Connected Mode",
+    offline: "Offline Preview"
+  }[healthState.mode] || "Demo Mode";
+
+  serviceMode.textContent = modeLabel;
+  serviceNote.textContent = healthState.ok
+    ? "يمكننا حفظ التسجيلات والسجل حسب حالة الخادم، لكن الدفع الحقيقي ما زال مغلقا."
+    : "أنت تشاهد نسخة واجهة فقط. بعض الأزرار لن تتصل بخادم حي من هذا الملف المحلي.";
+
+  const featureLines = [
+    `حفظ الحساب: ${appFlags.persisted ? "مفعل" : healthState.mode === "demo" ? "تجريبي" : "غير متصل"}`,
+    `الشحن الحقيقي: ${healthState.features.recharge ? "مفتوح" : "مغلق حاليا"}`,
+    `تشغيل AI المدفوع: ${healthState.features.aiRedemption ? "جاهز عند التفعيل" : "في وضع الإعداد"}`,
+    `بوابة المزود: ${healthState.features.realGateway ? "مرتبطة فعليا" : "نسخة محاكاة آمنة"}`
+  ];
+
+  serviceFeatures.innerHTML = featureLines.map((line) => `<li>${line}</li>`).join("");
+}
+
+async function refreshAccountViews() {
+  if (!signedIn) {
+    renderTransactionHistory(wallet.transactions);
+    renderTaskHistory(localTaskHistory);
+    return;
+  }
+
+  if (!apiMode) {
+    renderTransactionHistory(wallet.transactions);
+    renderTaskHistory(localTaskHistory);
+    return;
+  }
+
+  const [transactionsResult, tasksResult] = await Promise.allSettled([fetch("/api/wallet/transactions"), fetch("/api/tasks")]);
+
+  if (transactionsResult.status === "fulfilled" && transactionsResult.value.ok) {
+    const data = await transactionsResult.value.json();
+    wallet.transactions = Array.isArray(data.transactions) ? data.transactions : [];
+  }
+
+  if (tasksResult.status === "fulfilled" && tasksResult.value.ok) {
+    const data = await tasksResult.value.json();
+    localTaskHistory = Array.isArray(data.tasks) ? data.tasks : [];
+  }
+
+  renderTransactionHistory(wallet.transactions);
+  renderTaskHistory(localTaskHistory);
+}
+
+function renderTransactionHistory(transactions) {
+  if (!transactions?.length) {
+    transactionSummary.textContent = signedIn
+      ? "لم يحدث أي صرف أو إضافة بعد. أول تجربة ستظهر هنا مباشرة."
+      : "بعد التسجيل أو أول تجربة، ستظهر حركة الرصيد هنا.";
+    transactionList.innerHTML = `<div class="history-empty">لا توجد حركة رصيد بعد.</div>`;
+    return;
+  }
+
+  transactionSummary.textContent = `آخر ${Math.min(transactions.length, 6)} حركات مرتبطة بحسابك.`;
+  transactionList.innerHTML = transactions
+    .slice()
+    .reverse()
+    .slice(0, 6)
+    .map(
+      (item) => `
+        <article class="history-item">
+          <div class="history-item-meta">
+            <span class="history-pill">${translateTransactionType(item.type)}</span>
+            <span>${formatTransactionCredits(item)}</span>
+            <span>${formatDate(item.createdAt)}</span>
+          </div>
+          <strong>${translateTransactionStatus(item.status)}</strong>
+          <p>${item.note || transactionFallbackNote(item)}</p>
+        </article>
+      `
+    )
+    .join("");
+}
+
+function renderTaskHistory(tasks) {
+  if (!tasks?.length) {
+    taskHistorySummary.textContent = signedIn
+      ? "اختر مهمة من الأعلى، وبعد التنفيذ سنعرض النتيجة هنا مع التكلفة."
+      : "هذا السجل مفيد بعد التسجيل، لأنه يريك ما الذي جرّبته وما الذي نجح معك.";
+    taskHistoryList.innerHTML = `<div class="history-empty">لا توجد مهام محفوظة بعد.</div>`;
+    return;
+  }
+
+  taskHistorySummary.textContent = `آخر ${Math.min(tasks.length, 6)} مهام تم حفظها في حسابك.`;
+  taskHistoryList.innerHTML = tasks
+    .slice(0, 6)
+    .map(
+      (task) => `
+        <article class="history-item">
+          <div class="history-item-meta">
+            <span class="history-pill">${translateTask(task.pricingRuleId)}</span>
+            <span>${formatTaskCredits(task)}</span>
+            <span>${formatDate(task.completedAt || task.createdAt)}</span>
+          </div>
+          <strong>${translateTaskStatus(task.status)}</strong>
+          <p>${task.outputText || taskHistoryFallback(task)}</p>
+        </article>
+      `
+    )
+    .join("");
+}
+
+function translateTransactionType(type) {
+  return {
+    signup_reward: "هدية التسجيل",
+    founding_user_reward: "هدية الإطلاق",
+    reserve: "حجز مؤقت",
+    spend: "استهلاك",
+    release: "فرق راجع",
+    refund: "استرجاع",
+    referral_reward: "مكافأة دعوة"
+  }[type] || "حركة رصيد";
+}
+
+function translateTransactionStatus(status) {
+  return {
+    available: "متاح للاستخدام",
+    reserved: "محجوز لمهمة",
+    spent: "تم استخدامه"
+  }[status] || "تم التحديث";
+}
+
+function translateTaskStatus(status) {
+  return {
+    pending: "في الانتظار",
+    reserved: "تم الحجز",
+    completed: "اكتملت المهمة",
+    failed: "لم تكتمل"
+  }[status] || "تم التحديث";
+}
+
+function formatTransactionCredits(item) {
+  const direction = item.type === "spend" || item.type === "reserve" ? "-" : "+";
+  return `${direction}${Number(item.credits || 0)} credits`;
+}
+
+function formatTaskCredits(task) {
+  const actual = Number(task.actualCredits ?? task.estimatedCredits ?? 0);
+  return `${actual} credits`;
+}
+
+function formatDate(value) {
+  if (!value) return "الآن";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "الآن";
+  return new Intl.DateTimeFormat("ar", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit"
+  }).format(date);
+}
+
+function transactionFallbackNote(item) {
+  if (item.type === "reserve") return "تم حجز هذا الجزء من الرصيد بانتظار تشغيل المهمة.";
+  if (item.type === "spend") return "تم خصم هذا الرصيد بعد اكتمال المهمة.";
+  if (item.type === "release") return "هذا الجزء عاد إلى رصيدك لأن الاستهلاك الفعلي كان أقل.";
+  if (item.type === "refund") return "تمت إعادة الرصيد بسبب فشل المهمة أو إلغائها.";
+  return "تم تحديث رصيد الحساب.";
+}
+
+function taskHistoryFallback(task) {
+  const names = {
+    chat: "تم تشغيل مهمة نصية.",
+    prompt: "تم تحسين برومبت لهذه المهمة.",
+    image: "تم إرسال مهمة مرتبطة بالصور.",
+    slides: "تم تجهيز مهمة عرض أو خطة.",
+    video: "تم تجهيز مهمة فيديو."
+  };
+  return names[task.taskType] || "تم حفظ هذه المهمة في السجل.";
 }
 
 function translateCost(level) {

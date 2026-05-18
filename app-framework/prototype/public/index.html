@@ -31,8 +31,9 @@
         </div>
         <aside class="status-card">
           <span>حالة الخدمة</span>
-          <strong>Coming Soon</strong>
-          <p>الشحن الحقيقي وتشغيل AI مغلقان حتى تجهيز الدفع والحسابات.</p>
+          <strong id="serviceMode">Demo Mode</strong>
+          <p id="serviceNote">الشحن الحقيقي وتشغيل AI مغلقان حتى تجهيز الدفع والحسابات.</p>
+          <ul id="serviceFeatures" class="status-list"></ul>
         </aside>
       </section>
 
@@ -99,6 +100,30 @@
             <p>credits</p>
           </article>
         </div>
+        <div class="wallet-detail-grid">
+          <article class="detail-card">
+            <div class="detail-card-heading">
+              <div>
+                <span class="eyebrow">History</span>
+                <h3>سجل الرصيد</h3>
+              </div>
+              <p id="transactionSummary">سيظهر هنا آخر ما دخل أو خرج من الرصيد.</p>
+            </div>
+            <div id="transactionList" class="history-list"></div>
+          </article>
+          <article class="detail-card">
+            <div class="detail-card-heading">
+              <div>
+                <span class="eyebrow">Top Up</span>
+                <h3>الشحن</h3>
+              </div>
+              <p>الدفع الحقيقي لم يفتح بعد، لكننا نعرض الرحلة كما ستبدو لاحقا.</p>
+            </div>
+            <p id="packageMessage" class="status-inline">
+              عند فتح الشحن، ستشتري credits صغيرة لتجربة أقوى أدوات النص والصور والعروض.
+            </p>
+          </article>
+        </div>
       </section>
 
       <section class="section">
@@ -133,6 +158,15 @@
           <p id="estimateMessage">سيظهر هنا عدد credits المتوقع قبل تشغيل المهمة.</p>
         </div>
         <button id="confirmButton" type="button" disabled>تأكيد المهمة</button>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Activity</p>
+          <h2>سجل التجارب</h2>
+          <p id="taskHistorySummary">بعد أول تجربة، سنعرض هنا ما الذي شغلته، كم كلف، وماذا رجع لك.</p>
+        </div>
+        <div id="taskHistoryList" class="history-list task-history-list"></div>
       </section>
 
       <section id="guidedMode" class="section guided-mode" aria-live="polite">

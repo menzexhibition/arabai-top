@@ -155,6 +155,8 @@ main {
 .status-card p,
 .package-grid p,
 .task-grid p,
+.detail-card p,
+.history-item p,
 .note-section p,
 .result-panel p,
 .guide-card p,
@@ -196,6 +198,23 @@ main {
   color: var(--gold);
   font-size: clamp(1.6rem, 3vw, 2.25rem);
   line-height: 1;
+}
+
+.status-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.85rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.status-list li {
+  padding: 0.7rem 0.85rem;
+  border: 1px solid rgba(0, 140, 149, 0.18);
+  border-radius: calc(var(--radius) - 4px);
+  background: rgba(0, 140, 149, 0.05);
+  color: var(--ink);
+  line-height: 1.55;
 }
 
 .section-heading {
@@ -290,11 +309,49 @@ main {
   font-size: 2rem;
 }
 
+.wallet-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.detail-card {
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(135deg, rgba(0, 140, 149, 0.04), rgba(214, 168, 79, 0.07)),
+    var(--surface);
+}
+
+.detail-card-heading {
+  display: grid;
+  gap: 0.3rem;
+  margin-bottom: 0.85rem;
+}
+
+.detail-card-heading h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
 .package-grid h3,
 .task-grid h3,
 .guide-card h3 {
   margin: 0.45rem 0;
   font-size: 1.25rem;
+}
+
+.package-grid article {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.package-grid article button {
+  margin-top: auto;
+  align-self: flex-start;
 }
 
 .task-grid article {
@@ -317,6 +374,59 @@ main {
 
 .note-section {
   margin-bottom: 4rem;
+}
+
+.status-inline {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(214, 168, 79, 0.22);
+  border-radius: calc(var(--radius) - 4px);
+  background: rgba(214, 168, 79, 0.08);
+}
+
+.history-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.history-item {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(25, 32, 31, 0.08);
+  border-radius: calc(var(--radius) - 4px);
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.history-item strong,
+.history-item h3 {
+  margin: 0;
+}
+
+.history-item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.history-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.28rem 0.62rem;
+  border-radius: 999px;
+  background: rgba(0, 140, 149, 0.08);
+  color: var(--teal);
+  font-weight: 700;
+}
+
+.history-empty {
+  padding: 1rem;
+  border: 1px dashed rgba(100, 112, 109, 0.45);
+  border-radius: calc(var(--radius) - 4px);
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .guided-mode {
@@ -389,6 +499,7 @@ main {
 
   .hero,
   .signup-panel,
+  .wallet-detail-grid,
   .wallet-grid,
   .package-grid,
   .task-grid,
