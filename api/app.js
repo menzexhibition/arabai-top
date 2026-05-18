@@ -47,6 +47,10 @@ export default async function handler(req, res) {
 }
 
 async function handlePersistedRequest(req, res, path) {
+  if (path === "/api/health" && req.method === "GET") {
+    return json(res, healthView(true));
+  }
+
   if (path === "/api/me" && req.method === "GET") {
     const session = await loadPersistedSession(req);
     if (!session.user) {
@@ -172,6 +176,10 @@ async function handlePersistedRequest(req, res, path) {
     return json(res, { packages: packageView() });
   }
 
+  if (path === "/api/wallet/top-up/create-checkout" && req.method === "POST") {
+    return json(res, featureDisabledResponse("Recharge is not open yet."));
+  }
+
   if (path === "/api/wallet" && req.method === "GET") {
     const session = await requirePersistedSession(req, res);
     if (!session) return;
@@ -186,6 +194,13 @@ async function handlePersistedRequest(req, res, path) {
 
   if (path === "/api/tasks/pricing" && req.method === "GET") {
     return json(res, { rules: pricingRules.filter((rule) => rule.enabled !== false) });
+  }
+
+  if (path === "/api/tasks" && req.method === "GET") {
+    const session = await requirePersistedSession(req, res);
+    if (!session) return;
+    const tasks = await store.listTasks(session.user.id, 20);
+    return json(res, { tasks: tasks.map(taskListView) });
   }
 
   if (path === "/api/tasks/estimate" && req.method === "POST") {
@@ -235,10 +250,24 @@ async function handlePersistedRequest(req, res, path) {
     return json(res, task);
   }
 
+  if (path === "/api/outbound-clicks" && req.method === "POST") {
+    const body = await readJson(req);
+    return json(res, outboundClickAccepted(body, true), 202);
+  }
+
+  if (path === "/api/recharge-exposure" && req.method === "POST") {
+    const body = await readJson(req);
+    return json(res, rechargeExposureAccepted(body, true), 202);
+  }
+
   return json(res, { error: { code: "NOT_FOUND", message: "API route not found." } }, 404);
 }
 
 async function handleDemoRequest(req, res, path) {
+  if (path === "/api/health" && req.method === "GET") {
+    return json(res, healthView(false));
+  }
+
   if (path === "/api/me" && req.method === "GET") {
     if (!state.user) {
       return json(res, {
@@ -300,6 +329,10 @@ async function handleDemoRequest(req, res, path) {
     return json(res, { packages: packageView() });
   }
 
+  if (path === "/api/wallet/top-up/create-checkout" && req.method === "POST") {
+    return json(res, featureDisabledResponse("Recharge is not open yet."));
+  }
+
   if (path === "/api/wallet" && req.method === "GET") {
     return json(res, walletView(state.wallet));
   }
@@ -310,6 +343,13 @@ async function handleDemoRequest(req, res, path) {
 
   if (path === "/api/tasks/pricing" && req.method === "GET") {
     return json(res, { rules: pricingRules.filter((rule) => rule.enabled !== false) });
+  }
+
+  if (path === "/api/tasks" && req.method === "GET") {
+    if (!state.user) {
+      return json(res, { error: { code: "AUTH_REQUIRED", message: "Sign in before viewing task history." } }, 401);
+    }
+    return json(res, { tasks: [...state.tasks.values()].map(taskListView).reverse() });
   }
 
   if (path === "/api/tasks/estimate" && req.method === "POST") {
@@ -354,6 +394,16 @@ async function handleDemoRequest(req, res, path) {
     const task = state.tasks.get(taskId);
     if (!task) return json(res, { error: { code: "NOT_FOUND", message: "Task not found." } }, 404);
     return json(res, task);
+  }
+
+  if (path === "/api/outbound-clicks" && req.method === "POST") {
+    const body = await readJson(req);
+    return json(res, outboundClickAccepted(body, false), 202);
+  }
+
+  if (path === "/api/recharge-exposure" && req.method === "POST") {
+    const body = await readJson(req);
+    return json(res, rechargeExposureAccepted(body, false), 202);
   }
 
   return json(res, { error: { code: "NOT_FOUND", message: "API route not found." } }, 404);
@@ -489,6 +539,63 @@ function taskCompletionPatch(task) {
     output_url: task.outputUrl || null,
     error_message: task.errorMessage || null,
     completed_at: task.completedAt || new Date().toISOString()
+  };
+}
+
+function taskListView(task) {
+  return {
+    id: task.id,
+    status: task.status,
+    taskType: task.task_type || task.taskType,
+    pricingRuleId: task.pricing_rule_id || task.pricingRuleId,
+    estimatedCredits: Number(task.estimated_credits ?? task.estimatedCredits ?? 0),
+    actualCredits: task.actual_credits ?? task.actualCredits ?? null,
+    outputText: task.output_text ?? task.outputText ?? null,
+    outputUrl: task.output_url ?? task.outputUrl ?? null,
+    createdAt: task.created_at || task.createdAt || null,
+    completedAt: task.completed_at || task.completedAt || null
+  };
+}
+
+function featureDisabledResponse(message) {
+  return {
+    status: "coming_soon",
+    error: {
+      code: "FEATURE_DISABLED",
+      message
+    }
+  };
+}
+
+function outboundClickAccepted(body, persisted) {
+  return {
+    accepted: true,
+    persisted,
+    articleId: normalizeText(body?.articleId) || null,
+    linkLabel: normalizeText(body?.linkLabel) || null,
+    targetUrl: normalizeText(body?.targetUrl) || null
+  };
+}
+
+function rechargeExposureAccepted(body, persisted) {
+  return {
+    accepted: true,
+    persisted,
+    articleId: normalizeText(body?.articleId) || null,
+    shown: Boolean(body?.shown),
+    anonymousBucket: Number.isFinite(Number(body?.anonymousBucket)) ? Number(body.anonymousBucket) : null
+  };
+}
+
+function healthView(persisted) {
+  return {
+    ok: true,
+    mode: persisted ? "supabase" : "demo",
+    features: {
+      recharge: false,
+      aiRedemption: process.env.ENABLE_AI_REDEMPTION === "true",
+      realGateway: process.env.USE_REAL_AI_GATEWAY === "true"
+    }
   };
 }
 

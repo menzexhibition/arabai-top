@@ -105,6 +105,25 @@ export function createSupabaseStore() {
       const rows = await selectRows("ai_tasks", { id: taskId });
       return rows[0] || null;
     },
+    async listTasks(userId, limit = 20) {
+      return selectRows(
+        "ai_tasks",
+        { user_id: userId },
+        [
+          "id",
+          "task_type",
+          "pricing_rule_id",
+          "status",
+          "estimated_credits",
+          "actual_credits",
+          "output_text",
+          "output_url",
+          "created_at",
+          "completed_at"
+        ],
+        `order=created_at.desc&limit=${limit}`
+      );
+    },
     async insertTask(task) {
       const rows = await insertRows("ai_tasks", [task]);
       return rows[0] || null;

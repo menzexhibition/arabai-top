@@ -82,4 +82,41 @@ response = await callHandler("POST", "/api/tasks/confirm", {
 assert.equal(response.body.status, "completed");
 assert.equal(response.body.wallet.creditBalance, 118);
 
+response = await callHandler("GET", "/api/tasks");
+assert.equal(response.statusCode, 200);
+assert.equal(response.body.tasks.length, 1);
+assert.equal(response.body.tasks[0].status, "completed");
+
+response = await callHandler("GET", `/api/tasks/${response.body.tasks[0].id}`);
+assert.equal(response.statusCode, 200);
+assert.equal(response.body.status, "completed");
+
+response = await callHandler("POST", "/api/wallet/top-up/create-checkout", {
+  packageId: "sa_starter_10"
+});
+assert.equal(response.statusCode, 200);
+assert.equal(response.body.status, "coming_soon");
+assert.equal(response.body.error.code, "FEATURE_DISABLED");
+
+response = await callHandler("POST", "/api/outbound-clicks", {
+  articleId: "create-images",
+  linkLabel: "Official website",
+  targetUrl: "https://example.com/tool"
+});
+assert.equal(response.statusCode, 202);
+assert.equal(response.body.accepted, true);
+
+response = await callHandler("POST", "/api/recharge-exposure", {
+  articleId: "expert",
+  shown: false,
+  anonymousBucket: 3
+});
+assert.equal(response.statusCode, 202);
+assert.equal(response.body.accepted, true);
+
+response = await callHandler("GET", "/api/health");
+assert.equal(response.statusCode, 200);
+assert.equal(response.body.ok, true);
+assert.equal(response.body.mode, "demo");
+
 console.log("ARABAI Vercel API handler tests passed.");
