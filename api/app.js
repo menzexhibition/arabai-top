@@ -595,6 +595,12 @@ function healthView(persisted) {
       recharge: false,
       aiRedemption: process.env.ENABLE_AI_REDEMPTION === "true",
       realGateway: process.env.USE_REAL_AI_GATEWAY === "true"
+    },
+    debug: {
+      enableSupabaseStore: process.env.ENABLE_SUPABASE_STORE === "true",
+      supabaseUrlPresent: Boolean(process.env.SUPABASE_URL),
+      supabaseServiceRoleKeyPresent: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
+      storeReady: Boolean(store?.isReady)
     }
   };
 }
