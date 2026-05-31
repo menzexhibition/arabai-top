@@ -1,6 +1,6 @@
-import { packages, pricingRules } from "../src/config/credits.js";
-import { estimateTaskCredits } from "../src/services/pricing.js";
-import { createWallet, reserveCredits } from "../src/services/wallet.js";
+import { launchTaskRuleIds, packages, pricingRules } from "/app/src/config/credits.js";
+import { estimateTaskCredits } from "/app/src/services/pricing.js";
+import { createWallet, reserveCredits } from "/app/src/services/wallet.js";
 
 const wallet = createWallet(100);
 let apiMode = false;
@@ -43,6 +43,15 @@ const transactionSummary = document.querySelector("#transactionSummary");
 const packageMessage = document.querySelector("#packageMessage");
 const taskHistoryList = document.querySelector("#taskHistoryList");
 const taskHistorySummary = document.querySelector("#taskHistorySummary");
+const dailyRewardButton = document.querySelector("#dailyRewardButton");
+const dailyRewardMessage = document.querySelector("#dailyRewardMessage");
+const signOutButton = document.querySelector("#signOutButton");
+const accountStatus = document.querySelector("#accountStatus");
+const accountName = document.querySelector("#accountName");
+const accountMeta = document.querySelector("#accountMeta");
+const accountReferralCode = document.querySelector("#accountReferralCode");
+const accountSignedState = document.querySelector("#accountSignedState");
+const allowedTaskIds = [...launchTaskRuleIds];
 
 await boot();
 
@@ -54,8 +63,57 @@ signupForm.addEventListener("submit", async (event) => {
     email: formData.get("email") || "",
     phone: formData.get("phone") || "",
     country: formData.get("country") || "SA",
-    preferredLanguage: formData.get("preferredLanguage") || "ar"
+    preferredLanguage: formData.get("preferredLanguage") || "ar",
+    referralCode: formData.get("referralCode") || ""
   });
+});
+
+dailyRewardButton?.addEventListener("click", async () => {
+  if (!signedIn) return;
+  if (!apiMode) {
+    dailyRewardMessage.textContent = "المكافأة اليومية تحتاج تشغيل الخادم، وليست جزءا من المعاينة المحلية فقط.";
+    return;
+  }
+
+  try {
+    const response = await fetch("/api/wallet/claim-daily-login", { method: "POST" });
+    const data = await response.json();
+    if (!response.ok || data.error) throw new Error(data.error?.message || "Reward blocked.");
+    wallet.creditBalance = data.wallet.creditBalance;
+    wallet.redeemableCreditBalance = data.wallet.redeemableCreditBalance;
+    wallet.reservedCreditBalance = data.wallet.reservedCreditBalance;
+    wallet.transactions = Array.isArray(data.wallet.transactions) ? data.wallet.transactions : wallet.transactions;
+    dailyRewardMessage.textContent = `تمت إضافة ${data.credits} credits كمكافأة دخول اليوم.`;
+    renderWallet();
+    await refreshAccountViews();
+  } catch (error) {
+    dailyRewardMessage.textContent = error instanceof Error ? error.message : "تعذر إضافة المكافأة اليومية.";
+  }
+});
+
+signOutButton?.addEventListener("click", async () => {
+  if (apiMode) {
+    try {
+      await fetch("/api/auth/sign-out", { method: "POST" });
+    } catch {}
+  }
+
+  signedIn = false;
+  currentUser = null;
+  selectedTask = null;
+  selectedEstimate = null;
+  wallet.creditBalance = 0;
+  wallet.redeemableCreditBalance = 0;
+  wallet.reservedCreditBalance = 0;
+  wallet.pendingCreditBalance = 0;
+  wallet.transactions = [];
+  localTaskHistory = [];
+  signupMessage.textContent = "تم تسجيل الخروج. يمكنك التسجيل من جديد أو متابعة قراءة الدليل مجانا.";
+  renderWallet();
+  renderTransactionHistory(wallet.transactions);
+  renderTaskHistory(localTaskHistory);
+  renderAccountPanel();
+  clearSelection();
 });
 
 confirmButton.addEventListener("click", async () => {
@@ -102,6 +160,7 @@ async function boot() {
   renderOperationSelect();
   renderTasks();
   renderGuide(null);
+  renderAccountPanel();
   await refreshAccountViews();
 }
 
@@ -129,7 +188,7 @@ async function signinWithApi(profile) {
 
   if (!apiMode) {
     signedIn = true;
-    currentUser = { ...profile, registrationNumber: 58 };
+    currentUser = { ...profile, registrationNumber: 58, referralCode: "arabai-demo" };
     wallet.creditBalance = 120;
     wallet.redeemableCreditBalance = 120;
     wallet.transactions = [
@@ -145,6 +204,7 @@ async function signinWithApi(profile) {
     renderWallet();
     renderTransactionHistory(wallet.transactions);
     renderTaskHistory(localTaskHistory);
+    renderAccountPanel();
     return;
   }
 
@@ -157,6 +217,7 @@ async function signinWithApi(profile) {
   hydrateSession(data);
   signupMessage.textContent = arabicSigninMessage(data);
   renderWallet();
+  renderAccountPanel();
   await refreshAccountViews();
 }
 
@@ -172,6 +233,29 @@ function hydrateSession(data) {
   wallet.reservedCreditBalance = data.wallet.reservedCreditBalance;
   wallet.pendingCreditBalance = data.wallet.pendingCreditBalance;
   wallet.transactions = Array.isArray(data.wallet.transactions) ? data.wallet.transactions : wallet.transactions;
+  renderAccountPanel();
+}
+
+function renderAccountPanel() {
+  if (!signedIn || !currentUser) {
+    accountStatus.textContent = "عند التسجيل سيظهر هنا اسم المستخدم، كود الدعوة، وأزرار المكافآت والخروج.";
+    accountName.textContent = "زائر";
+    accountMeta.textContent = "المقالات مفتوحة للجميع، لكن تشغيل AI يحتاج حسابا.";
+    accountReferralCode.textContent = "-";
+    accountSignedState.textContent = "غير مسجل";
+    if (dailyRewardButton) dailyRewardButton.disabled = true;
+    if (signOutButton) signOutButton.disabled = true;
+    if (dailyRewardMessage) dailyRewardMessage.textContent = "بعد التسجيل يمكنك المطالبة بمكافأة الدخول اليومية مرة واحدة كل يوم.";
+    return;
+  }
+
+  accountStatus.textContent = "حسابك جاهز الآن للتجربة المجانية والمهام منخفضة التكلفة.";
+  accountName.textContent = currentUser.displayName || currentUser.email || "ARABAI user";
+  accountMeta.textContent = `المستخدم رقم #${currentUser.registrationNumber || "-"}. البلد: ${currentUser.country || "SA"}.`;
+  accountReferralCode.textContent = currentUser.referralCode || "-";
+  accountSignedState.textContent = "مسجل";
+  if (dailyRewardButton) dailyRewardButton.disabled = false;
+  if (signOutButton) signOutButton.disabled = false;
 }
 
 function renderWallet() {
@@ -277,7 +361,7 @@ function renderOperationSelect() {
 function getVisibleRules(allTaskIds) {
   const selectedGroup = operationGroups.find((group) => group.id === operationSelect.value);
   const taskIds = selectedGroup ? selectedGroup.tasks : allTaskIds;
-  return pricingRules.filter((rule) => taskIds.includes(rule.id));
+  return pricingRules.filter((rule) => taskIds.includes(rule.id) && allowedTaskIds.includes(rule.id));
 }
 
 function clearSelection() {
@@ -444,6 +528,7 @@ async function refreshAccountViews() {
 
   renderTransactionHistory(wallet.transactions);
   renderTaskHistory(localTaskHistory);
+  renderAccountPanel();
 }
 
 function renderTransactionHistory(transactions) {
@@ -716,7 +801,7 @@ const taskGuides = {
       "أضف قائمة تحقق في النهاية."
     ],
     articleNote: "هذه الصيغة تناسب كتابة الخطط، المقارنات، الشروحات، ورسائل العمل الطويلة.",
-    articleHref: "../../ar/articles/write-plans.html"
+    articleHref: "../../ar/articles/make-a-plan.html"
   },
   long_document_summary: {
     label: "تلخيص مستند",
@@ -762,7 +847,7 @@ const taskGuides = {
       "اعطني نسخة مناسبة لمنشور إنستغرام."
     ],
     articleNote: "هذا هو نفس منطق مقال توليد الصور: وصف واضح أولا، ثم تعديل صغير بعد النتيجة.",
-    articleHref: "../../ar/articles/make-images.html"
+    articleHref: "../../ar/articles/create-images.html"
   },
   image_prompt_review: {
     label: "برومبت صورة",
@@ -785,7 +870,7 @@ const taskGuides = {
       "أضف قائمة بالأشياء التي يجب تجنبها."
     ],
     articleNote: "هذه خطوة تحضيرية تساعد المستخدم على تقليل التجارب الضائعة في أدوات الصور.",
-    articleHref: "../../ar/articles/make-images.html"
+    articleHref: "../../ar/articles/create-images.html"
   },
   prompt_improvement: {
     label: "تحسين البرومبت",
@@ -808,7 +893,7 @@ const taskGuides = {
       "اجعل النتيجة مناسبة للمبتدئين."
     ],
     articleNote: "هذا يربط مباشرة بين استخدام الأداة ومقال ARABAI عن البرومبت.",
-    articleHref: "../../ar/articles/prompt-guide.html"
+    articleHref: "../../ar/articles/what-is-a-prompt.html"
   },
   ppt_outline: {
     label: "عرض تقديمي",
