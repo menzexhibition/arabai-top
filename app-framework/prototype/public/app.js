@@ -1,6 +1,142 @@
-import { launchTaskRuleIds, packages, pricingRules } from "/app/src/config/credits.js";
-import { estimateTaskCredits } from "/app/src/services/pricing.js";
-import { createWallet, reserveCredits } from "/app/src/services/wallet.js";
+const packages = [
+  { id: "sa_starter_10", label: "Saudi Starter", priceAmount: 10, currency: "SAR", credits: 100, maxProviderCostAmount: 5, enabled: false },
+  { id: "usd_starter_5", label: "USD Starter", priceAmount: 5, currency: "USD", credits: 185, maxProviderCostAmount: 2.5, enabled: false },
+  { id: "sa_regular_25", label: "Saudi Regular", priceAmount: 25, currency: "SAR", credits: 250, maxProviderCostAmount: 12.5, enabled: false },
+  { id: "usd_regular_10", label: "USD Regular", priceAmount: 10, currency: "USD", credits: 370, maxProviderCostAmount: 5, enabled: false },
+  { id: "sa_creative_50", label: "Saudi Creative", priceAmount: 50, currency: "SAR", credits: 500, maxProviderCostAmount: 25, enabled: false },
+  { id: "usd_creative_20", label: "USD Creative", priceAmount: 20, currency: "USD", credits: 740, maxProviderCostAmount: 10, enabled: false }
+];
+
+const pricingRules = [
+  { id: "premium_short_chat", taskType: "chat", label: "Premium short chat", minCredits: 2, maxCredits: 2, costLevel: "low", freeCreditsAllowed: true, requiresConfirmation: false },
+  { id: "prompt_improvement", taskType: "prompt", label: "Prompt improvement", minCredits: 2, maxCredits: 2, costLevel: "low", freeCreditsAllowed: true, requiresConfirmation: false },
+  { id: "premium_long_answer", taskType: "chat", label: "Premium long answer", minCredits: 5, maxCredits: 5, costLevel: "medium", freeCreditsAllowed: true, requiresConfirmation: true },
+  { id: "long_document_summary", taskType: "document", label: "Long document summary", minCredits: 10, maxCredits: 20, costLevel: "medium", freeCreditsAllowed: false, requiresConfirmation: true },
+  { id: "table_file_analysis", taskType: "document", label: "Table/file analysis", minCredits: 10, maxCredits: 20, costLevel: "medium", freeCreditsAllowed: false, requiresConfirmation: true },
+  { id: "image_prompt_review", taskType: "image", label: "Image prompt and review", minCredits: 3, maxCredits: 3, costLevel: "low", freeCreditsAllowed: true, requiresConfirmation: false },
+  { id: "image_generation_low", taskType: "image", label: "Low-tier image generation", minCredits: 20, maxCredits: 40, costLevel: "medium", freeCreditsAllowed: true, requiresConfirmation: true, freeCreditDailyCap: 1 },
+  { id: "image_generation_high", taskType: "image", label: "High-tier image generation", minCredits: 50, maxCredits: 80, costLevel: "high", freeCreditsAllowed: false, requiresConfirmation: true },
+  { id: "image_edit", taskType: "image", label: "Image edit", minCredits: 40, maxCredits: 80, costLevel: "high", freeCreditsAllowed: false, requiresConfirmation: true },
+  { id: "ppt_outline", taskType: "slides", label: "PPT outline", minCredits: 8, maxCredits: 15, costLevel: "medium", freeCreditsAllowed: true, requiresConfirmation: true },
+  { id: "ppt_first_draft", taskType: "slides", label: "PPT first draft", minCredits: 30, maxCredits: 60, costLevel: "medium", freeCreditsAllowed: false, requiresConfirmation: true },
+  { id: "video_script", taskType: "video", label: "Video script", minCredits: 8, maxCredits: 15, costLevel: "medium", freeCreditsAllowed: true, requiresConfirmation: true },
+  { id: "storyboard_text", taskType: "video", label: "9-grid storyboard text", minCredits: 15, maxCredits: 25, costLevel: "medium", freeCreditsAllowed: false, requiresConfirmation: true },
+  { id: "storyboard_images", taskType: "video", label: "9-grid storyboard images", minCredits: 120, maxCredits: 250, costLevel: "high", freeCreditsAllowed: false, requiresConfirmation: true },
+  { id: "video_generation_short", taskType: "video", label: "Short video generation", minCredits: 0, maxCredits: 0, costLevel: "manual", freeCreditsAllowed: false, requiresConfirmation: true, enabled: false, comingSoon: true },
+  { id: "music_generation", taskType: "music", label: "Music generation", minCredits: 30, maxCredits: 80, costLevel: "high", freeCreditsAllowed: false, requiresConfirmation: true }
+];
+
+const launchTaskRuleIds = ["premium_short_chat", "prompt_improvement", "premium_long_answer", "image_prompt_review"];
+
+function createWallet(initialCredits = 0) {
+  return {
+    creditBalance: initialCredits,
+    pendingCreditBalance: 0,
+    redeemableCreditBalance: initialCredits,
+    reservedCreditBalance: 0,
+    transactions: []
+  };
+}
+
+function reserveCredits(wallet, taskId, credits) {
+  requirePositiveCredits(credits);
+  if (wallet.redeemableCreditBalance < credits) {
+    throw new Error("Not enough redeemable credits.");
+  }
+
+  wallet.redeemableCreditBalance -= credits;
+  wallet.reservedCreditBalance += credits;
+  wallet.transactions.push({
+    type: "reserve",
+    taskId,
+    credits,
+    status: "reserved",
+    createdAt: new Date().toISOString()
+  });
+  return wallet;
+}
+
+function estimateTaskCredits(input) {
+  const rule = getPricingRule(input.pricingRuleId);
+
+  if (rule.enabled === false || rule.comingSoon) {
+    return {
+      pricingRuleId: rule.id,
+      taskType: rule.taskType,
+      estimatedCredits: null,
+      costLevel: rule.costLevel,
+      requiresConfirmation: true,
+      freeCreditsAllowed: false,
+      available: false,
+      message: `${rule.label} is coming soon.`
+    };
+  }
+
+  const complexity = estimateComplexity(input);
+  const estimatedCredits = clamp(
+    Math.ceil(rule.minCredits + (rule.maxCredits - rule.minCredits) * complexity),
+    rule.minCredits,
+    rule.maxCredits
+  );
+
+  return {
+    pricingRuleId: rule.id,
+    taskType: rule.taskType,
+    estimatedCredits,
+    costLevel: rule.costLevel,
+    requiresConfirmation: rule.requiresConfirmation,
+    freeCreditsAllowed: rule.freeCreditsAllowed,
+    available: true,
+    message: buildEstimateMessage(rule, estimatedCredits)
+  };
+}
+
+function getPricingRule(pricingRuleId) {
+  const rule = pricingRules.find((item) => item.id === pricingRuleId);
+  if (!rule) {
+    throw new Error(`Unknown pricing rule: ${pricingRuleId}`);
+  }
+  return rule;
+}
+
+function estimateComplexity(input) {
+  const promptLength = typeof input.prompt === "string" ? input.prompt.length : 0;
+  const fileCount = Number(input.options?.fileCount || 0);
+  const count = Number(input.options?.count || 1);
+  const quality = input.options?.quality;
+
+  let score = 0;
+  if (promptLength > 800) score += 0.25;
+  if (promptLength > 2000) score += 0.25;
+  if (fileCount > 0) score += 0.25;
+  if (count > 1) score += 0.2;
+  if (quality === "high") score += 0.3;
+
+  return clamp(score, 0, 1);
+}
+
+function buildEstimateMessage(rule, estimatedCredits) {
+  if (rule.costLevel === "low") {
+    return `This paid AI task may use about ${estimatedCredits} credits.`;
+  }
+  if (rule.costLevel === "medium") {
+    return `This task may use about ${estimatedCredits} credits. Please confirm before running.`;
+  }
+  if (rule.costLevel === "high") {
+    return `This is a high-cost paid AI task and may use about ${estimatedCredits} credits.`;
+  }
+  return "This task needs manual pricing or is coming soon.";
+}
+
+function requirePositiveCredits(credits) {
+  if (typeof credits !== "number" || credits <= 0) {
+    throw new Error("Credits must be a positive number.");
+  }
+}
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
 
 const wallet = createWallet(100);
 let apiMode = false;
