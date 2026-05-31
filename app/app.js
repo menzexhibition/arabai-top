@@ -313,7 +313,7 @@ async function boot() {
 }
 
 async function detectBackend() {
-  const requests = await Promise.allSettled([fetch("/api/health"), fetch("/api/me")]);
+  const requests = await Promise.allSettled([fetchWithTimeout("/api/health"), fetchWithTimeout("/api/me")]);
   const [healthResponse, meResponse] = requests;
 
   if (healthResponse.status === "fulfilled" && healthResponse.value.ok) {
@@ -356,7 +356,7 @@ async function signinWithApi(profile) {
     return;
   }
 
-  const response = await fetch("/api/auth/verified-signin", {
+  const response = await fetchWithTimeout("/api/auth/verified-signin", {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(profile)
@@ -526,7 +526,7 @@ function clearSelection() {
 }
 
 async function estimateWithApi(requestBody) {
-  const response = await fetch("/api/tasks/estimate", {
+  const response = await fetchWithTimeout("/api/tasks/estimate", {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(requestBody)
@@ -542,7 +542,7 @@ async function confirmWithApi() {
   }
 
   try {
-    const response = await fetch("/api/tasks/confirm", {
+    const response = await fetchWithTimeout("/api/tasks/confirm", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(selectedTaskRequest())
@@ -619,7 +619,7 @@ async function handleTopUpClick(packageId) {
   }
 
   try {
-    const response = await fetch("/api/wallet/top-up/create-checkout", {
+    const response = await fetchWithTimeout("/api/wallet/top-up/create-checkout", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ packageId, currencyHint: currentUser?.country === "SA" ? "SAR" : "USD" })
@@ -666,7 +666,10 @@ async function refreshAccountViews() {
     return;
   }
 
-  const [transactionsResult, tasksResult] = await Promise.allSettled([fetch("/api/wallet/transactions"), fetch("/api/tasks")]);
+  const [transactionsResult, tasksResult] = await Promise.allSettled([
+    fetchWithTimeout("/api/wallet/transactions"),
+    fetchWithTimeout("/api/tasks")
+  ]);
 
   if (transactionsResult.status === "fulfilled" && transactionsResult.value.ok) {
     const data = await transactionsResult.value.json();
@@ -687,7 +690,7 @@ async function syncCurrentSession() {
   if (!apiMode) return;
 
   try {
-    const response = await fetch("/api/me", {
+    const response = await fetchWithTimeout("/api/me", {
       method: "GET",
       cache: "no-store"
     });
@@ -716,6 +719,25 @@ async function parseApiResponse(response, fallbackMessage) {
   }
 
   return data;
+}
+
+async function fetchWithTimeout(input, init = {}, timeoutMs = 5000) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    return await fetch(input, {
+      ...init,
+      signal: controller.signal
+    });
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") {
+      throw new Error("الخادم يتأخر الآن. يمكنك المتابعة في وضع العرض، أو المحاولة مرة أخرى بعد قليل.");
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 function renderTransactionHistory(transactions) {
