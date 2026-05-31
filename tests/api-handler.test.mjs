@@ -3,7 +3,7 @@ import { EventEmitter } from "node:events";
 
 process.env.ENABLE_AI_REDEMPTION = "true";
 
-const { default: handler } = await import("./app.js");
+const { default: handler } = await import("../server/app.js");
 
 async function callHandler(method, url, body = null) {
   const req = new MockRequest(method, url, body);
