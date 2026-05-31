@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ARABAI App Prototype</title>
-    <link rel="stylesheet" href="./styles.css?v=20260518-layout1" />
+    <link rel="stylesheet" href="/app/styles.css?v=20260531-fix1" />
   </head>
   <body>
     <header class="app-header">
-      <a class="brand" href="../../index.html" aria-label="ARABAI">
-        <span class="brand-mark">A</span>
-        <span>ARABAI</span>
+      <a class="brand" href="../../../index.html" aria-label="ARABAI">
+        <img class="brand-logo" src="../../../assets/brand/arabai-logo-320.png" alt="" width="64" height="73" />
+        <span class="brand-wordmark" aria-label="ARABAI"><span class="brand-arab">arab</span><span class="brand-ai">AI</span></span>
       </a>
       <nav aria-label="App navigation">
         <a href="#wallet">الرصيد</a>
@@ -67,9 +67,51 @@
             <option value="ar">العربية</option>
             <option value="en">English</option>
           </select>
+          <label for="signupReferralCode">كود الدعوة إن وجد</label>
+          <input id="signupReferralCode" name="referralCode" type="text" value="" autocomplete="off" placeholder="arabai-xxxxxx" />
           <button type="submit">تسجيل وتجربة مجانية</button>
           <p id="signupMessage">نحتاج وسيلة تواصل واحدة على الأقل لحفظ الرصيد. لا نطلب هوية أو عنوانا أو معلومات دفع.</p>
         </form>
+      </section>
+
+      <section id="accountPanel" class="section account-panel">
+        <div class="section-heading">
+          <p class="eyebrow">Account</p>
+          <h2>الحساب الحالي</h2>
+          <p id="accountStatus">عند التسجيل سيظهر هنا اسم المستخدم، كود الدعوة، وأزرار المكافآت والخروج.</p>
+        </div>
+        <div class="account-actions">
+          <article class="detail-card">
+            <div class="detail-card-heading">
+              <div>
+                <span class="eyebrow">Profile</span>
+                <h3 id="accountName">زائر</h3>
+              </div>
+              <p id="accountMeta">المقالات مفتوحة للجميع، لكن تشغيل AI يحتاج حسابا.</p>
+            </div>
+            <div class="account-inline-list">
+              <span>كود الدعوة:</span>
+              <strong id="accountReferralCode">-</strong>
+            </div>
+            <div class="account-inline-list">
+              <span>الحالة:</span>
+              <strong id="accountSignedState">غير مسجل</strong>
+            </div>
+          </article>
+          <article class="detail-card">
+            <div class="detail-card-heading">
+              <div>
+                <span class="eyebrow">Rewards</span>
+                <h3>المكافآت اليومية</h3>
+              </div>
+              <p id="dailyRewardMessage">بعد التسجيل يمكنك المطالبة بمكافأة الدخول اليومية مرة واحدة كل يوم.</p>
+            </div>
+            <div class="account-button-row">
+              <button id="dailyRewardButton" type="button" disabled>مطالبة مكافأة اليوم</button>
+              <button id="signOutButton" type="button" class="secondary-button" disabled>تسجيل الخروج</button>
+            </div>
+          </article>
+        </div>
       </section>
 
       <section id="wallet" class="section">
@@ -201,6 +243,6 @@
       </section>
     </main>
 
-    <script type="module" src="./app.js"></script>
+    <script type="module" src="/app/app.js"></script>
   </body>
 </html>

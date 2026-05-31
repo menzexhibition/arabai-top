@@ -11,6 +11,8 @@
   font-family: "IBM Plex Sans Arabic", "Outfit", system-ui, sans-serif;
 }
 
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
+
 * {
   box-sizing: border-box;
 }
@@ -38,6 +40,12 @@ button {
   font: inherit;
   font-weight: 700;
   cursor: pointer;
+}
+
+.secondary-button {
+  color: var(--ink);
+  background: rgba(0, 140, 149, 0.08);
+  border: 1px solid rgba(0, 140, 149, 0.18);
 }
 
 input {
@@ -93,18 +101,49 @@ button:disabled {
 }
 
 .brand {
-  font-weight: 800;
-  letter-spacing: 0.04em;
+  gap: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0;
 }
 
-.brand-mark {
-  display: grid;
-  width: 2.4rem;
-  height: 2.4rem;
-  place-items: center;
-  border-radius: 50%;
-  color: white;
-  background: linear-gradient(135deg, var(--teal), var(--gold));
+.brand-logo {
+  display: block;
+  width: 3.95rem;
+  height: auto;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 8px 16px rgba(0, 140, 149, 0.12));
+}
+
+.brand-wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
+  white-space: nowrap;
+  direction: ltr;
+  unicode-bidi: isolate;
+  line-height: 1;
+}
+
+.brand-wordmark .brand-arab {
+  color: #243a35;
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-size: 1.01em;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: -0.028em;
+}
+
+.brand-wordmark .brand-ai {
+  margin-left: -0.018em;
+  background: linear-gradient(135deg, #2a91bf 0%, #2cbaa9 56%, #d0ab64 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: "Space Grotesk", "Outfit", system-ui, sans-serif;
+  font-size: 1.05em;
+  font-weight: 600;
+  letter-spacing: -0.052em;
+  text-transform: uppercase;
 }
 
 .app-header nav {
@@ -115,6 +154,7 @@ button:disabled {
 main {
   width: min(1120px, calc(100% - 2rem));
   margin: 0 auto;
+  padding-bottom: 4rem;
 }
 
 .hero,
@@ -238,6 +278,10 @@ main {
   gap: 1rem;
 }
 
+.task-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
 .signup-panel {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.8fr);
@@ -316,6 +360,35 @@ main {
   margin-top: 1rem;
 }
 
+.account-panel,
+.account-actions {
+  display: grid;
+  gap: 1rem;
+}
+
+.account-actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.account-inline-list {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.55rem;
+  color: var(--muted);
+}
+
+.account-inline-list strong {
+  color: var(--ink);
+}
+
+.account-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
 .detail-card {
   padding: 1rem;
   border: 1px solid var(--line);
@@ -354,6 +427,15 @@ main {
   align-self: flex-start;
 }
 
+.task-grid article,
+.wallet-grid article,
+.package-grid article,
+.reward-list article,
+.detail-card,
+.guide-card {
+  min-width: 0;
+}
+
 .task-grid article {
   cursor: pointer;
   transition: transform 160ms ease, border-color 160ms ease;
@@ -370,6 +452,7 @@ main {
   gap: 1rem;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .note-section {
@@ -499,6 +582,7 @@ main {
 
   .hero,
   .signup-panel,
+  .account-actions,
   .wallet-detail-grid,
   .wallet-grid,
   .package-grid,
