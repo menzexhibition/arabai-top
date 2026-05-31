@@ -194,6 +194,7 @@ signupForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (signupInFlight) return;
   const formData = new FormData(signupForm);
+  signupMessage.textContent = "تم التقاط الطلب من الواجهة. جارٍ إرسال التسجيل...";
   signupInFlight = true;
   const submitButton = signupForm.querySelector('button[type="submit"]');
   if (submitButton) submitButton.disabled = true;

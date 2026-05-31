@@ -1,7 +1,12 @@
-import { packages, pricingRules, rewardRules } from "../app-framework/prototype/src/config/credits.js";
+import { launchTaskRuleIds, packages, pricingRules, rewardRules } from "../app-framework/prototype/src/config/credits.js";
 import { createWallet } from "../app-framework/prototype/src/services/wallet.js";
 import { verifiedSigninRoute } from "../app-framework/prototype/src/routes/auth-routes.js";
-import { grantFoundingUserRewardRoute, grantSignupRewardRoute } from "../app-framework/prototype/src/routes/wallet-routes.js";
+import {
+  claimDailyLoginRewardRoute,
+  grantFoundingUserRewardRoute,
+  grantReferralRegistrationRewardRoute,
+  grantSignupRewardRoute
+} from "../app-framework/prototype/src/routes/wallet-routes.js";
 import { estimateTaskRoute, confirmTaskRoute, runTaskRoute } from "../app-framework/prototype/src/routes/task-routes.js";
 import {
   createGatewayAdapter,
@@ -22,6 +27,12 @@ rewardRules.foundingUserCampaign.enabled = process.env.ENABLE_FOUNDING_USER_CAMP
 
 const adapter = createRuntimeAdapter();
 const store = process.env.ENABLE_SUPABASE_STORE === "true" ? createSupabaseStore() : null;
+const allowedLaunchTaskIds = new Set(
+  (process.env.ARABAI_ENABLED_TASKS || launchTaskRuleIds.join(","))
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean)
+);
 
 export default async function handler(req, res) {
   try {
@@ -79,6 +90,12 @@ async function handlePersistedRequest(req, res, path) {
 
   if (path === "/api/auth/verified-signin" && req.method === "POST") {
     const body = await readJson(req);
+    console.log("[arabai] verified-signin:start", {
+      hasEmail: Boolean(body.email),
+      hasPhone: Boolean(body.phone),
+      country: body.country || "",
+      language: body.preferredLanguage || ""
+    });
     if (!body.email && !body.phone) {
       return json(res, { error: { code: "CONTACT_REQUIRED", message: "Email or phone is required." } }, 400);
     }
@@ -90,10 +107,15 @@ async function handlePersistedRequest(req, res, path) {
       phone: normalizeText(body.phone)
     });
 
+    const referralCode = normalizeText(body.referralCode);
     let isNewUser = false;
+    let referrerRow = null;
     if (!userRow) {
       isNewUser = true;
       const registrationNumber = (await store.countUsers()) + 1;
+      if (referralCode) {
+        referrerRow = await store.findUserByReferralCode(referralCode);
+      }
       userRow = await store.createUser({
         id: crypto.randomUUID(),
         email: nullableText(body.email),
@@ -104,6 +126,7 @@ async function handlePersistedRequest(req, res, path) {
         preferred_language: body.preferredLanguage || "ar",
         role: "user",
         referral_code: `arabai-${crypto.randomUUID().slice(0, 8)}`,
+        referred_by_user_id: referrerRow?.id || null,
         signup_reward_granted: false,
         founding_user_reward_granted: false,
         last_login_at: new Date().toISOString()
@@ -156,6 +179,28 @@ async function handlePersistedRequest(req, res, path) {
       last_login_at: new Date().toISOString()
     });
 
+    if (isNewUser && referrerRow && referrerRow.id !== user.id) {
+      const referrer = userFromRow(referrerRow);
+      const referrerWallet = await ensurePersistedWallet(referrer.id);
+      const referrerPreviousCount = referrerWallet.transactions.length;
+      grantReferralRegistrationRewardRoute({
+        wallet: referrerWallet,
+        referrer,
+        referredUser: user
+      });
+      await persistWallet(referrer.id, referrerWallet, referrerPreviousCount);
+      await store.createReferral({
+        id: crypto.randomUUID(),
+        referrer_user_id: referrer.id,
+        referred_user_id: user.id,
+        status: "rewarded",
+        reward_credits: rewardRules.referralVerifiedRegistration.credits,
+        created_at: new Date().toISOString(),
+        verified_at: new Date().toISOString(),
+        rewarded_at: new Date().toISOString()
+      });
+    }
+
     return json(
       res,
       {
@@ -172,6 +217,15 @@ async function handlePersistedRequest(req, res, path) {
     );
   }
 
+  if (path === "/api/auth/sign-out" && req.method === "POST") {
+    return json(
+      res,
+      { ok: true, message: "Signed out." },
+      200,
+      { "set-cookie": expiredSessionCookie() }
+    );
+  }
+
   if (path === "/api/wallet/packages" && req.method === "GET") {
     return json(res, { packages: packageView() });
   }
@@ -184,6 +238,26 @@ async function handlePersistedRequest(req, res, path) {
     const session = await requirePersistedSession(req, res);
     if (!session) return;
     return json(res, walletView(session.wallet));
+  }
+
+  if (path === "/api/wallet/claim-daily-login" && req.method === "POST") {
+    const session = await requirePersistedSession(req, res);
+    if (!session) return;
+    try {
+      const previousTransactionCount = session.wallet.transactions.length;
+      const result = claimDailyLoginRewardRoute({
+        wallet: session.wallet,
+        user: session.user
+      });
+      await persistWallet(session.user.id, session.wallet, previousTransactionCount);
+      return json(res, {
+        ok: true,
+        credits: result.credits,
+        wallet: walletView(session.wallet)
+      });
+    } catch (error) {
+      return json(res, { error: { code: "DAILY_REWARD_BLOCKED", message: error.message } }, 400);
+    }
   }
 
   if (path === "/api/wallet/transactions" && req.method === "GET") {
@@ -205,6 +279,9 @@ async function handlePersistedRequest(req, res, path) {
 
   if (path === "/api/tasks/estimate" && req.method === "POST") {
     const body = await readJson(req);
+    if (!taskAllowed(body.pricingRuleId)) {
+      return json(res, unavailableTask(body.pricingRuleId), 400);
+    }
     return json(res, estimateTaskRoute(body));
   }
 
@@ -213,6 +290,17 @@ async function handlePersistedRequest(req, res, path) {
     if (!session) return;
 
     const body = await readJson(req);
+    if (process.env.ENABLE_AI_REDEMPTION !== "true") {
+      return json(res, featureDisabledResponse("Paid AI tasks are not open yet."), 403);
+    }
+    if (!taskAllowed(body.pricingRuleId)) {
+      return json(res, unavailableTask(body.pricingRuleId), 400);
+    }
+    const estimate = estimateTaskRoute(body);
+    const dailyCapError = validateDailySpendCap(session.wallet, estimate.estimatedCredits);
+    if (dailyCapError) {
+      return json(res, { error: { code: "DAILY_SPEND_CAP", message: dailyCapError } }, 400);
+    }
     const previousTransactionCount = session.wallet.transactions.length;
     const task = confirmTaskRoute({
       wallet: session.wallet,
@@ -293,6 +381,12 @@ async function handleDemoRequest(req, res, path) {
 
   if (path === "/api/auth/verified-signin" && req.method === "POST") {
     const body = await readJson(req);
+    console.log("[arabai] verified-signin:demo-start", {
+      hasEmail: Boolean(body.email),
+      hasPhone: Boolean(body.phone),
+      country: body.country || "",
+      language: body.preferredLanguage || ""
+    });
     const user =
       state.user ||
       {
@@ -325,6 +419,13 @@ async function handleDemoRequest(req, res, path) {
     return json(res, result);
   }
 
+  if (path === "/api/auth/sign-out" && req.method === "POST") {
+    state.user = null;
+    state.wallet = createWallet(0);
+    state.tasks.clear();
+    return json(res, { ok: true, message: "Signed out." });
+  }
+
   if (path === "/api/wallet/packages" && req.method === "GET") {
     return json(res, { packages: packageView() });
   }
@@ -335,6 +436,21 @@ async function handleDemoRequest(req, res, path) {
 
   if (path === "/api/wallet" && req.method === "GET") {
     return json(res, walletView(state.wallet));
+  }
+
+  if (path === "/api/wallet/claim-daily-login" && req.method === "POST") {
+    if (!state.user) {
+      return json(res, { error: { code: "AUTH_REQUIRED", message: "Sign in before claiming rewards." } }, 401);
+    }
+    try {
+      const result = claimDailyLoginRewardRoute({
+        wallet: state.wallet,
+        user: state.user
+      });
+      return json(res, { ok: true, credits: result.credits, wallet: walletView(state.wallet) });
+    } catch (error) {
+      return json(res, { error: { code: "DAILY_REWARD_BLOCKED", message: error.message } }, 400);
+    }
   }
 
   if (path === "/api/wallet/transactions" && req.method === "GET") {
@@ -354,6 +470,9 @@ async function handleDemoRequest(req, res, path) {
 
   if (path === "/api/tasks/estimate" && req.method === "POST") {
     const body = await readJson(req);
+    if (!taskAllowed(body.pricingRuleId)) {
+      return json(res, unavailableTask(body.pricingRuleId), 400);
+    }
     return json(res, estimateTaskRoute(body));
   }
 
@@ -363,6 +482,17 @@ async function handleDemoRequest(req, res, path) {
     }
 
     const body = await readJson(req);
+    if (process.env.ENABLE_AI_REDEMPTION !== "true") {
+      return json(res, featureDisabledResponse("Paid AI tasks are not open yet."), 403);
+    }
+    if (!taskAllowed(body.pricingRuleId)) {
+      return json(res, unavailableTask(body.pricingRuleId), 400);
+    }
+    const estimate = estimateTaskRoute(body);
+    const dailyCapError = validateDailySpendCap(state.wallet, estimate.estimatedCredits);
+    if (dailyCapError) {
+      return json(res, { error: { code: "DAILY_SPEND_CAP", message: dailyCapError } }, 400);
+    }
     const task = confirmTaskRoute({
       wallet: state.wallet,
       requestBody: body,
@@ -592,7 +722,7 @@ function healthView(persisted) {
     ok: true,
     mode: persisted ? "supabase" : "demo",
     features: {
-      recharge: false,
+      recharge: process.env.ENABLE_REAL_RECHARGE === "true",
       aiRedemption: process.env.ENABLE_AI_REDEMPTION === "true",
       realGateway: process.env.USE_REAL_AI_GATEWAY === "true"
     },
@@ -645,6 +775,41 @@ function readCookie(req, name) {
 
 function sessionCookie(userId) {
   return `arabai_user_id=${encodeURIComponent(userId)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=2592000`;
+}
+
+function expiredSessionCookie() {
+  return "arabai_user_id=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0";
+}
+
+function taskAllowed(pricingRuleId) {
+  return allowedLaunchTaskIds.has(pricingRuleId);
+}
+
+function unavailableTask(pricingRuleId) {
+  return {
+    error: {
+      code: "TASK_NOT_OPEN",
+      message: pricingRuleId
+        ? `This task is not open in the current launch phase: ${pricingRuleId}.`
+        : "This task is not open in the current launch phase."
+    }
+  };
+}
+
+function validateDailySpendCap(wallet, estimatedCredits) {
+  const dailyCap = Number(process.env.FREE_CREDIT_DAILY_SPEND_CAP || 20);
+  const todayKey = new Date().toISOString().slice(0, 10);
+  const spentToday = wallet.transactions.reduce((sum, item) => {
+    if (item.type !== "spend") return sum;
+    if (String(item.createdAt || "").slice(0, 10) !== todayKey) return sum;
+    return sum + Number(item.credits || 0);
+  }, 0);
+
+  if (spentToday + Number(estimatedCredits || 0) > dailyCap) {
+    return `Daily usage cap reached. Today's remaining limit is ${Math.max(dailyCap - spentToday, 0)} credits.`;
+  }
+
+  return "";
 }
 
 function json(res, payload, status = 200, headers = {}) {
