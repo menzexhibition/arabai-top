@@ -189,8 +189,6 @@ const accountReferralCode = document.querySelector("#accountReferralCode");
 const accountSignedState = document.querySelector("#accountSignedState");
 const allowedTaskIds = [...launchTaskRuleIds];
 
-await boot();
-
 signupForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const formData = new FormData(signupForm);
@@ -1078,3 +1076,5 @@ const taskGuides = {
     articleHref: "../../ar/articles/make-videos.html"
   }
 };
+
+await boot();
