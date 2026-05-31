@@ -188,18 +188,32 @@ const accountMeta = document.querySelector("#accountMeta");
 const accountReferralCode = document.querySelector("#accountReferralCode");
 const accountSignedState = document.querySelector("#accountSignedState");
 const allowedTaskIds = [...launchTaskRuleIds];
+let signupInFlight = false;
 
 signupForm.addEventListener("submit", async (event) => {
   event.preventDefault();
+  if (signupInFlight) return;
   const formData = new FormData(signupForm);
-  await signinWithApi({
-    displayName: formData.get("displayName") || "ARABAI user",
-    email: formData.get("email") || "",
-    phone: formData.get("phone") || "",
-    country: formData.get("country") || "SA",
-    preferredLanguage: formData.get("preferredLanguage") || "ar",
-    referralCode: formData.get("referralCode") || ""
-  });
+  signupInFlight = true;
+  const submitButton = signupForm.querySelector('button[type="submit"]');
+  if (submitButton) submitButton.disabled = true;
+  signupMessage.textContent = "جارٍ إنشاء الحساب وحفظ رصيد البداية...";
+
+  try {
+    await signinWithApi({
+      displayName: formData.get("displayName") || "ARABAI user",
+      email: formData.get("email") || "",
+      phone: formData.get("phone") || "",
+      country: formData.get("country") || "SA",
+      preferredLanguage: formData.get("preferredLanguage") || "ar",
+      referralCode: formData.get("referralCode") || ""
+    });
+  } catch (error) {
+    signupMessage.textContent = error instanceof Error ? error.message : "تعذر إكمال التسجيل الآن. حاول مرة أخرى بعد قليل.";
+  } finally {
+    signupInFlight = false;
+    if (submitButton) submitButton.disabled = false;
+  }
 });
 
 dailyRewardButton?.addEventListener("click", async () => {
@@ -347,11 +361,15 @@ async function signinWithApi(profile) {
     headers: { "content-type": "application/json" },
     body: JSON.stringify(profile)
   });
-  const data = await response.json();
+  const data = await parseApiResponse(response, "تعذر إكمال التسجيل الآن.");
+  if (data.error) {
+    throw new Error(data.error.message || "تعذر إكمال التسجيل الآن.");
+  }
   hydrateSession(data);
   signupMessage.textContent = arabicSigninMessage(data);
   renderWallet();
   renderAccountPanel();
+  await syncCurrentSession();
   await refreshAccountViews();
 }
 
@@ -513,7 +531,7 @@ async function estimateWithApi(requestBody) {
     headers: { "content-type": "application/json" },
     body: JSON.stringify(requestBody)
   });
-  return response.json();
+  return parseApiResponse(response, "تعذر حساب التكلفة المتوقعة الآن.");
 }
 
 async function confirmWithApi() {
@@ -663,6 +681,41 @@ async function refreshAccountViews() {
   renderTransactionHistory(wallet.transactions);
   renderTaskHistory(localTaskHistory);
   renderAccountPanel();
+}
+
+async function syncCurrentSession() {
+  if (!apiMode) return;
+
+  try {
+    const response = await fetch("/api/me", {
+      method: "GET",
+      cache: "no-store"
+    });
+    const data = await parseApiResponse(response, "تعذر تحديث بيانات الحساب.");
+    if (data?.user || data?.wallet) {
+      hydrateSession(data);
+      renderWallet();
+      renderAccountPanel();
+    }
+  } catch (error) {
+    console.warn("Failed to refresh ARABAI session after auth.", error);
+  }
+}
+
+async function parseApiResponse(response, fallbackMessage) {
+  let data = {};
+
+  try {
+    data = await response.json();
+  } catch {
+    throw new Error(fallbackMessage);
+  }
+
+  if (!response.ok) {
+    throw new Error(data?.error?.message || fallbackMessage);
+  }
+
+  return data;
 }
 
 function renderTransactionHistory(transactions) {
