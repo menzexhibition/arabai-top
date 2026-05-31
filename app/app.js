@@ -189,15 +189,24 @@ const accountReferralCode = document.querySelector("#accountReferralCode");
 const accountSignedState = document.querySelector("#accountSignedState");
 const allowedTaskIds = [...launchTaskRuleIds];
 let signupInFlight = false;
+const signupSubmitButton = signupForm?.querySelector('button[type="submit"]');
 
 signupForm.addEventListener("submit", async (event) => {
   event.preventDefault();
+  await handleSignupSubmit();
+});
+
+signupSubmitButton?.addEventListener("click", async (event) => {
+  event.preventDefault();
+  await handleSignupSubmit();
+});
+
+async function handleSignupSubmit() {
   if (signupInFlight) return;
   const formData = new FormData(signupForm);
   signupMessage.textContent = "تم التقاط الطلب من الواجهة. جارٍ إرسال التسجيل...";
   signupInFlight = true;
-  const submitButton = signupForm.querySelector('button[type="submit"]');
-  if (submitButton) submitButton.disabled = true;
+  if (signupSubmitButton) signupSubmitButton.disabled = true;
   signupMessage.textContent = "جارٍ إنشاء الحساب وحفظ رصيد البداية...";
 
   try {
@@ -213,9 +222,9 @@ signupForm.addEventListener("submit", async (event) => {
     signupMessage.textContent = error instanceof Error ? error.message : "تعذر إكمال التسجيل الآن. حاول مرة أخرى بعد قليل.";
   } finally {
     signupInFlight = false;
-    if (submitButton) submitButton.disabled = false;
+    if (signupSubmitButton) signupSubmitButton.disabled = false;
   }
-});
+}
 
 dailyRewardButton?.addEventListener("click", async () => {
   if (!signedIn) return;
