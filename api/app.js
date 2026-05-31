@@ -1,18 +1,41 @@
-import { launchTaskRuleIds, packages, pricingRules, rewardRules } from "../app-framework/prototype/src/config/credits.js";
-import { createWallet } from "../app-framework/prototype/src/services/wallet.js";
-import { verifiedSigninRoute } from "../app-framework/prototype/src/routes/auth-routes.js";
-import {
-  claimDailyLoginRewardRoute,
-  grantFoundingUserRewardRoute,
-  grantReferralRegistrationRewardRoute,
-  grantSignupRewardRoute
-} from "../app-framework/prototype/src/routes/wallet-routes.js";
-import { estimateTaskRoute, confirmTaskRoute, runTaskRoute } from "../app-framework/prototype/src/routes/task-routes.js";
-import {
-  createGatewayAdapter,
-  createMockGatewayAdapter
-} from "../app-framework/prototype/src/providers/gateway-adapter.js";
 import { createSupabaseStore } from "./supabase-store.js";
+
+const packages = [
+  { id: "sa_starter_10", label: "Saudi Starter", priceAmount: 10, currency: "SAR", credits: 100, maxProviderCostAmount: 5, enabled: false },
+  { id: "usd_starter_5", label: "USD Starter", priceAmount: 5, currency: "USD", credits: 185, maxProviderCostAmount: 2.5, enabled: false },
+  { id: "sa_regular_25", label: "Saudi Regular", priceAmount: 25, currency: "SAR", credits: 250, maxProviderCostAmount: 12.5, enabled: false },
+  { id: "usd_regular_10", label: "USD Regular", priceAmount: 10, currency: "USD", credits: 370, maxProviderCostAmount: 5, enabled: false },
+  { id: "sa_creative_50", label: "Saudi Creative", priceAmount: 50, currency: "SAR", credits: 500, maxProviderCostAmount: 25, enabled: false },
+  { id: "usd_creative_20", label: "USD Creative", priceAmount: 20, currency: "USD", credits: 740, maxProviderCostAmount: 10, enabled: false }
+];
+
+const rewardRules = {
+  foundingUserCampaign: { enabled: false, maxUsers: 100, credits: 100, sarValue: 10, usdReferenceValue: 5, requiresVerification: true },
+  signupVerified: { credits: 20, sarValue: 2, requiresVerification: true },
+  dailyLogin: { minCredits: 1, maxCredits: 2, weeklyCap: 10 },
+  referralVerifiedRegistration: { credits: 20, sarValue: 2, requiresVerification: true }
+};
+
+const pricingRules = [
+  { id: "premium_short_chat", taskType: "chat", label: "Premium short chat", minCredits: 2, maxCredits: 2, costLevel: "low", freeCreditsAllowed: true, requiresConfirmation: false },
+  { id: "prompt_improvement", taskType: "prompt", label: "Prompt improvement", minCredits: 2, maxCredits: 2, costLevel: "low", freeCreditsAllowed: true, requiresConfirmation: false },
+  { id: "premium_long_answer", taskType: "chat", label: "Premium long answer", minCredits: 5, maxCredits: 5, costLevel: "medium", freeCreditsAllowed: true, requiresConfirmation: true },
+  { id: "long_document_summary", taskType: "document", label: "Long document summary", minCredits: 10, maxCredits: 20, costLevel: "medium", freeCreditsAllowed: false, requiresConfirmation: true },
+  { id: "table_file_analysis", taskType: "document", label: "Table/file analysis", minCredits: 10, maxCredits: 20, costLevel: "medium", freeCreditsAllowed: false, requiresConfirmation: true },
+  { id: "image_prompt_review", taskType: "image", label: "Image prompt and review", minCredits: 3, maxCredits: 3, costLevel: "low", freeCreditsAllowed: true, requiresConfirmation: false },
+  { id: "image_generation_low", taskType: "image", label: "Low-tier image generation", minCredits: 20, maxCredits: 40, costLevel: "medium", freeCreditsAllowed: true, requiresConfirmation: true, freeCreditDailyCap: 1 },
+  { id: "image_generation_high", taskType: "image", label: "High-tier image generation", minCredits: 50, maxCredits: 80, costLevel: "high", freeCreditsAllowed: false, requiresConfirmation: true },
+  { id: "image_edit", taskType: "image", label: "Image edit", minCredits: 40, maxCredits: 80, costLevel: "high", freeCreditsAllowed: false, requiresConfirmation: true },
+  { id: "ppt_outline", taskType: "slides", label: "PPT outline", minCredits: 8, maxCredits: 15, costLevel: "medium", freeCreditsAllowed: true, requiresConfirmation: true },
+  { id: "ppt_first_draft", taskType: "slides", label: "PPT first draft", minCredits: 30, maxCredits: 60, costLevel: "medium", freeCreditsAllowed: false, requiresConfirmation: true },
+  { id: "video_script", taskType: "video", label: "Video script", minCredits: 8, maxCredits: 15, costLevel: "medium", freeCreditsAllowed: true, requiresConfirmation: true },
+  { id: "storyboard_text", taskType: "video", label: "9-grid storyboard text", minCredits: 15, maxCredits: 25, costLevel: "medium", freeCreditsAllowed: false, requiresConfirmation: true },
+  { id: "storyboard_images", taskType: "video", label: "9-grid storyboard images", minCredits: 120, maxCredits: 250, costLevel: "high", freeCreditsAllowed: false, requiresConfirmation: true },
+  { id: "video_generation_short", taskType: "video", label: "Short video generation", minCredits: 0, maxCredits: 0, costLevel: "manual", freeCreditsAllowed: false, requiresConfirmation: true, enabled: false, comingSoon: true },
+  { id: "music_generation", taskType: "music", label: "Music generation", minCredits: 30, maxCredits: 80, costLevel: "high", freeCreditsAllowed: false, requiresConfirmation: true }
+];
+
+const launchTaskRuleIds = ["premium_short_chat", "prompt_improvement", "premium_long_answer", "image_prompt_review"];
 
 const state = globalThis.__ARABAI_VERCEL_DEMO_STATE__ || {
   user: null,
@@ -747,6 +770,504 @@ function createRuntimeAdapter() {
   }
 
   return createMockGatewayAdapter();
+}
+
+function createWallet(initialCredits = 0) {
+  return {
+    creditBalance: initialCredits,
+    pendingCreditBalance: 0,
+    redeemableCreditBalance: initialCredits,
+    reservedCreditBalance: 0,
+    transactions: []
+  };
+}
+
+function addCredits(wallet, transaction) {
+  requirePositiveCredits(transaction.credits);
+  wallet.creditBalance += transaction.credits;
+  wallet.redeemableCreditBalance += transaction.credits;
+  wallet.transactions.push({
+    ...transaction,
+    status: transaction.status || "available",
+    createdAt: transaction.createdAt || new Date().toISOString()
+  });
+  return wallet;
+}
+
+function reserveCredits(wallet, taskId, credits) {
+  requirePositiveCredits(credits);
+  if (wallet.redeemableCreditBalance < credits) {
+    throw new Error("Not enough redeemable credits.");
+  }
+  wallet.redeemableCreditBalance -= credits;
+  wallet.reservedCreditBalance += credits;
+  wallet.transactions.push({
+    type: "reserve",
+    taskId,
+    credits,
+    status: "reserved",
+    createdAt: new Date().toISOString()
+  });
+  return wallet;
+}
+
+function completeReservedSpend(wallet, taskId, reservedCredits, actualCredits = reservedCredits) {
+  requirePositiveCredits(reservedCredits);
+  requirePositiveCredits(actualCredits);
+  if (actualCredits > reservedCredits) throw new Error("Actual credits cannot exceed reserved credits.");
+  if (wallet.reservedCreditBalance < reservedCredits) throw new Error("Not enough reserved credits.");
+
+  wallet.reservedCreditBalance -= reservedCredits;
+  wallet.creditBalance -= actualCredits;
+
+  const releasedCredits = reservedCredits - actualCredits;
+  if (releasedCredits > 0) {
+    wallet.redeemableCreditBalance += releasedCredits;
+  }
+
+  wallet.transactions.push({
+    type: "spend",
+    taskId,
+    credits: actualCredits,
+    status: "spent",
+    createdAt: new Date().toISOString()
+  });
+
+  if (releasedCredits > 0) {
+    wallet.transactions.push({
+      type: "release",
+      taskId,
+      credits: releasedCredits,
+      status: "available",
+      createdAt: new Date().toISOString()
+    });
+  }
+
+  return wallet;
+}
+
+function failReservedTask(wallet, taskId, reservedCredits) {
+  requirePositiveCredits(reservedCredits);
+  if (wallet.reservedCreditBalance < reservedCredits) {
+    throw new Error("Not enough reserved credits.");
+  }
+  wallet.reservedCreditBalance -= reservedCredits;
+  wallet.redeemableCreditBalance += reservedCredits;
+  wallet.transactions.push({
+    type: "refund",
+    taskId,
+    credits: reservedCredits,
+    status: "available",
+    createdAt: new Date().toISOString()
+  });
+  return wallet;
+}
+
+function grantSignupRewardRoute({ wallet, user }) {
+  if (!user.verified) throw new Error("User must verify email or phone before signup reward.");
+  if (user.signupRewardGranted) throw new Error("Signup reward already granted.");
+  addCredits(wallet, {
+    type: "signup_reward",
+    credits: rewardRules.signupVerified.credits,
+    note: "Verified signup reward"
+  });
+  user.signupRewardGranted = true;
+  return wallet;
+}
+
+function grantFoundingUserRewardRoute({ wallet, user, campaignCount }) {
+  const rule = rewardRules.foundingUserCampaign;
+  if (!rule.enabled) throw new Error("Founding user campaign is not enabled.");
+  if (!user.verified) throw new Error("User must verify email or phone before founding user reward.");
+  if (user.foundingUserRewardGranted) throw new Error("Founding user reward already granted.");
+  if (campaignCount >= rule.maxUsers) throw new Error("Founding user campaign limit reached.");
+  addCredits(wallet, {
+    type: "founding_user_reward",
+    credits: rule.credits,
+    note: "First 100 verified users starter credit campaign"
+  });
+  user.foundingUserRewardGranted = true;
+  return wallet;
+}
+
+function claimDailyLoginRewardRoute({ wallet, user, now = new Date() }) {
+  if (!user?.verified) throw new Error("User must verify email or phone before daily reward.");
+  const todayKey = now.toISOString().slice(0, 10);
+  const dailyTransactions = wallet.transactions.filter((item) => item.type === "daily_login_reward");
+  if (dailyTransactions.some((item) => String(item.createdAt || "").slice(0, 10) === todayKey)) {
+    throw new Error("Daily login reward already claimed today.");
+  }
+  const weekStart = startOfWeek(now);
+  const weekCredits = dailyTransactions.reduce((sum, item) => {
+    const createdAt = new Date(item.createdAt || 0);
+    if (Number.isNaN(createdAt.getTime()) || createdAt < weekStart) return sum;
+    return sum + Number(item.credits || 0);
+  }, 0);
+  if (weekCredits >= rewardRules.dailyLogin.weeklyCap) {
+    throw new Error("Weekly daily-login reward cap reached.");
+  }
+  const remainingWeeklyCredits = rewardRules.dailyLogin.weeklyCap - weekCredits;
+  const credits = Math.max(
+    rewardRules.dailyLogin.minCredits,
+    Math.min(rewardRules.dailyLogin.maxCredits, remainingWeeklyCredits)
+  );
+  addCredits(wallet, {
+    type: "daily_login_reward",
+    credits,
+    note: "Daily login reward",
+    createdAt: now.toISOString()
+  });
+  return { credits, wallet };
+}
+
+function grantReferralRegistrationRewardRoute({ wallet, referrer, referredUser, now = new Date() }) {
+  if (!referrer?.verified) throw new Error("Referrer must be verified.");
+  if (!referredUser?.verified) throw new Error("Referred user must be verified.");
+  addCredits(wallet, {
+    type: "referral_reward",
+    credits: rewardRules.referralVerifiedRegistration.credits,
+    note: `Verified referral reward for user #${referredUser.registrationNumber || "new"}`,
+    createdAt: now.toISOString()
+  });
+  return { credits: rewardRules.referralVerifiedRegistration.credits, wallet };
+}
+
+function verifiedSigninRoute({ user, currentRegistrationCount, currentFoundingRewardCount }) {
+  if (!user.verified) throw new Error("User must verify email or phone before registration is completed.");
+  const isNewUser = !user.registrationNumber;
+  if (isNewUser) user.registrationNumber = currentRegistrationCount + 1;
+  const wallet = user.wallet || createWallet(0);
+  if (!user.signupRewardGranted) {
+    grantSignupRewardRoute({ wallet, user });
+  }
+  const rule = rewardRules.foundingUserCampaign;
+  let foundingUserReward = {
+    eligible: false,
+    granted: false,
+    credits: 0,
+    remainingSlots: Math.max(rule.maxUsers - currentFoundingRewardCount, 0)
+  };
+  if (rule.enabled && !user.foundingUserRewardGranted) {
+    const eligibleByCount = currentFoundingRewardCount < rule.maxUsers;
+    foundingUserReward = {
+      eligible: eligibleByCount,
+      granted: false,
+      credits: eligibleByCount ? rule.credits : 0,
+      remainingSlots: Math.max(rule.maxUsers - currentFoundingRewardCount, 0)
+    };
+    if (eligibleByCount) {
+      grantFoundingUserRewardRoute({ wallet, user, campaignCount: currentFoundingRewardCount });
+      foundingUserReward.granted = true;
+    }
+  }
+  user.wallet = wallet;
+  return {
+    isNewUser,
+    user: {
+      id: user.id,
+      email: user.email,
+      phone: user.phone,
+      displayName: user.displayName,
+      country: user.country,
+      preferredLanguage: user.preferredLanguage,
+      registrationNumber: user.registrationNumber,
+      verified: user.verified
+    },
+    wallet,
+    foundingUserReward,
+    message: foundingUserReward.granted
+      ? `You are ARABAI user #${user.registrationNumber}. Your early user trial credits have been added.`
+      : `You are ARABAI user #${user.registrationNumber}.`
+  };
+}
+
+function estimateTaskRoute(requestBody) {
+  validateTaskRequest(requestBody);
+  return estimateTask(requestBody);
+}
+
+function confirmTaskRoute({ wallet, requestBody, taskId }) {
+  validateTaskRequest(requestBody);
+  return confirmTask({ wallet, input: requestBody, taskId });
+}
+
+async function runTaskRoute({ wallet, task, adapter, requestBody }) {
+  try {
+    const providerResult =
+      requestBody.taskType === "image"
+        ? await adapter.runImageTask(requestBody)
+        : await adapter.runTextTask(requestBody);
+    return completeTask({ wallet, task, providerResult });
+  } catch (error) {
+    return failTask({
+      wallet,
+      task,
+      errorMessage: error instanceof Error ? error.message : "Unknown provider error"
+    });
+  }
+}
+
+function estimateTask(input) {
+  return estimateTaskCredits(input);
+}
+
+function confirmTask({ wallet, input, taskId }) {
+  const estimate = estimateTask(input);
+  if (!estimate.available) throw new Error(estimate.message);
+  reserveCredits(wallet, taskId, estimate.estimatedCredits);
+  return {
+    id: taskId,
+    status: shouldQueue(estimate.taskType) ? "queued" : "confirmed",
+    pricingRuleId: estimate.pricingRuleId,
+    taskType: estimate.taskType,
+    estimatedCredits: estimate.estimatedCredits,
+    reservedCredits: estimate.estimatedCredits,
+    requiresQueue: shouldQueue(estimate.taskType)
+  };
+}
+
+function completeTask({ wallet, task, providerResult }) {
+  const actualCredits = providerResult.actualCredits || task.reservedCredits;
+  completeReservedSpend(wallet, task.id, task.reservedCredits, actualCredits);
+  return {
+    ...task,
+    status: "completed",
+    actualCredits,
+    providerCost: providerResult.providerCost,
+    outputText: providerResult.outputText,
+    outputUrl: providerResult.outputUrl,
+    completedAt: new Date().toISOString()
+  };
+}
+
+function failTask({ wallet, task, errorMessage }) {
+  failReservedTask(wallet, task.id, task.reservedCredits);
+  return {
+    ...task,
+    status: "refunded",
+    errorMessage,
+    completedAt: new Date().toISOString()
+  };
+}
+
+function estimateTaskCredits(input) {
+  const rule = getPricingRule(input.pricingRuleId);
+  if (rule.enabled === false || rule.comingSoon) {
+    return {
+      pricingRuleId: rule.id,
+      taskType: rule.taskType,
+      estimatedCredits: null,
+      costLevel: rule.costLevel,
+      requiresConfirmation: true,
+      freeCreditsAllowed: false,
+      available: false,
+      message: `${rule.label} is coming soon.`
+    };
+  }
+  const complexity = estimateComplexity(input);
+  const estimatedCredits = clamp(
+    Math.ceil(rule.minCredits + (rule.maxCredits - rule.minCredits) * complexity),
+    rule.minCredits,
+    rule.maxCredits
+  );
+  return {
+    pricingRuleId: rule.id,
+    taskType: rule.taskType,
+    estimatedCredits,
+    costLevel: rule.costLevel,
+    requiresConfirmation: rule.requiresConfirmation,
+    freeCreditsAllowed: rule.freeCreditsAllowed,
+    available: true,
+    message: buildEstimateMessage(rule, estimatedCredits)
+  };
+}
+
+function getPricingRule(pricingRuleId) {
+  const rule = pricingRules.find((item) => item.id === pricingRuleId);
+  if (!rule) throw new Error(`Unknown pricing rule: ${pricingRuleId}`);
+  return rule;
+}
+
+function estimateComplexity(input) {
+  const promptLength = typeof input.prompt === "string" ? input.prompt.length : 0;
+  const fileCount = Number(input.options?.fileCount || 0);
+  const count = Number(input.options?.count || 1);
+  const quality = input.options?.quality;
+  let score = 0;
+  if (promptLength > 800) score += 0.25;
+  if (promptLength > 2000) score += 0.25;
+  if (fileCount > 0) score += 0.25;
+  if (count > 1) score += 0.2;
+  if (quality === "high") score += 0.3;
+  return clamp(score, 0, 1);
+}
+
+function buildEstimateMessage(rule, estimatedCredits) {
+  if (rule.costLevel === "low") return `This paid AI task may use about ${estimatedCredits} credits.`;
+  if (rule.costLevel === "medium") return `This task may use about ${estimatedCredits} credits. Please confirm before running.`;
+  if (rule.costLevel === "high") return `This is a high-cost paid AI task and may use about ${estimatedCredits} credits.`;
+  return "This task needs manual pricing or is coming soon.";
+}
+
+function shouldQueue(taskType) {
+  return ["image", "video", "music", "slides", "document"].includes(taskType);
+}
+
+function validateTaskRequest(requestBody) {
+  if (!requestBody || typeof requestBody !== "object") throw new Error("Task request body is required.");
+  if (!requestBody.pricingRuleId) throw new Error("pricingRuleId is required.");
+  if (!requestBody.taskType) throw new Error("taskType is required.");
+  if (!requestBody.prompt || typeof requestBody.prompt !== "string") throw new Error("prompt is required.");
+}
+
+function createGatewayAdapter({
+  baseUrl,
+  apiKey,
+  defaultTextModel = "gpt-4o-mini",
+  defaultImageModel = "gpt-image-1",
+  timeoutMs = 60000
+}) {
+  if (!baseUrl || !apiKey) return createDisabledAdapter();
+  return {
+    async runTextTask(input) {
+      const startedAt = Date.now();
+      const model = input.options?.model || defaultTextModel;
+      const response = await fetch(withPath(baseUrl, "/v1/chat/completions"), {
+        method: "POST",
+        headers: {
+          authorization: `Bearer ${apiKey}`,
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          model,
+          messages: buildMessages(input),
+          temperature: input.options?.temperature ?? 0.4
+        }),
+        signal: AbortSignal.timeout(timeoutMs)
+      });
+      const data = await parseProviderResponse(response);
+      const outputText = data.choices?.[0]?.message?.content || "";
+      return {
+        outputText,
+        providerCost: readProviderCost(data),
+        providerMeta: { model, usage: data.usage, latencyMs: Date.now() - startedAt }
+      };
+    },
+    async runImageTask(input) {
+      const startedAt = Date.now();
+      const model = input.options?.model || defaultImageModel;
+      const response = await fetch(withPath(baseUrl, "/v1/images/generations"), {
+        method: "POST",
+        headers: {
+          authorization: `Bearer ${apiKey}`,
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          model,
+          prompt: input.prompt,
+          n: input.options?.count || 1,
+          size: input.options?.size || "1024x1024"
+        }),
+        signal: AbortSignal.timeout(timeoutMs)
+      });
+      const data = await parseProviderResponse(response);
+      const firstImage = data.data?.[0];
+      return {
+        outputUrl: firstImage?.url,
+        outputText: firstImage?.b64_json ? "Image returned as base64 data by provider." : undefined,
+        providerCost: readProviderCost(data),
+        providerMeta: { model, usage: data.usage, latencyMs: Date.now() - startedAt }
+      };
+    }
+  };
+}
+
+function createMockGatewayAdapter() {
+  return {
+    async runTextTask(input) {
+      return {
+        outputText: `Demo result for ${input.pricingRuleId}: ARABAI would call the paid AI provider here.`,
+        actualCredits: undefined,
+        providerCost: 0.01,
+        providerMeta: { mock: true }
+      };
+    },
+    async runImageTask(input) {
+      return {
+        outputText: `Demo image task accepted for ${input.pricingRuleId}.`,
+        outputUrl: null,
+        actualCredits: undefined,
+        providerCost: 0.05,
+        providerMeta: { mock: true }
+      };
+    }
+  };
+}
+
+function createDisabledAdapter() {
+  return {
+    async runTextTask() {
+      throw new Error("AI gateway is not configured.");
+    },
+    async runImageTask() {
+      throw new Error("AI gateway is not configured.");
+    }
+  };
+}
+
+function buildMessages(input) {
+  const systemPrompt =
+    input.options?.system ||
+    "You are ARABAI, a practical AI assistant for beginner users. Answer clearly, simply, and avoid technical language unless asked.";
+  return [
+    { role: "system", content: systemPrompt },
+    { role: "user", content: input.prompt }
+  ];
+}
+
+async function parseProviderResponse(response) {
+  const text = await response.text();
+  let data = {};
+  try {
+    data = text ? JSON.parse(text) : {};
+  } catch {
+    data = { raw: text };
+  }
+  if (!response.ok) {
+    const message = data.error?.message || data.message || `Provider request failed with ${response.status}.`;
+    const error = new Error(message);
+    error.status = response.status;
+    error.providerResponse = data;
+    throw error;
+  }
+  return data;
+}
+
+function readProviderCost(data) {
+  return data.cost || data.provider_cost || data.usage?.cost || null;
+}
+
+function withPath(baseUrl, path) {
+  return `${baseUrl.replace(/\/$/, "")}${path}`;
+}
+
+function requirePositiveCredits(credits) {
+  if (typeof credits !== "number" || credits <= 0) {
+    throw new Error("Credits must be a positive number.");
+  }
+}
+
+function startOfWeek(now) {
+  const date = new Date(now);
+  const day = date.getDay();
+  const diff = day === 0 ? 6 : day - 1;
+  date.setHours(0, 0, 0, 0);
+  date.setDate(date.getDate() - diff);
+  return date;
+}
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
 }
 
 async function readJson(req) {

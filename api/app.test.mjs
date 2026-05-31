@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import { EventEmitter } from "node:events";
-import handler from "./app.js";
+
+process.env.ENABLE_AI_REDEMPTION = "true";
+
+const { default: handler } = await import("./app.js");
 
 async function callHandler(method, url, body = null) {
   const req = new MockRequest(method, url, body);
@@ -82,6 +85,11 @@ response = await callHandler("POST", "/api/tasks/confirm", {
 assert.equal(response.body.status, "completed");
 assert.equal(response.body.wallet.creditBalance, 118);
 
+response = await callHandler("POST", "/api/wallet/claim-daily-login");
+assert.equal(response.statusCode, 200);
+assert.equal(response.body.ok, true);
+assert.ok(response.body.credits >= 1);
+
 response = await callHandler("GET", "/api/tasks");
 assert.equal(response.statusCode, 200);
 assert.equal(response.body.tasks.length, 1);
@@ -118,5 +126,9 @@ response = await callHandler("GET", "/api/health");
 assert.equal(response.statusCode, 200);
 assert.equal(response.body.ok, true);
 assert.equal(response.body.mode, "demo");
+
+response = await callHandler("POST", "/api/auth/sign-out");
+assert.equal(response.statusCode, 200);
+assert.equal(response.body.ok, true);
 
 console.log("ARABAI Vercel API handler tests passed.");

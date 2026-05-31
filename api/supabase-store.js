@@ -21,6 +21,10 @@ export function createSupabaseStore() {
       }
       return null;
     },
+    async findUserByReferralCode(referralCode) {
+      const rows = await selectRows("users", { referral_code: referralCode });
+      return rows[0] || null;
+    },
     async countUsers() {
       const rows = await selectRows("users", {}, ["id"]);
       return rows.length;
@@ -99,6 +103,18 @@ export function createSupabaseStore() {
           note: transaction.note || null,
           created_at: transaction.createdAt || new Date().toISOString()
         }))
+      );
+    },
+    async createReferral(referral) {
+      const rows = await insertRows("referrals", [referral]);
+      return rows[0] || null;
+    },
+    async listReferrals(referrerUserId, limit = 20) {
+      return selectRows(
+        "referrals",
+        { referrer_user_id: referrerUserId },
+        ["id", "referrer_user_id", "referred_user_id", "status", "reward_credits", "created_at", "verified_at", "rewarded_at"],
+        `order=created_at.desc&limit=${limit}`
       );
     },
     async getTask(taskId) {
