@@ -1,16 +1,1 @@
-{
-  "rewrites": [
-    {
-      "source": "/app",
-      "destination": "/app-framework/prototype/public/index.html"
-    },
-    {
-      "source": "/app/src/:path*",
-      "destination": "/app-framework/prototype/src/:path*"
-    },
-    {
-      "source": "/app/:path*",
-      "destination": "/app-framework/prototype/public/:path*"
-    }
-  ]
-}
+{}
