@@ -2,13 +2,13 @@ const beginnerArticles = [
   ["what-is-ai", "What Is AI?", "Imagine you just hired a very capable assistant who works fast, does not get tired, and can help with many kinds of work.", [["You have a new assistant", "For everyday users, AI is like a new assistant sitting beside you: it can write, plan, translate, draw, summarize, and give ideas, but it waits for you to tell it what to do."], ["But the assistant does not know your mind", "Like any new assistant, AI cannot guess your real goal, so a vague instruction brings a vague answer, and a clear instruction brings a much better result."], ["You give it the first task", "When you do not know how to start, AI can act like someone who opens the notebook for you and writes the first draft, first plan, or first idea."]], "Write a short and friendly email to a customer. Tell them their order is delayed by two days, apologize, and keep the tone polite.", "ai-basic-words"],
   ["ai-basic-words", "AI Basic Words", "AI has many strange words, but most of them become simple when you imagine AI as a busy helper working in a big kitchen.", [["Large model", "A large model is like a chef who has tasted millions of dishes, so when you ask for a new meal, it can guess a good recipe."], ["Token", "A token is like one small bite of language, and AI counts these bites when it reads your question and writes an answer."], ["Computing power", "Computing power is like the size of the kitchen and the strength of the stove: the bigger it is, the faster the AI can cook complicated work."], ["Prompt", "A prompt is your order to the AI waiter, so the clearer you order, the closer the dish comes to what you imagined."], ["Context", "Context is the conversation memory on the table, and AI uses it to remember what you already said instead of starting from zero."], ["Training", "Training is like sending the AI to cooking school for a very long time before it ever serves you."], ["Inference", "Inference is the moment the trained AI is actually cooking your answer after you place an order."], ["Hallucination", "A hallucination is like a confident waiter inventing a menu item that the kitchen does not really have, so important answers still need checking."], ["Model", "A model is one AI helper with its own habits, strengths, speed, and price."], ["API", "An API is like a service window where your app can order from AI without opening the normal chat page."]], "Explain these AI words like I am a beginner: large model, token, computing power, prompt, context, training, inference, hallucination, model, API.", "why-ai-costs-money"],
   ["why-ai-costs-money", "Why AI Costs Money", "Paying for AI is easier to understand when you imagine every answer as a small job done in a busy kitchen.", [["Token", "A token is one small bite of language, so a short answer is a snack and a long document is a full meal."], ["Model", "A model is the helper you choose, and stronger helpers usually cost more because they can handle harder jobs."], ["Computing power", "Computing power is the stove, electricity, and kitchen team working behind the answer."], ["API", "An API is the service window ARABAI can use to order work from AI tools in the background."], ["Image and video cost", "Images and videos cost more because AI is not only writing words; it is building pictures, movement, lighting, and details."], ["Credits", "Credits are a simpler wallet name for all these small costs, so normal users do not need to count tokens."]], "Explain why AI costs money like I am a normal user. Use a restaurant or kitchen example and explain token, model, computing power, API, images, video, and credits.", "what-is-a-prompt"],
-  ["what-is-a-prompt", "What Is A Prompt?", "A prompt is the way you turn a messy thought into a clear job for AI.", [["Start with your raw idea", "Do not worry about style at the beginning. First pour out the background, the goal, the audience, and any notes you already have."], ["Ask AI to repeat back what it understood", "Before asking for the final result, let AI restate your idea in simple words. That way you can see whether it understood the real task."], ["Let AI clean up the order", "After the idea is clear, ask AI to turn the rough notes into a prompt with the job, audience, tone, and format."], ["Test before you trust it", "Ask for one sample result first. If it is close, keep going. If not, tell AI exactly what to keep, change, or remove."]], "I have a messy idea for a new product launch. Help me turn my rough notes into one clean prompt. First repeat back what you understood, then organize my notes into a simple brief I can use with AI.", "organize-prompt-first"],
-  ["organize-prompt-first", "Let GPT Organize Your Idea First", "You do not need to write a perfect prompt at the beginning; you can ask GPT to help clean your messy idea before the real work starts.", [["Pour everything onto the table", "Tell GPT your rough idea, goal, audience, examples you like, details you remember, and even what you are unsure about."], ["Do not ask for the final answer yet", "First say: do not create the final content yet; repeat what you understood and tell me what is missing."], ["Let GPT make the working prompt", "After GPT understands you, ask it to turn the messy notes into a clear prompt that another AI tool can use for writing, slides, images, or video."], ["Test with one small sample", "Before using the prompt for a big job, ask GPT to show one sample result. If the sample feels wrong, fix the prompt with normal words."]], "I have a rough idea but I cannot explain it well yet. Please do not create the final content. First repeat what you understood. Then ask me what information is missing. After that, turn my messy notes into a clean prompt I can copy into ChatGPT, Gemini, Claude, Gamma, image-2, or a video AI tool.", "what-can-ai-do"],
+  ["what-is-a-prompt", "What Is A Prompt?", "A prompt is just the way you explain the job to AI, the same way you would brief a new assistant before they begin.", [["Start messy, not perfect", "Do not wait for beautiful words. First dump the real situation, what you want, who it is for, and anything that must appear."], ["Make AI repeat the job back", "Before asking for the final result, ask AI to say in simple words what it understood. This is the fastest way to catch confusion early."], ["Turn the mess into a usable brief", "Once the idea is clear, ask AI to rewrite your rough notes into one clean prompt with task, audience, tone, and output format."], ["Test a small sample first", "Do not trust the full job immediately. Ask for one tiny sample result, then say what to keep, fix, remove, or simplify."]], "I have a messy idea for a new product launch. Help me turn my rough notes into one clean prompt. First repeat back what you understood, then organize my notes into a simple brief I can use with AI.", "organize-prompt-first"],
+  ["organize-prompt-first", "Let AI Organize Your Idea First", "You do not need to know how to write a smart prompt on day one; you can first talk normally, then let AI turn your rough idea into something cleaner.", [["Pour everything onto the table", "Tell AI the whole rough thought: your goal, audience, examples you like, details you know, and the parts you are still unsure about."], ["Stop AI from rushing ahead", "Say clearly: do not make the final content yet. First tell me what you understood and what is still missing."], ["Let AI build the working version", "After it understands you, ask AI to turn your messy notes into one copy-ready prompt for writing, slides, images, or video."], ["Check direction before the big job", "Ask for one small sample first. If the sample feels off, fix the prompt with normal language before sending it into a bigger tool."]], "I have a rough idea but I cannot explain it well yet. Please do not create the final content. First repeat what you understood. Then ask me what information is missing. After that, turn my messy notes into one clean prompt I can use with an AI writing, image, slide, or video tool.", "what-can-ai-do"],
   ["what-can-ai-do", "What Can AI Do?", "Picture AI as an assistant you take from room to room, and in each room it finds a different way to help.", [["In the office", "AI is like an office helper who can draft emails, prepare reports, clean up notes, explain spreadsheets, and turn a rough idea into a clear document."], ["In the design room", "AI is like a fast sketch partner who can turn your words into poster ideas, product images, ad concepts, and social media visuals."], ["In the audio room", "AI is like a small music helper who can suggest lyrics, jingles, background music ideas, and audio styles."]], "Act like my work assistant. I run a small shop and need three short Instagram captions for a new product.", "common-ai-tools"],
-  ["common-ai-tools", "Common AI Tools", "Imagine walking into an AI tool market where every helper has a different personality, a different speed, and a different job.", [["For daily questions", "Doubao is like a friendly front desk helper for common questions, quick writing, explanations, and daily work."], ["For slides and documents", "Gamma is like a presentation designer who can turn your topic into a real deck with layout, sections, and visual structure."], ["For images, video, and music", "image-2, Seedance, Lyria, and GPT Audio Mini are like a design studio, video studio, and music room."]], "I need AI for common questions, writing, PPT, images, video, music, and documents. Recommend one or two common tools for each task.", "how-to-start"],
-  ["how-to-start", "How To Start Using AI", "Starting with AI is like walking into a new coffee shop: you do not need to know the whole menu before ordering your first drink.", [["Pick one door", "Choose one simple AI tool first, because trying five tools on the first day feels like opening five notebooks and writing in none of them."], ["Ask one real question", "Your first task should be something useful today, not a big test of what AI can do in the whole world."], ["Ask again", "Using AI is a conversation, so the first answer is often the first draft, not the final answer."]], "I am new to AI. Help me write my first useful prompt for improving an email to a customer.", "free-vs-paid"],
+  ["common-ai-tools", "Common AI Tool Types", "Imagine walking into an AI market where one helper is good at talking, one is good at drawing, one is good at organizing slides, and one is better with long documents.", [["Chat and writing tools", "These feel like general assistants: good for questions, drafts, summaries, translation, and everyday thinking."], ["Visual tools", "These feel more like a design room: better for images, video scenes, and visual concepts when you describe the result clearly."], ["Structured work tools", "These feel like office specialists: better for slides, tables, long files, and turning rough notes into organized output."]], "Explain the main types of AI tools for a beginner: chat tools, image tools, video tools, slide tools, and document tools. Tell me what each type is good for and what I should try first.", "how-to-start"],
+  ["how-to-start", "How To Start Using AI", "Starting with AI is like walking into a new coffee shop: you do not need to know the whole menu before ordering your first drink.", [["Pick one simple task", "Do not start by testing everything. Start with one real job you actually need today."], ["Give clear background", "Tell AI who the work is for, what result you want, and what style or limit matters."], ["Ask again", "Using AI is a conversation, so the first answer is often the first draft, not the final answer."]], "I am new to AI. Help me write my first useful request for improving an email to a customer. First ask me who the customer is and what tone I want.", "free-vs-paid"],
   ["free-vs-paid", "Free vs Paid AI", "Free AI is like a tasting spoon, while paid AI is like booking the same helper for the jobs you do every week.", [["What free plans are good for", "Free plans are enough for first questions, short writing, summaries, translation, and learning how AI fits your day."], ["What paid plans usually add", "Paid plans often give newer models, faster replies, file tools, higher limits, and sometimes stronger privacy controls."], ["When paying makes sense", "Pay when AI is already saving you real time every week, or when the free version keeps slowing down real work."], ["When free is still enough", "If you only use AI once in a while, or you are still testing what you like, stay free a little longer."]], "I use AI for emails, translation, and summaries twice a week. Should I stay on a free plan or pay?", "ai-tool-differences"],
-  ["ai-tool-differences", "How AI Tools Are Different", "AI tools are like workers in one busy shop: one talks well, one reads long files well, one designs well, and one helps you build things faster.", [["General chat tools", "Tools like ChatGPT, Claude, Gemini, and Doubao are good first doors for writing, asking questions, planning, and translation."], ["Image and video tools", "Image and video tools are more like a design studio: they need scene, style, mood, and format before they can make something useful."], ["Slides and document tools", "Tools like Gamma help turn a topic into a deck, outline, or page faster than starting from a blank screen."], ["Pick by task, not by hype", "Do not start with the biggest name; start with the job in front of you and choose the tool that was built for that job."]], "I need to write posts, make images, and summarize documents. Help me choose the right type of AI.", "ai-safety"],
+  ["ai-tool-differences", "How AI Tool Types Are Different", "AI tools are like workers in one busy shop: one talks well, one reads long files well, one designs well, and one helps you organize work faster.", [["General chat tools", "These are good first doors for writing, asking questions, planning, and translation."], ["Image and video tools", "These are more like a design studio: they need scene, style, mood, and format before they can make something useful."], ["Slides and document tools", "These help turn a topic into a deck, outline, page, or summary faster than starting from a blank screen."], ["Pick by task, not by hype", "Do not start with the biggest name; start with the job in front of you and choose the type of tool built for that job."]], "I need to write posts, make images, and summarize documents. Help me choose the right type of AI for each task.", "ai-safety"],
   ["ai-safety", "Things To Be Careful About", "AI is a helpful new assistant, but you still need to decide what it should see, what it should never see, and what must be checked by a human.", [["Protect private information", "Do not paste passwords, bank details, private IDs, customer files, or confidential company data unless you clearly trust how the tool handles it."], ["Check confident answers", "AI can sound calm and certain even when it is wrong, so important answers should be treated like a first draft, not the final truth."], ["Use official websites", "Fake AI websites copy familiar names and logos, so always log in, upload files, or pay through the official website."], ["Do not let AI decide everything", "AI can help with ideas, drafts, and summaries, but medical, legal, financial, and business-critical decisions still need human review."]], "Review this text before I send it to a customer. Check if anything sounds risky, unclear, or too strong.", "beginner-path"],
   ["beginner-path", "Beginner Path", "Learning AI is like learning a new road: start with one safe lane, drive short distances, and get comfortable before you go faster.", [["Step 1: open one account", "Choose one well-known AI tool first, create a free account, and resist the urge to open five tools on the same day."], ["Step 2: learn what to type", "Good results usually come from clear requests that say what you want, how long it should be, and who it is for."], ["Step 3: try five small tasks", "Use AI for one question, one email, one summary, one brainstorm, and one simple explanation so your hands learn by doing."], ["Step 4: learn the limits", "AI can still be wrong, outdated, or overconfident, so learning when to check it is part of learning how to use it."]], "Make me a 5-day beginner plan to learn AI by doing small real tasks at work.", "private-jet-local-ai"],
   ["private-jet-local-ai", "Do You Want Your Own Private Jet?", "Most people ride public AI trains, but some people dream of owning a private jet that waits in their own hangar.", [["The normal way is like taking a train", "When you use online AI, you are like a passenger taking a powerful train that someone else owns and operates."], ["Local AI is like owning your own private jet", "A local AI model runs on your own computer, ready to fly without entering a public station."], ["Why it is not for everyone", "A private jet sounds exciting, but it needs a strong machine, setup time, storage space, maintenance, and patience."]], "Explain local AI like I am a beginner. Tell me whether my computer is suitable and whether I should start with online AI first.", "write-with-ai"]
@@ -17,9 +17,9 @@ const beginnerArticles = [
 const advancedSpecs = [
   ["write-with-ai", "I Want To Write", "Writing with AI is like sitting with an editor who helps you say the same idea more clearly.", "Write a customer delay email", "A small shop owner needs to tell a customer that an order will be two days late, but does not want the message to sound cold or careless.", "Rewrite this customer message for WhatsApp. Make it clear, polite, warm, and not too long. Original message: Hi, your order is late. It will come after two days. Sorry.", "make-a-plan"],
   ["make-a-plan", "I Want To Make A Plan", "Making a plan with AI is like emptying a messy bag onto a table and asking someone to sort everything into boxes.", "Make a launch plan for a new coffee product", "A cafe in Riyadh wants to launch a new iced saffron latte next Friday and needs a simple plan for promotion, staff, supplies, and social media.", "Create a 7-day launch plan for a new iced saffron latte at a small cafe in Riyadh. Launch day is next Friday. Include daily tasks, supplies to prepare, staff actions, Instagram content, customer message, possible risks, and a simple checklist. Use easy English.", "make-slides"],
-  ["make-slides", "I Want To Make Slides", "Making slides with AI is like asking a storyteller to turn your messy notes into a clear beginning, middle, and ending.", "Create a 6-slide presentation in Gamma", "A small coffee shop owner in Riyadh wants a weekend promotion plan. They do not need slide theory; they need to open Gamma, paste one clear request, review the outline, and get an editable deck.", "Create a 6-slide presentation in English for a small coffee shop owner in Riyadh. Topic: Weekend promotion plan using AI. Audience: ordinary shop owner with no marketing team. Style: clear, practical, friendly, modern. Slides: 1. Title, 2. The problem: quiet weekends, 3. The AI idea: smart weekend offers, 4. Target customers, 5. 7-day action plan, 6. Expected results and next step. Use simple English. Do not use technical language. Keep all slide text in English.", "spreadsheets"],
+  ["make-slides", "I Want To Make Slides", "Making slides with AI is like asking a storyteller to turn your messy notes into a clear beginning, middle, and ending.", "Create a 6-slide presentation from one clear brief", "A small coffee shop owner in Riyadh wants a weekend promotion plan. They do not need slide theory; they need to open a slide-making tool, paste one clear request, review the outline, and get an editable deck.", "Create a 6-slide presentation in English for a small coffee shop owner in Riyadh. Topic: Weekend promotion plan using AI. Audience: ordinary shop owner with no marketing team. Style: clear, practical, friendly, modern. Slides: 1. Title, 2. The problem: quiet weekends, 3. The AI idea: smart weekend offers, 4. Target customers, 5. 7-day action plan, 6. Expected results and next step. Use simple English. Do not use technical language. Keep all slide text in English.", "spreadsheets"],
   ["spreadsheets", "I Want To Work With Spreadsheets", "Using AI for spreadsheets is like having a patient office colleague who explains the table instead of making you stare at it alone.", "Make a simple sales table from messy notes", "A perfume shop owner has four days of sales written as plain text and wants a clean table, total sales, average daily sales, and best-selling product.", "Turn these sales notes into a clean table. Then calculate total sales, average daily sales, and best-selling product: May 1 Oud Oil quantity 2 sales 600 SAR; May 2 Bakhoor quantity 3 sales 450 SAR; May 3 Oud Oil quantity 3 sales 900 SAR; May 4 Perfume Spray quantity 2 sales 350 SAR. Use easy English and show the formulas I can copy into Excel.", "create-images"],
-  ["create-images", "I Want To Create Images", "Creating images with AI is like describing a scene to a designer who starts drawing before you finish your coffee.", "Create an Instagram poster with image-2", "A perfume shop in Riyadh wants a weekend oud sale poster for Instagram. The owner needs a real square poster with readable English text, not only a prompt idea.", "Create a square Instagram poster for a weekend oud perfume sale. Main headline: Weekend Oud Sale. Offer: Up to 30% OFF. Small text: Friday & Saturday Only. Button: Shop Now. Style: premium Saudi luxury, realistic oud perfume bottle, black and warm brown background, gold smoke, elegant Arabic-inspired detail, clear readable text.", "edit-images"],
+  ["create-images", "I Want To Create Images", "Creating images with AI is like describing a scene to a designer who starts drawing before you finish your coffee.", "Create an Instagram poster with a clear image prompt", "A perfume shop in Riyadh wants a weekend oud sale poster for Instagram. The owner needs a real square poster with readable English text, not only a prompt idea.", "Create a square Instagram poster for a weekend oud perfume sale. Main headline: Weekend Oud Sale. Offer: Up to 30% OFF. Small text: Friday & Saturday Only. Button: Shop Now. Style: premium Saudi luxury, realistic oud perfume bottle, black and warm brown background, gold smoke, elegant Arabic-inspired detail, clear readable text.", "edit-images"],
   ["edit-images", "I Want To Edit Images", "Editing images with AI is like asking a quiet studio assistant to move the background, clean the table, and fix the lighting.", "Edit a product photo for an online shop", "A seller has a perfume bottle photo taken on a messy table and wants it to look clean enough for an online store without changing the product.", "Remove the messy background from this product photo and replace it with a clean white studio background for an online shop. Keep the product shape, colors, label, and shadow realistic. Improve brightness slightly. Do not change the product itself. Export in high quality PNG.", "make-videos"],
   ["make-videos", "I Want To Make Videos", "Making videos with AI is like making a small comic first: draw the key pictures, arrange them in order, then let them move.", "Make a 15-second product video from a 9-image storyboard", "A small business wants a Ramadan date gift box video. Instead of asking video AI to guess everything at once, the safer beginner method is: text to image, create a 9-grid storyboard, then stitch the 9 images into a short video.", "Create 9 vertical storyboard images for a 15-second Ramadan date gift box product video. Keep the same gift box, same warm premium style, and same gold lantern lighting in every image. Image 1: closed luxury gift box on table. Image 2: box slightly opening. Image 3: close-up of dates inside. Image 4: Arabic coffee beside the gift box. Image 5: hand placing gold ribbon. Image 6: family gift moment, no faces close-up. Image 7: product with caption Ramadan Gift Collection. Image 8: product with caption Perfect for Family and Friends. Image 9: final hero shot with caption Order Yours Today. Style: realistic, premium, warm, vertical 9:16, clean background, no strange text.", "make-music"],
   ["make-music", "I Want To Make Music", "Making music with AI is like humming an idea to a small studio and asking it to turn the mood into sound.", "Create background music for a short ad", "A perfume store needs soft background music for a 20-second product video. The music should support the ad, not steal attention from the product.", "Create 20 seconds of luxury background music for a premium oud perfume advertisement. No vocals. Use soft Arabic percussion, warm strings, light oud instrument, deep ambient bass, and cinematic atmosphere. Mood should feel elegant, rich, modern, and relaxing.", "translate"],
@@ -28,20 +28,20 @@ const advancedSpecs = [
   ["learn-something", "I Want To Learn Something", "Learning with AI is like having a tutor who can explain the same idea with a story, an example, or a simple exercise.", "Learn VAT basics before a meeting", "A small business owner wants to understand VAT basics before talking to an accountant, without reading government-style language first.", "Teach me VAT basics like I am a small shop owner. Use one simple example with 100 SAR, explain what I should record, and quiz me with five easy questions. Do not use technical tax language.", "grow-business"],
   ["grow-business", "I Want To Grow My Business", "Using AI for business is like adding a small helper behind the counter who writes, researches, and answers faster than you can alone.", "Create product text and customer replies for a bakery", "A bakery wants to sell a new luxury date cake box online and needs product text, customer replies, and ad ideas that can be copied into WhatsApp or Instagram.", "I sell a Luxury Date Cake Box in Riyadh. Customers are families, office buyers, and Ramadan gift buyers. Help me write: 1. short product description, 2. WhatsApp reply when a customer asks if it is available, 3. three Instagram ad headlines, 4. one simple offer idea. Use easy English.", "social-content"],
   ["social-content", "I Want To Create Social Media Content", "Creating social content with AI is like having a calendar assistant who keeps handing you ideas when the page is empty.", "Make a 2-week Instagram plan for a salon", "A beauty salon wants to post regularly, but the owner needs a real calendar with caption ideas, image ideas, and simple actions the staff can actually do.", "Create a 2-week Instagram plan for a beauty salon in Riyadh. Include day, post idea, short caption, image or video idea, and what the staff should prepare. Make it realistic for a small team. Use easy English.", "choose-right-tool"],
-  ["choose-right-tool", "I Want To Choose The Right Tool", "Choosing an AI tool is like choosing a vehicle: a bicycle, taxi, truck, and plane can all move you, but not for the same trip.", "Choose AI tools for a small marketing team", "A small team needs AI for writing posts, images, slides, summaries, short videos, and music, but they do not want ten subscriptions at once.", "We are a small marketing team. We need AI for writing posts, making images, making slides, summarizing documents, creating short videos, and making simple background music. Recommend one or two tools for each job. Explain in simple language when to use each tool and what to try first for free.", "login-pages"],
-  ["ai-apps-and-coding-tools", "AI Apps And Coding Tools", "AI apps are like different rooms in a work building: one room writes, one designs, one makes slides, and one helps build software.", "Choose the right AI app before paying", "A small business owner hears names like Cursor, Claude Code, Codex, Antigravity, Cherry Studio, CC Switch, Hermes, and OpenClaw, but does not know which ones are useful for ordinary work and which ones are mainly for developers.", "I am a normal business owner, not a programmer. Explain these AI apps in simple language: Cursor, Claude Code, OpenAI Codex, Google Antigravity, Cherry Studio, CC Switch, Hermes, and OpenClaw. Put them in a table with: what it does, who should try it, whether beginners should use it now, and what to be careful about. Do not use programming jargon.", "login-pages"],
-  ["login-pages", "AI Login Pages", "AI login pages are like front doors, and using the right door matters because fake doors can lead you to trouble.", "Safely open a new AI account", "A user finds an AI tool on Google and wants to sign up safely without landing on a fake website or paying too early.", "Make me a safe checklist for logging into a new AI website before I create an account or pay. Include how to check the website address, official links, free plan, payment page, cancellation, and warning signs.", "subscription-pages"],
-  ["subscription-pages", "AI Subscription Pages", "An AI subscription is like choosing a gym membership: the best plan is not the biggest one, but the one you will actually use.", "Decide whether to pay for an AI plan", "A freelancer uses AI for client writing, translation, and slides several days a week and wants to know whether a paid plan is worth it.", "I use AI three days a week for client writing, translation, and slides. Should I pay for an AI plan? Make a simple decision checklist. Tell me when to stay free, when to try one paid month, and when to cancel.", "price-comparison"],
-  ["price-comparison", "Price Comparison", "Comparing AI prices is like comparing phone plans: the cheapest one is not always best if it runs out when you need it.", "Compare AI prices before choosing a tool", "A small business owner is comparing tools for writing, images, slides, and video and wants a simple table before subscribing.", "Compare these AI tools for a small business: ChatGPT, Claude, Gemini, Gamma, image-2, Runway or Kling, and a music AI tool. Make a simple table with main job, free option, paid option, limits to check, and recommendation. Do not invent exact prices if you are not sure; tell me what to verify on the official pricing page.", "what-is-api"]
+  ["choose-right-tool", "I Want To Choose The Right Kind", "Choosing the right AI is like choosing the right vehicle: a bicycle, taxi, truck, and plane can all move you, but not for the same trip.", "Choose AI by task instead of by famous name", "A small team needs AI for writing posts, images, slides, summaries, short videos, and music, but they do not want ten subscriptions at once.", "We are a small marketing team. First sort our jobs by tool type: writing, images, slides, document summaries, short videos, and background music. Then tell us what kind of AI is best for each and what a beginner should try first.", "login-pages"],
+  ["ai-apps-and-coding-tools", "AI Apps Beyond Beginner Use", "AI apps are like different rooms in a work building: one room writes, one designs, one makes slides, and one helps build software.", "Understand which AI apps are not for complete beginners", "A small business owner keeps hearing advanced AI app names, but does not know which ones are useful for ordinary work and which ones are mainly for builders or technical teams.", "I am a normal business owner, not a programmer. Explain which kinds of AI apps are useful for ordinary work and which are mainly for building websites, apps, automation, or code projects. Put them in a simple table with: what it does, who should try it, whether beginners should use it now, and what to be careful about.", "login-pages"],
+  ["login-pages", "How To Open The Right AI Website", "AI login pages are like front doors, and using the right door matters because fake doors can lead you to trouble.", "Safely open a new AI account", "A user finds an AI tool online and wants to sign up safely without landing on a fake website or paying too early.", "Make me a safe checklist for opening a new AI website before I create an account or pay. Include how to check the website address, official links, free plan, payment page, cancellation, and warning signs.", "subscription-pages"],
+  ["subscription-pages", "When Paying For AI Makes Sense", "An AI subscription is like choosing a gym membership: the best plan is not the biggest one, but the one you will actually use.", "Decide whether to pay for an AI plan", "A freelancer uses AI for client writing, translation, and slides several days a week and wants to know whether a paid plan is worth it.", "I use AI three days a week for client writing, translation, and slides. Should I pay for an AI plan? Make a simple decision checklist. Tell me when to stay free, when to try one paid month, and when to cancel.", "price-comparison"],
+  ["price-comparison", "How To Compare AI Costs", "Comparing AI prices is like comparing phone plans: the cheapest one is not always best if it runs out when you need it.", "Compare AI costs before choosing a plan", "A small business owner is comparing AI for writing, images, slides, and video and wants a simple checklist before subscribing.", "Make a simple checklist for comparing AI costs for a small business. Include task type, free option, paid option, limits to check, and what to verify on the official pricing page. Do not invent exact prices if you are not sure.", "what-is-api"]
 ];
 
 const toolAdvanced = [
-  ["chatgpt-advanced", "ChatGPT For Daily Work", "ChatGPT is like a general office assistant who can help with writing, planning, summaries, images, and everyday questions.", "Use ChatGPT to finish a client reply", "A user received a difficult client message and wants a clear reply.", "A client says our price is too high. Help me write a polite reply.", "chatgpt-expert"],
-  ["doubao-advanced", "Doubao For Daily Questions", "Doubao is like a daily helper that answers common questions, rewrites simple text, explains things, and helps ordinary users start quickly.", "Use Doubao to answer a normal work question", "A user wants to ask a simple business question and receive an answer that is easy to understand.", "I run a small shop. Help me write a simple answer to a customer asking why delivery takes two days.", "doubao-expert"],
-  ["gemini-advanced", "Gemini For Daily Work", "Gemini is like a fast assistant that is comfortable with search-style questions, documents, images, and Google-style work.", "Use Gemini to understand a screenshot", "A user has a confusing dashboard screenshot and wants to understand it.", "Explain this dashboard screenshot like I am not a data expert.", "gemini-expert"],
-  ["claude-advanced", "Claude For Daily Work", "Claude is like a careful reader and writer who is good with long text, thoughtful answers, and clean writing.", "Use Claude to polish a long proposal", "A consultant has a rough proposal and wants it to sound professional.", "Rewrite this proposal for a business client. Make it clearer and easier to read.", "claude-expert"],
-  ["deepseek-advanced", "DeepSeek For Daily Work", "DeepSeek is like a sharp thinking assistant for practical writing, reasoning, and problem solving.", "Use DeepSeek to compare two business choices", "A shop owner is choosing between a new branch and online delivery.", "Compare these two choices. Give pros, cons, risks, and a simple recommendation.", "deepseek-expert"],
-  ["kimi-advanced", "Kimi For Daily Work", "Kimi is like a document assistant who is useful when you have long text, files, notes, or Chinese-language work.", "Use Kimi to read a long document", "A user has a long Chinese document and wants key points and tasks.", "Read this document and give key points, action items, deadlines, and risks.", "kimi-expert"],
+  ["chatgpt-advanced", "A Chat Tool For Daily Work", "A daily chat tool is like a general office assistant who can help with writing, planning, summaries, images, and everyday questions.", "Use a chat tool to finish a client reply", "A user received a difficult client message and wants a clear reply.", "A client says our price is too high. Help me write a polite reply.", "chatgpt-expert"],
+  ["doubao-advanced", "A Fast Daily AI Tool", "A fast daily AI tool is like a quick helper that answers common questions, rewrites simple text, explains things, and helps ordinary users start quickly.", "Use a fast daily tool to answer a normal work question", "A user wants to ask a simple business question and receive an answer that is easy to understand.", "I run a small shop. Help me write a simple answer to a customer asking why delivery takes two days.", "doubao-expert"],
+  ["gemini-advanced", "A Search-And-Explanation Tool For Daily Work", "A search-and-explanation tool is like a fast assistant that feels comfortable with search-style questions, documents, images, and connected workflows.", "Use an explanation tool to understand a screenshot", "A user has a confusing dashboard screenshot and wants to understand it.", "Explain this dashboard screenshot like I am not a data expert.", "gemini-expert"],
+  ["claude-advanced", "A Calm Writing Tool For Daily Work", "A calm writing tool is like a careful reader and writer who is good with long text, thoughtful answers, and clean writing.", "Use a writing tool to polish a long proposal", "A consultant has a rough proposal and wants it to sound professional.", "Rewrite this proposal for a business client. Make it clearer and easier to read.", "claude-expert"],
+  ["deepseek-advanced", "A Practical Reasoning Tool For Daily Work", "A practical reasoning tool is like a sharp thinking assistant for writing, comparison, and problem solving.", "Use a reasoning tool to compare two business choices", "A shop owner is choosing between a new branch and online delivery.", "Compare these two choices. Give pros, cons, risks, and a simple recommendation.", "deepseek-expert"],
+  ["kimi-advanced", "A Long-Document Tool For Daily Work", "A long-document tool is like a document assistant that is useful when you have long text, files, notes, or research material.", "Use a long-document tool to read a long file", "A user has a long document and wants key points and tasks.", "Read this document and give key points, action items, deadlines, and risks.", "kimi-expert"],
   ["image-tools-advanced", "Image AI Tools For Daily Work", "Image AI tools are like designers who need you to describe the picture before they start drawing.", "Use image AI for a product poster", "A user wants to promote a skincare product with a clean poster.", "Create an image prompt for a skincare product poster.", "image-tools-expert"],
   ["video-tools-advanced", "Video AI Tools For Daily Work", "Video AI tools are like a small film crew that works better when you give it a clear scene list.", "Use video AI for a cafe reel", "A cafe wants a short reel showing a new drink being prepared.", "Create a 12-second cafe reel idea for a new iced latte.", "video-tools-expert"],
   ["music-tools-advanced", "Music AI Tools For Daily Work", "Music AI tools are like a small studio that turns mood, style, and purpose into sound.", "Use music AI for a podcast intro", "A creator wants a short intro sound for a business podcast.", "Create 8 seconds of intro music for a business podcast.", "music-tools-expert"]
@@ -61,12 +61,12 @@ const expertArticles = [
 ];
 
 const expertToolArticles = [
-  ["chatgpt-expert", "ChatGPT For Expert Use"],
-  ["gemini-expert", "Gemini For Expert Use"],
-  ["claude-expert", "Claude For Expert Use"],
-  ["deepseek-expert", "DeepSeek For Expert Use"],
-  ["kimi-expert", "Kimi For Expert Use"],
-  ["doubao-expert", "Doubao For Expert Use"],
+  ["chatgpt-expert", "Daily Chat Tools For Expert Use"],
+  ["gemini-expert", "Search And Explanation Tools For Expert Use"],
+  ["claude-expert", "Long Writing Tools For Expert Use"],
+  ["deepseek-expert", "Reasoning Tools For Expert Use"],
+  ["kimi-expert", "Long Document Tools For Expert Use"],
+  ["doubao-expert", "Fast Everyday AI Tools For Expert Use"],
   ["image-tools-expert", "Image AI Tools For Expert Use"],
   ["video-tools-expert", "Video AI Tools For Expert Use"],
   ["music-tools-expert", "Music AI Tools For Expert Use"]
@@ -75,7 +75,7 @@ const expertToolArticles = [
 function advancedArticle([id, title, intro, caseTitle, scenario, prompt, next]) {
   const realScreensById = {
     "write-with-ai": [
-      { title: "Step 1: Open your AI chat tool", text: "Use ChatGPT, Claude, Gemini, Doubao, or another official chat tool. Start a new chat so the answer is not mixed with an old task." },
+      { title: "Step 1: Open one writing or chat tool", text: "Use one official writing or chat tool you trust. Start a new chat so the answer is not mixed with an old task." },
       { title: "Step 2: Paste the customer message and the prompt", text: "Ask the AI to rewrite the message for WhatsApp, with a warm and polite tone, and tell it the message should stay short." },
       { title: "Step 3: Ask for one revision", text: "If the reply feels cold, ask: make it warmer and shorter. If it is too long, ask: keep only the important sentence." }
     ],
@@ -86,11 +86,11 @@ function advancedArticle([id, title, intro, caseTitle, scenario, prompt, next]) 
       { title: "Step 4: Copy it into your notes", text: "Keep only tasks you can really do this week, then add real prices, staff names, and dates." }
     ],
     "make-slides": [
-      { title: "Step 1: Open Gamma", text: "Go to the official Gamma website, choose Presentation, and start from a prompt instead of a blank page." },
+      { title: "Step 1: Open your slide-making tool", text: "Go to the official slide tool website, choose Presentation mode, and start from a prompt instead of a blank page. Gamma is one example." },
       { title: "Step 2: Set the deck size", text: "Choose about 6 cards or slides for a beginner case. A short deck is easier to check and edit." },
       { title: "Step 3: Paste the prompt", text: "Use the prompt below. Keep the language English if your final website or client deck should be English." },
       { title: "Step 4: Review the outline", text: "Before generating, check that the six slide titles match the story: title, problem, AI idea, target customers, action plan, expected result." },
-      { title: "Step 5: Export safely", text: "After editing, use Gamma export or share options to download PDF, PowerPoint, Google Slides, or a share link." }
+      { title: "Step 5: Export safely", text: "After editing, use the tool's export or share options to download PDF, PowerPoint, Google Slides, or a share link." }
     ],
     "spreadsheets": [
       { title: "Step 1: Prepare the messy notes", text: "May 1 Oud Oil quantity 2 sales 600 SAR\nMay 2 Bakhoor quantity 3 sales 450 SAR\nMay 3 Oud Oil quantity 3 sales 900 SAR\nMay 4 Perfume Spray quantity 2 sales 350 SAR" },
@@ -98,8 +98,8 @@ function advancedArticle([id, title, intro, caseTitle, scenario, prompt, next]) 
       { title: "Step 3: Copy the result into Excel or Google Sheets", text: "After AI gives the table, copy the rows into a spreadsheet. Check the total with =SUM(D2:D5), then save the file as your sales report." }
     ],
     "create-images": [
-      { title: "Step 1: Prepare the exact poster words before opening image-2", text: "Main headline: Weekend Oud Sale\nOffer: Up to 30% OFF\nSmall text: Friday & Saturday Only\nButton: Shop Now" },
-      { title: "Step 2: Copy the full image prompt into image-2", text: "Create a premium English poster for a weekend oud perfume discount campaign for a small perfume shop in Riyadh. Include exactly: Weekend Oud Sale, Up to 30% OFF, Friday & Saturday Only, Shop Now. Make it a square Instagram poster with a realistic oud perfume bottle, black and warm brown background, gold smoke, and elegant Saudi luxury mood." },
+      { title: "Step 1: Prepare the exact poster words before opening the image tool", text: "Main headline: Weekend Oud Sale\nOffer: Up to 30% OFF\nSmall text: Friday & Saturday Only\nButton: Shop Now" },
+      { title: "Step 2: Copy the full image prompt into the image tool", text: "Create a premium English poster for a weekend oud perfume discount campaign for a small perfume shop in Riyadh. Include exactly: Weekend Oud Sale, Up to 30% OFF, Friday & Saturday Only, Shop Now. Make it a square Instagram poster with a realistic oud perfume bottle, black and warm brown background, gold smoke, and elegant Saudi luxury mood. image-2 is one example of the kind of tool you can use." },
       { title: "Step 3: Check the finished poster on a phone-sized screen", image: "assets/outputs/oud-weekend-sale-poster-real.png" }
     ],
     "edit-images": [
@@ -108,7 +108,7 @@ function advancedArticle([id, title, intro, caseTitle, scenario, prompt, next]) 
       { title: "Step 3: Compare before and after", text: "If the bottle label changes, the cap becomes strange, or the product color changes, reject it and regenerate with: Keep the product exactly the same." }
     ],
     "make-videos": [
-      { title: "Step 1: Use text-to-image first", text: "Do not start with video. First ask image-2 or another image AI to create 9 vertical images for the product story. This gives you control before anything moves." },
+      { title: "Step 1: Use text-to-image first", text: "Do not start with video. First ask an image tool to create 9 vertical images for the product story. This gives you control before anything moves." },
       { title: "Step 2: Make a 9-grid storyboard", text: "Image 1: closed gift box\nImage 2: box opening\nImage 3: dates close-up\nImage 4: Arabic coffee beside product\nImage 5: gold ribbon\nImage 6: gift moment\nImage 7: caption: Ramadan Gift Collection\nImage 8: caption: Perfect for Family and Friends\nImage 9: final caption: Order Yours Today" },
       { title: "Step 3: Keep the same product in every image", text: "Ask the image tool to keep the same gift box, same color, same light, and same background. If one image looks like a different product, regenerate only that image." },
       { title: "Step 4: Stitch the 9 images into a video", text: "Open CapCut, Canva, 剪映, or another editor. Put the 9 images in order. Give each image about 1.5 to 2 seconds. Add soft zoom, simple transitions, captions, and background music." },
@@ -150,9 +150,9 @@ function advancedArticle([id, title, intro, caseTitle, scenario, prompt, next]) 
       { title: "Step 3: Choose a small tool set", text: "A normal team should start with one chat tool, one slide tool, one image tool, and one video tool, then add music only when needed." }
     ],
     "ai-apps-and-coding-tools": [
-      { title: "Step 1: Sort tools by job before reading rankings", text: "Daily chat: ChatGPT, Claude, Gemini, Doubao, Kimi\nSlides: Gamma\nImages: image-2, Canva AI, Midjourney, Ideogram\nVideo: Seedance, Runway, Kling, Pika\nMusic: Suno, Udio\nCoding and website work: Cursor, Claude Code, Codex, Antigravity" },
-      { title: "Step 2: Know which tools are not for complete beginners", text: "Cursor, Claude Code, Codex, Antigravity, CC Switch, and OpenClaw are powerful, but they make the most sense when someone is building or changing websites, apps, automation, or code projects." },
-      { title: "Step 3: Use Cherry Studio as a model-workbench example", text: "Cherry Studio is closer to a control desk: it can connect different AI models in one desktop app, but users still need to understand accounts, model choices, and sometimes API keys." },
+      { title: "Step 1: Sort tools by job before reading names", text: "Daily chat and writing\nSlides and presentations\nImages and posters\nVideo and motion\nMusic and sound\nCoding and website work" },
+      { title: "Step 2: Know which tools are not for complete beginners", text: "Builder tools can be powerful, but they make the most sense when someone is building or changing websites, apps, automation, or code projects." },
+      { title: "Step 3: See a model-workbench example", text: "Some desktop workbench tools can connect different AI models in one app, but users still need to understand accounts, model choices, and sometimes API keys." },
       { title: "Step 4: Keep a research note before recommending a tool", text: "For every tool, check official website, pricing page, country access, beginner tutorial, safety notes, and last checked date before adding it to ARABAI." }
     ],
     "login-pages": [
@@ -161,7 +161,7 @@ function advancedArticle([id, title, intro, caseTitle, scenario, prompt, next]) 
       { title: "Step 3: Save the real login page", text: "After you confirm the correct website, bookmark it. Next time, open the bookmark instead of clicking ads." }
     ],
     "subscription-pages": [
-      { title: "Step 1: Write what AI did for you this week", text: "Example: wrote 5 client messages, translated 3 replies, made 1 Gamma deck, created 2 poster ideas." },
+      { title: "Step 1: Write what AI did for you this week", text: "Example: wrote 5 client messages, translated 3 replies, made 1 presentation deck, created 2 poster ideas." },
       { title: "Step 2: Compare cost with saved time", text: "If the tool saves several hours every month and the free plan blocks your work, test one paid month." },
       { title: "Step 3: Use the cancel test", text: "Before paying, find the cancel button or help page. If canceling is unclear, be careful." }
     ],
@@ -171,23 +171,23 @@ function advancedArticle([id, title, intro, caseTitle, scenario, prompt, next]) 
       { title: "Step 3: Choose one month, not forever", text: "For a new tool, start monthly. Upgrade yearly only after you have used it for real work several times." }
     ],
     "chatgpt-advanced": [
-      { title: "Step 1: Start with one real task", text: "Open ChatGPT and paste one customer reply, product idea, plan, or document summary task." },
+      { title: "Step 1: Start with one real task", text: "Open one daily chat tool and paste one customer reply, product idea, plan, or document summary task." },
       { title: "Step 2: Improve the first answer", text: "Ask for a warmer tone, shorter wording, a table, or a checklist until the result is ready to use." }
     ],
     "gemini-advanced": [
-      { title: "Step 1: Use Gemini for explanation and Google-style work", text: "Open Gemini when you want help understanding a topic, drafting text, or working near Google documents and search-style questions." },
+      { title: "Step 1: Use a search-and-explanation tool", text: "Open a tool like Gemini when you want help understanding a topic, drafting text, or working near documents and search-style questions." },
       { title: "Step 2: Ask for a practical answer", text: "Request a simple table, summary, checklist, or customer-ready message instead of a general explanation." }
     ],
     "claude-advanced": [
-      { title: "Step 1: Use Claude for careful writing", text: "Open Claude when you want a long message, policy, explanation, document rewrite, or cleaner English tone." },
-      { title: "Step 2: Ask for a copy-ready version", text: "Tell Claude who will read the text and ask it to produce the final version in the exact format you need." }
+      { title: "Step 1: Use a careful long-writing tool", text: "Open a tool like Claude when you want a long message, policy, explanation, document rewrite, or cleaner English tone." },
+      { title: "Step 2: Ask for a copy-ready version", text: "Tell the tool who will read the text and ask it to produce the final version in the exact format you need." }
     ],
     "deepseek-advanced": [
-      { title: "Step 1: Use DeepSeek for reasoning and comparison", text: "Open DeepSeek when you want to compare choices, understand logic, or break a problem into steps." },
+      { title: "Step 1: Use a reasoning tool", text: "Open a tool like DeepSeek when you want to compare choices, understand logic, or break a problem into steps." },
       { title: "Step 2: Ask for pros, cons, risks, and recommendation", text: "A useful prompt is: compare these options, show pros and cons, risks, and tell me what a small business should do first." }
     ],
     "kimi-advanced": [
-      { title: "Step 1: Use Kimi for long documents", text: "Open Kimi or another document-friendly AI when you have a long proposal, contract draft, article, or notes to summarize." },
+      { title: "Step 1: Use a long-document tool", text: "Open a document-friendly AI when you have a long proposal, contract draft, article, or notes to summarize. Kimi is one example." },
       { title: "Step 2: Ask for action items", text: "Ask for key points, deadlines, money terms, risks, and the next three actions." }
     ],
     "image-tools-advanced": [
@@ -209,7 +209,7 @@ function advancedArticle([id, title, intro, caseTitle, scenario, prompt, next]) 
 
   return {
     section: "advanced",
-    sectionLabel: "Use AI",
+    sectionLabel: "AI in Daily Tasks",
     backUrl: "advanced.html",
     title,
     intro,
@@ -244,9 +244,16 @@ function outputFor(id) {
   const outputs = {
     "make-slides": {
       type: "deck",
-      title: "Finished 6-slide Gamma deck plan",
+      title: "Finished 6-slide presentation plan",
       src: "assets/outputs/gamma-restaurant-proposal-deck.svg",
-      alt: "Finished Gamma presentation deck preview"
+      alt: "Finished presentation deck preview",
+      summary: [
+        "Slide 1 should say what the offer is.",
+        "Slide 2 should explain the weekend problem in one sentence.",
+        "Slide 3 and 4 should show the idea and the target customers.",
+        "Slide 5 should give a day-by-day action list.",
+        "Slide 6 should end with the expected result and next step."
+      ]
     },
     "spreadsheets": {
       type: "table",
@@ -262,9 +269,16 @@ function outputFor(id) {
     },
     "create-images": {
       type: "image",
-      title: "Finished image-2 poster example",
+      title: "Finished poster example",
       src: "assets/outputs/oud-weekend-sale-poster-real.png",
-      alt: "Finished weekend oud sale poster"
+      alt: "Finished weekend oud sale poster",
+      summary: [
+        "The bottle should stay clear and premium.",
+        "Weekend Oud Sale should be readable in one glance.",
+        "Up to 30% OFF should be the second thing the eye sees.",
+        "Friday & Saturday Only should still be readable on a phone.",
+        "If the text looks strange, fix text only instead of regenerating everything."
+      ]
     },
     "edit-images": {
       type: "beforeAfter",
@@ -284,7 +298,8 @@ function outputFor(id) {
         "Step B: check that the product looks consistent across all 9 frames.",
         "Step C: put the 9 images into a video editor in order.",
         "Step D: add slow zoom, captions, music, and export MP4.",
-        "Use this MP4 as a structure sample, then replace it with your own export when you make a real campaign."
+        "Use this MP4 as a structure sample, then replace it with your own export when you make a real campaign.",
+        "If one frame breaks the product look, fix that frame before exporting the whole video."
       ]
     },
     "make-music": {
@@ -337,73 +352,73 @@ function outputFor(id) {
     },
     "doubao-advanced": {
       type: "table",
-      title: "Finished Doubao answer structure",
-      columns: ["Part", "What Doubao should give you"],
+      title: "Finished fast-answer structure",
+      columns: ["Part", "What the tool should give you"],
       rows: [
         ["Short answer", "A direct answer a normal customer can understand"],
         ["Reason", "One simple reason without technical words"],
         ["Message", "A copy-ready reply for WhatsApp or email"]
       ],
-      summary: ["Use Doubao when the question is common, quick, and practical."]
+      summary: ["Use a fast everyday tool when the question is common, quick, and practical."]
     },
     "chatgpt-advanced": {
       type: "table",
-      title: "Finished ChatGPT first-use checklist",
+      title: "Finished daily chat tool checklist",
       columns: ["Step", "What the user learns"],
       rows: [
         ["Ask", "Type one real task, not a general question."],
         ["Improve", "Reply with one change: shorter, warmer, clearer, or more practical."],
         ["Use", "Copy the final result only after checking names, dates, and facts."]
       ],
-      summary: ["ChatGPT is a good first tool for ordinary writing, planning, translation, summaries, and everyday work."]
+      summary: ["A daily chat tool is a good first step for ordinary writing, planning, translation, summaries, and everyday work."]
     },
     "gemini-advanced": {
       type: "table",
-      title: "Finished Gemini use map",
+      title: "Finished explanation tool use map",
       columns: ["Best use", "Example"],
       rows: [
         ["Quick explanation", "Explain a screenshot, webpage, or topic in simple language."],
         ["Google-style work", "Turn rough notes into text for Docs, Gmail, or planning."],
         ["Check", "Verify links, facts, and current details before using the answer."]
       ],
-      summary: ["Use Gemini when the job is close to search, explanation, or Google work."]
+      summary: ["Use this kind of tool when the job is close to search, explanation, or document-adjacent work."]
     },
     "claude-advanced": {
       type: "table",
-      title: "Finished Claude use map",
+      title: "Finished long-writing tool use map",
       columns: ["Best use", "Example"],
       rows: [
         ["Long text", "Rewrite proposals, long emails, reports, and careful explanations."],
         ["Tone", "Make writing clearer, calmer, more natural, or more professional."],
-        ["Review", "Ask Claude what is unclear or missing before sending the text."]
+        ["Review", "Ask the tool what is unclear or missing before sending the text."]
       ],
       summary: [
-        "Use Claude when the work is mostly long writing or document understanding.",
-        "Claude is usually discussed in three model names: Opus for the strongest work, Sonnet for the balanced everyday choice, and Haiku for the faster lighter choice.",
+        "Use a long-writing tool when the work is mostly long writing or document understanding.",
+        "Some writing tools are usually discussed in three model names: strongest, balanced, and faster lighter choices.",
         "For beginners, the simple rule is: do not chase the name first; pick the model that fits the job and the budget."
       ]
     },
     "deepseek-advanced": {
       type: "table",
-      title: "Finished DeepSeek use map",
+      title: "Finished reasoning tool use map",
       columns: ["Best use", "Example"],
       rows: [
         ["Compare choices", "List pros, cons, risks, and a recommendation."],
         ["Think through a problem", "Ask for options and tradeoffs in simple language."],
         ["Check", "Use another source for facts, prices, and current information."]
       ],
-      summary: ["Use DeepSeek when you want practical reasoning, but still verify important facts."]
+      summary: ["Use this kind of tool when you want practical reasoning, but still verify important facts."]
     },
     "kimi-advanced": {
       type: "table",
-      title: "Finished Kimi use map",
+      title: "Finished long-document tool use map",
       columns: ["Best use", "Example"],
       rows: [
         ["Long documents", "Summarize files, notes, meeting records, and long Chinese or mixed-language text."],
         ["Action extraction", "Ask for deadlines, risks, decisions, and next steps."],
         ["Check", "Open the original document again before making money or legal decisions."]
       ],
-      summary: ["Use Kimi when the job starts with long material that needs to be read and organized."]
+      summary: ["Use this kind of tool when the job starts with long material that needs to be read and organized."]
     },
     "translate": {
       type: "table",
@@ -477,12 +492,12 @@ function outputFor(id) {
       title: "Finished tool choice map",
       columns: ["Job", "Good first tool", "Why it fits"],
       rows: [
-        ["Writing and replies", "ChatGPT, Claude, Doubao", "Good for everyday text and customer messages"],
-        ["Slides", "Gamma", "Turns an outline into an editable deck"],
-        ["Images", "image-2, Midjourney, Canva AI", "Good for posters, product visuals, and design ideas"],
-        ["Short video", "Runway, Kling, Dreamina, SeeDance/Seedance access where available", "Good when you prepare scenes first"],
-        ["Music", "Suno, Udio, Lyria access where available", "Good for short background tracks and jingles"],
-        ["Long documents", "Claude, Kimi, ChatGPT", "Good for summaries and action lists"]
+        ["Writing and replies", "One daily chat tool", "Good for everyday text and customer messages"],
+        ["Slides", "One presentation tool", "Turns an outline into an editable deck"],
+        ["Images", "One image tool", "Good for posters, product visuals, and design ideas"],
+        ["Short video", "One video tool or editor route", "Good when you prepare scenes first"],
+        ["Music", "One music tool", "Good for short background tracks and jingles"],
+        ["Long documents", "One document-friendly tool", "Good for summaries and action lists"]
       ],
       summary: ["Start with one chat tool, one slide tool, and one creative tool."]
     },
@@ -491,14 +506,14 @@ function outputFor(id) {
       title: "Finished AI app map",
       columns: ["Tool", "Plain meaning", "Who should try it first"],
       rows: [
-        ["Cursor", "An AI code editor that helps write and change software projects", "Developers, website builders, and technical founders"],
-        ["Claude Code", "A coding helper that works from the command line and can edit project files", "Developers or teams with technical setup help"],
-        ["OpenAI Codex", "A coding agent that can read, edit, and build inside a project", "Developers and product teams"],
-        ["Google Antigravity", "An agent-style AI development environment for building software with AI help", "Developers and advanced builders"],
-        ["Cherry Studio", "A desktop workbench for using multiple AI models in one place", "Advanced users who want one control desk"],
-        ["CC Switch", "A utility-style tool around Claude Code workflows; verify the exact source before recommending", "Experts only until the source is confirmed"],
-        ["Hermes", "A name used by more than one AI project", "Research first; do not recommend until the exact product is clear"],
-        ["OpenClaw", "Open-source or community coding-agent style tools need extra safety checking", "Experts who can check code and permissions"]
+        ["Code editor tools", "Tools that help write and change software projects", "Developers, website builders, and technical founders"],
+        ["Command-line coding helpers", "Tools that work inside a project folder and can edit files", "Developers or teams with technical setup help"],
+        ["Coding agents", "Agents that can read, edit, and build inside a project", "Developers and product teams"],
+        ["Builder environments", "Agent-style AI environments for building software with AI help", "Developers and advanced builders"],
+        ["Desktop model workbenches", "Apps for using multiple AI models in one place", "Advanced users who want one control desk"],
+        ["Workflow utilities", "Extra tools built around coding workflows", "Experts only until the exact source is confirmed"],
+        ["Unclear tool names", "Some names are used by more than one project", "Research first; do not recommend until the exact product is clear"],
+        ["Open-source builder tools", "Community tools may need extra safety checking", "Experts who can check code and permissions"]
       ],
       summary: ["For ordinary users, coding tools are not the first stop. Start with chat, slides, images, video, and music; use coding tools when you want to build or change software."]
     },
@@ -534,13 +549,13 @@ function outputFor(id) {
       title: "Finished price comparison template",
       columns: ["Tool", "Main job", "What to verify before paying"],
       rows: [
-        ["ChatGPT", "Writing, planning, summaries, image help", "Current plan price, message limits, image/video access"],
-        ["Claude", "Long writing and document work", "Plan price, file limits, country access"],
-        ["Gemini", "Google-style work, search, documents", "Plan bundle, storage, workspace access"],
-        ["Gamma", "Slides and documents", "Export options, monthly credits, team sharing"],
-        ["image-2 access", "Image generation", "Where you access it, generation limits, commercial usage rules"],
-        ["Runway or Kling", "Short video", "Video credits, export watermark, resolution"],
-        ["Music AI", "Background music or jingles", "Commercial usage, download quality, monthly song limits"]
+        ["Daily chat tool", "Writing, planning, summaries, image help", "Current plan price, usage limits, and media access"],
+        ["Long-writing tool", "Long writing and document work", "Plan price, file limits, and country access"],
+        ["Search-and-doc tool", "Search-style work, documents, and explanation", "Plan bundle, storage, and workspace access"],
+        ["Presentation tool", "Slides and documents", "Export options, monthly credits, and team sharing"],
+        ["Image tool access", "Image generation", "Where you access it, generation limits, and usage rules"],
+        ["Video tool", "Short video", "Video credits, export watermark, and resolution"],
+        ["Music tool", "Background music or jingles", "Commercial usage, download quality, and monthly limits"]
       ],
       summary: ["AI pricing changes often, so open official pricing pages before subscribing."]
     },
@@ -557,31 +572,31 @@ function outputFor(id) {
 
 function finalResultFor(id) {
   const results = {
-    "write-with-ai": "<p><strong>Final result from ChatGPT:</strong></p><p>Hi! Just a quick update - your order is running about 2 days late. So sorry about the delay, and thanks so much for your patience. We'll get it to you as soon as possible!</p>",
-    "make-a-plan": "<p><strong>Final result from ChatGPT:</strong></p><ul><li>Day 1: Confirm recipe, product name, price, and preparation speed.</li><li>Day 2: Order coffee beans, milk, ice, cups, lids, syrup, straws, and napkins.</li><li>Day 3: Train staff and prepare one simple customer sentence.</li><li>Day 4: Take product photos and short pouring videos.</li><li>Day 5: Post a teaser: Something cold is coming. New iced coffee launches this Friday.</li><li>Day 6: Prepare backup supplies and schedule the launch post.</li><li>Day 7: Taste check, post the launch content, and ask customers to try the new drink.</li></ul>",
-    "make-slides": "<p><strong>Final deck you are aiming for:</strong></p><ol><li><strong>Weekend Sales With AI</strong> - A simple plan for your Riyadh coffee shop.</li><li><strong>The problem: quiet weekends</strong> - Good coffee is not enough if nearby customers do not hear from you at the right time.</li><li><strong>The AI idea: smart weekend offers</strong> - Use AI to write offers, captions, and customer messages before Friday.</li><li><strong>Target customers</strong> - Nearby workers, families, students, weekend shoppers, and loyal customers.</li><li><strong>7-day action plan</strong> - Monday choose the offer, Tuesday make the poster, Wednesday write captions, Thursday prepare staff, Friday launch, Saturday reply to customers, Sunday check results.</li><li><strong>Expected result and next step</strong> - More weekend visits, clearer customer response, and one improved offer for next week.</li></ol><p><strong>Important:</strong> if Gamma gives you an outline that drifts away from your request, edit the outline before clicking generate. Treat Gamma like a designer: it is fast, but you still approve the brief.</p>",
-    "spreadsheets": "<p><strong>Copy this into Doubao, ChatGPT, or another table-friendly AI:</strong></p><p>Turn these sales notes into a clean table. Then calculate total sales, average daily sales, and best-selling product: May 1 Oud Oil quantity 2 sales 600 SAR; May 2 Bakhoor quantity 3 sales 450 SAR; May 3 Oud Oil quantity 3 sales 900 SAR; May 4 Perfume Spray quantity 2 sales 350 SAR.</p><p><strong>What you should get:</strong> a table like the one above, plus the three summary answers. Then copy it into Excel or Google Sheets.</p>",
-    "create-images": "<p><strong>Final result from image-2:</strong> a square Instagram poster with a realistic oud perfume bottle, gold luxury styling, readable English sale text, and a clear discount message.</p><p><strong>Check before posting:</strong> zoom out and read it like a customer on a phone. The headline, discount, date, and button must be easy to read. If the text is misspelled, ask image-2 to regenerate or fix only the typography.</p>",
+    "write-with-ai": "<p><strong>Final result from a writing tool:</strong></p><p>Hi! Just a quick update - your order is running about 2 days late. So sorry about the delay, and thanks so much for your patience. We'll get it to you as soon as possible!</p>",
+    "make-a-plan": "<p><strong>Final result from a planning tool:</strong></p><ul><li>Day 1: Confirm recipe, product name, price, and preparation speed.</li><li>Day 2: Order coffee beans, milk, ice, cups, lids, syrup, straws, and napkins.</li><li>Day 3: Train staff and prepare one simple customer sentence.</li><li>Day 4: Take product photos and short pouring videos.</li><li>Day 5: Post a teaser: Something cold is coming. New iced coffee launches this Friday.</li><li>Day 6: Prepare backup supplies and schedule the launch post.</li><li>Day 7: Taste check, post the launch content, and ask customers to try the new drink.</li></ul>",
+    "make-slides": "<p><strong>Final deck you are aiming for:</strong></p><ol><li><strong>Weekend Sales With AI</strong> - A simple plan for your Riyadh coffee shop.</li><li><strong>The problem: quiet weekends</strong> - Good coffee is not enough if nearby customers do not hear from you at the right time.</li><li><strong>The AI idea: smart weekend offers</strong> - Use AI to write offers, captions, and customer messages before Friday.</li><li><strong>Target customers</strong> - Nearby workers, families, students, weekend shoppers, and loyal customers.</li><li><strong>7-day action plan</strong> - Monday choose the offer, Tuesday make the poster, Wednesday write captions, Thursday prepare staff, Friday launch, Saturday reply to customers, Sunday check results.</li><li><strong>Expected result and next step</strong> - More weekend visits, clearer customer response, and one improved offer for next week.</li></ol><p><strong>What a beginner should check before exporting:</strong></p><ul><li>Every slide has one main idea only.</li><li>The deck uses real shop details, not generic placeholders.</li><li>The last slide tells the owner what to do next week.</li><li>The English is simple enough to read out loud.</li></ul><p><strong>Important:</strong> if your presentation tool gives you an outline that drifts away from your request, edit the outline before clicking generate. Treat it like a designer: it is fast, but you still approve the brief.</p>",
+    "spreadsheets": "<p><strong>Copy this into a table-friendly AI tool:</strong></p><p>Turn these sales notes into a clean table. Then calculate total sales, average daily sales, and best-selling product: May 1 Oud Oil quantity 2 sales 600 SAR; May 2 Bakhoor quantity 3 sales 450 SAR; May 3 Oud Oil quantity 3 sales 900 SAR; May 4 Perfume Spray quantity 2 sales 350 SAR.</p><p><strong>What you should get:</strong> a table like the one above, plus the three summary answers. Then copy it into Excel or Google Sheets.</p>",
+    "create-images": "<p><strong>Final result from the image tool:</strong> a square Instagram poster with a realistic oud perfume bottle, gold luxury styling, readable English sale text, and a clear discount message.</p><p><strong>Check before posting:</strong> zoom out and read it like a customer on a phone. The headline, discount, date, and button must be easy to read. If the text is misspelled, ask the tool to regenerate or fix only the typography.</p><p><strong>A simple quality test:</strong> if someone looks at the poster for two seconds, they should immediately understand the product, the offer, and the time limit.</p>",
     "edit-images": "<p><strong>Copy this into your image editing AI tool:</strong></p><p>Remove the messy background from this product photo and replace it with a clean white studio background for an online shop. Keep the product shape, colors, label, and shadow realistic. Improve brightness slightly. Do not change the product itself. Export in high quality PNG.</p><p><strong>What you should get:</strong> the same product, but clean enough to upload to an online store.</p>",
-    "make-videos": "<p><strong>The normal beginner-friendly method:</strong></p><ol><li><strong>Text to image:</strong> use image-2 or another image AI to generate 9 vertical key frames.</li><li><strong>9-grid storyboard:</strong> arrange the 9 images in order and check whether the story is clear before making it move.</li><li><strong>Stitch into video:</strong> put the images into CapCut, Canva, 剪映, or another editor; add slow zoom, captions, music, and export MP4.</li></ol><p><strong>What you should get:</strong> a short product video that is easier to control than one-click text-to-video, because you can fix individual frames before stitching.</p><p><strong>Important:</strong> this is the simplest method for now. AI video tools keep improving, so new ways will appear later. In the current ARABAI examples, GPT helps with the prompt and script, and Seedance helps with the video generation part.</p>",
+    "make-videos": "<p><strong>The normal beginner-friendly method:</strong></p><ol><li><strong>Text to image:</strong> use a writing tool first to build the shot plan, then use an image tool to generate 9 vertical key frames.</li><li><strong>9-grid storyboard:</strong> arrange the 9 images in order and check whether the story is clear before making it move.</li><li><strong>Stitch into video:</strong> put the images into a simple editor; add slow zoom, captions, music, and export MP4.</li></ol><p><strong>What you should get:</strong> a short product video that is easier to control than one-click text-to-video, because you can fix individual frames before stitching.</p><p><strong>Simple beginner rule:</strong> if the story is confusing in the 9 images, it will stay confusing in the video. Fix the images first.</p><p><strong>Important:</strong> this is the simplest method for now. AI video tools keep improving, so new ways will appear later. In the current ARABAI examples, a writing tool helps with the prompt and script, an image tool helps generate the images, and a video tool helps with the motion part.</p>",
     "make-music": "<p><strong>Copy this into your music AI tool:</strong></p><p>Create 20 seconds of luxury background music for a premium oud perfume advertisement. No vocals. Use soft Arabic percussion, warm strings, light oud instrument, deep ambient bass, and cinematic atmosphere. Mood should feel elegant, rich, modern, and relaxing.</p><p><strong>What you should get:</strong> a short background track like the playable sample above, suitable for putting under a product video.</p>",
-    "translate": "<p><strong>Final result from ChatGPT:</strong></p><p dir=\"rtl\" lang=\"ar\">مرحباً، تم تأكيد طلبكم.<br>سيصل التوصيل غداً بين الساعة 4 مساءً و8 مساءً.<br>شكراً لتسوقكم معنا.</p>",
-    "summarize-documents": "<p><strong>Final result from ChatGPT:</strong></p><ul><li>500 gift boxes at 18 SAR each.</li><li>Delivery time: 10 days.</li><li>Payment: 50% upfront and 50% after delivery.</li><li>Free logo sticker included.</li><li>Action items: confirm quantity, approve logo, arrange advance payment.</li><li>Main risk: possible delay during peak season.</li></ul>",
-    "learn-something": "<p><strong>Final result from ChatGPT:</strong></p><p>VAT is a tax added to products and services. If your product is 100 SAR and VAT is 15%, the customer pays 115 SAR. A business should add VAT to invoices, keep sales records, and submit VAT reports on time.</p><ul><li>Quiz: What does VAT stand for?</li><li>If a product costs 200 SAR, how much is 15% VAT?</li><li>Why should businesses keep invoices?</li><li>Who pays VAT to the government?</li><li>Is VAT added before or after the product price?</li></ul>",
-    "grow-business": "<p><strong>Final result from ChatGPT:</strong></p><p><strong>Product description:</strong> Luxury Date Cake Box made with soft premium dates, rich cake layers, and elegant packaging. Perfect for gifts, Ramadan gatherings, and coffee time.</p><p><strong>Customer reply:</strong> Thank you for your message. Yes, the Date Cake Box is available today. Delivery can be arranged within the city. Please let us know your quantity.</p><ul><li>The Perfect Ramadan Dessert Gift.</li><li>Fresh Date Cake Delivered Today.</li><li>Luxury Date Cake Box for Family Gatherings.</li></ul>",
-    "social-content": "<p><strong>Final result from ChatGPT:</strong></p><ul><li>Monday: Hair transformation. Caption: Fresh look, fresh confidence.</li><li>Tuesday: Nail art. Caption: Soft luxury nails this week.</li><li>Wednesday: Staff spotlight. Caption: Meet our beauty team.</li><li>Thursday: Facial treatment. Caption: Healthy skin starts here.</li><li>Friday: Client review. Caption: Thank you for trusting us.</li><li>Weekend: Beauty tips, salon interior, and appointment reminder posts.</li></ul>",
-    "choose-right-tool": "<p><strong>Final result from ChatGPT:</strong></p><ul><li>Writing: ChatGPT or Claude.</li><li>Images: Canva AI or Midjourney.</li><li>Summaries: ChatGPT or Notion AI.</li><li>Short videos: CapCut or Canva AI.</li></ul>",
-    "ai-apps-and-coding-tools": "<p><strong>Final result:</strong></p><p>AI apps are not all the same. Chat tools help you think and write, creative tools help you make media, and coding tools help someone build or change websites, apps, and automation. A normal user should not start with Claude Code, Codex, Cursor, or Antigravity unless the goal is software work or a technical person is helping.</p>",
-    "login-pages": "<p><strong>Final result from ChatGPT:</strong></p><ul><li>Check website spelling carefully.</li><li>Make sure the site uses HTTPS.</li><li>Search for real reviews online.</li><li>Avoid logging in with public Wi-Fi.</li><li>Use a strong password.</li><li>Start with free plans first.</li><li>Check refund and cancellation policy.</li></ul>",
-    "subscription-pages": "<p><strong>Final result from ChatGPT:</strong></p><ul><li>Will this tool save me time every week?</li><li>Can it help me earn more clients?</li><li>Is the free version enough?</li><li>Does it support my language and work type?</li><li>Can I cancel anytime?</li><li>Simple rule: if the tool saves more time than its monthly cost, it may be worth paying for.</li></ul>",
-    "price-comparison": "<p><strong>Final result from ChatGPT:</strong></p><ul><li>Monthly price: Is it affordable long-term?</li><li>Free trial: Can I test before paying?</li><li>Team access: How many users are included?</li><li>Features: Does it include writing, images, or video?</li><li>Limits: Are there daily limits?</li><li>Export quality: Can I download high-quality files?</li><li>Cancellation: Can I stop anytime easily?</li></ul>"
-    ,"chatgpt-advanced": "<p><strong>Final result:</strong></p><p>ChatGPT is a good first tool for everyday work: replies, writing, plans, summaries, tables, translation, and simple image prompts. A beginner can start by typing the real task, then asking for one improvement.</p>",
-    "gemini-advanced": "<p><strong>Final result:</strong></p><p>Gemini is useful when the work feels close to search, Google-style documents, screenshots, or quick explanations. Use it when you want fast help understanding something and turning it into an answer.</p>",
-    "claude-advanced": "<p><strong>Final result:</strong></p><p>Claude is useful when the job is long text: proposals, documents, careful rewriting, clearer tone, and thoughtful summaries. Give it the rough text, audience, and the style you want.</p>",
-    "deepseek-advanced": "<p><strong>Final result:</strong></p><p>DeepSeek is useful when you want practical thinking: compare two choices, list pros and cons, find risks, and ask for a simple recommendation that a normal business owner can understand.</p>",
-    "kimi-advanced": "<p><strong>Final result:</strong></p><p>Kimi is useful when you have long documents, Chinese-language material, notes, files, or meeting text. Ask it for key points, action items, deadlines, and risks.</p>",
+    "translate": "<p><strong>Final result from a language tool:</strong></p><p dir=\"rtl\" lang=\"ar\">مرحباً، تم تأكيد طلبكم.<br>سيصل التوصيل غداً بين الساعة 4 مساءً و8 مساءً.<br>شكراً لتسوقكم معنا.</p>",
+    "summarize-documents": "<p><strong>Final result from a document tool:</strong></p><ul><li>500 gift boxes at 18 SAR each.</li><li>Delivery time: 10 days.</li><li>Payment: 50% upfront and 50% after delivery.</li><li>Free logo sticker included.</li><li>Action items: confirm quantity, approve logo, arrange advance payment.</li><li>Main risk: possible delay during peak season.</li></ul>",
+    "learn-something": "<p><strong>Final result from a teaching-style tool:</strong></p><p>VAT is a tax added to products and services. If your product is 100 SAR and VAT is 15%, the customer pays 115 SAR. A business should add VAT to invoices, keep sales records, and submit VAT reports on time.</p><ul><li>Quiz: What does VAT stand for?</li><li>If a product costs 200 SAR, how much is 15% VAT?</li><li>Why should businesses keep invoices?</li><li>Who pays VAT to the government?</li><li>Is VAT added before or after the product price?</li></ul>",
+    "grow-business": "<p><strong>Final result from a business-writing tool:</strong></p><p><strong>Product description:</strong> Luxury Date Cake Box made with soft premium dates, rich cake layers, and elegant packaging. Perfect for gifts, Ramadan gatherings, and coffee time.</p><p><strong>Customer reply:</strong> Thank you for your message. Yes, the Date Cake Box is available today. Delivery can be arranged within the city. Please let us know your quantity.</p><ul><li>The Perfect Ramadan Dessert Gift.</li><li>Fresh Date Cake Delivered Today.</li><li>Luxury Date Cake Box for Family Gatherings.</li></ul>",
+    "social-content": "<p><strong>Final result from a content-planning tool:</strong></p><ul><li>Monday: Hair transformation. Caption: Fresh look, fresh confidence.</li><li>Tuesday: Nail art. Caption: Soft luxury nails this week.</li><li>Wednesday: Staff spotlight. Caption: Meet our beauty team.</li><li>Thursday: Facial treatment. Caption: Healthy skin starts here.</li><li>Friday: Client review. Caption: Thank you for trusting us.</li><li>Weekend: Beauty tips, salon interior, and appointment reminder posts.</li></ul>",
+    "choose-right-tool": "<p><strong>Final result:</strong></p><ul><li>Use one writing tool for messages and drafts.</li><li>Use one visual tool for images.</li><li>Use one summary-friendly tool for long files.</li><li>Use one simple editor or video route for short clips.</li></ul>",
+    "ai-apps-and-coding-tools": "<p><strong>Final result:</strong></p><p>AI apps are not all the same. Some help ordinary users write, plan, and create media. Others are really for building websites, apps, automation, or code workflows. A normal user should start with everyday work tools first, then only move into builder tools if the goal becomes more technical.</p>",
+    "login-pages": "<p><strong>Final result:</strong></p><ul><li>Check the website spelling carefully.</li><li>Make sure the site uses HTTPS.</li><li>Search for real reviews online.</li><li>Avoid logging in with public Wi-Fi.</li><li>Use a strong password.</li><li>Start with the free route first when possible.</li><li>Check cancellation and refund rules before paying.</li></ul>",
+    "subscription-pages": "<p><strong>Final result:</strong></p><ul><li>Will this save me time every week?</li><li>Can it help me serve customers or finish work faster?</li><li>Is the free version enough for now?</li><li>Does it fit my language and work type?</li><li>Can I cancel easily?</li><li>Simple rule: if the time saved is worth more than the monthly cost, it may be worth trying.</li></ul>",
+    "price-comparison": "<p><strong>Final result:</strong></p><ul><li>Long-term monthly cost.</li><li>Whether there is a free test.</li><li>What limits appear first.</li><li>Whether the plan fits writing, visuals, or files.</li><li>Export quality.</li><li>How easy it is to stop paying.</li></ul>"
+    ,"chatgpt-advanced": "<p><strong>Final result:</strong></p><p>A daily chat tool is a good first step for everyday work: replies, writing, plans, summaries, tables, translation, and simple prompt building. A beginner can start by typing the real task, then asking for one useful improvement. ChatGPT is one common example.</p>",
+    "gemini-advanced": "<p><strong>Final result:</strong></p><p>A fast explanation-and-search style tool is useful when the work feels close to search, documents, screenshots, or quick understanding. Use it when you want fast help turning confusion into a usable answer. Gemini is one common example.</p>",
+    "claude-advanced": "<p><strong>Final result:</strong></p><p>A calm long-text writing tool is useful for proposals, documents, careful rewriting, clearer tone, and thoughtful summaries. Give it the rough text, audience, and the style you want. Claude is one common example.</p>",
+    "deepseek-advanced": "<p><strong>Final result:</strong></p><p>A practical reasoning tool is useful when you want to compare choices, list pros and cons, find risks, and ask for a simple recommendation a normal business owner can understand. DeepSeek is one common example.</p>",
+    "kimi-advanced": "<p><strong>Final result:</strong></p><p>A long-file reading tool is useful when you have long documents, notes, files, or meeting text. Ask it for key points, action items, deadlines, and risks. Kimi is one common example.</p>",
     "image-tools-advanced": "<p><strong>Final result:</strong></p><p>Image AI tools work best when you bring a finished prompt: subject, style, colors, text, layout, and size. Do not just write 'make a poster'; describe the poster like you are talking to a designer.</p>",
-    "video-tools-advanced": "<p><strong>Final result:</strong></p><p>Video AI tools work best when you prepare scene-by-scene instructions: what appears first, camera movement, caption, mood, and length. Treat the AI like a small film crew that needs a shot list.</p><p><strong>Simple note:</strong> GPT is used here for planning and prompting, while Seedance is one of the models that can help generate the video itself.</p>",
+    "video-tools-advanced": "<p><strong>Final result:</strong></p><p>Video AI tools work best when you prepare scene-by-scene instructions: what appears first, camera movement, caption, mood, and length. Treat the AI like a small film crew that needs a shot list.</p><p><strong>Simple note:</strong> A writing tool can help with planning and prompting, while a video model can help generate the motion itself.</p>",
     "music-tools-advanced": "<p><strong>Final result:</strong></p><p>Music AI tools work best when you describe length, mood, instruments, speed, and whether vocals are allowed. For business videos, always say if you need background music only.</p>"
   };
 
@@ -657,7 +672,7 @@ function expertArticle([id, title, intro, next]) {
 
   return {
     section: "expert",
-    sectionLabel: "Deeper Guide",
+    sectionLabel: "Beyond the Basics",
     backUrl: "expert.html",
     title,
     intro,
@@ -678,11 +693,11 @@ function expertArticle([id, title, intro, next]) {
 function externalRefsFor(id) {
   const refs = {
     "what-is-ai": [
-      ["ChatGPT Learn: Getting started with ChatGPT", "https://chatgpt.com/", "Official starting point for a first ChatGPT session."],
+      ["Example first chat session guide", "https://chatgpt.com/", "Official starting point for a first chat-style AI session."],
       ["OpenAI Help: What is ChatGPT?", "https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq", "Plain FAQ for everyday users."]
     ],
     "ai-basic-words": [
-      ["ChatGPT Learn: AI fundamentals", "https://chatgpt.com/", "Good starting point for basic AI learning paths."],
+      ["Example AI fundamentals guide", "https://chatgpt.com/", "Good starting point for basic AI learning paths."],
       ["OpenAI Help: Prompting best practices", "https://help.openai.com/en/articles/10032626-prompt-engineering-best-practices-for-chatgpt", "Useful for understanding prompts without going too deep."]
     ],
     "what-is-a-prompt": [
@@ -696,40 +711,40 @@ function externalRefsFor(id) {
       ["Google Help: Prompt tips for Gemini in Docs, Sheets, Slides, Vids & Forms", "https://support.google.com/docs/answer/15013615?hl=en", "Simple four-part prompt idea: persona, task, context, format."]
     ],
     "what-can-ai-do": [
-      ["ChatGPT Learn: Using ChatGPT", "https://chatgpt.com/", "A broad official map of what ChatGPT can do."],
-      ["Gemini Apps Help", "https://support.google.com/gemini?hl=en", "Official Google help page showing common Gemini tasks."]
+      ["Example daily chat tool guide", "https://chatgpt.com/", "A broad official map of what a daily chat tool can do."],
+      ["Example explanation tool help page", "https://support.google.com/gemini?hl=en", "Official help page showing common tasks in one explanation-focused tool."]
     ],
     "common-ai-tools": [
-      ["ChatGPT sign up", "https://chatgpt.com/", "Start here for everyday writing, planning, translation, and summaries. Free access is useful for learning, but limits and available models can change."],
-      ["Claude start page", "https://claude.ai/", "Good for longer writing and document-style work. Free access may have usage limits."],
-      ["Gamma sign up", "https://gamma.app/signup", "Good for turning a topic into an editable presentation. Free features and export limits can change."],
-      ["Midjourney", "https://www.midjourney.com/", "Image tool usually used through a paid subscription; check the current plan before starting."],
+      ["Example chat tool start page", "https://chatgpt.com/", "One example of where beginners often start for everyday writing, planning, translation, and summaries."],
+      ["Example long-writing tool start page", "https://claude.ai/", "One example of a tool used for longer writing and document-style work."],
+      ["Example presentation tool sign up", "https://gamma.app/signup", "One example of a tool for turning a topic into an editable presentation."],
+      ["Example image tool website", "https://www.midjourney.com/", "One example of an image-focused tool. Check the current plan before starting."],
       ["Beginner prompt for first tool test", "https://chatgpt.com/", "Copy this first: I am new to AI. Help me choose one tool for writing, one for slides, one for images, and one for video. Explain the free starting point for each."]
     ],
     "how-to-start": [
-      ["ChatGPT Learn: Getting started with ChatGPT", "https://chatgpt.com/", "Best official first-use walkthrough."],
-      ["Claude Help: Get started with Claude", "https://support.claude.com/en/articles/8114491-get-started-with-claude", "Simple guide to access Claude and write a first prompt."]
+      ["Example daily chat tool walkthrough", "https://chatgpt.com/", "Best official first-use walkthrough for one common chat tool."],
+      ["Example long-writing tool guide", "https://support.claude.com/en/articles/8114491-get-started-with-claude", "Simple guide to access one long-writing tool and write a first prompt."]
     ],
     "free-vs-paid": [
-      ["ChatGPT Pricing", "https://openai.com/chatgpt/pricing", "Official ChatGPT plan page."],
-      ["Claude Pricing", "https://www.claude.com/pricing", "Official Claude plan page."],
-      ["Google AI subscriptions", "https://gemini.google/subscriptions/", "Official Gemini/Google AI plan page."],
-      ["Gamma pricing", "https://gamma.app/pricing", "Useful example of how a presentation tool splits free and paid features."]
+      ["Example daily chat tool pricing", "https://openai.com/chatgpt/pricing", "Example pricing page for a daily chat tool."],
+      ["Example long-writing tool pricing", "https://www.claude.com/pricing", "Example pricing page for a long-writing tool."],
+      ["Example search-and-doc tool pricing", "https://gemini.google/subscriptions/", "Example pricing page for a search-and-doc style tool."],
+      ["Example presentation tool pricing", "https://gamma.app/pricing", "Useful example of how a presentation tool splits free and paid features."]
     ],
     "ai-tool-differences": [
-      ["ChatGPT Learn: Using ChatGPT", "https://chatgpt.com/", "Shows chat, files, search, image, and workflow categories."],
-      ["Claude", "https://claude.ai/", "Good example of a writing and long-document AI tool."],
-      ["Gamma Help Center", "https://help.gamma.app/", "Good example of a tool focused on presentations and documents."],
-      ["Runway Academy: Prompting Guide", "https://academy.runwayml.com/image-to-video-guide", "Good example of a tool focused on visual/video work."]
+      ["Example daily chat tool", "https://chatgpt.com/", "Shows chat, files, search, image, and workflow categories."],
+      ["Example long-writing tool", "https://claude.ai/", "Good example of a writing and long-document AI tool."],
+      ["Example presentation tool help", "https://help.gamma.app/", "Good example of a tool focused on presentations and documents."],
+      ["Example video prompting guide", "https://academy.runwayml.com/image-to-video-guide", "Good example of a tool focused on visual/video work."]
     ],
     "ai-safety": [
       ["OpenAI Help: Data Controls FAQ", "https://help.openai.com/en/articles/7730893-chatgpt-privacy-practices", "Official guide for ChatGPT data controls."],
       ["OpenAI Help: File uploads FAQ", "https://help.openai.com/en/articles/8555545-uploading-images-and-files-in-chatgpt", "Useful before uploading documents or images."]
     ],
     "beginner-path": [
-      ["ChatGPT Learn: Getting started with ChatGPT", "https://chatgpt.com/", "Good Day 1 starting point."],
+      ["Example daily chat tool start", "https://chatgpt.com/", "Good Day 1 starting point."],
       ["OpenAI Docs: Prompting basics", "https://platform.openai.com/docs/guides/prompt-engineering", "Good Day 2 prompt practice."],
-      ["Google Gemini Help", "https://support.google.com/gemini?hl=en", "Another beginner-friendly starting point if Google tools feel more familiar."]
+      ["Example second beginner starting point", "https://support.google.com/gemini?hl=en", "Another beginner-friendly starting point if Google-style tools feel more familiar."]
     ],
     "private-jet-local-ai": [
       ["Ollama", "https://ollama.com/", "Common beginner-friendly way to try local models."],
@@ -813,26 +828,26 @@ function externalRefsFor(id) {
       ["Google AI subscriptions", "https://gemini.google/subscriptions/", "Verify current Gemini prices here."]
     ],
     "chatgpt-advanced": [
-      ["ChatGPT Learn: Getting started with ChatGPT", "https://chatgpt.com/", "Best official beginner walkthrough."],
+      ["Example daily chat tool walkthrough", "https://chatgpt.com/", "One official beginner walkthrough for a daily chat tool."],
       ["OpenAI Docs: Prompting basics", "https://platform.openai.com/docs/guides/prompt-engineering", "Simple prompt lesson for better answers."]
     ],
     "claude-advanced": [
-      ["Claude Help: Get started with Claude", "https://support.claude.com/en/articles/8114491-get-started-with-claude", "Official beginner guide."],
-      ["Claude video tutorial: Getting started with Claude.ai", "https://support.claude.com/en/articles/12997377-getting-started-with-claude-ai/", "Official embedded video tutorial for the Claude interface."]
+      ["Example long-writing tool guide", "https://support.claude.com/en/articles/8114491-get-started-with-claude", "Official beginner guide for one long-writing tool."],
+      ["Example long-writing tool video tutorial", "https://support.claude.com/en/articles/12997377-getting-started-with-claude-ai/", "Official embedded video tutorial for one long-writing tool interface."]
     ],
     "gemini-advanced": [
-      ["Gemini Apps Help", "https://support.google.com/gemini?hl=en", "Official Gemini help hub."],
-      ["Gemini mobile app getting started", "https://support.google.com/gemini/answer/14554984?hl=en", "Official beginner setup guide."]
+      ["Example explanation tool help hub", "https://support.google.com/gemini?hl=en", "Official help hub for one explanation-and-search tool."],
+      ["Example explanation tool mobile start guide", "https://support.google.com/gemini/answer/14554984?hl=en", "Official beginner setup guide."]
     ],
     "kimi-advanced": [
-      ["Kimi Help: Getting Started", "https://www.kimi.com/help/getting-started", "Official Kimi beginner help area."]
+      ["Example long-document tool getting started", "https://www.kimi.com/help/getting-started", "Official beginner help area for one long-document tool."]
     ],
     "doubao-advanced": [
-      ["Doubao", "https://www.doubao.com/", "Official Doubao start page."],
-      ["AIGC.cn Doubao tutorial", "https://www.aigc.cn/tutorial-on-how-to-use-doubao", "Chinese beginner tutorial with step-by-step examples."]
+      ["Example fast everyday tool start page", "https://www.doubao.com/", "Official start page for one fast everyday AI tool."],
+      ["Example fast everyday tool tutorial", "https://www.aigc.cn/tutorial-on-how-to-use-doubao", "Beginner tutorial with step-by-step examples."]
     ],
     "deepseek-advanced": [
-      ["DeepSeek", "https://www.deepseek.com/", "Official DeepSeek website. Use this first because many DeepSeek tutorial pages in search results are unofficial."]
+      ["Example reasoning tool website", "https://www.deepseek.com/", "Official website for one reasoning-oriented tool. Use official pages first because search results can be unofficial."]
     ],
     "image-tools-advanced": [
       ["Canva: AI image generator", "https://www.canva.com/ai-image-generator/", "Easy image generation starting point."],
@@ -847,14 +862,16 @@ function externalRefsFor(id) {
       ["Udio", "https://www.udio.com/", "Popular music AI for songs and background ideas."]
     ],
     "what-is-api": [
-      ["OpenAI API docs", "https://platform.openai.com/docs/overview", "Official OpenAI API starting point."],
-      ["Claude API quickstart", "https://platform.claude.com/docs/en/get-started", "Official Claude API starting point."]
+      ["OpenAI Docs: Quickstart", "https://platform.openai.com/docs/quickstart", "Official example of an app sending a request to AI and getting a result back."],
+      ["Anthropic Docs: Get started with the API", "https://docs.anthropic.com/en/api/getting-started", "Useful second example so readers see that API works across providers, not only one company."],
+      ["Google AI for Developers: Gemini API quickstart", "https://ai.google.dev/gemini-api/docs/quickstart", "Official Gemini example for the same idea: your app talks to AI in the background."]
     ],
     "official-api-platforms": [
       ["ARABAI video tutorial: official API purchase flow", "ar-tutorials.html", "Local ARABAI guidance video for the official API route before live screen recording is finalized."],
       ["OpenAI Platform", "https://platform.openai.com/", "Official OpenAI API platform."],
       ["Anthropic Console", "https://console.anthropic.com/", "Official Claude API platform."],
-      ["Google AI Studio", "https://aistudio.google.com/", "Official Gemini developer platform."]
+      ["Google AI Studio", "https://aistudio.google.com/", "Official Gemini developer platform."],
+      ["Azure AI Foundry", "https://ai.azure.com/", "Enterprise-style route that some teams use when they want cloud controls and billing under one account."]
     ],
     "api-price-comparison": [
       ["OpenAI API pricing", "https://openai.com/api/pricing/", "Verify current OpenAI API pricing."],
@@ -896,18 +913,18 @@ function externalRefsFor(id) {
 function promptGuideFor(id, prompt) {
   const guides = {
     "what-is-a-prompt": [
-      ["Step 1", "Dump your raw idea, background, and goal first."],
-      ["Step 2", "Ask AI to repeat back what it understood."],
-      ["Step 3", "Let AI clean the notes into a usable prompt."],
-      ["Step 4", "Test one sample result before using the full prompt."],
-      ["Step 5", "Ask for changes by saying what to keep, change, or remove."]
+      ["Step 1", "Dump the real situation in plain words instead of trying to sound smart."],
+      ["Step 2", "Ask AI to repeat back the job so you can catch misunderstanding early."],
+      ["Step 3", "Let AI turn the messy notes into one clean prompt with task, audience, tone, and format."],
+      ["Step 4", "Test one tiny sample result before asking for the full job."],
+      ["Step 5", "Fix the prompt by saying what to keep, remove, simplify, or make stronger."]
     ],
     "organize-prompt-first": [
-      ["Raw idea", "Tell GPT the messy thought in your own words."],
+      ["Raw idea", "Tell GPT the rough thought exactly as it lives in your head."],
       ["Stop rule", "Say: do not create the final answer yet."],
-      ["Understanding check", "Ask GPT to repeat what it understood."],
-      ["Missing details", "Ask what it still needs before writing."],
-      ["Clean prompt", "Ask GPT to turn everything into one copy-ready prompt."]
+      ["Understanding check", "Ask GPT to repeat what it understood in simple words."],
+      ["Missing details", "Ask what is still missing before writing the real prompt."],
+      ["Clean prompt", "Ask GPT to turn everything into one copy-ready prompt you can reuse elsewhere."]
     ],
     "why-ai-costs-money": [
       ["Token", "One small bite of language."],
@@ -929,10 +946,11 @@ function promptGuideFor(id, prompt) {
       ["Style", "Easy English, practical for a small team."]
     ],
     "make-slides": [
-      ["Tool", "Gamma needs the full slide job, not only the topic."],
+      ["Tool", "A slide-making tool works better when you give it the full slide job, not only the topic. Gamma is one example."],
       ["Audience", "Ordinary shop owner with no marketing team."],
-      ["Structure", "Six exact slides are listed before generation."],
-      ["Language rule", "Keep all slide text in English."]
+      ["Structure", "List the six slides before generation so the tool does not wander."],
+      ["Language rule", "Tell it clearly to keep all slide text in English."],
+      ["Useful habit", "Review the outline first, fix weak slide titles, then generate the full deck."]
     ],
     "spreadsheets": [
       ["Material", "The messy sales notes are pasted directly."],
@@ -943,8 +961,9 @@ function promptGuideFor(id, prompt) {
     "create-images": [
       ["Format", "Square Instagram poster."],
       ["Subject", "Weekend oud perfume sale."],
-      ["Exact text", "Headline, discount, date, and button are all listed."],
-      ["Style", "Premium Saudi luxury, black, warm brown, gold smoke."]
+      ["Exact text", "Write the headline, discount, date, and button before you open the tool."],
+      ["Style", "Premium Saudi luxury, black, warm brown, gold smoke."],
+      ["Useful habit", "Fix one problem at a time: first spelling, then layout, then product beauty."]
     ],
     "edit-images": [
       ["Task", "Remove messy background and make a clean shop image."],
@@ -953,10 +972,11 @@ function promptGuideFor(id, prompt) {
       ["Output", "High quality PNG."]
     ],
     "make-videos": [
-      ["Method", "Start with text-to-image, not direct text-to-video."],
+      ["Method", "Start with a writing tool for the shot list, then an image tool for the frames, not direct text-to-video."],
       ["Structure", "Nine vertical images become a simple 9-grid storyboard."],
       ["Consistency", "Keep the same product, lighting, color, and style in every image."],
-      ["Final step", "Put the nine images into a video editor, add motion, captions, music, and export MP4."]
+      ["Final step", "Put the nine images into a video editor, add motion, captions, music, and export MP4."],
+      ["Useful habit", "Do not animate weak images. Fix the storyboard first, then make it move."]
     ],
     "make-music": [
       ["Length", "20 seconds."],
@@ -1003,7 +1023,7 @@ function promptGuideFor(id, prompt) {
     "ai-apps-and-coding-tools": [
       ["Start point", "Sort by job, not by hype."],
       ["Normal-user tools", "Chat, slides, images, video, music, translation, and document tools."],
-      ["Builder tools", "Cursor, Claude Code, Codex, Antigravity, CC Switch, and OpenClaw belong to software-building work."],
+      ["Builder tools", "Builder-style tools belong to software-building work, not normal beginner AI use."],
       ["Safety rule", "Check the official website and do not paste secrets, API keys, passwords, or private code into unknown tools."]
     ],
     "login-pages": [
@@ -1020,7 +1040,7 @@ function promptGuideFor(id, prompt) {
     ],
     "price-comparison": [
       ["Task", "Make a simple price comparison table."],
-      ["Tools", "ChatGPT, Claude, Gemini, Gamma, image-2, video, music."],
+      ["Tools", "Daily chat, long writing, search-and-doc, presentation, image, video, and music tools."],
       ["Avoid guessing", "Do not invent exact prices if unsure."],
       ["Final check", "Verify on official pricing pages."]
     ]
@@ -1039,7 +1059,7 @@ function promptGuideFor(id, prompt) {
 function actionStepsFor(id) {
   const steps = {
     "write-with-ai": [
-      "Open ChatGPT, Claude, Gemini, or another writing AI.",
+      "Open one writing or chat AI tool.",
       "Paste your rough message and tell AI who will read it.",
       "Ask for one short version and one warmer version.",
       "Choose the version that sounds most like you.",
@@ -1053,14 +1073,16 @@ function actionStepsFor(id) {
       "Copy the checklist into Notes, Excel, Notion, or WhatsApp."
     ],
     "make-slides": [
-      "Open Gamma and choose Generate.",
-      "Choose Presentation, set the card count to 6, and set the language to English.",
+      "Open a presentation tool, choose Generate, then choose Presentation. Gamma is one example.",
+      "Set the deck length to about 6 slides so the first result stays easy to check.",
       "Paste the full request, including audience, topic, slide list, style, and the words: Keep all slide text in English.",
-      "Click generate outline and read the outline before making the deck.",
-      "If one slide is wrong, edit that slide title or bullet first.",
-      "Choose a clean business theme and keep AI images turned on if you want Gamma to add visuals.",
-      "Generate the deck, then open each slide and replace any weak text with your real offer, price, dates, and shop name.",
-      "Export the finished deck as PDF or PowerPoint before sending it to anyone."
+      "Click generate outline first, not full deck first.",
+      "Read the outline and check one thing only: does each slide have a clear job in the story?",
+      "If a slide is vague, rewrite that slide title before deck generation. Example: change Growth Ideas to 7-day Weekend Action Plan.",
+      "Generate the deck, then replace generic words with your real shop name, offer, city, dates, and expected result.",
+      "Delete anything that sounds impressive but does not help the shop owner act.",
+      "If the deck still feels weak, ask the presentation tool or your chat AI: rewrite these six slide titles for a small shop owner in simpler English.",
+      "Export the finished deck as PDF or PowerPoint and read it once from slide 1 to slide 6 like a real customer or owner."
     ],
     "spreadsheets": [
       "Prepare your numbers with clear column names.",
@@ -1070,12 +1092,14 @@ function actionStepsFor(id) {
       "Check the totals with a calculator before using it for money decisions."
     ],
     "create-images": [
-      "Write the exact words that must appear on the poster.",
-      "Open image-2 or the image AI tool where image-2 is available.",
+      "Write the exact words that must appear on the poster before opening the tool.",
+      "Open your image AI tool.",
       "Paste the full prompt with product, text, color, style, and square Instagram size.",
-      "Generate the first poster.",
-      "Check four things: spelling, product quality, layout, and whether the discount is easy to see.",
-      "If the picture is good but the words are wrong, ask image-2 to fix only the text and layout.",
+      "Generate the first poster and do not judge it too fast.",
+      "Check four things in order: spelling, product quality, layout, and whether the discount is easy to see.",
+      "If the picture is beautiful but the words are wrong, ask the tool to fix only the text and layout so you do not lose the good product look.",
+      "If the text is correct but the bottle looks weak, ask for a more premium bottle and keep the same words.",
+      "If the whole design feels crowded, ask for more empty space around the bottle and headline.",
       "Download the final image and check it at phone size before posting."
     ],
     "edit-images": [
@@ -1087,12 +1111,14 @@ function actionStepsFor(id) {
     ],
     "make-videos": [
       "Write the product, selling point, audience, and final call to action.",
-      "Open image-2 or another image AI and create 9 vertical images first.",
+      "Use GPT first to turn that idea into a simple 9-shot list: opening, detail, usage, emotion, offer, and ending.",
+      "Open an image AI tool and create the 9 vertical images one by one or in a controlled batch.",
       "Keep the same product, lighting, color, and style across all 9 images.",
-      "Arrange the 9 images into a storyboard and remove any weak frame.",
+      "Arrange the 9 images into a storyboard and remove or regenerate any weak frame before touching video.",
       "Open CapCut, Canva, 剪映, or another video editor.",
       "Place the 9 images in order and give each image about 1.5 to 2 seconds.",
-      "Add slow zoom, simple transitions, captions, logo, and background music.",
+      "Add slow zoom, simple transitions, short captions, logo, and background music.",
+      "If the video feels confusing, go back to the storyboard and rename each frame with one simple job: open, detail, proof, offer, ending.",
       "Export MP4 and check it on a phone before posting."
     ],
     "make-music": [
@@ -1147,7 +1173,7 @@ function actionStepsFor(id) {
     "ai-apps-and-coding-tools": [
       "Write the job you want done before choosing a tool.",
       "If the job is writing, planning, translating, slides, images, video, or music, start with normal user tools.",
-      "If the job is building a website, app, automation, or code project, look at coding tools such as Cursor, Claude Code, Codex, or Antigravity.",
+      "If the job is building a website, app, automation, or code project, look at coding or builder tools instead of beginner tools.",
       "Open the official website and pricing page before installing or paying.",
       "For coding tools, avoid private code, passwords, API keys, and customer data until you understand the tool."
     ],
@@ -1201,9 +1227,13 @@ function beginnerPracticeFor(id, title, prompt) {
       scenario: "You will learn why one AI task may cost very little and another task may cost much more, without learning billing formulas.",
       result: "<ul><li>Short text is cheaper because it uses fewer language bites.</li><li>Long documents cost more because AI must read and write more.</li><li>Images cost more because AI must build a full picture.</li><li>Video costs more because AI must create many changing pictures.</li><li>Credits hide the technical counting so normal users can think by task.</li></ul>"
     },
+    "what-is-a-prompt": {
+      scenario: "You have a product idea in your head, but if you send it to AI too early, the result may come back vague. So first you will turn the idea into a clearer job.",
+      result: "<p><strong>What you should finish:</strong> one clean prompt that tells AI the job, the audience, the tone, the format, and what a good result should look like.</p><ul><li>Your messy first explanation.</li><li>AI's repeat-back of what it understood.</li><li>One cleaned-up copy-ready prompt.</li><li>One small sample result to test direction.</li></ul><p><strong>Plain rule:</strong> a prompt does not need to sound clever. It only needs to make the job easy to understand.</p>"
+    },
     "organize-prompt-first": {
       scenario: "You have a rough idea for a product video, but the idea is still messy. Instead of forcing yourself to write a perfect prompt, you will let GPT help organize the brief first.",
-      result: "<p><strong>What you should finish:</strong> one clean prompt that can be copied into a writing tool, image tool, slide tool, or video tool.</p><ul><li>A short summary of your idea.</li><li>A list of missing details.</li><li>One final copy-ready prompt.</li><li>One small sample result to check the direction.</li></ul>"
+      result: "<p><strong>What you should finish:</strong> one clean prompt that can be copied into a writing tool, image tool, slide tool, or video tool.</p><ul><li>A short summary of your idea in plain words.</li><li>A list of missing details you had not thought about yet.</li><li>One final copy-ready prompt.</li><li>One small sample result to check the direction.</li><li>One clear next step: send it to the tool type you need next.</li></ul><p><strong>Plain rule:</strong> if the sample still feels wrong, do not start over from zero. Tell GPT exactly what feels wrong and ask it to rewrite only that part.</p>"
     },
     "common-ai-tools": {
       scenario: "You need to choose a first AI tool without getting lost in tool names.",
@@ -1251,18 +1281,27 @@ function beginnerPracticeFor(id, title, prompt) {
 
 function beginnerStepsFor(id) {
   const steps = {
+    "what-is-a-prompt": [
+      "Open one chat AI tool.",
+      "Write your rough idea exactly as you would explain it to a coworker.",
+      "Add one line: first repeat back what you understood before writing the final result.",
+      "Read the repeat-back and fix anything wrong or missing.",
+      "Ask AI to turn the idea into one clean prompt with task, audience, tone, and output format.",
+      "Ask for one tiny sample result before using the prompt for a bigger job."
+    ],
     "organize-prompt-first": [
-      "Open ChatGPT, Gemini, Claude, or another chat AI.",
+      "Open one chat AI tool.",
       "Paste your messy idea exactly as you would explain it to a friend.",
       "Add this sentence: do not create the final content yet; first repeat what you understood.",
       "Read the AI's understanding and correct anything wrong.",
       "Ask: what information is missing before you can write a strong prompt?",
       "Answer the missing questions in simple words.",
-      "Ask AI to turn everything into one clean prompt you can copy into the tool you need."
+      "Ask AI to turn everything into one clean prompt you can copy into the tool you need.",
+      "Before leaving the chat, ask for one tiny sample result so you can see whether the prompt is ready."
     ],
     "common-ai-tools": [
       "Write the jobs you want help with: writing, image, video, translation, study, or business.",
-      "Choose one main chat tool first, such as ChatGPT, Gemini, Claude, DeepSeek, or Kimi.",
+      "Choose one main chat tool first.",
       "Choose one creative tool only when you need images, video, or music.",
       "Open the official website or app.",
       "Try one free task before paying."
@@ -1275,7 +1314,7 @@ function beginnerStepsFor(id) {
       "Reply: make it shorter, clearer, and easier for a normal person."
     ],
     "free-vs-paid": [
-      "Open the free version of one tool you already use, such as ChatGPT, Claude, or Gemini.",
+      "Open the free version of one tool you already use.",
       "Give it one real task you do every week.",
       "Notice speed, limits, file access, and whether the answer quality is enough.",
       "Write down what frustrated you and what was already good enough.",
@@ -1406,16 +1445,16 @@ ${safeResult || "Check names, dates, prices, spelling, layout, privacy, and whet
 }
 
 function toolFor(id) {
-  if (id.includes("slides")) return "Gamma";
-  if (id.includes("image") || id === "create-images" || id === "edit-images") return "image-2 or an image AI tool";
-  if (id.includes("video") || id === "make-videos") return "image-2 plus CapCut, Canva, or another video editor";
+  if (id.includes("slides")) return "a presentation tool such as Gamma";
+  if (id.includes("image") || id === "create-images" || id === "edit-images") return "an image AI tool such as image-2";
+  if (id.includes("video") || id === "make-videos") return "an image tool plus a simple video editor";
   if (id.includes("music") || id === "make-music") return "Suno, Udio, Lyria, or another music AI tool";
   if (id.includes("api") || id.includes("gateway") || id.includes("model") || id.includes("automation") || id.includes("business") || id.includes("teams")) return "ARABAI planning workspace plus official provider pages";
   if (id.includes("login") || id.includes("subscription") || id.includes("price")) return "Official tool website and pricing page";
-  if (id.includes("spreadsheet")) return "ChatGPT, Doubao, Gemini, Excel, or Google Sheets";
-  if (id.includes("translate")) return "ChatGPT, Gemini, DeepL, or Google Translate";
-  if (id.includes("document") || id.includes("kimi")) return "Kimi, Claude, ChatGPT, or another document-friendly AI";
-  return "ChatGPT, Claude, Gemini, Doubao, or another official AI chat tool";
+  if (id.includes("spreadsheet")) return "a chat tool plus Excel or Google Sheets";
+  if (id.includes("translate")) return "a language tool or translator";
+  if (id.includes("document") || id.includes("kimi")) return "a document-friendly AI tool";
+  return "an official AI chat tool";
 }
 
 function goalFor(id, title) {
@@ -1440,9 +1479,10 @@ function goalFor(id, title) {
 
 function firstResultFor(id) {
   const results = {
+    "what-is-a-prompt": "The AI repeats your rough idea back in simpler words, then turns it into one cleaner prompt you can test.",
     "write-with-ai": "The AI writes a polite customer message, but it may still be too long or too formal.",
     "make-a-plan": "The AI gives a 7-day plan with daily actions, but some tasks may need to be shortened for a small team.",
-    "make-slides": "Gamma gives an outline for 6 slides. You should read the outline before generating the full deck.",
+    "make-slides": "A presentation tool gives an outline for 6 slides. You should read the outline before generating the full deck.",
     "spreadsheets": "The AI turns messy sales notes into a table and suggests total sales, average sales, and best product.",
     "create-images": "The image tool creates a poster draft. The picture may look good, but the text or layout may need correction.",
     "edit-images": "The image tool cleans the background. Check whether the product label, cap, color, and shape stayed correct.",
@@ -1459,6 +1499,7 @@ function firstResultFor(id) {
 
 function refinementFor(id) {
   const refinements = {
+    "what-is-a-prompt": "Rewrite this as one clean prompt. Keep the goal, remove repetition, and make it easy for another AI tool to follow.",
     "write-with-ai": "Make it shorter, warmer, and suitable for WhatsApp. Keep only the important details.",
     "make-a-plan": "Turn this into a checklist I can follow day by day. Remove anything a small team cannot do.",
     "make-slides": "Make the outline more practical for a small shop owner. Keep six slides and use simple English.",
@@ -1512,15 +1553,17 @@ function expertStepsFor(id) {
   const steps = {
     "what-is-api": [
       "Choose one simple ARABAI job, such as Ask AI, Create Image, or Make Slide Outline.",
-      "Write what the user will type and what result they should receive.",
+      "Write the user story in normal language: user clicks a button, writes one request, and expects one clear result.",
       "Choose the AI provider that will do the work in the background.",
       "Keep the API key on the server, never inside the public webpage.",
-      "Convert the provider's cost into a simple ARABAI credit cost.",
+      "Convert the provider's hidden cost into a simple ARABAI credit cost that a beginner can understand.",
+      "Add one safety rule: if the task is expensive or sensitive, show a warning or keep it as Coming Soon.",
       "Mark the feature as coming soon until payment, refunds, account balance, and support rules are ready."
     ],
     "official-api-platforms": [
       "List the jobs ARABAI wants to offer: chat, image, video, music, slides, documents.",
       "Match each job to one official platform or provider.",
+      "Write one line for each provider in plain language: what it is good at, what it is weak at, and what kind of beginner task it could power later.",
       "Create official accounts only when you are ready to test.",
       "Create test API keys and store them privately.",
       "Set small monthly limits before any user-facing launch.",
@@ -1596,8 +1639,8 @@ function expertStepsFor(id) {
 
 function expertResultFor(id) {
   const results = {
-    "what-is-api": "<p><strong>What you should finish:</strong> one ARABAI feature map: user button, AI provider, expected result, credit cost, human review rule, and a clear Coming Soon note for anything not live yet.</p>",
-    "official-api-platforms": "<p><strong>What you should finish:</strong> a provider map showing which official API can power chat, image, video, music, slides, and documents, plus a simple explanation of official billing versus ARABAI credits.</p>",
+    "what-is-api": "<p><strong>What you should finish:</strong> one ARABAI feature map: user button, AI provider, expected result, credit cost, human review rule, and a clear Coming Soon note for anything not live yet.</p><p><strong>In simple words:</strong> the user should understand that ARABAI is the front desk, the API is the hidden service window, and the AI provider is the kitchen doing the work.</p>",
+    "official-api-platforms": "<p><strong>What you should finish:</strong> a provider map showing which official API can power chat, image, video, music, slides, and documents, plus a simple explanation of official billing versus ARABAI credits.</p><p><strong>In simple words:</strong> official platforms are where the AI power comes from, while ARABAI is the layer that can later turn that power into one easy user experience.</p>",
     "api-price-comparison": "<p><strong>What you should finish:</strong> a simple credit budget with low, normal, and heavy usage cases before selling any wallet balance, plus a rule for showing estimated credits before expensive media tasks.</p>",
     "ai-gateway": "<p><strong>What you should finish:</strong> a gateway test comparing routes for the same ARABAI task, with speed, quality, Arabic quality, and cost notes.</p>",
     "gateway-platforms": "<p><strong>What you should finish:</strong> a gateway comparison table plus one official API backup route for important work.</p>",
