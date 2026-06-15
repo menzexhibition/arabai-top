@@ -175,19 +175,19 @@ function advancedArticle([id, title, intro, caseTitle, scenario, prompt, next]) 
       { title: "Step 2: Improve the first answer", text: "Ask for a warmer tone, shorter wording, a table, or a checklist until the result is ready to use." }
     ],
     "gemini-advanced": [
-      { title: "Step 1: Use a search-and-explanation tool", text: "Open a tool like Gemini when you want help understanding a topic, drafting text, or working near documents and search-style questions." },
+      { title: "Step 1: Use a search-and-explanation tool", text: "Open a search-and-explanation tool when you want help understanding a topic, drafting text, or working near documents and search-style questions." },
       { title: "Step 2: Ask for a practical answer", text: "Request a simple table, summary, checklist, or customer-ready message instead of a general explanation." }
     ],
     "claude-advanced": [
-      { title: "Step 1: Use a careful long-writing tool", text: "Open a tool like Claude when you want a long message, policy, explanation, document rewrite, or cleaner English tone." },
+      { title: "Step 1: Use a careful long-writing tool", text: "Open a careful long-writing tool when you want a long message, policy, explanation, document rewrite, or cleaner English tone." },
       { title: "Step 2: Ask for a copy-ready version", text: "Tell the tool who will read the text and ask it to produce the final version in the exact format you need." }
     ],
     "deepseek-advanced": [
-      { title: "Step 1: Use a reasoning tool", text: "Open a tool like DeepSeek when you want to compare choices, understand logic, or break a problem into steps." },
+      { title: "Step 1: Use a reasoning tool", text: "Open a reasoning tool when you want to compare choices, understand logic, or break a problem into steps." },
       { title: "Step 2: Ask for pros, cons, risks, and recommendation", text: "A useful prompt is: compare these options, show pros and cons, risks, and tell me what a small business should do first." }
     ],
     "kimi-advanced": [
-      { title: "Step 1: Use a long-document tool", text: "Open a document-friendly AI when you have a long proposal, contract draft, article, or notes to summarize. Kimi is one example." },
+      { title: "Step 1: Use a long-document tool", text: "Open a document-friendly AI when you have a long proposal, contract draft, article, or notes to summarize." },
       { title: "Step 2: Ask for action items", text: "Ask for key points, deadlines, money terms, risks, and the next three actions." }
     ],
     "image-tools-advanced": [
@@ -590,11 +590,11 @@ function finalResultFor(id) {
     "login-pages": "<p><strong>Final result:</strong></p><ul><li>Check the website spelling carefully.</li><li>Make sure the site uses HTTPS.</li><li>Search for real reviews online.</li><li>Avoid logging in with public Wi-Fi.</li><li>Use a strong password.</li><li>Start with the free route first when possible.</li><li>Check cancellation and refund rules before paying.</li></ul>",
     "subscription-pages": "<p><strong>Final result:</strong></p><ul><li>Will this save me time every week?</li><li>Can it help me serve customers or finish work faster?</li><li>Is the free version enough for now?</li><li>Does it fit my language and work type?</li><li>Can I cancel easily?</li><li>Simple rule: if the time saved is worth more than the monthly cost, it may be worth trying.</li></ul>",
     "price-comparison": "<p><strong>Final result:</strong></p><ul><li>Long-term monthly cost.</li><li>Whether there is a free test.</li><li>What limits appear first.</li><li>Whether the plan fits writing, visuals, or files.</li><li>Export quality.</li><li>How easy it is to stop paying.</li></ul>"
-    ,"chatgpt-advanced": "<p><strong>Final result:</strong></p><p>A daily chat tool is a good first step for everyday work: replies, writing, plans, summaries, tables, translation, and simple prompt building. A beginner can start by typing the real task, then asking for one useful improvement. ChatGPT is one common example.</p>",
-    "gemini-advanced": "<p><strong>Final result:</strong></p><p>A fast explanation-and-search style tool is useful when the work feels close to search, documents, screenshots, or quick understanding. Use it when you want fast help turning confusion into a usable answer. Gemini is one common example.</p>",
-    "claude-advanced": "<p><strong>Final result:</strong></p><p>A calm long-text writing tool is useful for proposals, documents, careful rewriting, clearer tone, and thoughtful summaries. Give it the rough text, audience, and the style you want. Claude is one common example.</p>",
-    "deepseek-advanced": "<p><strong>Final result:</strong></p><p>A practical reasoning tool is useful when you want to compare choices, list pros and cons, find risks, and ask for a simple recommendation a normal business owner can understand. DeepSeek is one common example.</p>",
-    "kimi-advanced": "<p><strong>Final result:</strong></p><p>A long-file reading tool is useful when you have long documents, notes, files, or meeting text. Ask it for key points, action items, deadlines, and risks. Kimi is one common example.</p>",
+    ,"chatgpt-advanced": "<p><strong>Final result:</strong></p><p>A daily chat tool is a good first step for everyday work: replies, writing, plans, summaries, tables, translation, and simple prompt building. A beginner can start by typing the real task, then asking for one useful improvement.</p>",
+    "gemini-advanced": "<p><strong>Final result:</strong></p><p>A fast explanation-and-search style tool is useful when the work feels close to search, documents, screenshots, or quick understanding. Use it when you want fast help turning confusion into a usable answer.</p>",
+    "claude-advanced": "<p><strong>Final result:</strong></p><p>A calm long-text writing tool is useful for proposals, documents, careful rewriting, clearer tone, and thoughtful summaries. Give it the rough text, audience, and the style you want.</p>",
+    "deepseek-advanced": "<p><strong>Final result:</strong></p><p>A practical reasoning tool is useful when you want to compare choices, list pros and cons, find risks, and ask for a simple recommendation a normal business owner can understand.</p>",
+    "kimi-advanced": "<p><strong>Final result:</strong></p><p>A long-file reading tool is useful when you have long documents, notes, files, or meeting text. Ask it for key points, action items, deadlines, and risks.</p>",
     "image-tools-advanced": "<p><strong>Final result:</strong></p><p>Image AI tools work best when you bring a finished prompt: subject, style, colors, text, layout, and size. Do not just write 'make a poster'; describe the poster like you are talking to a designer.</p>",
     "video-tools-advanced": "<p><strong>Final result:</strong></p><p>Video AI tools work best when you prepare scene-by-scene instructions: what appears first, camera movement, caption, mood, and length. Treat the AI like a small film crew that needs a shot list.</p><p><strong>Simple note:</strong> A writing tool can help with planning and prompting, while a video model can help generate the motion itself.</p>",
     "music-tools-advanced": "<p><strong>Final result:</strong></p><p>Music AI tools work best when you describe length, mood, instruments, speed, and whether vocals are allowed. For business videos, always say if you need background music only.</p>"
