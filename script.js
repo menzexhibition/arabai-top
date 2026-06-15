@@ -2415,9 +2415,9 @@ function translateOutputTitle(title) {
   const map = {
     "Finished writing result": "نتيجة الكتابة النهائية",
     "Finished 7-day launch checklist": "قائمة إطلاق نهائية لمدة 7 أيام",
-    "Finished 6-slide Gamma deck plan": "عرض Gamma نهائي من 6 شرائح",
+    "Finished 6-slide Gamma deck plan": "عرض نهائي من 6 شرائح",
     "Finished spreadsheet example": "مثال جدول نهائي",
-    "Finished image-2 poster example": "مثال بوستر نهائي من image-2",
+    "Finished image-2 poster example": "مثال بوستر نهائي",
     "Before and after product image": "صورة المنتج قبل وبعد",
     "Finished 9-grid storyboard and stitched video example": "مثال 9 لقطات وفيديو نهائي",
     "Playable 20-second background music example": "مثال موسيقى خلفية قابل للتشغيل",

@@ -1666,7 +1666,7 @@ for (const item of advancedSpecs) ARTICLES[item[0]] = advancedArticle(item);
 for (const item of toolAdvanced) ARTICLES[item[0]] = advancedArticle(item);
 for (const item of expertArticles) ARTICLES[item[0]] = expertArticle(item);
 for (const [id, title] of expertToolArticles) {
-  ARTICLES[id] = expertArticle([id, title, `${title} is like moving from using a tool by hand to placing that tool inside a real workflow.`, "what-is-api"]);
+  ARTICLES[id] = expertArticle([id, title, "This kind of tool is like moving from one-off use into a real workflow with repeatable steps, clearer roles, and better control.", "what-is-api"]);
 }
 
 ARTICLES["gemini-advanced"].tutorialVideo = {
