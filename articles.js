@@ -86,7 +86,7 @@ function advancedArticle([id, title, intro, caseTitle, scenario, prompt, next]) 
       { title: "Step 4: Copy it into your notes", text: "Keep only tasks you can really do this week, then add real prices, staff names, and dates." }
     ],
     "make-slides": [
-      { title: "Step 1: Open your slide-making tool", text: "Go to the official slide tool website, choose Presentation mode, and start from a prompt instead of a blank page. Gamma is one example." },
+      { title: "Step 1: Open your slide-making tool", text: "Go to the official slide tool website, choose Presentation mode, and start from a prompt instead of a blank page." },
       { title: "Step 2: Set the deck size", text: "Choose about 6 cards or slides for a beginner case. A short deck is easier to check and edit." },
       { title: "Step 3: Paste the prompt", text: "Use the prompt below. Keep the language English if your final website or client deck should be English." },
       { title: "Step 4: Review the outline", text: "Before generating, check that the six slide titles match the story: title, problem, AI idea, target customers, action plan, expected result." },
@@ -99,7 +99,7 @@ function advancedArticle([id, title, intro, caseTitle, scenario, prompt, next]) 
     ],
     "create-images": [
       { title: "Step 1: Prepare the exact poster words before opening the image tool", text: "Main headline: Weekend Oud Sale\nOffer: Up to 30% OFF\nSmall text: Friday & Saturday Only\nButton: Shop Now" },
-      { title: "Step 2: Copy the full image prompt into the image tool", text: "Create a premium English poster for a weekend oud perfume discount campaign for a small perfume shop in Riyadh. Include exactly: Weekend Oud Sale, Up to 30% OFF, Friday & Saturday Only, Shop Now. Make it a square Instagram poster with a realistic oud perfume bottle, black and warm brown background, gold smoke, and elegant Saudi luxury mood. image-2 is one example of the kind of tool you can use." },
+      { title: "Step 2: Copy the full image prompt into the image tool", text: "Create a premium English poster for a weekend oud perfume discount campaign for a small perfume shop in Riyadh. Include exactly: Weekend Oud Sale, Up to 30% OFF, Friday & Saturday Only, Shop Now. Make it a square Instagram poster with a realistic oud perfume bottle, black and warm brown background, gold smoke, and elegant Saudi luxury mood." },
       { title: "Step 3: Check the finished poster on a phone-sized screen", image: "assets/outputs/oud-weekend-sale-poster-real.png" }
     ],
     "edit-images": [
@@ -946,7 +946,7 @@ function promptGuideFor(id, prompt) {
       ["Style", "Easy English, practical for a small team."]
     ],
     "make-slides": [
-      ["Tool", "A slide-making tool works better when you give it the full slide job, not only the topic. Gamma is one example."],
+      ["Tool", "A slide-making tool works better when you give it the full slide job, not only the topic."],
       ["Audience", "Ordinary shop owner with no marketing team."],
       ["Structure", "List the six slides before generation so the tool does not wander."],
       ["Language rule", "Tell it clearly to keep all slide text in English."],
@@ -1073,7 +1073,7 @@ function actionStepsFor(id) {
       "Copy the checklist into Notes, Excel, Notion, or WhatsApp."
     ],
     "make-slides": [
-      "Open a presentation tool, choose Generate, then choose Presentation. Gamma is one example.",
+      "Open a presentation tool, choose Generate, then choose Presentation.",
       "Set the deck length to about 6 slides so the first result stays easy to check.",
       "Paste the full request, including audience, topic, slide list, style, and the words: Keep all slide text in English.",
       "Click generate outline first, not full deck first.",
