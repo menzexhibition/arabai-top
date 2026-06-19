@@ -210,7 +210,7 @@ function renderMissingArticle(root, locale = "en") {
       <p class="eyebrow">${ar ? "لا يوجد مقال محدد" : "No article selected"}</p>
       <h1>${ar ? "اختر مقالا من الدليل" : "Choose an article from the guide"}</h1>
       <p>${ar ? `افتح أحد أقسام ${INLINE_BRAND_HTML} ثم اختر المقال الذي تريد قراءته.` : `Open one of the ${INLINE_BRAND_HTML} sections, then choose the article you want to read.`}</p>
-      <p><a class="text-link" href="${ar ? "ar-beginner.html" : "beginner.html"}">${ar ? "العودة إلى مبتدئ AI" : "Back to AI Beginner"}</a></p>
+      <p><a class="text-link" href="${ar ? "ar-beginner.html" : "beginner.html"}">${ar ? "العودة إلى مدخل إلى الذكاء الاصطناعي" : "Back to AI Beginner"}</a></p>
     </header>
   `;
 }
@@ -2256,7 +2256,7 @@ function assetUrl(src) {
 }
 
 function arSectionLabel(section) {
-  if (section === "beginner") return "مبتدئ AI";
+  if (section === "beginner") return "مدخل إلى الذكاء الاصطناعي";
   if (section === "advanced") return "استخدام AI";
   return "خطوة أعمق";
 }
