@@ -2257,8 +2257,8 @@ function assetUrl(src) {
 
 function arSectionLabel(section) {
   if (section === "beginner") return "مدخل إلى الذكاء الاصطناعي";
-  if (section === "advanced") return "استخدام AI";
-  return "خطوة أعمق";
+  if (section === "advanced") return "الذكاء الاصطناعي في المهام اليومية";
+  return "ما بعد الأساسيات";
 }
 
 function arBackUrl(section) {
