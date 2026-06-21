@@ -177,7 +177,8 @@ async function insertRows(table, rows) {
     },
     body: JSON.stringify(rows)
   });
-  return response.ok ? response.json() : [];
+  await assertOk(response, `insert ${table}`);
+  return response.json();
 }
 
 async function patchRows(table, filters, patch) {
@@ -192,7 +193,8 @@ async function patchRows(table, filters, patch) {
     },
     body: JSON.stringify(patch)
   });
-  return response.ok ? response.json() : [];
+  await assertOk(response, `patch ${table}`);
+  return response.json();
 }
 
 async function upsertRows(table, rows, conflict) {
@@ -203,7 +205,8 @@ async function upsertRows(table, rows, conflict) {
     },
     body: JSON.stringify(rows)
   });
-  return response.ok ? response.json() : [];
+  await assertOk(response, `upsert ${table}`);
+  return response.json();
 }
 
 async function request(path, init) {
@@ -217,6 +220,12 @@ async function request(path, init) {
     }
   });
   return response;
+}
+
+async function assertOk(response, action) {
+  if (response.ok) return;
+  const text = await response.text();
+  throw new Error(`Supabase ${action} failed (${response.status}): ${text.slice(0, 500)}`);
 }
 
 function numberOrZero(value) {

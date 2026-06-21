@@ -113,132 +113,16 @@ async function handlePersistedRequest(req, res, path) {
   }
 
   if (path === "/api/auth/verified-signin" && req.method === "POST") {
-    const body = await readJson(req);
-    console.log("[arabai] verified-signin:start", {
-      hasEmail: Boolean(body.email),
-      hasPhone: Boolean(body.phone),
-      country: body.country || "",
-      language: body.preferredLanguage || ""
-    });
-    if (!body.email && !body.phone) {
-      return json(res, { error: { code: "CONTACT_REQUIRED", message: "Email or phone is required." } }, 400);
+    try {
+      return await handlePersistedVerifiedSignin(req, res);
+    } catch (error) {
+      return json(res, {
+        error: {
+          code: "SIGNUP_FAILED",
+          message: error instanceof Error ? error.message : "Signup failed."
+        }
+      }, 500);
     }
-
-    const sessionUserId = readCookie(req, "arabai_user_id");
-    let userRow = sessionUserId ? await store.findUserById(sessionUserId) : null;
-    userRow ||= await store.findUserByEmailOrPhone({
-      email: normalizeText(body.email),
-      phone: normalizeText(body.phone)
-    });
-
-    const referralCode = normalizeText(body.referralCode);
-    let isNewUser = false;
-    let referrerRow = null;
-    if (!userRow) {
-      isNewUser = true;
-      const registrationNumber = (await store.countUsers()) + 1;
-      if (referralCode) {
-        referrerRow = await store.findUserByReferralCode(referralCode);
-      }
-      userRow = await store.createUser({
-        id: randomUUID(),
-        email: nullableText(body.email),
-        phone: nullableText(body.phone),
-        display_name: body.displayName || "ARABAI user",
-        country: body.country || "SA",
-        registration_number: registrationNumber,
-        preferred_language: body.preferredLanguage || "ar",
-        role: "user",
-        referral_code: `arabai-${randomUUID().slice(0, 8)}`,
-        referred_by_user_id: referrerRow?.id || null,
-        signup_reward_granted: false,
-        founding_user_reward_granted: false,
-        last_login_at: new Date().toISOString()
-      });
-    } else {
-      userRow = await store.updateUser(userRow.id, {
-        display_name: body.displayName || userRow.display_name || "ARABAI user",
-        email: nullableText(body.email) || userRow.email,
-        phone: nullableText(body.phone) || userRow.phone,
-        country: body.country || userRow.country || "SA",
-        preferred_language: body.preferredLanguage || userRow.preferred_language || "ar",
-        last_login_at: new Date().toISOString()
-      });
-    }
-
-    const user = userFromRow(userRow);
-    const wallet = await ensurePersistedWallet(user.id);
-    const previousTransactionCount = wallet.transactions.length;
-
-    if (!user.signupRewardGranted) {
-      grantSignupRewardRoute({ wallet, user });
-    }
-
-    const foundingRewardCount = await store.countFoundingRewardsGranted();
-    let foundingUserReward = {
-      eligible: false,
-      granted: false,
-      credits: 0,
-      remainingSlots: Math.max(rewardRules.foundingUserCampaign.maxUsers - foundingRewardCount, 0)
-    };
-
-    if (rewardRules.foundingUserCampaign.enabled && !user.foundingUserRewardGranted) {
-      const eligible = foundingRewardCount < rewardRules.foundingUserCampaign.maxUsers;
-      foundingUserReward = {
-        eligible,
-        granted: false,
-        credits: eligible ? rewardRules.foundingUserCampaign.credits : 0,
-        remainingSlots: Math.max(rewardRules.foundingUserCampaign.maxUsers - foundingRewardCount, 0)
-      };
-      if (eligible) {
-        grantFoundingUserRewardRoute({ wallet, user, campaignCount: foundingRewardCount });
-        foundingUserReward.granted = true;
-      }
-    }
-
-    await persistWallet(user.id, wallet, previousTransactionCount);
-    const savedUser = await store.updateUser(user.id, {
-      signup_reward_granted: user.signupRewardGranted,
-      founding_user_reward_granted: user.foundingUserRewardGranted,
-      last_login_at: new Date().toISOString()
-    });
-
-    if (isNewUser && referrerRow && referrerRow.id !== user.id) {
-      const referrer = userFromRow(referrerRow);
-      const referrerWallet = await ensurePersistedWallet(referrer.id);
-      const referrerPreviousCount = referrerWallet.transactions.length;
-      grantReferralRegistrationRewardRoute({
-        wallet: referrerWallet,
-        referrer,
-        referredUser: user
-      });
-      await persistWallet(referrer.id, referrerWallet, referrerPreviousCount);
-      await store.createReferral({
-        id: randomUUID(),
-        referrer_user_id: referrer.id,
-        referred_user_id: user.id,
-        status: "rewarded",
-        reward_credits: rewardRules.referralVerifiedRegistration.credits,
-        created_at: new Date().toISOString(),
-        verified_at: new Date().toISOString(),
-        rewarded_at: new Date().toISOString()
-      });
-    }
-
-    return json(
-      res,
-      {
-        isNewUser,
-        user: userView(userFromRow(savedUser || userRow)),
-        wallet: walletView(wallet),
-        foundingUserReward,
-        message: foundingUserReward.granted
-          ? `You are ARABAI user #${user.registrationNumber}. Your early user trial credits have been added.`
-          : `You are ARABAI user #${user.registrationNumber}.`
-      },
-      200,
-      { "set-cookie": sessionCookie(user.id) }
-    );
   }
 
   if (path === "/api/auth/sign-out" && req.method === "POST") {
@@ -373,6 +257,135 @@ async function handlePersistedRequest(req, res, path) {
   }
 
   return json(res, { error: { code: "NOT_FOUND", message: "API route not found." } }, 404);
+}
+
+async function handlePersistedVerifiedSignin(req, res) {
+  const body = await readJson(req);
+  console.log("[arabai] verified-signin:start", {
+    hasEmail: Boolean(body.email),
+    hasPhone: Boolean(body.phone),
+    country: body.country || "",
+    language: body.preferredLanguage || ""
+  });
+  if (!body.email && !body.phone) {
+    return json(res, { error: { code: "CONTACT_REQUIRED", message: "Email or phone is required." } }, 400);
+  }
+
+  const sessionUserId = readCookie(req, "arabai_user_id");
+  let userRow = sessionUserId ? await store.findUserById(sessionUserId) : null;
+  userRow ||= await store.findUserByEmailOrPhone({
+    email: normalizeText(body.email),
+    phone: normalizeText(body.phone)
+  });
+
+  const referralCode = normalizeText(body.referralCode);
+  let isNewUser = false;
+  let referrerRow = null;
+  if (!userRow) {
+    isNewUser = true;
+    const registrationNumber = (await store.countUsers()) + 1;
+    if (referralCode) {
+      referrerRow = await store.findUserByReferralCode(referralCode);
+    }
+    userRow = await store.createUser({
+      id: randomUUID(),
+      email: nullableText(body.email),
+      phone: nullableText(body.phone),
+      display_name: body.displayName || "ARABAI user",
+      country: body.country || "SA",
+      registration_number: registrationNumber,
+      preferred_language: body.preferredLanguage || "ar",
+      role: "user",
+      referral_code: `arabai-${randomUUID().slice(0, 8)}`,
+      referred_by_user_id: referrerRow?.id || null,
+      signup_reward_granted: false,
+      founding_user_reward_granted: false,
+      last_login_at: new Date().toISOString()
+    });
+  } else {
+    userRow = await store.updateUser(userRow.id, {
+      display_name: body.displayName || userRow.display_name || "ARABAI user",
+      email: nullableText(body.email) || userRow.email,
+      phone: nullableText(body.phone) || userRow.phone,
+      country: body.country || userRow.country || "SA",
+      preferred_language: body.preferredLanguage || userRow.preferred_language || "ar",
+      last_login_at: new Date().toISOString()
+    });
+  }
+
+  const user = userFromRow(userRow);
+  const wallet = await ensurePersistedWallet(user.id);
+  const previousTransactionCount = wallet.transactions.length;
+
+  if (!user.signupRewardGranted) {
+    grantSignupRewardRoute({ wallet, user });
+  }
+
+  const foundingRewardCount = await store.countFoundingRewardsGranted();
+  let foundingUserReward = {
+    eligible: false,
+    granted: false,
+    credits: 0,
+    remainingSlots: Math.max(rewardRules.foundingUserCampaign.maxUsers - foundingRewardCount, 0)
+  };
+
+  if (rewardRules.foundingUserCampaign.enabled && !user.foundingUserRewardGranted) {
+    const eligible = foundingRewardCount < rewardRules.foundingUserCampaign.maxUsers;
+    foundingUserReward = {
+      eligible,
+      granted: false,
+      credits: eligible ? rewardRules.foundingUserCampaign.credits : 0,
+      remainingSlots: Math.max(rewardRules.foundingUserCampaign.maxUsers - foundingRewardCount, 0)
+    };
+    if (eligible) {
+      grantFoundingUserRewardRoute({ wallet, user, campaignCount: foundingRewardCount });
+      foundingUserReward.granted = true;
+    }
+  }
+
+  await persistWallet(user.id, wallet, previousTransactionCount);
+  const savedUser = await store.updateUser(user.id, {
+    signup_reward_granted: user.signupRewardGranted,
+    founding_user_reward_granted: user.foundingUserRewardGranted,
+    last_login_at: new Date().toISOString()
+  });
+
+  if (isNewUser && referrerRow && referrerRow.id !== user.id) {
+    const referrer = userFromRow(referrerRow);
+    const referrerWallet = await ensurePersistedWallet(referrer.id);
+    const referrerPreviousCount = referrerWallet.transactions.length;
+    grantReferralRegistrationRewardRoute({
+      wallet: referrerWallet,
+      referrer,
+      referredUser: user
+    });
+    await persistWallet(referrer.id, referrerWallet, referrerPreviousCount);
+    await store.createReferral({
+      id: randomUUID(),
+      referrer_user_id: referrer.id,
+      referred_user_id: user.id,
+      status: "rewarded",
+      reward_credits: rewardRules.referralVerifiedRegistration.credits,
+      created_at: new Date().toISOString(),
+      verified_at: new Date().toISOString(),
+      rewarded_at: new Date().toISOString()
+    });
+  }
+
+  return json(
+    res,
+    {
+      isNewUser,
+      user: userView(userFromRow(savedUser || userRow)),
+      wallet: walletView(wallet),
+      foundingUserReward,
+      message: foundingUserReward.granted
+        ? `You are ARABAI user #${user.registrationNumber}. Your early user trial credits have been added.`
+        : `You are ARABAI user #${user.registrationNumber}.`
+    },
+    200,
+    { "set-cookie": sessionCookie(user.id) }
+  );
 }
 
 async function handleDemoRequest(req, res, path) {
