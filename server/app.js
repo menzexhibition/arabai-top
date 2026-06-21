@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { createSupabaseStore } from "./supabase-store.js";
 
 const packages = [
@@ -140,7 +141,7 @@ async function handlePersistedRequest(req, res, path) {
         referrerRow = await store.findUserByReferralCode(referralCode);
       }
       userRow = await store.createUser({
-        id: crypto.randomUUID(),
+        id: randomUUID(),
         email: nullableText(body.email),
         phone: nullableText(body.phone),
         display_name: body.displayName || "ARABAI user",
@@ -148,7 +149,7 @@ async function handlePersistedRequest(req, res, path) {
         registration_number: registrationNumber,
         preferred_language: body.preferredLanguage || "ar",
         role: "user",
-        referral_code: `arabai-${crypto.randomUUID().slice(0, 8)}`,
+        referral_code: `arabai-${randomUUID().slice(0, 8)}`,
         referred_by_user_id: referrerRow?.id || null,
         signup_reward_granted: false,
         founding_user_reward_granted: false,
@@ -213,7 +214,7 @@ async function handlePersistedRequest(req, res, path) {
       });
       await persistWallet(referrer.id, referrerWallet, referrerPreviousCount);
       await store.createReferral({
-        id: crypto.randomUUID(),
+        id: randomUUID(),
         referrer_user_id: referrer.id,
         referred_user_id: user.id,
         status: "rewarded",
@@ -328,7 +329,7 @@ async function handlePersistedRequest(req, res, path) {
     const task = confirmTaskRoute({
       wallet: session.wallet,
       requestBody: body,
-      taskId: crypto.randomUUID()
+      taskId: randomUUID()
     });
 
     await store.insertTask(taskRowFromRequest(session.user.id, task, body));
@@ -413,7 +414,7 @@ async function handleDemoRequest(req, res, path) {
     const user =
       state.user ||
       {
-        id: crypto.randomUUID(),
+        id: randomUUID(),
         email: body.email || "",
         phone: body.phone || "",
         displayName: body.displayName || "ARABAI user",
@@ -519,7 +520,7 @@ async function handleDemoRequest(req, res, path) {
     const task = confirmTaskRoute({
       wallet: state.wallet,
       requestBody: body,
-      taskId: crypto.randomUUID()
+      taskId: randomUUID()
     });
     state.tasks.set(task.id, task);
 
@@ -760,6 +761,10 @@ function healthView(persisted) {
 
 function createRuntimeAdapter() {
   if (process.env.USE_REAL_AI_GATEWAY === "true") {
+    if (!process.env.AI_GATEWAY_BASE_URL || !process.env.AI_GATEWAY_API_KEY) {
+      return createMockGatewayAdapter();
+    }
+
     return createGatewayAdapter({
       baseUrl: process.env.AI_GATEWAY_BASE_URL,
       apiKey: process.env.AI_GATEWAY_API_KEY,
