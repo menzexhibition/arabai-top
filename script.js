@@ -210,7 +210,7 @@ function renderMissingArticle(root, locale = "en") {
       <p class="eyebrow">${ar ? "لا يوجد مقال محدد" : "No article selected"}</p>
       <h1>${ar ? "اختر مقالا من الدليل" : "Choose an article from the guide"}</h1>
       <p>${ar ? `افتح أحد أقسام ${INLINE_BRAND_HTML} ثم اختر المقال الذي تريد قراءته.` : `Open one of the ${INLINE_BRAND_HTML} sections, then choose the article you want to read.`}</p>
-      <p><a class="text-link" href="${ar ? "ar-beginner.html" : "beginner.html"}">${ar ? "العودة إلى مدخل إلى الذكاء الاصطناعي" : "Back to AI Beginner"}</a></p>
+      <p><a class="text-link" href="${ar ? "ar-beginner.html" : "beginner.html"}">${ar ? "العودة إلى مدخل الذكاء الاصطناعي" : "Back to AI Beginner"}</a></p>
     </header>
   `;
 }
@@ -356,7 +356,7 @@ function renderRechargeNudge(articleId, article) {
   return `
     <aside class="recharge-nudge" aria-label="ARABAI Credits note">
       <p class="eyebrow">${isArabic ? "رصيد ARABAI" : "Credit wallet"}</p>
-      <h2>${isArabic ? "ابدأ بمبلغ صغير وجرّب قدرات AI المدفوعة" : "Start with $5, try paid AI capabilities"}</h2>
+      <h2>${isArabic ? "ابدأ بمبلغ صغير وجرّب قدرات الذكاء الاصطناعي المدفوعة" : "Start with $5, try paid AI capabilities"}</h2>
       <p>${isArabic ? "رصيد ARABAI سيسمح للمستخدم المتكرر أن يجرّب المحادثة المتقدمة، تحليل الملفات، توليد الصور، مسودات العروض، وبعض مهام الوسائط من مكان واحد. يمكن تسجيل مكافآت المساهمة أولا، ثم يفتح الاستخدام المدفوع لاحقا." : "ARABAI Credits will let frequent users test paid-level chat, file analysis, image generation, slide drafts, and selected media tasks from one place. Contribution rewards can be recorded first; paid AI use opens later."}</p>
       <a href="credits.html">${isArabic ? "تعرّف على الرصيد" : "Learn about Credits"}</a>
     </aside>
@@ -475,7 +475,7 @@ function localizeReference(title, note, locale = "en") {
 
   const titleMap = {
     "ChatGPT Learn: Getting started with ChatGPT": "ابدأ مع ChatGPT",
-    "ChatGPT Learn: AI fundamentals": "أساسيات AI",
+    "ChatGPT Learn: AI fundamentals": "أساسيات الذكاء الاصطناعي",
     "OpenAI Docs: Prompting basics": "دليل OpenAI: كتابة البرومبت",
     "ChatGPT Learn: Using ChatGPT": "استخدام أداة المحادثة",
     "OpenAI Docs: Data and file workflows": "دليل OpenAI: الملفات والبيانات",
@@ -502,7 +502,7 @@ function localizeReference(title, note, locale = "en") {
   const noteMap = {
     "Official starting point for a first ChatGPT session.": "نقطة بداية رسمية لأول محادثة مع ChatGPT.",
     "Plain FAQ for everyday users.": "أسئلة وأجوبة مبسطة للمستخدم العادي.",
-    "Good starting point for basic AI learning paths.": "نقطة بداية مناسبة لفهم AI بدون تعقيد.",
+    "Good starting point for basic AI learning paths.": "نقطة بداية مناسبة لفهم الذكاء الاصطناعي بدون تعقيد.",
     "Useful for understanding prompts without going too deep.": "مفيد لفهم البرومبت بدون دخول في التفاصيل التقنية.",
     "A solid official guide to writing clearer prompts.": "دليل رسمي يساعدك على كتابة طلب أوضح.",
     "A broad official map of what ChatGPT can do.": "خريطة عامة لما يمكن أن يساعدك فيه ChatGPT.",
@@ -521,9 +521,9 @@ function localizeReference(title, note, locale = "en") {
     "Official Claude guidance: clear instructions, examples, and step-by-step prompt improvement.": "إرشادات رسمية من Claude عن وضوح الطلب، استخدام الأمثلة، وتحسين البرومبت خطوة بخطوة.",
     "Official Gemini guidance: give examples, break complex tasks into steps, and place the final question clearly.": "إرشادات رسمية من Gemini: استخدم أمثلة، قسّم المهمة الكبيرة، واجعل السؤال النهائي واضحا.",
     "Simple four-part prompt idea: persona, task, context, format.": "فكرة بسيطة من أربعة أجزاء: الدور، المهمة، السياق، وشكل النتيجة.",
-    "Official example of an app sending a request to AI and getting a result back.": "مثال رسمي يشرح كيف يرسل التطبيق طلبا إلى AI ثم يستقبل النتيجة.",
+    "Official example of an app sending a request to AI and getting a result back.": "مثال رسمي يشرح كيف يرسل التطبيق طلبا إلى الذكاء الاصطناعي ثم يستقبل النتيجة.",
     "Useful second example so readers see that API works across providers, not only one company.": "مثال ثان مفيد حتى يفهم القارئ أن API فكرة مشتركة بين مزودين مختلفين، وليست خاصة بشركة واحدة.",
-    "Official Gemini example for the same idea: your app talks to AI in the background.": "مثال رسمي من Gemini لنفس الفكرة: تطبيقك يتحدث مع AI في الخلفية.",
+    "Official Gemini example for the same idea: your app talks to AI in the background.": "مثال رسمي من Gemini لنفس الفكرة: تطبيقك يتحدث مع الذكاء الاصطناعي في الخلفية.",
     "Enterprise-style route that some teams use when they want cloud controls and billing under one account.": "خيار أقرب للشركات والفرق التي تريد التحكم السحابي والفوترة تحت حساب واحد."
   };
 
@@ -743,16 +743,16 @@ function localizeArabicResult(html) {
     .replaceAll("Training: the AI's long cooking school before it serves users.", "التدريب: مدرسة الطبخ الطويلة التي يدخلها AI قبل أن يخدم المستخدمين.")
     .replaceAll("Inference: the moment AI cooks your answer after you order.", "الاستنتاج: لحظة طبخ الإجابة بعد أن تضع طلبك.")
     .replaceAll("Hallucination: a confident but wrong answer that still needs checking.", "الهلوسة: إجابة واثقة لكنها قد تكون خاطئة وتحتاج مراجعة.")
-    .replaceAll("Model: one AI helper with its own habits and price.", "النموذج: مساعد AI واحد له عاداته وسعره.")
+    .replaceAll("Model: one AI helper with its own habits and price.", "النموذج: مساعد ذكاء اصطناعي واحد له عاداته وسعره.")
     .replaceAll("API: the service window for apps and websites.", "API: نافذة الخدمة للتطبيقات والمواقع.")
     .replaceAll("Short text is cheaper because it uses fewer language bites.", "النص القصير أرخص لأنه يستخدم لقمات كلام أقل.")
-    .replaceAll("Long documents cost more because AI must read and write more.", "المستندات الطويلة أغلى لأن AI يقرأ ويكتب أكثر.")
-    .replaceAll("Images cost more because AI must build a full picture.", "الصور أغلى لأن AI يبني صورة كاملة.")
-    .replaceAll("Video costs more because AI must create many changing pictures.", "الفيديو أغلى لأن AI ينشئ صورا كثيرة تتحرك.")
+    .replaceAll("Long documents cost more because AI must read and write more.", "المستندات الطويلة أغلى لأن الذكاء الاصطناعي يقرأ ويكتب أكثر.")
+    .replaceAll("Images cost more because AI must build a full picture.", "الصور أغلى لأن الذكاء الاصطناعي يبني صورة كاملة.")
+    .replaceAll("Video costs more because AI must create many changing pictures.", "الفيديو أغلى لأن الذكاء الاصطناعي ينشئ صورا كثيرة تتحرك.")
     .replaceAll("Credits hide the technical counting so normal users can think by task.", "الرصيد يخفي الحساب التقني حتى يفكر المستخدم بالمهمة لا بالأرقام.")
     .replaceAll("a short personal tool list: one chat tool, one image tool, one video tool, and one music tool.", "قائمة أدوات شخصية قصيرة: أداة محادثة، أداة صور، أداة فيديو، وأداة موسيقى.")
-    .replaceAll("your first AI answer, then a second improved version after you ask it to make the result clearer.", "أول إجابة من AI، ثم نسخة ثانية أوضح بعد أن تطلب منه التحسين.")
-    .replaceAll("a clear decision: stay free, test one paid month, or wait until AI becomes part of weekly work.", "قرار واضح: ابق مجانيا، جرّب شهرا مدفوعا، أو انتظر حتى يصبح AI جزءا من عملك الأسبوعي.")
+    .replaceAll("your first AI answer, then a second improved version after you ask it to make the result clearer.", "أول إجابة من الذكاء الاصطناعي، ثم نسخة ثانية أوضح بعد أن تطلب منه التحسين.")
+    .replaceAll("a clear decision: stay free, test one paid month, or wait until AI becomes part of weekly work.", "قرار واضح: ابق مجانيا، جرّب شهرا مدفوعا، أو انتظر حتى يصبح الذكاء الاصطناعي جزءا من عملك الأسبوعي.")
     .replaceAll("a personal task-to-tool map for chat, images, video, and slides.", "خريطة شخصية تربط المهمة بالأداة: محادثة، صور، فيديو، وعروض.")
     .replaceAll("a safer version of your task with names, IDs, passwords, and sensitive details removed or replaced.", "نسخة أكثر أمانا من مهمتك بعد حذف أو استبدال الأسماء والأرقام وكلمات المرور والتفاصيل الحساسة.")
     .replaceAll("Day 1: one free AI account opened.", "اليوم 1: فتح حساب AI مجاني واحد.")
@@ -760,7 +760,7 @@ function localizeArabicResult(html) {
     .replaceAll("Day 3: one email, summary, and question tested.", "اليوم 3: تجربة رسالة وملخص وسؤال.")
     .replaceAll("Day 4: one image or slide task tried.", "اليوم 4: تجربة مهمة صورة أو عرض.")
     .replaceAll("Day 5: one simple rule for when to trust AI and when to check it.", "اليوم 5: قاعدة بسيطة لمتى تثق بـ AI ومتى تراجع.")
-    .replaceAll("a yes/no decision: keep using online AI for now, or try a beginner local AI app on your own computer.", "قرار نعم أو لا: استمر مع AI أونلاين الآن، أو جرّب تطبيق AI محلي بسيط على جهازك.")
+    .replaceAll("a yes/no decision: keep using online AI for now, or try a beginner local AI app on your own computer.", "قرار نعم أو لا: استمر مع الذكاء الاصطناعي أونلاين الآن، أو جرّب تطبيق ذكاء اصطناعي محلي بسيط على جهازك.")
     .replaceAll("One short caption.", "تعليق قصير واحد.")
     .replaceAll("One simple task plan.", "خطة مهمة بسيطة واحدة.")
     .replaceAll("One small table.", "جدول صغير واحد.")
@@ -828,8 +828,8 @@ function localizeArabicCaseTitle(title) {
     .replace("Simulated screen 3: Read the first result", "شاشة محاكاة 3: اقرأ النتيجة الأولى")
     .replace("Simulated screen 3: Add details and improve", "شاشة محاكاة 3: أضف التفاصيل وحسّن النتيجة")
     .replace("Simulated screen 4: Refine and finish", "شاشة محاكاة 4: عدّل وأنهِ المهمة")
-    .replace("Copy this into your first AI chat", "انسخ هذا في أول محادثة AI")
-    .replace("Prompt typed into AI", "الطلب الذي تكتبه في AI")
+    .replace("Copy this into your first AI chat", "انسخ هذا في أول محادثة مع أداة ذكاء اصطناعي")
+    .replace("Prompt typed into AI", "الطلب الذي تكتبه في الذكاء الاصطناعي")
     .replace("Write a customer delay email", "كتابة رسالة تأخير طلب لعميل")
     .replace("Make a launch plan for a new coffee product", "عمل خطة إطلاق لمنتج قهوة جديد")
     .replace("Create a 6-slide presentation in Gamma", "إنشاء عرض من 6 شرائح بأداة عروض")
@@ -843,21 +843,21 @@ function localizeArabicCaseTitle(title) {
     .replace("Learn VAT basics before a meeting", "تعلم أساسيات الضريبة قبل اجتماع")
     .replace("Create product text and customer replies for a bakery", "كتابة وصف منتج وردود عملاء لمخبز")
     .replace("Make a 2-week Instagram plan for a salon", "عمل خطة إنستغرام لأسبوعين لصالون")
-    .replace("Choose AI tools for a small marketing team", "اختيار أنواع أدوات AI لفريق تسويق صغير")
-    .replace("Compare AI prices before choosing a tool", "مقارنة أسعار AI قبل اختيار الأداة")
-    .replace("Prompt typed into AI", "الطلب الذي تكتبه في AI")
-    .replace("Copy this into your first AI chat", "انسخ هذا في أول محادثة AI");
+    .replace("Choose AI tools for a small marketing team", "اختيار أنواع أدوات الذكاء الاصطناعي لفريق تسويق صغير")
+    .replace("Compare AI prices before choosing a tool", "مقارنة أسعار أدوات الذكاء الاصطناعي قبل اختيار الأداة")
+    .replace("Prompt typed into AI", "الطلب الذي تكتبه في الذكاء الاصطناعي")
+    .replace("Copy this into your first AI chat", "انسخ هذا في أول محادثة مع أداة ذكاء اصطناعي");
 }
 
 function localizeArabicCaseScenario(text) {
   if (!text) return "";
   return String(text)
     .replace("You will use this article to finish one small real task, not just understand an idea.", "ستستخدم هذا المقال لإنهاء مهمة صغيرة حقيقية، وليس فقط لفهم الفكرة.")
-    .replace("You will open one AI website, log in, and ask one real question instead of reading more introductions.", "ستفتح موقع AI واحدا، تسجل الدخول، وتسأل سؤالا حقيقيا بدلا من قراءة المزيد من المقدمات.")
-    .replace("You need to choose a first AI tool without getting lost in tool names.", "ستختار أول أداة AI بدون أن تضيع بين أسماء الأدوات.")
+    .replace("You will open one AI website, log in, and ask one real question instead of reading more introductions.", "ستفتح موقعا واحدا لأداة ذكاء اصطناعي، تسجل الدخول، وتسأل سؤالا حقيقيا بدلا من قراءة المزيد من المقدمات.")
+    .replace("You need to choose a first AI tool without getting lost in tool names.", "ستختار أول أداة ذكاء اصطناعي بدون أن تضيع بين أسماء الأدوات.")
     .replace("You want to know whether a paid plan really helps, so you will compare one real weekly task against the limits of a free account.", "ستقارن مهمة أسبوعية حقيقية بحدود الحساب المجاني لتعرف هل الدفع مفيد لك أم لا.")
     .replace("You have different jobs in front of you, so you will match each job to the right kind of AI instead of forcing one tool to do everything.", "ستربط كل مهمة بنوع الأداة المناسب بدلا من إجبار أداة واحدة على فعل كل شيء.")
-    .replace("Before using AI for real work, you will clean one real task so private information stays out and risky claims get checked.", "قبل استخدام AI في عمل حقيقي، ستنظف مهمة واحدة من المعلومات الخاصة وتراجع الكلام المهم.")
+    .replace("Before using AI for real work, you will clean one real task so private information stays out and risky claims get checked.", "قبل استخدام الذكاء الاصطناعي في عمل حقيقي، ستنظف مهمة واحدة من المعلومات الخاصة وتراجع الكلام المهم.")
     .replace("You will follow a five-day beginner route where each day produces one small result and teaches one basic AI habit.", "ستتبع طريقا بسيطا من خمسة أيام، كل يوم فيه نتيجة صغيرة وعادة واحدة مفيدة.")
     .replace("You will check whether local AI is worth trying before spending time installing anything.", "ستقرر هل يستحق AI المحلي التجربة قبل أن تضيع وقتك في التثبيت.");
 }
@@ -891,34 +891,34 @@ function localizeArabicCaseStep(text) {
     .replaceAll("a chat tool plus Excel or Google Sheets", "أداة محادثة مع Excel أو Google Sheets")
     .replaceAll("ChatGPT, Gemini, DeepL, or Google Translate", "أداة لغة أو ترجمة")
     .replaceAll("a language tool or translator", "أداة لغة أو ترجمة")
-    .replaceAll("Kimi, Claude, ChatGPT, or another document-friendly AI", "أداة AI مناسبة للمستندات")
-    .replaceAll("a document-friendly AI tool", "أداة AI مناسبة للمستندات")
-    .replaceAll("finish one small AI task so the idea becomes real", "إنهاء مهمة AI صغيرة حتى تصبح الفكرة ملموسة")
-    .replaceAll("understand basic AI words through a kitchen story", "فهم كلمات AI الأساسية من خلال قصة المطبخ")
+    .replaceAll("Kimi, Claude, ChatGPT, or another document-friendly AI", "أداة ذكاء اصطناعي مناسبة للمستندات")
+    .replaceAll("a document-friendly AI tool", "أداة ذكاء اصطناعي مناسبة للمستندات")
+    .replaceAll("finish one small AI task so the idea becomes real", "إنهاء مهمة صغيرة بالذكاء الاصطناعي حتى تصبح الفكرة ملموسة")
+    .replaceAll("understand basic AI words through a kitchen story", "فهم كلمات الذكاء الاصطناعي الأساسية من خلال قصة المطبخ")
     .replaceAll("understand why text, images, video, and credits cost differently", "فهم لماذا تختلف تكلفة النصوص والصور والفيديو والرصيد")
     .replaceAll("write one clear prompt instead of a vague request", "كتابة برومبت واضح بدل طلب غامض")
     .replaceAll("choose one starting tool for each job", "اختيار أداة بداية واحدة لكل مهمة")
-    .replaceAll("send your first useful AI request", "إرسال أول طلب AI مفيد")
+    .replaceAll("send your first useful AI request", "إرسال أول طلب مفيد إلى الذكاء الاصطناعي")
     .replaceAll("decide whether free AI is enough for now", "تحديد هل المجاني يكفي حاليا")
     .replaceAll("create a small editable presentation", "إنشاء عرض صغير قابل للتعديل")
     .replaceAll("create a poster image with readable text", "إنشاء بوستر بنص مقروء")
     .replaceAll("build a short video from 9 planned images", "بناء فيديو قصير من 9 صور مخططة")
     .replaceAll("create a short background music idea", "إنشاء فكرة موسيقى خلفية قصيرة")
-    .replaceAll("understand how ARABAI can send a user request to AI in the background", "فهم كيف يمكن لـ ARABAI إرسال طلب المستخدم إلى AI في الخلفية")
-    .replaceAll("understand one wallet and many AI model routes", "فهم محفظة واحدة وطرق كثيرة لنماذج AI")
-    .replaceAll("The AI gives a first draft. It may be useful, but it still needs checking and one clear improvement request.", "يعطي AI مسودة أولى. قد تكون مفيدة، لكنها تحتاج مراجعة وطلب تحسين واضح.")
-    .replaceAll("The AI writes a polite customer message, but it may still be too long or too formal.", "يكتب AI رسالة مهذبة للعميل، لكنها قد تكون طويلة أو رسمية أكثر من اللازم.")
-    .replaceAll("The AI gives a 7-day plan with daily actions, but some tasks may need to be shortened for a small team.", "يعطي AI خطة 7 أيام مع مهام يومية، لكن بعض المهام قد تحتاج تبسيطا لفريق صغير.")
+    .replaceAll("understand how ARABAI can send a user request to AI in the background", "فهم كيف يمكن لـ ARABAI إرسال طلب المستخدم إلى الذكاء الاصطناعي في الخلفية")
+    .replaceAll("understand one wallet and many AI model routes", "فهم محفظة واحدة وطرق كثيرة لنماذج الذكاء الاصطناعي")
+    .replaceAll("The AI gives a first draft. It may be useful, but it still needs checking and one clear improvement request.", "يعطي الذكاء الاصطناعي مسودة أولى. قد تكون مفيدة، لكنها تحتاج مراجعة وطلب تحسين واضح.")
+    .replaceAll("The AI writes a polite customer message, but it may still be too long or too formal.", "يكتب الذكاء الاصطناعي رسالة مهذبة للعميل، لكنها قد تكون طويلة أو رسمية أكثر من اللازم.")
+    .replaceAll("The AI gives a 7-day plan with daily actions, but some tasks may need to be shortened for a small team.", "يعطي الذكاء الاصطناعي خطة 7 أيام مع مهام يومية، لكن بعض المهام قد تحتاج تبسيطا لفريق صغير.")
     .replaceAll("Gamma gives an outline for 6 slides. You should read the outline before generating the full deck.", "تعطيك أداة العروض مخططا من 6 شرائح. اقرأ المخطط قبل توليد العرض الكامل.")
-    .replaceAll("The AI turns messy sales notes into a table and suggests total sales, average sales, and best product.", "يحوّل AI ملاحظات المبيعات المبعثرة إلى جدول ويقترح الإجمالي والمتوسط وأفضل منتج.")
+    .replaceAll("The AI turns messy sales notes into a table and suggests total sales, average sales, and best product.", "يحوّل الذكاء الاصطناعي ملاحظات المبيعات المبعثرة إلى جدول ويقترح الإجمالي والمتوسط وأفضل منتج.")
     .replaceAll("The image tool creates a poster draft. The picture may look good, but the text or layout may need correction.", "تنشئ أداة الصور مسودة بوستر. قد تبدو الصورة جيدة، لكن النص أو التخطيط قد يحتاج تصحيحا.")
     .replaceAll("The image tool cleans the background. Check whether the product label, cap, color, and shape stayed correct.", "تنظف أداة الصور الخلفية. افحص هل بقي الملصق والغطاء واللون والشكل صحيحا.")
     .replaceAll("The image tool creates the first set of 9 frames. Some frames may not match the same product style.", "تنشئ أداة الصور أول مجموعة من 9 لقطات. قد لا تطابق بعض اللقطات نفس أسلوب المنتج.")
     .replaceAll("The music tool creates a first track. It may be too loud, too busy, or too much like a full song.", "تنشئ أداة الموسيقى أول مقطع. قد يكون عاليا أو مزدحما أو قريبا من أغنية كاملة.")
-    .replaceAll("The AI translates the message into Arabic and gives a back-translation so you can check meaning.", "يترجم AI الرسالة إلى العربية ويعطي ترجمة عكسية حتى تراجع المعنى.")
-    .replaceAll("The AI extracts price, delivery, payment terms, risks, and next actions from the proposal.", "يستخرج AI السعر والتوصيل وشروط الدفع والمخاطر والخطوات التالية من العرض.")
-    .replaceAll("The AI explains the hidden service window: user clicks, ARABAI sends the request, AI returns the answer.", "يشرح AI نافذة الخدمة المخفية: المستخدم يضغط، ARABAI يرسل الطلب، وAI يعيد الإجابة.")
-    .replaceAll("The AI explains the train-station idea: one entrance, many routes, different prices and speeds.", "يشرح AI فكرة محطة القطار: مدخل واحد، طرق كثيرة، أسعار وسرعات مختلفة.")
+    .replaceAll("The AI translates the message into Arabic and gives a back-translation so you can check meaning.", "يترجم الذكاء الاصطناعي الرسالة إلى العربية ويعطي ترجمة عكسية حتى تراجع المعنى.")
+    .replaceAll("The AI extracts price, delivery, payment terms, risks, and next actions from the proposal.", "يستخرج الذكاء الاصطناعي السعر والتوصيل وشروط الدفع والمخاطر والخطوات التالية من العرض.")
+    .replaceAll("The AI explains the hidden service window: user clicks, ARABAI sends the request, AI returns the answer.", "يشرح الذكاء الاصطناعي نافذة الخدمة المخفية: المستخدم يضغط، ARABAI يرسل الطلب، وAI يعيد الإجابة.")
+    .replaceAll("The AI explains the train-station idea: one entrance, many routes, different prices and speeds.", "يشرح الذكاء الاصطناعي فكرة محطة القطار: مدخل واحد، طرق كثيرة، أسعار وسرعات مختلفة.")
     .replaceAll("Make the result shorter, clearer, more practical, and easier for a normal beginner to use.", "اجعل النتيجة أقصر وأوضح وأكثر عملية وأسهل للمبتدئ العادي.")
     .replaceAll("Make it shorter, warmer, and suitable for WhatsApp. Keep only the important details.", "اجعلها أقصر وأدفأ ومناسبة للواتساب. أبقِ التفاصيل المهمة فقط.")
     .replaceAll("Turn this into a checklist I can follow day by day. Remove anything a small team cannot do.", "حوّل هذا إلى قائمة أستطيع اتباعها يوما بيوم. احذف أي شيء لا يستطيع فريق صغير تنفيذه.")
@@ -932,15 +932,15 @@ function localizeArabicCaseStep(text) {
     .replaceAll("Separate facts from suggestions and turn the result into action items.", "افصل الحقائق عن الاقتراحات وحوّل النتيجة إلى مهام تنفيذية.")
     .replaceAll("Explain it with one user story and do not mention code unless absolutely needed.", "اشرحه بقصة مستخدم واحدة ولا تذكر الكود إلا عند الضرورة.")
     .replaceAll("Compare gateway access with official API access using the train-station example.", "قارن الوصول عبر Gateway مع API الرسمي باستخدام مثال محطة القطار.")
-    .replaceAll("Open the AI tool that fits this job.", "افتح أداة AI المناسبة لهذه المهمة.")
+    .replaceAll("Open the AI tool that fits this job.", "افتح أداة ذكاء اصطناعي مناسبة لهذه المهمة.")
     .replaceAll("Type the real task with background and goal.", "اكتب المهمة الحقيقية مع الخلفية والهدف.")
     .replaceAll("Ask for a first result.", "اطلب نتيجة أولى.")
     .replaceAll("Ask for one useful improvement.", "اطلب تعديلا واحدا مفيدا.")
     .replaceAll("Check the final result before using it.", "راجع النتيجة النهائية قبل استخدامها.")
-    .replaceAll("Copy this into your first AI chat", "انسخ هذا في أول محادثة AI")
+    .replaceAll("Copy this into your first AI chat", "انسخ هذا في أول محادثة مع أداة ذكاء اصطناعي")
     .replaceAll("Use ChatGPT, Claude, Gemini, Doubao, or another official chat tool. Start a new chat so the answer is not mixed with an old task.", "استخدم أداة محادثة رسمية، وابدأ محادثة جديدة حتى لا تختلط المهمة بمحادثة قديمة.")
     .replaceAll("Paste the customer message and the prompt", "الصق رسالة العميل والبرومبت")
-    .replaceAll("Ask the AI to rewrite the message for WhatsApp, with a warm and polite tone, and tell it the message should stay short.", "اطلب من AI إعادة كتابة الرسالة للواتساب بنبرة دافئة ومهذبة، وقل له أن تبقى قصيرة.")
+    .replaceAll("Ask the AI to rewrite the message for WhatsApp, with a warm and polite tone, and tell it the message should stay short.", "اطلب من الذكاء الاصطناعي إعادة كتابة الرسالة للواتساب بنبرة دافئة ومهذبة، وقل له أن تبقى قصيرة.")
     .replaceAll("Ask for one revision", "اطلب تعديلا واحدا")
     .replaceAll("If the reply feels cold, ask: make it warmer and shorter. If it is too long, ask: keep only the important sentence.", "إذا كانت الرسالة باردة، اطلب: اجعلها أدفأ وأقصر. وإذا كانت طويلة، اطلب: أبقِ الجملة المهمة فقط.")
     .replaceAll("Start a new chat and tell the AI the product, launch date, city, team size, and what kind of plan you need.", "ابدأ محادثة جديدة واذكر المنتج، تاريخ الإطلاق، المدينة، حجم الفريق، ونوع الخطة التي تحتاجها.")
@@ -968,34 +968,34 @@ function getArabicArticle(id, article) {
       title: "ما هو الذكاء الاصطناعي؟",
       intro: "تخيل أنك عيّنت مساعدا سريع الفهم، يعرف الكتابة والتلخيص والترجمة والتصميم، لكنه يحتاج منك طلبا واضحا.",
       sections: [
-        ["لديك مساعد جديد", "AI مثل مساعد يجلس بجانبك: يكتب، يخطط، يترجم، يرسم، ويلخص، لكنه ينتظر منك أن تقول له ماذا تريد."],
+        ["لديك مساعد جديد", "الذكاء الاصطناعي مثل مساعد يجلس بجانبك: يكتب، يخطط، يترجم، يرسم، ويلخص، لكنه ينتظر منك أن تقول له ماذا تريد."],
         ["لا يعرف ما في رأسك", "إذا كان طلبك غامضا ستكون الإجابة غامضة، وإذا شرحت له الهدف والنتيجة المطلوبة أصبحت الإجابة أقرب لما تريد."],
         ["ابدأ بمهمة صغيرة", "لا تبدأ بسؤال كبير عن كل شيء؛ اطلب منه تحسين رسالة، تلخيص نص، أو ترتيب فكرة واحدة."]
       ],
       workflow: [
-        "افتح أداة محادثة AI واحدة.",
+        "افتح أداة محادثة ذكاء اصطناعي واحدة.",
         "اكتب مهمة حقيقية من عملك أو يومك.",
         "أضف لمن ستُستخدم النتيجة وما النبرة المطلوبة.",
         "اقرأ الإجابة كمسودة أولى.",
         "اطلب منه تعديلها: أقصر، أو أوضح، أو ألطف."
       ],
       caseStudy: {
-        title: "جرّب الآن: أول مهمة حقيقية مع AI",
-        scenario: "أنت لا تحتاج أن تفهم كل شيء عن AI اليوم. يكفي أن تعطيه أول مهمة صغيرة حقيقية، لترى أنه ليس فكرة بعيدة بل مساعد يمكن أن يبدأ معك الآن.",
+        title: "جرّب الآن: أول مهمة حقيقية مع الذكاء الاصطناعي",
+        scenario: "أنت لا تحتاج أن تفهم كل شيء عن الذكاء الاصطناعي اليوم. يكفي أن تعطيه أول مهمة صغيرة حقيقية، لترى أنه ليس فكرة بعيدة بل مساعد يمكن أن يبدأ معك الآن.",
         steps: [
-          "افتح أداة محادثة AI واحدة فقط.",
+          "افتح أداة محادثة ذكاء اصطناعي واحدة فقط.",
           "اكتب مهمة صغيرة حقيقية، مثل تحسين رسالة أو تلخيص نص أو ترتيب فكرة.",
           "قل له لمن النتيجة وما الأسلوب الذي تريده.",
           "اقرأ الرد كمسودة أولى، لا كجواب نهائي.",
           "اطلب منه تعديلا واحدا واضحا: أقصر، أو أوضح، أو ألطف."
         ],
-        result: "<p><strong>ما الذي يجب أن تنهيه:</strong> أول نتيجة صغيرة مفيدة فعلا، مثل رسالة أو تلخيص أو صياغة أوضح من نسختك الأولى.</p><ul><li>مهمة واحدة فقط.</li><li>نتيجة مفهومة.</li><li>تعديل واحد يحسنها.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا خرجت بنتيجة يمكنك استخدامها اليوم، فأنت بدأت استخدام AI فعلا.</p>"
+        result: "<p><strong>ما الذي يجب أن تنهيه:</strong> أول نتيجة صغيرة مفيدة فعلا، مثل رسالة أو تلخيص أو صياغة أوضح من نسختك الأولى.</p><ul><li>مهمة واحدة فقط.</li><li>نتيجة مفهومة.</li><li>تعديل واحد يحسنها.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا خرجت بنتيجة يمكنك استخدامها اليوم، فأنت بدأت استخدام الذكاء الاصطناعي فعلا.</p>"
       },
       prompt: "اكتب رسالة قصيرة ولطيفة لعميل. أخبره أن الطلب سيتأخر يومين، واعتذر بلطف، واجعل الأسلوب واضحا ومهذبا."
     },
     "ai-basic-words": {
-      title: "مصطلحات AI الأساسية",
-      intro: "كلمات AI تبدو صعبة، لكنها تصبح سهلة عندما نتخيل AI كمطبخ كبير يعمل خلف الشاشة.",
+      title: "مصطلحات الذكاء الاصطناعي الأساسية",
+      intro: "كلمات AI تبدو صعبة، لكنها تصبح سهلة عندما نتخيل الذكاء الاصطناعي كمطبخ كبير يعمل خلف الشاشة.",
       sections: [
         ["النموذج الكبير", "النموذج الكبير مثل طباخ تذوق ملايين الأطباق، لذلك يستطيع أن يخمن وصفة جيدة عندما تطلب منه شيئا جديدا."],
         ["التوكن", "التوكن مثل لقمة صغيرة من الكلام؛ AI يعد هذه اللقم عندما يقرأ سؤالك ويكتب الإجابة."],
@@ -1003,10 +1003,10 @@ function getArabicArticle(id, article) {
         ["البرومبت", "البرومبت هو طلبك للنادل؛ كلما كان الطلب أوضح اقترب الطبق من الصورة التي في بالك."],
         ["السياق", "السياق هو الذاكرة الموضوعة على الطاولة، يستخدمها AI حتى لا يبدأ من الصفر كل مرة."],
         ["التدريب", "التدريب مثل إرسال AI إلى مدرسة طبخ طويلة قبل أن يخدم أي مستخدم."],
-        ["الاستنتاج", "الاستنتاج هو لحظة طبخ الإجابة فعليا بعد أن تضع طلبك أمام AI."],
+        ["الاستنتاج", "الاستنتاج هو لحظة طبخ الإجابة فعليا بعد أن تضع طلبك أمام الذكاء الاصطناعي."],
         ["الهلوسة", "الهلوسة مثل نادل واثق يخترع طبقا غير موجود، لذلك يجب مراجعة الإجابات المهمة."],
-        ["النموذج", "النموذج هو مساعد AI واحد له عاداته وقوته وسرعته وسعره."],
-        ["API", "API مثل نافذة خدمة تسمح للتطبيق أن يطلب من AI في الخلفية بدون فتح صفحة المحادثة العادية."]
+        ["النموذج", "النموذج هو مساعد ذكاء اصطناعي واحد له عاداته وقوته وسرعته وسعره."],
+        ["API", "API مثل نافذة خدمة تسمح للتطبيق أن يطلب من الذكاء الاصطناعي في الخلفية بدون فتح صفحة المحادثة العادية."]
       ],
       workflow: [
         "اقرأ كل كلمة كصورة من قصة المطبخ، لا كتعريف تقني جامد.",
@@ -1034,23 +1034,23 @@ function getArabicArticle(id, article) {
       intro: "البرومبت ليس كلمة سحرية؛ هو ببساطة الطريقة التي تشرح بها المهمة للمساعد قبل أن يبدأ العمل.",
       sections: [
         ["ابدأ بالكلام العادي", "لا تنتظر صياغة جميلة. اكتب الفكرة كما هي: ما المطلوب، ولمن، وما الذي يجب أن يظهر في النتيجة."],
-        ["اجعله يعيد الفهم", "قبل النتيجة النهائية اطلب من AI أن يشرح لك ماذا فهم؛ بهذه الخطوة تعرف بسرعة هل فهم المهمة أم لا."],
+        ["اجعله يعيد الفهم", "قبل النتيجة النهائية اطلب من الذكاء الاصطناعي أن يشرح لك ماذا فهم؛ بهذه الخطوة تعرف بسرعة هل فهم المهمة أم لا."],
         ["حوّل الفكرة إلى طلب واضح", "بعد أن تتأكد من الفهم، اطلب منه أن يحوّل الكلام المبعثر إلى برومبت مرتب فيه المهمة والجمهور والأسلوب وشكل النتيجة."],
         ["اختبر عينة صغيرة", "لا تبدأ بالمهمة الكبيرة مباشرة؛ اطلب عينة قصيرة أولا، ثم قل له ماذا يبقي وماذا يغير وماذا يحذف."]
       ],
       workflow: [
         "اكتب الفكرة كما تشرحها لشخص جديد في العمل.",
-        "اطلب من AI أن يعيد الفهم قبل أن ينتج النتيجة.",
+        "اطلب من الذكاء الاصطناعي أن يعيد الفهم قبل أن ينتج النتيجة.",
         "صحح أي نقص أو خطأ في الفهم.",
         "اطلب منه تحويل الكلام إلى برومبت واضح وجاهز.",
         "اختبره بعينة قصيرة قبل أن تبدأ المهمة الكبيرة."
       ],
       caseStudy: {
         title: "جرّب الآن: حول الفكرة إلى برومبت صالح للاستخدام",
-        scenario: "أنت لا تريد درسا نظريا عن البرومبت. أنت تريد أن تأخذ فكرة مبعثرة في رأسك وتحولها إلى طلب واضح تستطيع نسخه في أداة AI أخرى.",
+        scenario: "أنت لا تريد درسا نظريا عن البرومبت. أنت تريد أن تأخذ فكرة مبعثرة في رأسك وتحولها إلى طلب واضح تستطيع نسخه في أداة ذكاء اصطناعي أخرى.",
         steps: [
           "اكتب الفكرة كما هي، بدون محاولة أن تبدو خبيرا.",
-          "اطلب من AI أن يعيد شرح ما فهمه منك.",
+          "اطلب من الذكاء الاصطناعي أن يعيد شرح ما فهمه منك.",
           "صحح أي نقطة غير دقيقة أو ناقصة.",
           "اطلب منه تحويل الكلام كله إلى برومبت مرتب.",
           "اطلب عينة قصيرة لتعرف هل الاتجاه صحيح قبل أن تبدأ المهمة الكبيرة."
@@ -1060,8 +1060,8 @@ function getArabicArticle(id, article) {
       prompt: "أدير متجر عطور في الرياض. ساعدني في كتابة برومبت لبوستر إنستغرام عن تخفيض عود في نهاية الأسبوع. الأسلوب فخم، أسود وذهبي، والكلمات واضحة على الجوال."
     },
     "organize-prompt-first": {
-      title: "دع AI يرتب فكرتك أولا",
-      intro: "لا تحتاج أن تكتب برومبت مثاليا من أول مرة؛ تكلم بطريقتك العادية أولا، ثم اطلب من AI أن يرتب الفكرة قبل أن تبدأ المهمة الحقيقية.",
+      title: "دع الذكاء الاصطناعي يرتب فكرتك أولا",
+      intro: "لا تحتاج أن تكتب برومبت مثاليا من أول مرة؛ تكلم بطريقتك العادية أولا، ثم اطلب من الذكاء الاصطناعي أن يرتب الفكرة قبل أن تبدأ المهمة الحقيقية.",
       sections: [
         ["افرغ الفكرة كما هي", "اكتب كل ما في رأسك: الهدف، الجمهور، الأمثلة التي تعجبك، التفاصيل التي تعرفها، وحتى ما زلت مترددا فيه."],
         ["أوقفه قبل أن يقفز", "قل له بوضوح: لا تكتب المحتوى النهائي الآن؛ فقط أخبرني ماذا فهمت، وما المعلومات الناقصة."],
@@ -1069,7 +1069,7 @@ function getArabicArticle(id, article) {
         ["اختبر الاتجاه قبل المهمة الكبيرة", "اطلب عينة قصيرة أولا. إذا كان الاتجاه غير صحيح، عدل البرومبت بكلام عادي قبل أن تنتقل للأداة التالية."]
       ],
       workflow: [
-        "افتح أداة محادثة AI واحدة.",
+        "افتح أداة محادثة ذكاء اصطناعي واحدة.",
         "اكتب فكرتك المبعثرة كما تشرحها لصديق.",
         "أضف: لا تنشئ المحتوى النهائي الآن؛ أولا أعد شرح ما فهمته.",
         "صحح أي فهم خاطئ.",
@@ -1083,7 +1083,7 @@ function getArabicArticle(id, article) {
         title: "جرّب الآن: حوّل فكرة مبعثرة إلى برومبت واضح",
         scenario: "لديك فكرة لفيديو منتج أو عرض أو صورة، لكنها لا تزال في رأسك بشكل غير مرتب. بدلا من محاولة كتابة برومبت مثالي وحدك، اجعل AI يرتب الفكرة معك أولا.",
         steps: [
-          "افتح أداة محادثة AI موثوقة.",
+          "افتح أداة محادثة ذكاء اصطناعي موثوقة.",
           "اكتب فكرتك كما هي، حتى لو كانت غير مرتبة.",
           "قل له: لا تكتب النتيجة النهائية الآن؛ فقط أعد شرح ما فهمته.",
           "صحح أي نقطة فهمها بشكل خاطئ.",
@@ -1113,8 +1113,8 @@ function getArabicArticle(id, article) {
       }
     },
     "why-ai-costs-money": {
-      title: "لماذا يكلف AI مالا؟",
-      intro: "تخيل كل إجابة من AI كطلب صغير في مطبخ مزدحم؛ كلما كان الطلب أكبر احتاج وقتا وطاقة أكثر.",
+      title: "لماذا يكلف الذكاء الاصطناعي مالا؟",
+      intro: "تخيل كل إجابة من الذكاء الاصطناعي كطلب صغير في مطبخ مزدحم؛ كلما كان الطلب أكبر احتاج وقتا وطاقة أكثر.",
       sections: [
         ["النص مثل وجبة خفيفة", "رسالة قصيرة أو تلخيص بسيط يشبه وجبة صغيرة، لذلك يكون أرخص وأسرع."],
         ["الصورة والفيديو مثل عمل استوديو", "عندما تطلب صورة أو فيديو، لا يكتب AI كلمات فقط؛ هو يبني منظرا وإضاءة وحركة وتفاصيل."],
@@ -1129,7 +1129,7 @@ function getArabicArticle(id, article) {
       ],
       caseStudy: {
         title: "جرّب الآن: لماذا النص أرخص من الفيديو؟",
-        scenario: "أنت تسمع أن بعض أدوات AI مجانية وبعضها يحتاج رصيدا أو اشتراكا، لكنك تريد أن تفهم هذا بشكل بسيط: لماذا سؤال نصي يختلف عن صورة أو فيديو؟",
+        scenario: "أنت تسمع أن بعض أدوات الذكاء الاصطناعي مجانية وبعضها يحتاج رصيدا أو اشتراكا، لكنك تريد أن تفهم هذا بشكل بسيط: لماذا سؤال نصي يختلف عن صورة أو فيديو؟",
         steps: [
           "ابدأ بسؤال نصي قصير وتخيله كطلب صغير في مطبخ.",
           "ثم تخيل صورة كأنك تطلب طبقا مزخرفا يحتاج عملا أكثر.",
@@ -1139,11 +1139,11 @@ function getArabicArticle(id, article) {
         ],
         result: "<p><strong>ما الذي يجب أن تنهيه:</strong> فهم بسيط أن التكلفة ليست عقوبة، بل نتيجة لكمية العمل التي ينجزها AI في الخلفية.</p><ul><li>النص أخف.</li><li>الصورة أثقل.</li><li>الفيديو أثقل أكثر.</li><li>الرصيد طريقة مبسطة للحساب.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا فهمت لماذا تستهلك الصورة أو الفيديو أكثر من الرسالة النصية، فقد فهمت أساس الفكرة.</p>"
       },
-      prompt: "اشرح لي لماذا يكلف AI مالا كأني مستخدم عادي. استخدم مثال المطبخ، واشرح التوكن، النموذج، القدرة الحاسوبية، API، الصور، الفيديو، والرصيد."
+      prompt: "اشرح لي لماذا يكلف الذكاء الاصطناعي مالا كأني مستخدم عادي. استخدم مثال المطبخ، واشرح التوكن، النموذج، القدرة الحاسوبية، API، الصور، الفيديو، والرصيد."
     },
     "what-can-ai-do": {
-      title: "ماذا يستطيع AI أن يفعل؟",
-      intro: "تخيل AI كمساعد تمشي به بين غرف العمل؛ في كل غرفة يساعدك بطريقة مختلفة.",
+      title: "ماذا يستطيع الذكاء الاصطناعي أن يفعل؟",
+      intro: "تخيل الذكاء الاصطناعي كمساعد تمشي به بين غرف العمل؛ في كل غرفة يساعدك بطريقة مختلفة.",
       sections: [
         ["في المكتب", "يساعدك في الرسائل، التقارير، تلخيص الملاحظات، ترتيب الجداول، وشرح الكلام الصعب."],
         ["في التصميم", "يساعدك في أفكار بوسترات، صور منتجات، إعلانات، وأشكال أولية قبل أن تدفع لمصمم أو تبدأ من الصفر."],
@@ -1157,29 +1157,29 @@ function getArabicArticle(id, article) {
         "استخدم النتيجة كمسودة، لا كحقيقة نهائية."
       ],
       caseStudy: {
-        title: "جرّب الآن: امش مع AI بين ثلاث غرف",
+        title: "جرّب الآن: امش مع الذكاء الاصطناعي بين ثلاث غرف",
         scenario: "بدلا من أن تتخيل AI كشيء غامض يفعل كل شيء، ستختبره كأنه مساعد يدخل معك ثلاث غرف: الكتابة، التصميم، والتعلم.",
         steps: [
           "في الغرفة الأولى، اطلب منه كتابة رسالة أو تعليق قصير.",
           "في الغرفة الثانية، اطلب فكرة صورة أو بوستر لمنتج بسيط.",
           "في الغرفة الثالثة، اطلب منه شرح موضوع صغير بلغة سهلة.",
           "لاحظ أن نفس الأداة قد تساعدك بطرق مختلفة حسب المهمة.",
-          "اختر أكثر غرفة شعرت أن AI أفادك فيها اليوم."
+          "اختر أكثر غرفة شعرت أن الذكاء الاصطناعي أفادك فيها اليوم."
         ],
-        result: "<p><strong>ما الذي يجب أن تنهيه:</strong> فهم عملي أن AI ليس وظيفة واحدة، بل مساعد يمكن أن يخدمك في أكثر من نوع عمل.</p><ul><li>مهمة كتابة.</li><li>مهمة فكرة تصميم.</li><li>مهمة شرح أو تعلم.</li></ul><p><strong>قاعدة بسيطة:</strong> لا تسأل ماذا يفعل AI في العالم كله؛ اسأل ماذا يمكنه أن يفعل لي أنا اليوم.</p>"
+        result: "<p><strong>ما الذي يجب أن تنهيه:</strong> فهم عملي أن الذكاء الاصطناعي ليس وظيفة واحدة، بل مساعد يمكن أن يخدمك في أكثر من نوع عمل.</p><ul><li>مهمة كتابة.</li><li>مهمة فكرة تصميم.</li><li>مهمة شرح أو تعلم.</li></ul><p><strong>قاعدة بسيطة:</strong> لا تسأل ماذا يفعل AI في العالم كله؛ اسأل ماذا يمكنه أن يفعل لي أنا اليوم.</p>"
       },
       prompt: "تصرف كمساعد عمل. لدي متجر صغير وأريد ثلاث أفكار بسيطة لمنشور إنستغرام عن منتج جديد. اجعل اللغة سهلة ومناسبة للعملاء."
     },
     "how-to-start": {
-      title: "كيف أبدأ استخدام AI؟",
-      intro: "البداية مع AI مثل دخول مقهى جديد: لا تحتاج معرفة كل القائمة قبل أول طلب.",
+      title: "كيف أبدأ استخدام الذكاء الاصطناعي؟",
+      intro: "البداية مع الذكاء الاصطناعي مثل دخول مقهى جديد: لا تحتاج معرفة كل القائمة قبل أول طلب.",
       sections: [
         ["اختر بابا واحدا", "ابدأ بأداة محادثة واحدة فقط، لأن فتح خمس أدوات في اليوم الأول يجعل التجربة مربكة."],
         ["اسأل سؤالا حقيقيا", "لا تختبر AI بسؤال عام؛ أعطه رسالة تريد تحسينها أو فكرة تريد ترتيبها اليوم."],
         ["الإجابة الأولى مسودة", "تعامل مع أول جواب كبداية، ثم اطلب منه أن يجعله أقصر أو أوضح أو ألطف."]
       ],
       workflow: [
-        "افتح أداة AI واحدة موثوقة.",
+        "افتح أداة ذكاء اصطناعي واحدة موثوقة.",
         "اختر مهمة صغيرة من عملك أو يومك.",
         "اكتب الخلفية والنتيجة المطلوبة.",
         "اقرأ الإجابة وعدلها.",
@@ -1187,21 +1187,21 @@ function getArabicArticle(id, article) {
       ],
       caseStudy: {
         title: "جرّب الآن: أول استخدام بسيط",
-        scenario: "بدلا من أن تبقى تقرأ عن AI، افتح أداة واحدة وجرّب عليها شيئا تحتاجه اليوم فعلا، مثل تحسين رسالة عميل أو ترتيب فكرة صغيرة.",
+        scenario: "بدلا من أن تبقى تقرأ عن الذكاء الاصطناعي، افتح أداة واحدة وجرّب عليها شيئا تحتاجه اليوم فعلا، مثل تحسين رسالة عميل أو ترتيب فكرة صغيرة.",
         steps: [
-          "افتح أداة محادثة AI معروفة.",
+          "افتح أداة محادثة ذكاء اصطناعي معروفة.",
           "اختر مهمة صغيرة ومفيدة من يومك الحالي.",
           "اكتب الخلفية والنتيجة المطلوبة بلغة بسيطة.",
           "اقرأ أول جواب، ثم اطلب منه تحسينه مرة واحدة.",
           "احفظ البرومبت أو الجملة الجيدة حتى تستخدمها مرة أخرى."
         ],
-        result: "<p><strong>ما الذي يجب أن تنهيه:</strong> أول محادثة مفيدة مع AI تنتهي بنتيجة تستطيع استخدامها أو تعديلها اليوم.</p><ul><li>أداة واحدة فقط.</li><li>مهمة واحدة واضحة.</li><li>تعديل واحد بعد الجواب الأول.</li></ul><p><strong>قاعدة بسيطة:</strong> لا تحاول تجربة كل شيء في اليوم الأول؛ نجاح صغير واحد أفضل من خمس تجارب مربكة.</p>"
+        result: "<p><strong>ما الذي يجب أن تنهيه:</strong> أول محادثة مفيدة مع الذكاء الاصطناعي تنتهي بنتيجة تستطيع استخدامها أو تعديلها اليوم.</p><ul><li>أداة واحدة فقط.</li><li>مهمة واحدة واضحة.</li><li>تعديل واحد بعد الجواب الأول.</li></ul><p><strong>قاعدة بسيطة:</strong> لا تحاول تجربة كل شيء في اليوم الأول؛ نجاح صغير واحد أفضل من خمس تجارب مربكة.</p>"
       },
-      prompt: "أنا جديد في AI. ساعدني في كتابة أول برومبت مفيد لتحسين رسالة عميل. اجعل الخطوات سهلة جدا."
+      prompt: "أنا جديد في الذكاء الاصطناعي. ساعدني في كتابة أول برومبت مفيد لتحسين رسالة عميل. اجعل الخطوات سهلة جدا."
     },
     "free-vs-paid": {
       title: "المجاني والمدفوع",
-      intro: "AI المجاني مثل ملعقة تذوق، والمدفوع مثل حجز نفس المساعد للمهام التي تتكرر معك كل أسبوع.",
+      intro: "الذكاء الاصطناعي المجاني مثل ملعقة تذوق، والمدفوع مثل حجز نفس المساعد للمهام التي تتكرر معك كل أسبوع.",
       sections: [
         ["متى يكفي المجاني", "المجاني يكفي لأول أسئلة، والكتابة القصيرة، والتلخيص، والترجمة، وتجربة AI بدون التزام."],
         ["ماذا يضيف المدفوع", "المدفوع يعطي غالبا نماذج أحدث، وسرعة أعلى، وحدودا أكبر، ورفع ملفات، وأحيانا خصوصية أفضل."],
@@ -1230,8 +1230,8 @@ function getArabicArticle(id, article) {
       prompt: "أستخدم AI للرسائل والترجمة والتلخيص مرتين في الأسبوع. هل أبقى على الخطة المجانية أم أدفع؟ أعطني قرارا بسيطا."
     },
     "ai-tool-differences": {
-      title: "كيف تختلف أدوات AI؟",
-      intro: "أدوات AI مثل فريق في محل كبير: واحد يتكلم ويشرح، واحد يقرأ ملفات طويلة، واحد يصمم، وواحد يحوّل الفكرة إلى عرض.",
+      title: "كيف تختلف أدوات الذكاء الاصطناعي؟",
+      intro: "أدوات الذكاء الاصطناعي مثل فريق في محل كبير: واحد يتكلم ويشرح، واحد يقرأ ملفات طويلة، واحد يصمم، وواحد يحوّل الفكرة إلى عرض.",
       sections: [
         ["أدوات المحادثة العامة", "هذه جيدة للكتابة والأسئلة والترجمة والتخطيط، ويمكن أن تجد منها أكثر من مثال مشهور في السوق."],
         ["أدوات الصور والفيديو", "هذه أقرب إلى استوديو صغير؛ تحتاج منك وصف المشهد، والألوان، والأسلوب، والمقاس أو الحركة."],
@@ -1269,34 +1269,34 @@ function getArabicArticle(id, article) {
         ["لا تترك القرار كله لـ AI", "AI يساعد في الصياغة والأفكار والشرح، لكن القرارات الطبية والمالية والقانونية والتجارية تحتاج مراجعة بشرية."]
       ],
       workflow: [
-        "انظر إلى المهمة قبل أن تنسخها إلى AI.",
+        "انظر إلى المهمة قبل أن تنسخها إلى الذكاء الاصطناعي.",
         "احذف الأسماء الحقيقية وكلمات المرور وأرقام الهوية والبيانات الحساسة.",
         "استبدل الأسماء بعبارات مثل عميل A أو شركة B.",
-        "اطلب من AI أن يعمل على النسخة المنظفة.",
+        "اطلب من الذكاء الاصطناعي أن يعمل على النسخة المنظفة.",
         "راجع النتيجة بنفسك قبل الإرسال أو النشر."
       ],
       caseStudy: {
         title: "جرّب الآن: نظّف المهمة قبل أن ترسلها",
-        scenario: "لديك رسالة أو ملف أو مهمة حقيقية، لكنك لا تريد أن ترسل المعلومات الحساسة كما هي إلى AI. لذلك ستنظفها أولا ثم تطلب المساعدة على النسخة الآمنة.",
+        scenario: "لديك رسالة أو ملف أو مهمة حقيقية، لكنك لا تريد أن ترسل المعلومات الحساسة كما هي إلى الذكاء الاصطناعي. لذلك ستنظفها أولا ثم تطلب المساعدة على النسخة الآمنة.",
         steps: [
-          "اقرأ المهمة قبل أن تنسخها إلى AI.",
+          "اقرأ المهمة قبل أن تنسخها إلى الذكاء الاصطناعي.",
           "احذف الأسماء الحقيقية وكلمات المرور والأرقام الحساسة.",
           "بدّل الأسماء بعبارات عامة مثل عميل A أو شركة B.",
-          "اطلب من AI أن يعمل على النسخة المنظفة.",
+          "اطلب من الذكاء الاصطناعي أن يعمل على النسخة المنظفة.",
           "راجع النتيجة بنفسك قبل الإرسال أو النشر أو اتخاذ قرار مهم."
         ],
-        result: "<p><strong>ما الذي يجب أن تنهيه:</strong> نسخة أكثر أمانا من مهمتك، بحيث تحصل على مساعدة AI بدون أن تكشف ما لا يجب كشفه.</p><ul><li>إخفاء البيانات الحساسة.</li><li>استخدام أسماء عامة.</li><li>مراجعة بشرية قبل الاعتماد النهائي.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا كنت لا ترتاح لوضع هذه المعلومة في رسالة عامة، فلا تضعها في AI قبل تنظيفها.</p>"
+        result: "<p><strong>ما الذي يجب أن تنهيه:</strong> نسخة أكثر أمانا من مهمتك، بحيث تحصل على مساعدة AI بدون أن تكشف ما لا يجب كشفه.</p><ul><li>إخفاء البيانات الحساسة.</li><li>استخدام أسماء عامة.</li><li>مراجعة بشرية قبل الاعتماد النهائي.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا كنت لا ترتاح لوضع هذه المعلومة في رسالة عامة، فلا تضعها في الذكاء الاصطناعي قبل تنظيفها.</p>"
       },
       prompt: "راجع هذه الرسالة قبل أن أرسلها للعميل. أخبرني هل فيها معلومة خاصة أو وعد قوي أو كلام يحتاج مراجعة."
     },
     "beginner-path": {
       title: "طريق المبتدئ",
-      intro: "تعلم AI يشبه دخول طريق جديد: ابدأ بمسار هادئ، وامش بخطوات قصيرة، ثم وسّع استخدامك عندما ترتاح.",
+      intro: "تعلم الذكاء الاصطناعي يشبه دخول طريق جديد: ابدأ بمسار هادئ، وامش بخطوات قصيرة، ثم وسّع استخدامك عندما ترتاح.",
       sections: [
         ["الخطوة 1: افتح حسابا واحدا", "اختر أداة معروفة وافتح حسابا مجانيا واحدا فقط في البداية."],
         ["الخطوة 2: تعلم ماذا تكتب", "النتيجة الجيدة تأتي غالبا من طلب واضح يقول المهمة، والطول، ولمن النتيجة."],
         ["الخطوة 3: جرّب خمس مهام صغيرة", "اسأل سؤالا، واكتب رسالة، ولخّص نصا، واطلب أفكارا، واشرح موضوعا ببساطة."],
-        ["الخطوة 4: تعلّم الحدود", "جزء من تعلم AI هو أن تعرف متى يفيدك، ومتى يجب أن تتوقف وتتحقق."]
+        ["الخطوة 4: تعلّم الحدود", "جزء من تعلم الذكاء الاصطناعي هو أن تعرف متى يفيدك، ومتى يجب أن تتوقف وتتحقق."]
       ],
       workflow: [
         "اليوم 1: افتح حسابا مجانيا واسأل سؤالا بسيطا.",
@@ -1317,11 +1317,11 @@ function getArabicArticle(id, article) {
         ],
         result: "<p><strong>ما الذي يجب أن تنهيه:</strong> بداية هادئة تجعل يدك تتعود على AI خطوة خطوة، بدون تشتيت أو استعجال.</p><ul><li>حساب واحد.</li><li>برومبت أوضح.</li><li>مهمات صغيرة متنوعة.</li><li>قاعدة شخصية للمراجعة.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا أنهيت خمسة أيام صغيرة، فأنت أقوى من شخص قرأ خمسين صفحة ولم يجرّب شيئا.</p>"
       },
-      prompt: "اصنع لي خطة 5 أيام لتعلم AI عن طريق مهام صغيرة في العمل. اجعلها سهلة جدا لشخص لا يعرف إلا الكتابة."
+      prompt: "اصنع لي خطة 5 أيام لتعلم الذكاء الاصطناعي عن طريق مهام صغيرة في العمل. اجعلها سهلة جدا لشخص لا يعرف إلا الكتابة."
     },
     "common-ai-tools": {
-      title: "أنواع أدوات AI الشائعة",
-      intro: "تخيل أنك دخلت سوق AI؛ ليس المهم اسم كل محل، بل أن تعرف أي نوع من المساعدة تحتاجه.",
+      title: "أنواع أدوات الذكاء الاصطناعي الشائعة",
+      intro: "تخيل أنك دخلت سوق الذكاء الاصطناعي؛ ليس المهم اسم كل محل، بل أن تعرف أي نوع من المساعدة تحتاجه.",
       sections: [
         ["أدوات المحادثة والكتابة", "هذه هي البداية الأسهل لمعظم الناس: أسئلة، رسائل، تلخيص، ترجمة، وأفكار أولية."],
         ["أدوات الصور والفيديو", "هذه أقرب إلى استوديو بصري: تصف المشهد، والألوان، والنص، والحركة، ثم تراجع النتيجة."],
@@ -1347,13 +1347,13 @@ function getArabicArticle(id, article) {
         ],
         result: "<p><strong>ما الذي يجب أن تنهيه:</strong> خريطة بسيطة تربط كل مهمة بنوع أداة مناسب لها.</p><ul><li>نوع للمحادثة والكتابة.</li><li>نوع للصور.</li><li>نوع للعروض أو الملفات.</li><li>نوع للفيديو عند الحاجة.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا بدأت من النوع الصحيح، يصبح اختيار الأداة أسهل بكثير.</p>"
       },
-      prompt: "اشرح لي أنواع أدوات AI للمبتدئ: أدوات محادثة، أدوات صور، أدوات فيديو، أدوات عروض، وأدوات ملفات. قل لي ما وظيفة كل نوع ومتى أستخدمه."
+      prompt: "اشرح لي أنواع أدوات الذكاء الاصطناعي للمبتدئ: أدوات محادثة، أدوات صور، أدوات فيديو، أدوات عروض، وأدوات ملفات. قل لي ما وظيفة كل نوع ومتى أستخدمه."
     },
     "write-with-ai": {
-      title: "أريد أن أكتب باستخدام AI",
-      intro: "الكتابة مع AI مثل الجلوس مع محرر يساعدك أن تقول نفس الفكرة بوضوح أكثر.",
+      title: "أريد أن أكتب باستخدام الذكاء الاصطناعي",
+      intro: "الكتابة مع الذكاء الاصطناعي مثل الجلوس مع محرر يساعدك أن تقول نفس الفكرة بوضوح أكثر.",
       sections: [
-        ["ابدأ بنص حقيقي", "لا تقل: اكتب شيئا جميلا؛ أعطه الرسالة أو الفكرة أو المشكلة الحقيقية، لأن AI يكتب أفضل عندما يرى المادة الأصلية أمامه."],
+        ["ابدأ بنص حقيقي", "لا تقل: اكتب شيئا جميلا؛ أعطه الرسالة أو الفكرة أو المشكلة الحقيقية، لأن الذكاء الاصطناعي يكتب أفضل عندما يرى المادة الأصلية أمامه."],
         ["قل له لمن تكتب", "رسالة عميل، رسالة واتساب، إعلان، أو رد رسمي: كل نوع يحتاج نبرة مختلفة، لذلك قل له من سيقرأ النص وكيف تريد أن يشعر."],
         ["اطلب نسختين لا نسخة واحدة", "في الكتابة اليومية يفيدك أن تطلب نسخة قصيرة ونسخة أدفأ، ثم تختار الأقرب لأسلوبك."],
         ["عدّل ولا تبدأ من جديد", "إذا كانت النتيجة طويلة أو باردة أو عامة، لا تمسح كل شيء؛ فقط قل: اجعلها أقصر، أو ألطف، أو أكثر وضوحا."]
@@ -1366,7 +1366,7 @@ function getArabicArticle(id, article) {
           "الصق الرسالة الأصلية كما كتبتها أنت، حتى لو كانت ضعيفة أو قصيرة جدا.",
           "اكتب بوضوح أن الرسالة لواتساب، وأنك تريدها مهذبة ودافئة وليست طويلة.",
           "اطلب نسخة أولى، ثم اطلب نسخة أقصر إذا شعرت أنها أطول من اللازم.",
-          "راجع الاسم والوقت والسبب قبل الإرسال، لأن هذه الأشياء لا يجب أن تبقى افتراضات من AI."
+          "راجع الاسم والوقت والسبب قبل الإرسال، لأن هذه الأشياء لا يجب أن تبقى افتراضات من الذكاء الاصطناعي."
         ],
         result: "<p><strong>ما الذي يجب أن تنهيه:</strong> رسالة واحدة جاهزة تقريبا للإرسال، تبدو إنسانية ومهذبة ولا تضيع وقت العميل.</p><ul><li>سبب التأخير واضح.</li><li>مدة التأخير واضحة.</li><li>فيها اعتذار بدون مبالغة.</li><li>طولها مناسب لواتساب.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا شعرت أنها رسالة روبوت وليست رسالة صاحب متجر، اطلب منه أن يجعلها أكثر دفئا وبساطة.</p>"
       },
@@ -1381,7 +1381,7 @@ function getArabicArticle(id, article) {
     },
     "make-slides": {
       title: "أريد عمل عرض تقديمي",
-      intro: "عمل الشرائح مع AI مثل إعطاء ملاحظات مبعثرة لشخص يحولها إلى بداية ووسط ونهاية.",
+      intro: "عمل الشرائح مع الذكاء الاصطناعي مثل إعطاء ملاحظات مبعثرة لشخص يحولها إلى بداية ووسط ونهاية.",
       sections: [
         ["استخدم أداة مناسبة", "استخدم أداة عروض مناسبة للمستخدم العادي لأنها تحول الفكرة إلى عرض قابل للتعديل بدون أن تبدأ من صفحة بيضاء أو تفكر في التصميم من الصفر."],
         ["حدد القصة قبل التوليد", "لا تقل فقط: اعمل عرضا عن الذكاء الاصطناعي. قل له عدد الشرائح، ومن الجمهور، وما الذي يجب أن يخرج به القارئ في النهاية."],
@@ -1414,7 +1414,7 @@ function getArabicArticle(id, article) {
         ],
         result: "<p><strong>ما الذي يجب أن تنهيه:</strong> عرض قصير من 6 شرائح يستطيع صاحب المقهى قراءته وفهم ما الذي سيفعله هذا الأسبوع.</p><ul><li>شريحة عنوان واضحة.</li><li>شريحة تشرح المشكلة الحقيقية.</li><li>شريحة تقول كيف يساعد AI.</li><li>شريحة تحدد العملاء.</li><li>شريحة خطة 7 أيام.</li><li>شريحة أخيرة تقول الخطوة التالية بوضوح.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا كانت الشريحة جميلة لكن لا تقول شيئا عمليا، فهي ما زالت غير جاهزة.</p>"
       },
-      prompt: "أنشئ عرضا من 6 شرائح باللغة الإنجليزية لصاحب مقهى صغير في الرياض. الموضوع: خطة ترويج نهاية الأسبوع باستخدام AI. اجعل اللغة سهلة وعملية."
+      prompt: "أنشئ عرضا من 6 شرائح باللغة الإنجليزية لصاحب مقهى صغير في الرياض. الموضوع: خطة ترويج نهاية الأسبوع باستخدام الذكاء الاصطناعي. اجعل اللغة سهلة وعملية."
     },
     "create-images": {
       title: "أريد إنشاء صورة",
@@ -1475,7 +1475,7 @@ function getArabicArticle(id, article) {
       ],
       caseStudy: {
         title: "مثال عملي: فيديو قصير لصندوق هدايا تمر",
-        scenario: "نشاط صغير يريد فيديو رمضان قصيرا عن صندوق هدايا تمر. بدل أن يطلب من AI أن يخمّن الفيديو كله دفعة واحدة، سيبنيه من 9 صور متسلسلة ثم يحركها.",
+        scenario: "نشاط صغير يريد فيديو رمضان قصيرا عن صندوق هدايا تمر. بدل أن يطلب من الذكاء الاصطناعي أن يخمّن الفيديو كله دفعة واحدة، سيبنيه من 9 صور متسلسلة ثم يحركها.",
         steps: [
           "اطلب من أداة كتابة أن تكتب 9 لقطات واضحة للقصة.",
           "ولّد الصور التسع في أداة الصور مع الحفاظ على نفس الصندوق ونفس الإضاءة الذهبية.",
@@ -1489,7 +1489,7 @@ function getArabicArticle(id, article) {
     },
     "make-a-plan": {
       title: "أريد خطة",
-      intro: "عمل الخطة مع AI مثل إفراغ حقيبة مليئة بالأفكار على الطاولة وطلب ترتيبها في صناديق واضحة.",
+      intro: "عمل الخطة مع الذكاء الاصطناعي مثل إفراغ حقيبة مليئة بالأفكار على الطاولة وطلب ترتيبها في صناديق واضحة.",
       sections: [
         ["ابدأ بالهدف الحقيقي", "قل له ماذا تريد أن تطلق أو تنظم، ومتى الموعد، وما المتاح لديك من وقت أو فريق أو ميزانية."],
         ["لا تتركه يكتب كلاما عاما", "إذا لم تحدد المدينة والموعد ونوع النشاط والجمهور، سيعطيك خطة جميلة لكنها بعيدة عن الواقع."],
@@ -1519,7 +1519,7 @@ function getArabicArticle(id, article) {
     },
     "spreadsheets": {
       title: "أريد العمل على جدول",
-      intro: "استخدام AI مع الجداول مثل وجود زميل مكتبي صبور يرتب الأرقام ويشرحها لك بدل أن يتركك تحدق في الخانات وحدك.",
+      intro: "استخدام الذكاء الاصطناعي مع الجداول مثل وجود زميل مكتبي صبور يرتب الأرقام ويشرحها لك بدل أن يتركك تحدق في الخانات وحدك.",
       sections: [
         ["ابدأ بملاحظات واضحة", "إذا كانت أرقامك مبعثرة في سطور نصية، يمكن لـ AI أن يحولها إلى جدول، لكن يجب أن تكون الأيام والأسماء والكميات واضحة قدر الإمكان."],
         ["اطلب المهمة والحساب معا", "لا تقل فقط: رتب هذا. قل: حوّلها إلى جدول، ثم احسب المجموع والمتوسط وأفضل منتج، حتى لا تضطر لطلب كل شيء لاحقا."],
@@ -1528,7 +1528,7 @@ function getArabicArticle(id, article) {
       ],
       workflow: [
         "اجمع الأرقام في سطور واضحة: اليوم، المنتج، الكمية، والمبيعات.",
-        "الصق السطور في AI واطلب منه تحويلها إلى جدول مرتب.",
+        "الصق السطور في الذكاء الاصطناعي واطلب منه تحويلها إلى جدول مرتب.",
         "اطلب منه أيضا حساب المجموع والمتوسط وأفضل منتج.",
         "انسخ النتيجة إلى Excel أو Google Sheets.",
         "راجع الأرقام النهائية قبل استخدامها في قرار أو تقرير."
@@ -1549,7 +1549,7 @@ function getArabicArticle(id, article) {
     },
     "translate": {
       title: "أريد ترجمة",
-      intro: "الترجمة مع AI مثل عبور جسر بالمعنى، لا نقل الكلمات واحدة واحدة.",
+      intro: "الترجمة مع الذكاء الاصطناعي مثل عبور جسر بالمعنى، لا نقل الكلمات واحدة واحدة.",
       sections: [
         ["قل له الجمهور", "ترجمة رسالة لعميل سعودي تختلف عن ترجمة مستند رسمي أو إعلان، لذلك قل له لمن النص وفي أي بلد."],
         ["اطلب ترجمة طبيعية", "قل له بوضوح: لا تترجم حرفيا؛ اجعل النص طبيعيا وسهلا على الشخص العادي."],
@@ -1579,9 +1579,9 @@ function getArabicArticle(id, article) {
     },
     "grow-business": {
       title: "أريد تطوير عملي",
-      intro: "استخدام AI في العمل مثل إضافة مساعد صغير خلف الكاونتر يكتب ويرتب ويرد بسرعة.",
+      intro: "استخدام الذكاء الاصطناعي في العمل مثل إضافة مساعد صغير خلف الكاونتر يكتب ويرتب ويرد بسرعة.",
       sections: [
-        ["أعطه تفاصيل المنتج", "لا تطلب أفكارا عامة؛ اكتب اسم المنتج، نوع العميل، المدينة، والسعر إن وجد، لأن AI يبيع أفضل عندما يعرف من الذي سيقرأ."],
+        ["أعطه تفاصيل المنتج", "لا تطلب أفكارا عامة؛ اكتب اسم المنتج، نوع العميل، المدينة، والسعر إن وجد، لأن الذكاء الاصطناعي يبيع أفضل عندما يعرف من الذي سيقرأ."],
         ["اطلب نصوصا جاهزة للاستخدام", "اطلب وصف منتج، رد واتساب، عناوين إعلان، وفكرة عرض واحدة، حتى تحصل على أشياء يمكن نسخها لا مجرد كلام نظري."],
         ["بدّل الأمثلة بتفاصيلك", "قبل النشر، أضف اسم متجرك، السعر الحقيقي، ومنطقة التوصيل، لأن هذه التفاصيل لا يجب أن تظل عامة."],
         ["اختر ما يناسب أسلوبك", "ليس كل ما يكتبه AI مناسب لمتجرك. اختر النص الأقرب لشخصيتك ثم اطلب منه تحسينه بدل أن تستخدم أول نسخة كما هي."]
@@ -1598,7 +1598,7 @@ function getArabicArticle(id, article) {
         scenario: "صاحب مشروع يبيع صندوق كيك تمر فاخر في الرياض، ويحتاج بسرعة إلى وصف منتج ورد واتساب وعناوين إعلان بدون أن يبدأ من الصفر كل مرة.",
         steps: [
           "اكتب اسم المنتج والمدينة ونوع العملاء الذين تريد الوصول إليهم.",
-          "اطلب من AI وصفا قصيرا للمنتج، وردا جاهزا للواتساب، وثلاثة عناوين إعلان.",
+          "اطلب من الذكاء الاصطناعي وصفا قصيرا للمنتج، وردا جاهزا للواتساب، وثلاثة عناوين إعلان.",
           "اختر النسخة الأقرب لطبيعة متجرك.",
           "اطلب منه تقصير النص إذا كان طويلا أو جعله أدفأ إذا كان باردا.",
           "أضف السعر الحقيقي ووقت التوصيل واسم المتجر قبل النشر."
@@ -1609,7 +1609,7 @@ function getArabicArticle(id, article) {
     },
     "choose-right-tool": {
       title: "أي أداة أستخدم؟",
-      intro: "اختيار أداة AI مثل اختيار وسيلة سفر: الدراجة والسيارة والطائرة كلها تنقلك، لكن ليست لنفس الرحلة.",
+      intro: "اختيار أداة ذكاء اصطناعي مثل اختيار وسيلة سفر: الدراجة والسيارة والطائرة كلها تنقلك، لكن ليست لنفس الرحلة.",
       sections: [
         ["ابدأ بالمهمة", "لا تبدأ باسم الأداة؛ ابدأ بسؤال واضح: هل أريد كتابة، صورة، فيديو، عرضا، أم تلخيصا؟"],
         ["لا تبحث عن أداة تفعل كل شيء", "المبتدئ لا يحتاج عشر أدوات، لكنه أيضا لا يحتاج أداة سحرية واحدة. غالبا تكفي أداة محادثة، وأداة صور، وأداة عروض، وربما أداة فيديو."],
@@ -1618,7 +1618,7 @@ function getArabicArticle(id, article) {
       ],
       workflow: [
         "اكتب قائمة مهامك: كتابة، صور، عروض، تلخيص، فيديو، موسيقى.",
-        "اطلب من AI ترشيح أداة أو أداتين لكل مهمة.",
+        "اطلب من الذكاء الاصطناعي ترشيح أداة أو أداتين لكل مهمة.",
         "افتح الموقع الرسمي لكل أداة مرشحة.",
         "جرّب الخطة المجانية إن وجدت.",
         "احتفظ فقط بالأدوات التي استخدمتها فعلا خلال أسبوع."
@@ -1628,7 +1628,7 @@ function getArabicArticle(id, article) {
         scenario: "فريق صغير يحتاج AI للكتابة والصور والعروض والفيديو، لكنه لا يريد أن يضيع بين عشرات الأسماء والاشتراكات.",
         steps: [
           "اكتب المهام الحقيقية التي يقوم بها الفريق كل أسبوع.",
-          "اطلب من AI ترشيح أداة أو أداتين فقط لكل مهمة.",
+          "اطلب من الذكاء الاصطناعي ترشيح أداة أو أداتين فقط لكل مهمة.",
           "افتح المواقع الرسمية للأدوات المرشحة.",
           "جرّب مهمة صغيرة في كل أداة بدل قراءة المميزات فقط.",
           "احتفظ بالأدوات التي أثبتت فائدتها فعلا، واترك الباقي."
@@ -1639,7 +1639,7 @@ function getArabicArticle(id, article) {
     },
     "summarize-documents": {
       title: "أريد تلخيص مستند",
-      intro: "تلخيص المستندات مع AI مثل إرسال شخص إلى ملف طويل ثم مطالبته بالعودة فقط بما يهم القرار.",
+      intro: "تلخيص المستندات مع الذكاء الاصطناعي مثل إرسال شخص إلى ملف طويل ثم مطالبته بالعودة فقط بما يهم القرار.",
       sections: [
         ["لا تطلب تلخيصا عاما فقط", "قل له ماذا تريد أن تستخرج: السعر، المواعيد، المخاطر، المهام، أو النقاط التي تؤثر على القرار."],
         ["اطلب الفصل بين الحقائق والاقتراحات", "هذا مفيد جدا لأن بعض المستندات فيها معلومات ثابتة، وفيها أيضا كلام تسويقي أو اقتراحات تحتاج تمييزا."],
@@ -1658,7 +1658,7 @@ function getArabicArticle(id, article) {
         scenario: "صاحب نشاط تلقى عرضا من مورد لصناديق هدايا، ولا يريد قراءة المستند الطويل مرات كثيرة؛ هو يريد أن يعرف السعر والموعد والدفع والمخاطر والخطوة التالية.",
         steps: [
           "الصق نص العرض أو ارفع الملف.",
-          "اطلب من AI تلخيص السعر، وقت التسليم، شروط الدفع، والمخاطر.",
+          "اطلب من الذكاء الاصطناعي تلخيص السعر، وقت التسليم، شروط الدفع، والمخاطر.",
           "اطلب منه فصل الحقائق عن الاقتراحات أو الكلام التسويقي.",
           "اطلب قائمة قصيرة بما يجب عليك فعله بعد قراءة العرض.",
           "تحقق بنفسك من الأرقام المهمة قبل إرسال القرار."
@@ -1669,7 +1669,7 @@ function getArabicArticle(id, article) {
     },
     "learn-something": {
       title: "أريد أن أتعلم شيئا",
-      intro: "التعلم مع AI مثل وجود مدرس خاص يشرح لك الفكرة نفسها مرة بالقصة، ومرة بالمثال، ومرة بالسؤال.",
+      intro: "التعلم مع الذكاء الاصطناعي مثل وجود مدرس خاص يشرح لك الفكرة نفسها مرة بالقصة، ومرة بالمثال، ومرة بالسؤال.",
       sections: [
         ["ابدأ من مستواك الحقيقي", "لا تتظاهر أنك تعرف أكثر مما تعرف؛ كلما كان AI يعرف مستواك الحقيقي، كان شرحه أنسب لك."],
         ["اطلب مثالا قريبا من حياتك", "المثال العملي يثبت الفكرة أسرع من التعريف المجرد، خصوصا إذا كان قريبا من متجرك أو عملك."],
@@ -1693,13 +1693,13 @@ function getArabicArticle(id, article) {
           "اطلب خمسة أسئلة قصيرة لاختبار الفهم.",
           "إذا أخطأت، اطلب شرح النقطة مرة ثانية بمثال أبسط."
         ],
-        result: "<p><strong>ما الذي يجب أن تنهيه:</strong> فهم أولي واضح للموضوع، مع مثال بسيط، واختبار صغير يبين لك هل فهمت فعلا أم لا.</p><ul><li>تعريف بسيط.</li><li>مثال رقمي واضح.</li><li>قائمة بما يجب تذكره.</li><li>اختبار قصير.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا لم تستطع شرح الفكرة لشخص آخر بكلماتك، فاطلب من AI تبسيطها أكثر.</p>"
+        result: "<p><strong>ما الذي يجب أن تنهيه:</strong> فهم أولي واضح للموضوع، مع مثال بسيط، واختبار صغير يبين لك هل فهمت فعلا أم لا.</p><ul><li>تعريف بسيط.</li><li>مثال رقمي واضح.</li><li>قائمة بما يجب تذكره.</li><li>اختبار قصير.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا لم تستطع شرح الفكرة لشخص آخر بكلماتك، فاطلب من الذكاء الاصطناعي تبسيطها أكثر.</p>"
       },
       prompt: "علمني هذا الموضوع كأني صاحب متجر صغير مبتدئ. ابدأ بشرح بسيط جدا مع مثال واحد قريب من العمل، ثم اسألني خمسة أسئلة قصيرة لتتأكد أني فهمت."
     },
     "social-content": {
       title: "أريد محتوى للسوشيال ميديا",
-      intro: "صناعة المحتوى مع AI مثل وجود مساعد تقويم يجلس معك عندما تكون الصفحة فارغة ويقترح عليك ماذا تنشر ومتى.",
+      intro: "صناعة المحتوى مع الذكاء الاصطناعي مثل وجود مساعد تقويم يجلس معك عندما تكون الصفحة فارغة ويقترح عليك ماذا تنشر ومتى.",
       sections: [
         ["ابدأ بنوع النشاط", "مطعم، صالون، متجر عطور، أو مخبز: كل نشاط يحتاج أفكارا مختلفة، لذلك لا تطلب جدولا عاما بلا هوية."],
         ["اطلب تقويما واقعيا", "اطلب منه أفكارا يستطيع فريقك تنفيذها فعلا بالجوال والوقت المتاح، لا أفكارا تحتاج استوديو كاملا."],
@@ -1720,7 +1720,7 @@ function getArabicArticle(id, article) {
           "اكتب نوع النشاط والجمهور والمنصة: صالون تجميل في الرياض على إنستغرام.",
           "اطلب تقويما لمدة أسبوعين مع فكرة منشور وتعليق قصير وفكرة تصوير.",
           "احذف المنشورات التي تبدو صعبة أو غير مناسبة لفريق صغير.",
-          "اطلب من AI أن يعيد كتابة أفضل ثلاث أفكار بصيغة أسهل وأقصر.",
+          "اطلب من الذكاء الاصطناعي أن يعيد كتابة أفضل ثلاث أفكار بصيغة أسهل وأقصر.",
           "ابدأ بتنفيذ أول ثلاثة منشورات فقط."
         ],
         result: "<p><strong>ما الذي يجب أن تنهيه:</strong> تقويم محتوى واقعي، لا مجرد قائمة أفكار جميلة.</p><ul><li>أفكار قابلة للتصوير.</li><li>تعليقات قصيرة.</li><li>تحضير بسيط لكل منشور.</li><li>بداية واضحة لأول ثلاثة منشورات.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا كانت الأفكار كثيرة لكنك لا تستطيع تصوير واحدة منها غدا، فهي ليست خطة عملية بعد.</p>"
@@ -1728,11 +1728,11 @@ function getArabicArticle(id, article) {
       prompt: "أنشئ خطة محتوى لإنستغرام لمدة أسبوعين لنشاط صغير. اجعل كل منشور يحتوي على اليوم، الفكرة، تعليق قصير، فكرة صورة أو فيديو، وما الذي يجب تحضيره. استخدم لغة سهلة وواقعية لفريق صغير."
     },
     "ai-apps-and-coding-tools": {
-      title: "تطبيقات AI لما بعد الاستخدام المبتدئ",
-      intro: "بعض أسماء الأدوات قد تبدو مثيرة، لكن ليس كل نوع من أدوات AI مناسبا للمستخدم العادي من أول يوم.",
+      title: "تطبيقات الذكاء الاصطناعي لما بعد الاستخدام المبتدئ",
+      intro: "بعض أسماء الأدوات قد تبدو مثيرة، لكن ليس كل نوع من أدوات الذكاء الاصطناعي مناسبا للمستخدم العادي من أول يوم.",
       sections: [
         ["ابدأ من نوع العمل لا من الاسم", "إذا كان هدفك كتابة أو صورا أو عروضا أو فيديو، فابدأ بأدوات المستخدم العادي. أما أدوات البناء والتطوير فهي أقرب لمرحلة لاحقة."],
-        ["ليست كل أداة AI للجميع", "بعض الأدوات تساعدك كصاحب متجر أو مسوق أو متعلم، وبعضها صمم أساسا لمن يبني مواقع أو تطبيقات أو أتمتة."],
+        ["ليست كل أداة ذكاء اصطناعي للجميع", "بعض الأدوات تساعدك كصاحب متجر أو مسوق أو متعلم، وبعضها صمم أساسا لمن يبني مواقع أو تطبيقات أو أتمتة."],
         ["ما الذي يهمك كمستخدم عادي", "اسأل نفسك: هل هذه الأداة ستساعدني في مهمة أحتاجها هذا الأسبوع، أم أنها تحتاج معرفة تقنية لا أملكها الآن؟"],
         ["قاعدة أمان مهمة", "إذا كانت الأداة جديدة عليك، لا تضع فيها كلمات مرور أو مفاتيح API أو ملفات خاصة قبل أن تفهم تماما ماذا تفعل."]
       ],
@@ -1759,35 +1759,35 @@ function getArabicArticle(id, article) {
     },
     "what-is-api": {
       title: "ما هو API؟",
-      intro: "API مثل نافذة الخدمة خلف المطعم: المستخدم يطلب من ARABAI، وARABAI يرسل الطلب إلى AI في الخلفية ثم يعيد النتيجة.",
+      intro: "API مثل نافذة الخدمة خلف المطعم: المستخدم يطلب من ARABAI، وARABAI يرسل الطلب إلى الذكاء الاصطناعي في الخلفية ثم يعيد النتيجة.",
       sections: [
         ["الفكرة ببساطة", "صفحة المحادثة العادية تعني أنك تذهب إلى الكاونتر بنفسك، أما API فيجعل الموقع يرسل الطلب بدلا منك في الخلفية ثم يعيد لك النتيجة."],
-        ["لماذا يهم ARABAI", "إذا أردنا لاحقا زر كتابة أو صورة أو فيديو داخل ARABAI، فـ API هو الطريق الذي يحمل طلب المستخدم إلى أداة AI المناسبة."],
+        ["لماذا يهم ARABAI", "إذا أردنا لاحقا زر كتابة أو صورة أو فيديو داخل ARABAI، فـ API هو الطريق الذي يحمل طلب المستخدم إلى أداة الذكاء الاصطناعي المناسبة."],
         ["ماذا يفهمه المستخدم العادي", "المستخدم لا يحتاج أن يرى الكود أو المفاتيح؛ يكفي أن يفهم أن هناك عملا حقيقيا يحدث في الخلفية، وهذا العمل له تكلفة."],
-        ["لماذا يوجد رصيد", "كل إجابة أو صورة أو فيديو يحتاج عملا حقيقيا من AI، والرصيد هو الاسم البسيط لهذه التكلفة بدل شرح التوكنات والحسابات الصعبة."],
-        ["حالة الإطلاق", "يمكن لـ ARABAI شرح طريق API الآن، لكن الشحن والدفع وتشغيل AI داخل الموقع يجب أن تبقى قريبا إلى أن يجهز الحساب والدفع والخصوصية والاسترجاع والدعم."]
+        ["لماذا يوجد رصيد", "كل إجابة أو صورة أو فيديو يحتاج عملا حقيقيا من الذكاء الاصطناعي، والرصيد هو الاسم البسيط لهذه التكلفة بدل شرح التوكنات والحسابات الصعبة."],
+        ["حالة الإطلاق", "يمكن لـ ARABAI شرح طريق API الآن، لكن الشحن والدفع وتشغيل AI داخل الموقع يجب أن تبقى مؤجلة إلى أن يجهز الحساب والدفع والخصوصية والاسترجاع والدعم."]
       ],
       workflow: [
-        "اختر وظيفة صغيرة داخل ARABAI مثل اسأل AI أو أنشئ صورة.",
+        "اختر وظيفة صغيرة داخل ARABAI مثل اسأل الذكاء الاصطناعي أو أنشئ صورة.",
         "اكتب ماذا سيدخل المستخدم وماذا يجب أن يحصل في النهاية.",
-        "اختر مزود AI الذي سينفذ المهمة في الخلفية.",
+        "اختر مزود ذكاء اصطناعي الذي سينفذ المهمة في الخلفية.",
         "احتفظ بمفتاح API في الخادم وليس في الصفحة العامة.",
         "حوّل التكلفة الخلفية إلى رصيد بسيط يفهمه المستخدم.",
-        "اكتب بوضوح أن الميزة قريبا إلى أن تجهز قواعد الدفع والاسترجاع والدعم."
+        "اكتب بوضوح أن الميزة مؤجلة إلى أن تجهز قواعد الدفع والاسترجاع والدعم."
       ],
       caseStudy: {
-        title: "مثال عملي: زر اسأل AI داخل ARABAI",
-        scenario: "تريد أن يرى المستخدم زرا بسيطا داخل ARABAI اسمه اسأل AI، لكنك أنت في الخلفية تحتاج طريقا حقيقيا يرسل السؤال إلى مزود AI ثم يعيد الجواب.",
+        title: "مثال عملي: زر اسأل الذكاء الاصطناعي داخل ARABAI",
+        scenario: "تريد أن يرى المستخدم زرا بسيطا داخل ARABAI اسمه اسأل الذكاء الاصطناعي، لكنك أنت في الخلفية تحتاج طريقا حقيقيا يرسل السؤال إلى مزود ذكاء اصطناعي ثم يعيد الجواب.",
         steps: [
           "اختر وظيفة صغيرة جدا كبداية، مثل سؤال نصي واحد.",
           "اكتب ما الذي سيدخله المستخدم، وما الذي يجب أن يخرج له في النهاية.",
-          "حدد مزود AI الذي سينفذ الجواب في الخلفية.",
+          "حدد مزود ذكاء اصطناعي الذي سينفذ الجواب في الخلفية.",
           "احسب تكلفة هذا النوع من الأسئلة قبل أن تفكر في فتح الرصيد.",
           "اترك الميزة على وضع قريب أو تجريبي إلى أن تكتمل قواعد الحساب والدفع والدعم."
         ],
-        result: "<p><strong>ما الذي يجب أن تنهيه:</strong> خريطة بسيطة تشرح: ماذا يضغط المستخدم، إلى أين يذهب الطلب، ومن أين تعود النتيجة، وكيف تتحول التكلفة إلى رصيد مفهوم.</p><ul><li>زر واضح للمستخدم.</li><li>مزود AI محدد.</li><li>تكلفة تقريبية مفهومة.</li><li>حدود واضحة لما هو مفتوح الآن وما هو قريبا.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا كان المستخدم لا يفهم ماذا سيحصل بعد الضغط، فالفكرة ما زالت معقدة أكثر من اللازم.</p>"
+        result: "<p><strong>ما الذي يجب أن تنهيه:</strong> خريطة بسيطة تشرح: ماذا يضغط المستخدم، إلى أين يذهب الطلب، ومن أين تعود النتيجة، وكيف تتحول التكلفة إلى رصيد مفهوم.</p><ul><li>زر واضح للمستخدم.</li><li>مزود ذكاء اصطناعي محدد.</li><li>تكلفة تقريبية مفهومة.</li><li>حدود واضحة لما هو مفتوح الآن وما هو قريبا.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا كان المستخدم لا يفهم ماذا سيحصل بعد الضغط، فالفكرة ما زالت معقدة أكثر من اللازم.</p>"
       },
-      prompt: "اشرح API لموقع ARABAI بلغة بسيطة. استخدم مثال نافذة الخدمة في المطعم، واشرح كيف يضغط المستخدم زرا، ثم يرسل ARABAI الطلب إلى AI، ثم تعود النتيجة، وكيف يدفع الرصيد تكلفة العمل."
+      prompt: "اشرح API لموقع ARABAI بلغة بسيطة. استخدم مثال نافذة الخدمة في المطعم، واشرح كيف يضغط المستخدم زرا، ثم يرسل ARABAI الطلب إلى الذكاء الاصطناعي، ثم تعود النتيجة، وكيف يدفع الرصيد تكلفة العمل."
     },
     "official-api-platforms": {
       title: "منصات API الرسمية",
@@ -1853,8 +1853,8 @@ function getArabicArticle(id, article) {
       prompt: "اصنع ميزانية رصيد بسيطة لـ ARABAI. استخدم أمثلة: 1000 إجابة قصيرة، 100 صورة، 20 تجربة فيديو قصيرة، و50 مسودة موسيقى شهريا. اعرض جدول تكلفة ومخاطر وحماية هامش الربح."
     },
     "ai-gateway": {
-      title: "ما هو AI Gateway؟",
-      intro: "AI Gateway مثل محطة قطار أو مكتب تحكم واحد: أنت تدخل من باب واحد، لكن في الخلفية توجد طرق كثيرة ونماذج كثيرة.",
+      title: "ما هي بوابة الذكاء الاصطناعي؟",
+      intro: "بوابة الذكاء الاصطناعي مثل محطة قطار أو مكتب تحكم واحد: أنت تدخل من باب واحد، لكن في الخلفية توجد طرق كثيرة ونماذج كثيرة.",
       sections: [
         ["ما معناها", "Gateway ليس نموذجا واحدا، بل محطة تسمح لحساب واحد بالوصول إلى نماذج كثيرة بدون بناء طريق جديد كل مرة."],
         ["لماذا يهم ARABAI", "يفيد ARABAI لأنه يسمح بتجربة نماذج كثيرة بسرعة، وتقديم محفظة واحدة للمستخدم بدلا من إرساله إلى مواقع كثيرة."],
@@ -1879,10 +1879,10 @@ function getArabicArticle(id, article) {
         ],
         result: "<p><strong>ما الذي يجب أن تنهيه:</strong> فهم واضح هل Gateway يفيد ARABAI فعلا أم لا، وما الحد الذي يمكن الاعتماد عليه فيه.</p><ul><li>فهم معنى المحطة الواحدة.</li><li>مقارنة أكثر من نموذج.</li><li>ملاحظة جودة العربية.</li><li>خطة بديلة عند الطوارئ.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا كان Gateway يريحك اليوم لكنه قد يربكك غدا عند أول مشكلة، فلا تعتمد عليه وحده.</p>"
       },
-      prompt: "اشرح AI Gateway مثل محطة قطار لموقع ARABAI. مدخل واحد، محفظة واحدة، نماذج كثيرة، أسعار وسرعات مختلفة. أعطني قائمة إعداد آمنة للمبتدئ ومتى أستخدم Gateway ومتى أستخدم API رسمي."
+      prompt: "اشرح بوابة الذكاء الاصطناعي مثل محطة قطار لموقع ARABAI. مدخل واحد، محفظة واحدة، نماذج كثيرة، أسعار وسرعات مختلفة. أعطني قائمة إعداد آمنة للمبتدئ ومتى أستخدم Gateway ومتى أستخدم API رسمي."
     },
     "gateway-platforms": {
-      title: "منصات AI Gateway الشائعة",
+      title: "منصات بوابة الذكاء الاصطناعي الشائعة",
       intro: "منصات Gateway مثل محطات مختلفة: واحدة فيها قطارات أكثر، وأخرى أوضح في الفواتير، وثالثة أقوى في السجلات والتحكم.",
       sections: [
         ["كيف نقارن", "لا يكفي عدد النماذج؛ المهم أيضا نوع النماذج، وطريقة الدفع، والسجلات، والخصوصية، وسهولة المتابعة."],
@@ -1908,10 +1908,10 @@ function getArabicArticle(id, article) {
         ],
         result: "<p><strong>ما الذي يجب أن تنهيه:</strong> قرار مبدئي مبني على مقارنة حقيقية، لا على اسم المنصة فقط.</p><ul><li>منصة أساسية.</li><li>منصة احتياطية أو طريق رسمي بديل.</li><li>فهم أوضح للدفع والسجلات.</li><li>اختبار واحد على الأقل لكل منصة.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا كنت لا تعرف ما الذي ستفعله عند تعطل المنصة، فأنت لم تنه المقارنة بعد.</p>"
       },
-      prompt: "اصنع جدول مقارنة لمنصات AI Gateway لموقع ARABAI. الأعمدة: أنواع النماذج، الدفع، حفظ مفاتيح API، سجلات الاستخدام، الخصوصية، قيمة النسخة الاحتياطية، والمخاطر."
+      prompt: "اصنع جدول مقارنة لمنصات بوابة الذكاء الاصطناعي لموقع ARABAI. الأعمدة: أنواع النماذج، الدفع، حفظ مفاتيح API، سجلات الاستخدام، الخصوصية، قيمة النسخة الاحتياطية، والمخاطر."
     },
     "gateway-risks": {
-      title: "مخاطر AI Gateway",
+      title: "مخاطر بوابات الذكاء الاصطناعي",
       intro: "Gateway جسر مفيد، لكن أي جسر يستخدمه عمل مدفوع يحتاج فحصا قبل مرور المستخدمين عليه.",
       sections: [
         ["الخطر الأول", "إذا تغير السعر أو توقف نموذج مهم، قد ترتفع تكلفة ARABAI أو تتوقف بعض المهام فجأة."],
@@ -1937,13 +1937,13 @@ function getArabicArticle(id, article) {
         ],
         result: "<p><strong>ما الذي يجب أن تنهيه:</strong> قائمة مخاطر واضحة مع طريقة رد فعل لكل خطر مهم.</p><ul><li>خصوصية.</li><li>تعطل الخدمة.</li><li>تغير الأسعار.</li><li>اختفاء النماذج.</li><li>خطة بديلة.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا كانت كل خطتك تنهار عندما يتوقف مزود واحد، فالمخاطرة ما زالت عالية جدا.</p>"
       },
-      prompt: "راجع مخاطر استخدام AI Gateway لموقع AI بنظام رصيد مثل ARABAI. افحص الخصوصية، الثبات، مفاجآت الفواتير، توفر النماذج، الاسترجاع، الاعتماد على مزود واحد، وخطة بديلة."
+      prompt: "راجع مخاطر استخدام بوابة الذكاء الاصطناعي لموقع AI بنظام رصيد مثل ARABAI. افحص الخصوصية، الثبات، مفاجآت الفواتير، توفر النماذج، الاسترجاع، الاعتماد على مزود واحد، وخطة بديلة."
     },
     "ai-automation": {
-      title: "أتمتة AI",
-      intro: "أتمتة AI مثل عامل مكتب هادئ يكرر المهمة نفسها بالخطوات نفسها كل مرة، بدلا من أن تنسخ وتلصق بيدك طوال اليوم.",
+      title: "أتمتة الذكاء الاصطناعي",
+      intro: "أتمتة الذكاء الاصطناعي مثل عامل مكتب هادئ يكرر المهمة نفسها بالخطوات نفسها كل مرة، بدلا من أن تنسخ وتلصق بيدك طوال اليوم.",
       sections: [
-        ["ما معناها", "الأتمتة هنا لا تعني أن AI يفعل كل شيء وحده، بل تعني أنك تختار مهمة متكررة وتضع لها مدخلا وخطوة AI ونتيجة ومراجعة بشرية."],
+        ["ما معناها", "الأتمتة هنا لا تعني أن الذكاء الاصطناعي يفعل كل شيء وحده، بل تعني أنك تختار مهمة متكررة وتضع لها مدخلا وخطوة AI ونتيجة ومراجعة بشرية."],
         ["أين تبدأ", "أفضل بداية ليست أصعب مشروع، بل مهمة صغيرة مثل تحويل نموذج عميل إلى مسودة رد، أو تحويل ملاحظات إلى ملخص مرتب."],
         ["ما الذي لا ننساه", "الأتمتة الجيدة تحتاج بيانات آمنة، وتجربة صغيرة، ومراجعة بشرية قبل أن تمس عملا حقيقيا أو عميلا حقيقيا."]
       ],
@@ -1966,16 +1966,16 @@ function getArabicArticle(id, article) {
         ],
         result: "<p><strong>ما الذي يجب أن تنهيه:</strong> مخطط بسيط لأتمتة واحدة واضحة: مدخل، خطوة AI، ناتج، ومراجع بشري.</p><ul><li>مهمة متكررة.</li><li>خطوة AI واحدة مفهومة.</li><li>مراجعة بشرية.</li><li>اختبار آمن.</li></ul><p><strong>قاعدة بسيطة:</strong> إذا كانت الأتمتة لا تزال تحتاج منك أن تعيد كل شيء يدويا، فهي لم تبسط العمل بعد.</p>"
       },
-      prompt: "صمم لي أتمتة AI بسيطة لعملي. المدخل نموذج عميل، خطوة AI صياغة رد أولي، والنتيجة رسالة يراجعها إنسان قبل الإرسال. اشرحها بلغة سهلة جدا."
+      prompt: "صمم لي أتمتة الذكاء الاصطناعي بسيطة لعملي. المدخل نموذج عميل، خطوة AI صياغة رد أولي، والنتيجة رسالة يراجعها إنسان قبل الإرسال. اشرحها بلغة سهلة جدا."
     }
   };
 
   const fallbackWorkflow = arabicWorkflowFor(id, article);
   const fallback = {
-    title: getArabicTitle(id, article?.title || "مقال AI"),
+    title: getArabicTitle(id, article?.title || "مقال عن الذكاء الاصطناعي"),
     intro: "هذه نسخة عربية مختصرة من المقال. نعرض الفكرة الأساسية والخطوات العملية أولا، ثم يمكن الرجوع للنسخة الإنجليزية للتفاصيل الكاملة إلى أن نكمل الترجمة النهائية.",
     sections: [
-      ["الفكرة ببساطة", article?.intro || "استخدم AI في مهمة صغيرة وواضحة بدلا من سؤال عام."],
+      ["الفكرة ببساطة", article?.intro || "استخدم الذكاء الاصطناعي في مهمة صغيرة وواضحة بدلا من سؤال عام."],
       ["كيف تستخدمها", "اختر أداة مناسبة، اكتب طلبا واضحا، راجع النتيجة، ثم اطلب تعديلا واحدا في كل مرة."],
       ["ماذا تنتبه له", "لا ترسل معلومات خاصة، ولا تعتمد على النتيجة النهائية قبل مراجعتها بنفسك."]
     ],
@@ -1997,7 +1997,7 @@ function arabicWorkflowFor(id, article) {
     ],
     "spreadsheets": [
       "اجمع الأرقام في سطور قصيرة وواضحة.",
-      "الصق السطور في AI واطلب جدولا منظما.",
+      "الصق السطور في الذكاء الاصطناعي واطلب جدولا منظما.",
       "اطلب منه حساب المجموع والمتوسط وأفضل منتج.",
       "انسخ الجدول إلى Excel أو Google Sheets.",
       "راجع الأرقام بآلة حاسبة قبل استخدامها في قرار مالي."
@@ -2061,7 +2061,7 @@ function arabicWorkflowFor(id, article) {
     "price-comparison": [
       "اختر ثلاث أدوات تفكر فيها بجدية.",
       "اكتب السعر الشهري، حدود المجاني، أفضل استخدام، وجودة التصدير.",
-      "اطلب من AI تحويل المعلومات إلى جدول بسيط.",
+      "اطلب من الذكاء الاصطناعي تحويل المعلومات إلى جدول بسيط.",
       "اختر حسب مهمتك الحقيقية، لا حسب أطول قائمة مميزات.",
       "راجع الاختيار بعد شهر."
     ],
@@ -2157,8 +2157,8 @@ function arabicWorkflowFor(id, article) {
       "اربطها بالعمل الحقيقي فقط بعد نجاح الاختبار عدة مرات."
     ],
     "ai-for-teams": [
-      "اختر أدوات AI المسموح بها للفريق.",
-      "اكتب ما لا يجب نسخه إلى AI.",
+      "اختر أدوات الذكاء الاصطناعي المسموح بها للفريق.",
+      "اكتب ما لا يجب نسخه إلى الذكاء الاصطناعي.",
       "اصنع قوالب برومبت مشتركة.",
       "حدد من يراجع النتائج المهمة.",
       "راجع الاستخدام والتكلفة كل شهر."
@@ -2186,17 +2186,17 @@ function arabicWorkflowFor(id, article) {
 
 function getArabicTitle(id, fallback) {
   const titles = {
-    "what-is-ai": "ما هو AI؟",
-    "ai-basic-words": "مصطلحات AI الأساسية",
-    "why-ai-costs-money": "لماذا يكلف AI مالا؟",
+    "what-is-ai": "ما هو الذكاء الاصطناعي؟",
+    "ai-basic-words": "مصطلحات الذكاء الاصطناعي الأساسية",
+    "why-ai-costs-money": "لماذا يكلف الذكاء الاصطناعي مالا؟",
     "what-is-a-prompt": "ما هو البرومبت؟",
-    "organize-prompt-first": "دع AI يرتب فكرتك أولا",
-    "common-ai-tools": "أنواع أدوات AI الشائعة",
-    "how-to-start": "كيف تبدأ استخدام AI",
-    "free-vs-paid": "الفرق بين AI المجاني والمدفوع",
-    "ai-tool-differences": "كيف تختلف أدوات AI؟",
+    "organize-prompt-first": "دع الذكاء الاصطناعي يرتب فكرتك أولا",
+    "common-ai-tools": "أنواع أدوات الذكاء الاصطناعي الشائعة",
+    "how-to-start": "كيف تبدأ استخدام الذكاء الاصطناعي",
+    "free-vs-paid": "الفرق بين الذكاء الاصطناعي المجاني والمدفوع",
+    "ai-tool-differences": "كيف تختلف أدوات الذكاء الاصطناعي؟",
     "ai-safety": "أشياء يجب الانتباه لها",
-    "beginner-path": "طريق المبتدئ في AI",
+    "beginner-path": "طريق المبتدئ في الذكاء الاصطناعي",
     "private-jet-local-ai": "هل تريد طائرتك الخاصة؟",
     "write-with-ai": "أريد أن أكتب",
     "make-a-plan": "أريد خطة",
@@ -2212,10 +2212,10 @@ function getArabicTitle(id, fallback) {
     "grow-business": "أريد تطوير عملي",
     "social-content": "أريد محتوى للسوشيال ميديا",
     "choose-right-tool": "أريد اختيار النوع المناسب",
-    "ai-apps-and-coding-tools": "تطبيقات AI لما بعد الاستخدام المبتدئ",
+    "ai-apps-and-coding-tools": "تطبيقات الذكاء الاصطناعي لما بعد الاستخدام المبتدئ",
     "login-pages": "كيف تفتح موقع AI الصحيح",
     "subscription-pages": "متى يستحق AI أن تدفع له",
-    "price-comparison": "كيف تقارن تكلفة AI",
+    "price-comparison": "كيف تقارن تكلفة الذكاء الاصطناعي",
     "chatgpt-advanced": "دليل أداة محادثة للاستخدام اليومي",
     "doubao-advanced": "دليل أداة يومية سريعة",
     "gemini-advanced": "دليل أداة شرح وبحث للاستخدام اليومي",
@@ -2228,13 +2228,13 @@ function getArabicTitle(id, fallback) {
     "what-is-api": "ما هو API؟",
     "official-api-platforms": "منصات API الرسمية",
     "api-price-comparison": "مقارنة أسعار API",
-    "ai-gateway": "ما هو AI Gateway؟",
-    "gateway-platforms": "منصات AI Gateway الشائعة",
-    "gateway-risks": "مخاطر AI Gateway",
+    "ai-gateway": "ما هي بوابة الذكاء الاصطناعي؟",
+    "gateway-platforms": "منصات بوابة الذكاء الاصطناعي الشائعة",
+    "gateway-risks": "مخاطر بوابات الذكاء الاصطناعي",
     "multi-model-management": "إدارة أكثر من نموذج AI",
-    "ai-automation": "أتمتة AI",
-    "ai-for-teams": "AI للفرق",
-    "ai-for-business": "AI للأعمال",
+    "ai-automation": "أتمتة الذكاء الاصطناعي",
+    "ai-for-teams": "الذكاء الاصطناعي للفرق",
+    "ai-for-business": "الذكاء الاصطناعي للأعمال",
     "chatgpt-expert": "أداة محادثة يومية للاستخدام المتقدم",
     "gemini-expert": "أداة شرح وبحث للاستخدام المتقدم",
     "claude-expert": "أداة كتابة هادئة للاستخدام المتقدم",
@@ -2246,7 +2246,7 @@ function getArabicTitle(id, fallback) {
     "music-tools-expert": "أدوات الموسيقى للاستخدام المتقدم"
   };
 
-  return titles[id] || fallback || "مقال AI";
+  return titles[id] || fallback || "مقال عن الذكاء الاصطناعي";
 }
 
 function assetUrl(src) {
@@ -2427,7 +2427,7 @@ function translateOutputTitle(title) {
     "Finished business copy pack": "حزمة نصوص عمل جاهزة",
     "Finished 2-week salon content plan sample": "مثال خطة محتوى لأسبوعين",
     "Finished tool choice map": "خريطة اختيار الأدوات",
-    "Finished AI app map": "خريطة تطبيقات AI",
+    "Finished AI app map": "خريطة تطبيقات الذكاء الاصطناعي",
     "Finished safe login checklist": "قائمة دخول آمن",
     "Finished payment decision table": "جدول قرار الدفع",
     "Finished price comparison template": "قالب مقارنة الأسعار",
