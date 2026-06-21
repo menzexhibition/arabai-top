@@ -274,3 +274,5 @@ export const launchFeatureFlags = {
   referrals: true,
   mediaTasks: false
 };
+
+export const launchTaskRuleIds = ["premium_short_chat", "prompt_improvement", "premium_long_answer", "image_prompt_review"];

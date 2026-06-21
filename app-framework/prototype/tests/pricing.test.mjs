@@ -4,7 +4,12 @@ import { canUseFreeCredits, estimateTaskCredits, providerCostToCredits } from ".
 import { createWallet } from "../src/services/wallet.js";
 import { confirmTaskRoute, estimateTaskRoute, runTaskRoute } from "../src/routes/task-routes.js";
 import { verifiedSigninRoute } from "../src/routes/auth-routes.js";
-import { grantFoundingUserRewardRoute, grantSignupRewardRoute } from "../src/routes/wallet-routes.js";
+import {
+  claimDailyLoginRewardRoute,
+  grantFoundingUserRewardRoute,
+  grantReferralRegistrationRewardRoute,
+  grantSignupRewardRoute
+} from "../src/routes/wallet-routes.js";
 
 const saStarter = packages.find((item) => item.id === "sa_starter_10");
 assert.equal(saStarter.priceAmount, 10);
@@ -67,6 +72,35 @@ const user = { verified: true, signupRewardGranted: false };
 grantSignupRewardRoute({ wallet, user });
 assert.equal(wallet.creditBalance, 120);
 assert.equal(wallet.redeemableCreditBalance, 120);
+
+const dailyWallet = createWallet(0);
+const dailyUser = { verified: true };
+const dailyResult = claimDailyLoginRewardRoute({
+  wallet: dailyWallet,
+  user: dailyUser,
+  now: new Date("2026-06-15T08:00:00.000Z")
+});
+assert.equal(dailyResult.credits, 2);
+assert.equal(dailyResult.wallet.creditBalance, 2);
+assert.throws(
+  () =>
+    claimDailyLoginRewardRoute({
+      wallet: dailyWallet,
+      user: dailyUser,
+      now: new Date("2026-06-15T18:00:00.000Z")
+    }),
+  /already claimed/
+);
+
+const referralWallet = createWallet(0);
+const referralResult = grantReferralRegistrationRewardRoute({
+  wallet: referralWallet,
+  referrer: { verified: true },
+  referredUser: { verified: true, registrationNumber: 124 },
+  now: new Date("2026-06-15T08:00:00.000Z")
+});
+assert.equal(referralResult.credits, 20);
+assert.equal(referralResult.wallet.creditBalance, 20);
 
 const campaignWallet = createWallet(0);
 const campaignUser = { verified: true, foundingUserRewardGranted: false };

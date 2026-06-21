@@ -15,7 +15,7 @@ export function addCredits(wallet, transaction) {
   wallet.transactions.push({
     ...transaction,
     status: transaction.status || "available",
-    createdAt: new Date().toISOString()
+    createdAt: transaction.createdAt || new Date().toISOString()
   });
   return wallet;
 }
