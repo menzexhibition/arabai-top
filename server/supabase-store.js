@@ -8,6 +8,9 @@ export function createSupabaseStore() {
 
   return {
     isReady: true,
+    diagnostics() {
+      return supabaseDiagnostics();
+    },
     async findUserById(id) {
       const rows = await selectRows("users", { id });
       return rows[0] || null;
@@ -210,16 +213,21 @@ async function upsertRows(table, rows, conflict) {
 }
 
 async function request(path, init) {
-  const response = await fetch(`${SUPABASE_URL}${path}`, {
-    ...init,
-    headers: {
-      apikey: SUPABASE_SERVICE_ROLE_KEY,
-      authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
-      "content-type": "application/json",
-      ...(init.headers || {})
-    }
-  });
-  return response;
+  const url = buildSupabaseUrl(path);
+  try {
+    const response = await fetch(url, {
+      ...init,
+      headers: {
+        apikey: SUPABASE_SERVICE_ROLE_KEY,
+        authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+        "content-type": "application/json",
+        ...(init.headers || {})
+      }
+    });
+    return response;
+  } catch (error) {
+    throw new Error(`Supabase request failed for ${safeUrlLabel(url)}: ${error instanceof Error ? error.message : "fetch failed"}`);
+  }
 }
 
 async function assertOk(response, action) {
@@ -231,4 +239,40 @@ async function assertOk(response, action) {
 function numberOrZero(value) {
   const num = Number(value || 0);
   return Number.isFinite(num) ? num : 0;
+}
+
+function buildSupabaseUrl(path) {
+  try {
+    return new URL(path, SUPABASE_URL.endsWith("/") ? SUPABASE_URL : `${SUPABASE_URL}/`).toString();
+  } catch {
+    throw new Error("SUPABASE_URL must be a valid https://<project>.supabase.co URL.");
+  }
+}
+
+function supabaseDiagnostics() {
+  try {
+    const url = new URL(SUPABASE_URL);
+    return {
+      protocol: url.protocol,
+      host: url.host,
+      path: url.pathname,
+      looksLikeSupabaseUrl: url.protocol === "https:" && url.host.endsWith(".supabase.co")
+    };
+  } catch {
+    return {
+      protocol: "invalid",
+      host: "invalid",
+      path: "invalid",
+      looksLikeSupabaseUrl: false
+    };
+  }
+}
+
+function safeUrlLabel(url) {
+  try {
+    const parsed = new URL(url);
+    return `${parsed.protocol}//${parsed.host}${parsed.pathname}`;
+  } catch {
+    return "invalid Supabase URL";
+  }
 }

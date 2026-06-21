@@ -767,7 +767,8 @@ function healthView(persisted) {
       enableSupabaseStore: process.env.ENABLE_SUPABASE_STORE === "true",
       supabaseUrlPresent: Boolean(process.env.SUPABASE_URL),
       supabaseServiceRoleKeyPresent: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
-      storeReady: Boolean(store?.isReady)
+      storeReady: Boolean(store?.isReady),
+      supabase: store?.diagnostics?.() || null
     }
   };
 }
