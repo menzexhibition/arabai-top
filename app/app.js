@@ -323,6 +323,8 @@ async function boot() {
 }
 
 async function detectBackend() {
+  if (isStaticPreviewHost()) return;
+
   const requests = await Promise.allSettled([fetchWithTimeout("/api/health"), fetchWithTimeout("/api/me")]);
   const [healthResponse, meResponse] = requests;
 
@@ -639,6 +641,11 @@ async function handleTopUpClick(packageId) {
   } catch {
     packageMessage.textContent = "تعذر الوصول إلى خدمة الشحن حاليا.";
   }
+}
+
+function isStaticPreviewHost() {
+  const host = window.location.hostname;
+  return host === "arabai.top" || host === "www.arabai.top" || host.endsWith(".github.io");
 }
 
 function renderServiceStatus() {
