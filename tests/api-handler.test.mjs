@@ -102,7 +102,7 @@ assert.equal(response.body.status, "completed");
 response = await callHandler("POST", "/api/wallet/top-up/create-checkout", {
   packageId: "sa_starter_10"
 });
-assert.equal(response.statusCode, 200);
+assert.equal(response.statusCode, 403);
 assert.equal(response.body.status, "coming_soon");
 assert.equal(response.body.error.code, "FEATURE_DISABLED");
 

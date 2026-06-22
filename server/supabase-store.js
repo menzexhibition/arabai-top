@@ -90,6 +90,15 @@ export function createSupabaseStore() {
         `created_at.asc&limit=${limit}`
       );
     },
+    async findTransactionByProviderReference(provider, providerReference) {
+      const rows = await selectRows(
+        "wallet_transactions",
+        { provider, provider_reference: providerReference },
+        ["id", "user_id", "provider", "provider_reference", "created_at"],
+        "limit=1"
+      );
+      return rows[0] || null;
+    },
     async insertTransactions(userId, transactions) {
       if (!transactions.length) return [];
       return insertRows(

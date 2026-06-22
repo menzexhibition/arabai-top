@@ -446,15 +446,18 @@ async function renderPackages() {
   packageGrid.innerHTML = visiblePackages
     .slice(0, 4)
     .map(
-      (item) => `
+      (item) => {
+        const available = item.status === "available";
+        return `
         <article>
           <span>${item.currency}</span>
           <h3>${formatPrice(item)}</h3>
           <p>${item.credits} credits</p>
-          <p>Coming Soon - التكلفة الحقيقية للـ API لا تتجاوز تقريبا 50% من قيمة الباقة.</p>
-          <button type="button" data-package-id="${item.id}">اطلب هذه الباقة</button>
+          <p>${available ? "يتم الدفع عبر Lemon Squeezy، ثم يضاف الرصيد تلقائيا بعد تأكيد الدفع." : "Coming Soon - التكلفة الحقيقية للـ API لا تتجاوز تقريبا 50% من قيمة الباقة."}</p>
+          <button type="button" data-package-id="${item.id}">${available ? "اشحن الآن" : "اطلب هذه الباقة"}</button>
         </article>
-      `
+      `;
+      }
     )
     .join("");
 
@@ -631,13 +634,23 @@ async function handleTopUpClick(packageId) {
   }
 
   try {
+    packageMessage.textContent = "يتم تجهيز صفحة الدفع الآمنة...";
     const response = await fetchWithTimeout("/api/wallet/top-up/create-checkout", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ packageId, currencyHint: currentUser?.country === "SA" ? "SAR" : "USD" })
     });
     const data = await response.json();
-    packageMessage.textContent = data.error?.message || "الشحن غير متاح حاليا.";
+    if (!response.ok || data.error) {
+      packageMessage.textContent = data.error?.message || "الشحن غير متاح حاليا.";
+      return;
+    }
+    if (data.checkoutUrl) {
+      packageMessage.textContent = "سيتم فتح صفحة الدفع الآن.";
+      window.location.assign(data.checkoutUrl);
+      return;
+    }
+    packageMessage.textContent = "لم تصل صفحة الدفع من المزود. حاول مرة أخرى بعد قليل.";
   } catch {
     packageMessage.textContent = "تعذر الوصول إلى خدمة الشحن حاليا.";
   }

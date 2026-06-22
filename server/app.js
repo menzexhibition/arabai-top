@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { createHmac, timingSafeEqual, randomUUID } from "node:crypto";
 import { createSupabaseStore } from "./supabase-store.js";
 
 const packages = [
@@ -139,7 +139,13 @@ async function handlePersistedRequest(req, res, path) {
   }
 
   if (path === "/api/wallet/top-up/create-checkout" && req.method === "POST") {
-    return json(res, featureDisabledResponse("Recharge is not open yet."));
+    const session = await requireSession(req, res);
+    if (!session) return;
+    return handleCreateCheckout(req, res, session);
+  }
+
+  if (path === "/api/wallet/top-up/webhook" && req.method === "POST") {
+    return handleLemonWebhook(req, res);
   }
 
   if (path === "/api/wallet" && req.method === "GET") {
@@ -468,7 +474,13 @@ async function handleDemoRequest(req, res, path) {
   }
 
   if (path === "/api/wallet/top-up/create-checkout" && req.method === "POST") {
-    return json(res, featureDisabledResponse("Recharge is not open yet."));
+    const session = await requireSession(req, res);
+    if (!session) return;
+    return handleCreateCheckout(req, res, session);
+  }
+
+  if (path === "/api/wallet/top-up/webhook" && req.method === "POST") {
+    return handleLemonWebhook(req, res);
   }
 
   if (path === "/api/wallet" && req.method === "GET") {
@@ -587,6 +599,15 @@ async function loadPersistedSession(req) {
   };
 }
 
+async function requireSession(req, res) {
+  if (store?.isReady) return requirePersistedSession(req, res);
+  if (!state.user) {
+    json(res, { error: { code: "AUTH_REQUIRED", message: "Sign in before recharging credits." } }, 401);
+    return null;
+  }
+  return { user: state.user, wallet: state.wallet };
+}
+
 async function requirePersistedSession(req, res) {
   const session = await loadPersistedSession(req);
   if (!session.user) {
@@ -668,7 +689,7 @@ function packageView() {
     priceAmount: item.priceAmount,
     currency: item.currency,
     credits: item.credits,
-    status: item.enabled ? "available" : "coming_soon"
+    status: packageAvailable(item) ? "available" : "coming_soon"
   }));
 }
 
@@ -734,6 +755,186 @@ function featureDisabledResponse(message) {
   };
 }
 
+async function handleCreateCheckout(req, res, session) {
+  if (!rechargeEnabled()) {
+    return json(res, featureDisabledResponse("Recharge is not open yet."), 403);
+  }
+
+  const body = await readJson(req);
+  const selectedPackage = findPackage(body.packageId, body.currencyHint);
+  if (!selectedPackage) {
+    return json(res, { error: { code: "PACKAGE_NOT_FOUND", message: "Selected credit package is not available." } }, 404);
+  }
+  if (!packageAvailable(selectedPackage)) {
+    return json(res, featureDisabledResponse("This package is not connected to Lemon Squeezy yet."), 403);
+  }
+
+  const checkout = await createLemonCheckout({
+    user: session.user,
+    packageItem: selectedPackage,
+    origin: requestOrigin(req)
+  });
+
+  return json(res, {
+    status: "checkout_ready",
+    provider: "lemon_squeezy",
+    packageId: selectedPackage.id,
+    checkoutUrl: checkout.url,
+    checkoutId: checkout.id || null
+  });
+}
+
+async function handleLemonWebhook(req, res) {
+  const rawBody = await readRawBody(req);
+  if (!verifyLemonSignature(rawBody, req.headers?.["x-signature"])) {
+    return json(res, { error: { code: "INVALID_SIGNATURE", message: "Webhook signature verification failed." } }, 401);
+  }
+
+  const event = JSON.parse(rawBody || "{}");
+  const meta = event.meta || {};
+  const eventName = meta.event_name || "";
+  if (!["order_created", "order_paid"].includes(eventName)) {
+    return json(res, { ok: true, ignored: true, eventName });
+  }
+
+  const data = event.data || {};
+  const attributes = data.attributes || {};
+  const custom = meta.custom_data || attributes.custom_data || {};
+  const userId = normalizeText(custom.user_id);
+  const packageId = normalizeText(custom.package_id);
+  const orderId = String(data.id || attributes.identifier || "");
+  const providerReference = orderId ? `lemon_order_${orderId}` : normalizeText(meta.event_id || "");
+  const paidStatus = normalizeText(attributes.status).toLowerCase();
+
+  if (!store?.isReady) return json(res, { ok: true, ignored: true, reason: "store_not_ready" });
+  if (!userId || !packageId || !providerReference) {
+    return json(res, { ok: true, ignored: true, reason: "missing_custom_data" });
+  }
+  if (paidStatus && !["paid", "paid_pending", "complete", "completed"].includes(paidStatus)) {
+    return json(res, { ok: true, ignored: true, eventName, status: paidStatus });
+  }
+
+  const existing = await store.findTransactionByProviderReference("lemon_squeezy", providerReference);
+  if (existing) return json(res, { ok: true, duplicate: true });
+
+  const row = await store.findUserById(userId);
+  const packageItem = packages.find((item) => item.id === packageId);
+  if (!row || !packageItem) {
+    return json(res, { ok: true, ignored: true, reason: "unknown_user_or_package" });
+  }
+
+  const wallet = await ensurePersistedWallet(userId);
+  const previousTransactionCount = wallet.transactions.length;
+  addCredits(wallet, {
+    type: "top_up",
+    credits: packageItem.credits,
+    status: "available",
+    moneyAmount: packageItem.priceAmount,
+    currency: packageItem.currency,
+    provider: "lemon_squeezy",
+    providerReference,
+    note: `Lemon Squeezy top-up: ${packageItem.label}`
+  });
+  await persistWallet(userId, wallet, previousTransactionCount);
+
+  return json(res, { ok: true, credited: packageItem.credits, userId, packageId });
+}
+
+function rechargeEnabled() {
+  return process.env.ENABLE_REAL_RECHARGE === "true" && process.env.PAYMENT_PROVIDER === "lemon_squeezy" && Boolean(process.env.LEMON_SQUEEZY_API_KEY);
+}
+
+function packageAvailable(packageItem) {
+  return rechargeEnabled() && Boolean(process.env.LEMON_SQUEEZY_STORE_ID) && Boolean(lemonVariantId(packageItem.id));
+}
+
+function findPackage(packageId, currencyHint) {
+  const exact = packages.find((item) => item.id === packageId);
+  if (!exact) return null;
+  if (!currencyHint) return exact;
+  const normalizedCurrency = normalizeText(currencyHint).toUpperCase();
+  if (!normalizedCurrency || exact.currency === normalizedCurrency) return exact;
+  return packages.find((item) => item.currency === normalizedCurrency && item.credits === exact.credits) || exact;
+}
+
+function lemonVariantId(packageId) {
+  const key = `LEMON_VARIANT_${packageId.toUpperCase()}`;
+  return normalizeText(process.env[key]);
+}
+
+async function createLemonCheckout({ user, packageItem, origin }) {
+  const storeId = normalizeText(process.env.LEMON_SQUEEZY_STORE_ID);
+  const variantId = lemonVariantId(packageItem.id);
+  const apiKey = normalizeText(process.env.LEMON_SQUEEZY_API_KEY);
+  if (!storeId || !variantId || !apiKey) {
+    throw new Error("Lemon Squeezy checkout is missing store, variant, or API key configuration.");
+  }
+
+  const response = await fetch("https://api.lemonsqueezy.com/v1/checkouts", {
+    method: "POST",
+    headers: {
+      accept: "application/vnd.api+json",
+      authorization: `Bearer ${apiKey}`,
+      "content-type": "application/vnd.api+json"
+    },
+    body: JSON.stringify({
+      data: {
+        type: "checkouts",
+        attributes: {
+          checkout_data: {
+            email: user.email || undefined,
+            custom: {
+              user_id: user.id,
+              package_id: packageItem.id,
+              credits: String(packageItem.credits)
+            }
+          },
+          product_options: {
+            name: packageItem.label,
+            description: `${packageItem.credits} ARABAI credits`,
+            redirect_url: `${origin}/app/?payment=success`,
+            receipt_button_text: "Return to ARABAI",
+            receipt_link_url: `${origin}/app/?payment=success`
+          },
+          checkout_options: {
+            embed: false,
+            media: false,
+            logo: true
+          },
+          expires_at: new Date(Date.now() + 30 * 60 * 1000).toISOString()
+        },
+        relationships: {
+          store: { data: { type: "stores", id: storeId } },
+          variant: { data: { type: "variants", id: variantId } }
+        }
+      }
+    })
+  });
+
+  const payload = await parseProviderResponse(response);
+  const url = payload.data?.attributes?.url;
+  if (!url) throw new Error("Lemon Squeezy did not return a checkout URL.");
+  return { id: payload.data?.id, url };
+}
+
+function verifyLemonSignature(rawBody, signature) {
+  const secret = normalizeText(process.env.LEMON_SQUEEZY_WEBHOOK_SECRET);
+  const received = normalizeText(Array.isArray(signature) ? signature[0] : signature);
+  if (!secret || !received) return false;
+  const expected = createHmac("sha256", secret).update(rawBody).digest("hex");
+  const receivedBuffer = Buffer.from(received, "hex");
+  const expectedBuffer = Buffer.from(expected, "hex");
+  return receivedBuffer.length === expectedBuffer.length && timingSafeEqual(receivedBuffer, expectedBuffer);
+}
+
+function requestOrigin(req) {
+  const configured = normalizeText(process.env.ARABAI_PUBLIC_URL || process.env.ARABAI_APP_URL);
+  if (configured) return configured.replace(/\/$/, "");
+  const proto = req.headers?.["x-forwarded-proto"] || "https";
+  const host = req.headers?.host || "arabai.top";
+  return `${proto}://${host}`.replace(/\/$/, "");
+}
+
 function outboundClickAccepted(body, persisted) {
   return {
     accepted: true,
@@ -761,7 +962,8 @@ function healthView(persisted) {
     features: {
       recharge: process.env.ENABLE_REAL_RECHARGE === "true",
       aiRedemption: process.env.ENABLE_AI_REDEMPTION === "true",
-      realGateway: process.env.USE_REAL_AI_GATEWAY === "true"
+      realGateway: process.env.USE_REAL_AI_GATEWAY === "true",
+      lemonSqueezy: rechargeEnabled()
     },
     debug: {
       enableSupabaseStore: process.env.ENABLE_SUPABASE_STORE === "true",
@@ -1290,10 +1492,15 @@ function clamp(value, min, max) {
 }
 
 async function readJson(req) {
+  const rawBody = await readRawBody(req);
+  if (!rawBody) return {};
+  return JSON.parse(rawBody);
+}
+
+async function readRawBody(req) {
   const chunks = [];
   for await (const chunk of req) chunks.push(chunk);
-  if (!chunks.length) return {};
-  return JSON.parse(Buffer.concat(chunks).toString("utf8"));
+  return Buffer.concat(chunks).toString("utf8");
 }
 
 function normalizeText(value) {

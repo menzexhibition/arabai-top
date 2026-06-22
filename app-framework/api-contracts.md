@@ -142,11 +142,32 @@ If `ENABLE_REAL_RECHARGE=false`, return:
 }
 ```
 
-When enabled, create payment session server-side.
+When enabled with Lemon Squeezy, the backend creates the checkout server-side and returns:
+
+```json
+{
+  "status": "checkout_ready",
+  "provider": "lemon_squeezy",
+  "packageId": "sa_starter_10",
+  "checkoutUrl": "https://...",
+  "checkoutId": "12345"
+}
+```
+
+Required server env:
+
+```text
+ENABLE_REAL_RECHARGE=true
+PAYMENT_PROVIDER=lemon_squeezy
+LEMON_SQUEEZY_API_KEY=...
+LEMON_SQUEEZY_STORE_ID=...
+LEMON_VARIANT_SA_STARTER_10=...
+LEMON_SQUEEZY_WEBHOOK_SECRET=...
+```
 
 ### `POST /api/wallet/top-up/webhook`
 
-Provider webhook endpoint.
+Lemon Squeezy webhook endpoint.
 
 Rules:
 
