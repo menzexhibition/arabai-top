@@ -171,7 +171,7 @@ if (arArticleRoot && window.ARTICLES) {
     const externalRefs = renderExternalRefs(article.externalRefs, "ar");
     const developerCta = renderDeveloperApiCta(articleId);
     const next = article.next
-      ? `<div class="next-step"><span>المقال التالي</span><a href="ar-article.html?id=${article.next[0]}">${getArabicTitle(article.next[0], article.next[1])}</a></div>`
+      ? `<div class="next-step"><span>المقال التالي</span><a href="${getArabicArticleHref(article.next[0])}">${getArabicTitle(article.next[0], article.next[1])}</a></div>`
       : "";
 
     arArticleRoot.innerHTML = `
@@ -199,6 +199,10 @@ if (arArticleRoot && window.ARTICLES) {
     `;
   }
   }
+}
+
+function getArabicArticleHref(articleId) {
+  return document.body?.dataset?.staticArticle ? `${articleId}.html` : `ar/articles/${articleId}.html`;
 }
 
 function renderDeveloperApiCta(articleId) {
