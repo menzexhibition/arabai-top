@@ -169,6 +169,7 @@ if (arArticleRoot && window.ARTICLES) {
 
     const toolLinks = renderToolLinks(article.externalRefs, "ar");
     const externalRefs = renderExternalRefs(article.externalRefs, "ar");
+    const developerCta = renderDeveloperApiCta(articleId);
     const next = article.next
       ? `<div class="next-step"><span>المقال التالي</span><a href="ar-article.html?id=${article.next[0]}">${getArabicTitle(article.next[0], article.next[1])}</a></div>`
       : "";
@@ -192,11 +193,33 @@ if (arArticleRoot && window.ARTICLES) {
         ${renderTutorialVideo(article.tutorialVideo, "ar")}
         ${toolLinks}
         ${externalRefs}
+        ${developerCta}
         ${next}
       </section>
     `;
   }
   }
+}
+
+function renderDeveloperApiCta(articleId) {
+  const apiLearningPath = new Set([
+    "what-is-api",
+    "official-api-platforms",
+    "api-price-comparison",
+    "ai-gateway",
+    "gateway-platforms",
+    "gateway-risks"
+  ]);
+
+  if (!apiLearningPath.has(articleId)) return "";
+
+  return `
+    <aside class="next-step api-next-step">
+      <span>الخطوة العملية بعد الفهم</span>
+      <a href="../../ar-developer-api.html">افتح شرح واجهة ARABAI للمطورين و API Token</a>
+      <p>اقرأ كيف يتحول هذا الشرح إلى بوابة تجريبية منفصلة قبل أي إطلاق عام أو بيع رصيد.</p>
+    </aside>
+  `;
 }
 
 function renderMissingArticle(root, locale = "en") {
@@ -1761,8 +1784,8 @@ function getArabicArticle(id, article) {
       title: "ما هو API؟",
       intro: "API مثل نافذة الخدمة خلف المطعم: المستخدم يطلب من ARABAI، وARABAI يرسل الطلب إلى الذكاء الاصطناعي في الخلفية ثم يعيد النتيجة.",
       sections: [
-        ["الفكرة ببساطة", "صفحة المحادثة العادية تعني أنك تذهب إلى الكاونتر بنفسك، أما API فيجعل الموقع يرسل الطلب بدلا منك في الخلفية ثم يعيد لك النتيجة."],
-        ["لماذا يهم ARABAI", "إذا أردنا لاحقا زر كتابة أو صورة أو فيديو داخل ARABAI، فـ API هو الطريق الذي يحمل طلب المستخدم إلى أداة الذكاء الاصطناعي المناسبة."],
+        ["الفكرة ببساطة", "صفحة المحادثة العادية تعني أنك تذهب إلى الكاونتر بنفسك، تفتح موقع النموذج وتدير الحساب هناك. أما API فيجعل موقعا مثل ARABAI يرسل الطلب بدلا منك في الخلفية ثم يعيد لك النتيجة داخل نفس الصفحة."],
+        ["لماذا يهم ARABAI", "إذا أردنا لاحقا زر كتابة أو صورة أو فيديو داخل ARABAI، فـ API هو الطريق الذي يحمل طلب المستخدم إلى أداة الذكاء الاصطناعي المناسبة. لذلك توجد صفحة واجهة المطورين لشرح الطريق قبل تشغيله للعامة."],
         ["ماذا يفهمه المستخدم العادي", "المستخدم لا يحتاج أن يرى الكود أو المفاتيح؛ يكفي أن يفهم أن هناك عملا حقيقيا يحدث في الخلفية، وهذا العمل له تكلفة."],
         ["لماذا يوجد رصيد", "كل إجابة أو صورة أو فيديو يحتاج عملا حقيقيا من الذكاء الاصطناعي، والرصيد هو الاسم البسيط لهذه التكلفة بدل شرح التوكنات والحسابات الصعبة."],
         ["حالة الإطلاق", "يمكن لـ ARABAI شرح طريق API الآن، لكن الشحن والدفع وتشغيل AI داخل الموقع يجب أن تبقى مؤجلة إلى أن يجهز الحساب والدفع والخصوصية والاسترجاع والدعم."]
@@ -1887,7 +1910,8 @@ function getArabicArticle(id, article) {
       sections: [
         ["كيف نقارن", "لا يكفي عدد النماذج؛ المهم أيضا نوع النماذج، وطريقة الدفع، والسجلات، والخصوصية، وسهولة المتابعة."],
         ["لماذا يهم ARABAI", "ARABAI قد يستخدم Gateway للتنوع والسرعة، لكنه يحتاج أيضا طريقا رسميا احتياطيا للمهام الحساسة أو المهمة."],
-        ["ما الذي يراه المستخدم", "المستخدم يرى زر مهمة ورصيدا بسيطا، لكن المنصة في الخلفية تختار الطريق الأنسب."]
+        ["ما الذي يراه المستخدم", "المستخدم يرى زر مهمة ورصيدا بسيطا، لكن المنصة في الخلفية تختار الطريق الأنسب."],
+        ["أين أرى المسار في ARABAI", "بعد فهم فكرة البوابة، افتح صفحة واجهة ARABAI للمطورين و API Token لترى كيف سيبدأ الاختبار التقني قبل أي إطلاق عام."]
       ],
       workflow: [
         "اكتب النماذج أو أنواع المهام التي تحتاجها فعلا.",

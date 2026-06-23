@@ -211,7 +211,7 @@ async function handleSignupSubmit() {
 
   try {
     await signinWithApi({
-      displayName: formData.get("displayName") || "ARABAI user",
+      displayName: formData.get("displayName") || "مستخدم ARABAI",
       email: formData.get("email") || "",
       phone: formData.get("phone") || "",
       country: formData.get("country") || "SA",
@@ -414,7 +414,7 @@ function renderAccountPanel() {
   }
 
   accountStatus.textContent = "حسابك جاهز الآن للتجربة المجانية والمهام منخفضة التكلفة.";
-  accountName.textContent = currentUser.displayName || currentUser.email || "ARABAI user";
+  accountName.textContent = currentUser.displayName || currentUser.email || "مستخدم ARABAI";
   accountMeta.textContent = `المستخدم رقم #${currentUser.registrationNumber || "-"}. البلد: ${currentUser.country || "SA"}.`;
   accountReferralCode.textContent = currentUser.referralCode || "-";
   accountSignedState.textContent = "مسجل";
@@ -663,10 +663,10 @@ function isStaticPreviewHost() {
 
 function renderServiceStatus() {
   const modeLabel = {
-    demo: "Demo Mode",
-    supabase: "Connected Mode",
-    offline: "Offline Preview"
-  }[healthState.mode] || "Demo Mode";
+    demo: "وضع العرض التجريبي",
+    supabase: "وضع الاتصال الفعلي",
+    offline: "معاينة دون اتصال"
+  }[healthState.mode] || "وضع العرض التجريبي";
 
   serviceMode.textContent = modeLabel;
   serviceNote.textContent = healthState.ok
