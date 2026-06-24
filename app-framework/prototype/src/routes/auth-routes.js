@@ -69,7 +69,7 @@ export function verifiedSigninRoute({ user, currentRegistrationCount, currentFou
 
 function buildRegistrationMessage({ registrationNumber, foundingUserReward }) {
   if (foundingUserReward.granted) {
-    return `You are ARABAI user #${registrationNumber}. Your early user trial credits have been added.`;
+    return `You are ARABAI user #${registrationNumber}. Signup credits have been added.`;
   }
   return `You are ARABAI user #${registrationNumber}.`;
 }

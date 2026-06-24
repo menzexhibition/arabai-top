@@ -13,8 +13,8 @@ POST /api/auth/verify
 
 On first verified sign-in, backend may create a wallet and grant the signup reward.
 It should also return the server-assigned registration number, for example "You are ARABAI user #124".
-Suggested signup reward: 20 credits, about 2 SAR equivalent.
-During the early launch campaign, the backend may also grant 100 credits to the first 100 verified users when the campaign flag is enabled.
+Suggested signup reward: 5 credits, about 0.5 SAR equivalent.
+If the optional founding-user campaign is explicitly enabled, the backend may also grant 100 credits to the first 100 verified users.
 
 ## Wallet
 
@@ -134,8 +134,8 @@ GET  /api/referrals
 
 Reward rules:
 
-- signup reward: 20 credits after verification
-- founding user campaign: 100 credits for the first 100 verified users when enabled, equivalent to the planned 10 SAR starter trial
+- signup reward: 5 credits after verification
+- optional founding user campaign: 100 credits for the first 100 verified users when explicitly enabled, equivalent to the planned 10 SAR starter trial
 - daily login: 1-2 credits, max 10 per week
 - verified referral registration: 20 credits
 - founding-user referral bonus: extra 20 credits for the first 100 users when their invited user verifies, capped per month
@@ -155,17 +155,6 @@ Purpose:
 - track official tool clicks
 - support affiliate/referral links later
 - understand which tutorials lead users to tools
-
-## Recharge Exposure
-
-```text
-POST /api/recharge-exposure
-```
-
-Purpose:
-
-- move the 5% control from browser localStorage to the server
-- keep recharge prompts rare and measurable
 
 ## Admin
 

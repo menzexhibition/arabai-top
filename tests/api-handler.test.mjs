@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { EventEmitter } from "node:events";
 
 process.env.ENABLE_AI_REDEMPTION = "true";
+process.env.ENABLE_FOUNDING_USER_CAMPAIGN = "false";
 
 const { default: handler } = await import("../server/app.js");
 
@@ -68,7 +69,21 @@ response = await callHandler("POST", "/api/auth/verified-signin", {
 });
 assert.equal(response.statusCode, 200);
 assert.equal(response.body.user.registrationNumber, 58);
-assert.equal(response.body.wallet.creditBalance, 120);
+assert.equal(response.body.wallet.creditBalance, 5);
+
+response = await callHandler("GET", "/api/me");
+assert.equal(response.statusCode, 200);
+assert.equal(response.body.user.registrationNumber, 58);
+assert.equal(response.body.wallet.creditBalance, 5);
+
+response = await callHandler("GET", "/api/wallet");
+assert.equal(response.statusCode, 200);
+assert.equal(response.body.creditBalance, 5);
+
+response = await callHandler("GET", "/api/wallet/transactions");
+assert.equal(response.statusCode, 200);
+assert.equal(Array.isArray(response.body.transactions), true);
+assert.ok(response.body.transactions.length >= 1);
 
 response = await callHandler("POST", "/api/tasks/estimate", {
   pricingRuleId: "premium_short_chat",
@@ -83,7 +98,7 @@ response = await callHandler("POST", "/api/tasks/confirm", {
   prompt: "Rewrite this message."
 });
 assert.equal(response.body.status, "completed");
-assert.equal(response.body.wallet.creditBalance, 118);
+assert.equal(response.body.wallet.creditBalance, 3);
 
 response = await callHandler("POST", "/api/wallet/claim-daily-login");
 assert.equal(response.statusCode, 200);
@@ -98,6 +113,8 @@ assert.equal(response.body.tasks[0].status, "completed");
 response = await callHandler("GET", `/api/tasks/${response.body.tasks[0].id}`);
 assert.equal(response.statusCode, 200);
 assert.equal(response.body.status, "completed");
+assert.equal(response.body.taskType, "chat");
+assert.equal(response.body.pricingRuleId, "premium_short_chat");
 
 response = await callHandler("POST", "/api/wallet/top-up/create-checkout", {
   packageId: "sa_starter_10"

@@ -64,7 +64,7 @@ Server actions:
 3. Create wallet if missing.
 4. Grant signup reward once if eligible.
 5. Grant daily login reward if eligible.
-6. If founding user campaign is enabled, grant 100 credits to the first 100 verified users after anti-abuse checks.
+6. If the optional founding-user campaign is explicitly enabled, grant 100 credits to the first 100 verified users after anti-abuse checks.
 
 Response should include the registration number so the UI can show it after signup:
 
@@ -81,7 +81,7 @@ Response should include the registration number so the UI can show it after sign
     "credits": 100,
     "remainingSlots": 79
   },
-  "message": "You are ARABAI user #124. Your early user trial credits have been added."
+  "message": "You are ARABAI user #124."
 }
 ```
 
@@ -399,7 +399,7 @@ Recommended launch limits:
 ```text
 text tasks: 20 concurrent
 media tasks: 2 concurrent
-per user free-credit spend cap: 20 credits/day
+per user free-credit spend cap: 5 credits/day
 per user paid-credit spend cap: 300 credits/day
 ```
 

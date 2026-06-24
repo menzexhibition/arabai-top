@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node --check server/app.js && node --check server/supabase-store.js && for f in api/*.js api/*/*.js api/*/*/*.js app-framework/prototype/public/app.js; do node --check \"$f\"; done && node app-framework/prototype/tests/pricing.test.mjs && node tests/api-handler.test.mjs",
+    "check": "node --check server/app.js && node --check server/supabase-store.js && for f in api/*.js api/*/*.js api/*/*/*.js app-framework/prototype/public/app.js app-framework/mock-app/server.mjs; do node --check \"$f\"; done && node app-framework/prototype/tests/pricing.test.mjs && node app-framework/mock-app/tests/mock-app.test.mjs && node tests/api-handler.test.mjs && node tests/new-api-gateway.test.mjs",
     "check:mock": "node app-framework/mock-app/tests/mock-app.test.mjs"
   }
 }

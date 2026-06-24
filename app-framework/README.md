@@ -75,7 +75,7 @@ Credits are for trying paid AI capabilities, not for reselling provider tokens o
 - 10 SAR starter package should grant about 100 credits.
 - $5 starter package should grant about 185 credits.
 - Provider/API cost should stay around 50% or less of package value.
-- Free signup and referral rewards should stay around 2-4 SAR equivalent.
+- Free signup rewards should stay around 0.5 SAR equivalent.
 - Free credits should not unlock high-cost video, batch image generation, or high-tier image editing.
 
 ## First AI Features

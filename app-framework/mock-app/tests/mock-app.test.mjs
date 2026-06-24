@@ -32,12 +32,12 @@ try {
   assert.equal(signedIn.user.phone, "+966500000000");
   assert.equal(signedIn.user.country, "SA");
   assert.equal(signedIn.user.registrationNumber, 58);
-  assert.equal(signedIn.wallet.creditBalance, 120);
+  assert.equal(signedIn.wallet.creditBalance, 5);
 
   const meAfterSignin = await getJson(`${baseUrl}/api/me`);
   assert.equal(meAfterSignin.user.email, "demo@arabai.top");
   assert.equal(meAfterSignin.user.registrationNumber, 58);
-  assert.equal(meAfterSignin.wallet.creditBalance, 120);
+  assert.equal(meAfterSignin.wallet.creditBalance, 5);
 
   const packages = await getJson(`${baseUrl}/api/wallet/packages`);
   assert.ok(packages.packages.some((item) => item.id === "sa_starter_10"));
@@ -56,7 +56,7 @@ try {
   });
   assert.equal(confirmed.status, "completed");
   assert.equal(confirmed.actualCredits, 2);
-  assert.equal(confirmed.wallet.creditBalance, 118);
+  assert.equal(confirmed.wallet.creditBalance, 3);
 
   const task = await getJson(`${baseUrl}/api/tasks/${confirmed.taskId}`);
   assert.equal(task.status, "completed");

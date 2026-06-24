@@ -138,7 +138,7 @@ function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
 
-const wallet = createWallet(100);
+const wallet = createWallet(5);
 let apiMode = false;
 let signedIn = false;
 let currentUser = null;
@@ -312,8 +312,6 @@ async function boot() {
 
   renderServiceStatus();
   renderWallet();
-  renderTransactionHistory(wallet.transactions);
-  renderTaskHistory([]);
   await renderPackages();
   renderOperationSelect();
   renderTasks();
@@ -349,13 +347,13 @@ async function signinWithApi(profile) {
   if (!apiMode) {
     signedIn = true;
     currentUser = { ...profile, registrationNumber: 58, referralCode: "arabai-demo" };
-    wallet.creditBalance = 120;
-    wallet.redeemableCreditBalance = 120;
+    wallet.creditBalance = 5;
+    wallet.redeemableCreditBalance = 5;
     wallet.transactions = [
       {
         type: "signup_reward",
         status: "available",
-        credits: 20,
+        credits: 5,
         note: "رصيد تجربة أول تسجيل.",
         createdAt: new Date().toISOString()
       }
@@ -380,6 +378,7 @@ async function signinWithApi(profile) {
   hydrateSession(data);
   signupMessage.textContent = arabicSigninMessage(data);
   renderWallet();
+  renderTransactionHistory(wallet.transactions);
   renderAccountPanel();
   await syncCurrentSession();
   await refreshAccountViews();
@@ -467,17 +466,6 @@ async function renderPackages() {
     });
   });
 
-  if (apiMode) {
-    void fetch("/api/recharge-exposure", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        articleId: "app-wallet-packages",
-        shown: true,
-        anonymousBucket: signedIn ? 1 : 0
-      })
-    }).catch(() => {});
-  }
 }
 
 function renderTasks() {
@@ -569,6 +557,8 @@ async function confirmWithApi() {
     wallet.creditBalance = data.wallet.creditBalance;
     wallet.redeemableCreditBalance = data.wallet.redeemableCreditBalance;
     wallet.reservedCreditBalance = data.wallet.reservedCreditBalance;
+    wallet.pendingCreditBalance = data.wallet.pendingCreditBalance;
+    wallet.transactions = Array.isArray(data.wallet.transactions) ? data.wallet.transactions : wallet.transactions;
     renderWallet();
     estimateTitle.textContent = "تم تشغيل المهمة التجريبية";
     estimateMessage.textContent = data.outputText || "اكتملت المهمة التجريبية.";
@@ -582,10 +572,7 @@ async function confirmWithApi() {
 
 function arabicSigninMessage(data) {
   if (!data.user?.registrationNumber) return "تم تسجيل الدخول.";
-  if (data.foundingUserReward?.granted) {
-    return `أنت المستخدم رقم ${data.user.registrationNumber} في ARABAI. تمت إضافة رصيد التجربة المبكرة إلى حسابك.`;
-  }
-  return `أنت المستخدم رقم ${data.user.registrationNumber} في ARABAI.`;
+  return `أنت المستخدم رقم ${data.user.registrationNumber} في ARABAI. تمت إضافة 5 credits لتجربة المهام الصغيرة.`;
 }
 
 function selectedTaskRequest() {

@@ -12,7 +12,7 @@ const packages = [
 
 const rewardRules = {
   foundingUserCampaign: { enabled: false, maxUsers: 100, credits: 100, sarValue: 10, usdReferenceValue: 5, requiresVerification: true },
-  signupVerified: { credits: 20, sarValue: 2, requiresVerification: true },
+  signupVerified: { credits: 5, sarValue: 0.5, requiresVerification: true },
   dailyLogin: { minCredits: 1, maxCredits: 2, weeklyCap: 10 },
   referralVerifiedRegistration: { credits: 20, sarValue: 2, requiresVerification: true }
 };
@@ -47,7 +47,7 @@ const state = globalThis.__ARABAI_VERCEL_DEMO_STATE__ || {
 };
 
 globalThis.__ARABAI_VERCEL_DEMO_STATE__ = state;
-rewardRules.foundingUserCampaign.enabled = process.env.ENABLE_FOUNDING_USER_CAMPAIGN !== "false";
+rewardRules.foundingUserCampaign.enabled = process.env.ENABLE_FOUNDING_USER_CAMPAIGN === "true";
 
 const adapter = createRuntimeAdapter();
 const store = process.env.ENABLE_SUPABASE_STORE === "true" ? createSupabaseStore() : null;
@@ -249,7 +249,7 @@ async function handlePersistedRequest(req, res, path) {
     const taskId = path.split("/").pop();
     const task = await store.getTask(taskId);
     if (!task) return json(res, { error: { code: "NOT_FOUND", message: "Task not found." } }, 404);
-    return json(res, task);
+    return json(res, taskListView(task));
   }
 
   if (path === "/api/outbound-clicks" && req.method === "POST") {
@@ -386,7 +386,7 @@ async function handlePersistedVerifiedSignin(req, res) {
       wallet: walletView(wallet),
       foundingUserReward,
       message: foundingUserReward.granted
-        ? `You are ARABAI user #${user.registrationNumber}. Your early user trial credits have been added.`
+        ? `You are ARABAI user #${user.registrationNumber}. Signup credits have been added.`
         : `You are ARABAI user #${user.registrationNumber}.`
     },
     200,
@@ -984,7 +984,7 @@ function createRuntimeAdapter() {
     return createGatewayAdapter({
       baseUrl: process.env.AI_GATEWAY_BASE_URL,
       apiKey: process.env.AI_GATEWAY_API_KEY,
-      defaultTextModel: process.env.AI_GATEWAY_TEXT_MODEL || process.env.AI_MODEL_DEFAULT_CHAT,
+      defaultTextModel: process.env.AI_GATEWAY_TEXT_MODEL || process.env.AI_MODEL_DEFAULT_CHAT || "gpt-4o-mini",
       defaultImageModel: process.env.AI_GATEWAY_IMAGE_MODEL || process.env.AI_MODEL_IMAGE,
       timeoutMs: Number(process.env.AI_GATEWAY_TIMEOUT_MS || 60000)
     });
@@ -1197,7 +1197,7 @@ function verifiedSigninRoute({ user, currentRegistrationCount, currentFoundingRe
     wallet,
     foundingUserReward,
     message: foundingUserReward.granted
-      ? `You are ARABAI user #${user.registrationNumber}. Your early user trial credits have been added.`
+      ? `You are ARABAI user #${user.registrationNumber}. Signup credits have been added.`
       : `You are ARABAI user #${user.registrationNumber}.`
   };
 }
@@ -1353,7 +1353,7 @@ function createGatewayAdapter({
     async runTextTask(input) {
       const startedAt = Date.now();
       const model = input.options?.model || defaultTextModel;
-      const response = await fetch(withPath(baseUrl, "/v1/chat/completions"), {
+      const response = await fetch(withApiPath(baseUrl, "/chat/completions"), {
         method: "POST",
         headers: {
           authorization: `Bearer ${apiKey}`,
@@ -1377,7 +1377,7 @@ function createGatewayAdapter({
     async runImageTask(input) {
       const startedAt = Date.now();
       const model = input.options?.model || defaultImageModel;
-      const response = await fetch(withPath(baseUrl, "/v1/images/generations"), {
+      const response = await fetch(withApiPath(baseUrl, "/images/generations"), {
         method: "POST",
         headers: {
           authorization: `Bearer ${apiKey}`,
@@ -1468,8 +1468,10 @@ function readProviderCost(data) {
   return data.cost || data.provider_cost || data.usage?.cost || null;
 }
 
-function withPath(baseUrl, path) {
-  return `${baseUrl.replace(/\/$/, "")}${path}`;
+function withApiPath(baseUrl, path) {
+  const normalizedBaseUrl = baseUrl.replace(/\/$/, "");
+  const versionedBaseUrl = normalizedBaseUrl.endsWith("/v1") ? normalizedBaseUrl : `${normalizedBaseUrl}/v1`;
+  return `${versionedBaseUrl}${path}`;
 }
 
 function requirePositiveCredits(credits) {
@@ -1544,7 +1546,7 @@ function unavailableTask(pricingRuleId) {
 }
 
 function validateDailySpendCap(wallet, estimatedCredits) {
-  const dailyCap = Number(process.env.FREE_CREDIT_DAILY_SPEND_CAP || 20);
+  const dailyCap = Number(process.env.FREE_CREDIT_DAILY_SPEND_CAP || rewardRules.signupVerified.credits);
   const todayKey = new Date().toISOString().slice(0, 10);
   const spentToday = wallet.transactions.reduce((sum, item) => {
     if (item.type !== "spend") return sum;

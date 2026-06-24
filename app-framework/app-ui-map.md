@@ -163,9 +163,9 @@ Show users how to earn free credits without making content paid.
 
 Reward list:
 
-- first 100 verified users: 100 credits while campaign is active
+- optional founding-user campaign: 100 credits for the first 100 verified users when explicitly enabled
 - founding users can earn extra trial chances through verified referrals
-- verified registration: 20 credits
+- verified registration: 5 credits
 - daily login: 1-2 credits, up to 10 per week
 - useful beginner question: 5-10 credits after approval
 - useful correction or tutorial feedback: 5-15 credits after approval

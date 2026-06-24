@@ -20,7 +20,7 @@ const state = {
 };
 
 const adapter = createRuntimeAdapter();
-rewardRules.foundingUserCampaign.enabled = true;
+rewardRules.foundingUserCampaign.enabled = false;
 
 const server = createServer(async (req, res) => {
   try {

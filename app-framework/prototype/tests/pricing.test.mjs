@@ -23,7 +23,7 @@ assert.equal(usdStarter.currency, "USD");
 assert.equal(usdStarter.credits, 185);
 assert.equal(usdStarter.maxProviderCostAmount, 2.5);
 
-assert.equal(rewardRules.signupVerified.credits, 20);
+assert.equal(rewardRules.signupVerified.credits, 5);
 assert.equal(rewardRules.foundingUserCampaign.enabled, false);
 assert.equal(rewardRules.foundingUserCampaign.maxUsers, 100);
 assert.equal(rewardRules.foundingUserCampaign.credits, 100);
@@ -70,8 +70,8 @@ assert.equal(providerCostToCredits(0.5, 10, 100), 10);
 const wallet = createWallet(100);
 const user = { verified: true, signupRewardGranted: false };
 grantSignupRewardRoute({ wallet, user });
-assert.equal(wallet.creditBalance, 120);
-assert.equal(wallet.redeemableCreditBalance, 120);
+assert.equal(wallet.creditBalance, 105);
+assert.equal(wallet.redeemableCreditBalance, 105);
 
 const dailyWallet = createWallet(0);
 const dailyUser = { verified: true };
@@ -154,7 +154,7 @@ const signinResult = verifiedSigninRoute({
 assert.equal(signinResult.user.registrationNumber, 124);
 assert.match(signinResult.message, /#124/);
 assert.equal(signinResult.foundingUserReward.granted, true);
-assert.equal(signinResult.wallet.creditBalance, 120);
+assert.equal(signinResult.wallet.creditBalance, 105);
 rewardRules.foundingUserCampaign.enabled = false;
 
 const task = confirmTaskRoute({
@@ -185,7 +185,7 @@ const completed = await runTaskRoute({
 });
 
 assert.equal(completed.status, "completed");
-assert.equal(wallet.creditBalance, 118);
+assert.equal(wallet.creditBalance, 103);
 assert.equal(wallet.reservedCreditBalance, 0);
 
 console.log("ARABAI pricing prototype tests passed.");
