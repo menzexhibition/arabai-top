@@ -283,6 +283,12 @@ async function handlePersistedVerifiedSignin(req, res) {
   let userRow = sessionUserId ? await store.findUserById(sessionUserId) : null;
   const existingByEmail = email ? await store.findUserByEmail(email) : null;
   const existingByPhone = phone ? await store.findUserByPhone(phone) : null;
+  if (userRow && email && email !== normalizeText(userRow.email)) {
+    return json(res, registrationConflict("EMAIL_ALREADY_REGISTERED").body, 409);
+  }
+  if (userRow && phone && phone !== normalizeText(userRow.phone)) {
+    return json(res, registrationConflict("PHONE_ALREADY_REGISTERED").body, 409);
+  }
   const conflictResponse = registrationConflictResponse({ userRow, existingByEmail, existingByPhone });
   if (conflictResponse) return json(res, conflictResponse.body, conflictResponse.status);
   userRow ||= existingByEmail || existingByPhone;
@@ -314,8 +320,6 @@ async function handlePersistedVerifiedSignin(req, res) {
   } else {
     userRow = await store.updateUser(userRow.id, {
       display_name: body.displayName || userRow.display_name || "ARABAI user",
-      email: nullableText(body.email) || userRow.email,
-      phone: nullableText(body.phone) || userRow.phone,
       country: body.country || userRow.country || "SA",
       preferred_language: body.preferredLanguage || userRow.preferred_language || "ar",
       last_login_at: new Date().toISOString()
