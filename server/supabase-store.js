@@ -15,14 +15,22 @@ export function createSupabaseStore() {
       const rows = await selectRows("users", { id });
       return rows[0] || null;
     },
+    async findUserByEmail(email) {
+      const rows = await selectRows("users", { email });
+      return rows[0] || null;
+    },
+    async findUserByPhone(phone) {
+      const rows = await selectRows("users", { phone });
+      return rows[0] || null;
+    },
     async findUserByEmailOrPhone({ email, phone }) {
       if (email) {
-        const byEmail = await selectRows("users", { email });
-        if (byEmail[0]) return byEmail[0];
+        const byEmail = await this.findUserByEmail(email);
+        if (byEmail) return byEmail;
       }
       if (phone) {
-        const byPhone = await selectRows("users", { phone });
-        if (byPhone[0]) return byPhone[0];
+        const byPhone = await this.findUserByPhone(phone);
+        if (byPhone) return byPhone;
       }
       return null;
     },

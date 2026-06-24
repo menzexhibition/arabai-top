@@ -278,11 +278,14 @@ async function handlePersistedVerifiedSignin(req, res) {
   }
 
   const sessionUserId = readCookie(req, "arabai_user_id");
+  const email = normalizeText(body.email);
+  const phone = normalizeText(body.phone);
   let userRow = sessionUserId ? await store.findUserById(sessionUserId) : null;
-  userRow ||= await store.findUserByEmailOrPhone({
-    email: normalizeText(body.email),
-    phone: normalizeText(body.phone)
-  });
+  const existingByEmail = email ? await store.findUserByEmail(email) : null;
+  const existingByPhone = phone ? await store.findUserByPhone(phone) : null;
+  const conflictResponse = registrationConflictResponse({ userRow, existingByEmail, existingByPhone });
+  if (conflictResponse) return json(res, conflictResponse.body, conflictResponse.status);
+  userRow ||= existingByEmail || existingByPhone;
 
   const referralCode = normalizeText(body.referralCode);
   let isNewUser = false;
@@ -430,6 +433,18 @@ async function handleDemoRequest(req, res, path) {
       country: body.country || "",
       language: body.preferredLanguage || ""
     });
+    const existingUser = state.user;
+    const incomingUser = {
+      email: normalizeText(body.email),
+      phone: normalizeText(body.phone)
+    };
+    if (existingUser && incomingUser.email && incomingUser.email !== normalizeText(existingUser.email)) {
+      return json(res, registrationConflict("EMAIL_ALREADY_REGISTERED").body, 409);
+    }
+    if (existingUser && incomingUser.phone && incomingUser.phone !== normalizeText(existingUser.phone)) {
+      return json(res, registrationConflict("PHONE_ALREADY_REGISTERED").body, 409);
+    }
+
     const user =
       state.user ||
       {
@@ -655,6 +670,49 @@ function userFromRow(row) {
     verified: true,
     signupRewardGranted: Boolean(row.signup_reward_granted),
     foundingUserRewardGranted: Boolean(row.founding_user_reward_granted)
+  };
+}
+
+function registrationConflictResponse({ userRow, existingByEmail, existingByPhone }) {
+  if (existingByEmail && existingByEmail.id !== userRow?.id) {
+    return {
+      status: 409,
+      body: {
+        error: {
+          code: "EMAIL_ALREADY_REGISTERED",
+          message: "This email is already registered. Please sign out or use a different email."
+        }
+      }
+    };
+  }
+
+  if (existingByPhone && existingByPhone.id !== userRow?.id) {
+    return {
+      status: 409,
+      body: {
+        error: {
+          code: "PHONE_ALREADY_REGISTERED",
+          message: "This phone number is already registered. Please sign out or use a different phone number."
+        }
+      }
+    };
+  }
+
+  return null;
+}
+
+function registrationConflict(code) {
+  const message =
+    code === "EMAIL_ALREADY_REGISTERED"
+      ? "This email is already registered. Please sign out or use a different email."
+      : "This phone number is already registered. Please sign out or use a different phone number.";
+  return {
+    body: {
+      error: {
+        code,
+        message
+      }
+    }
   };
 }
 

@@ -74,6 +74,34 @@ assert.equal(response.body.wallet.creditBalance, 5);
 response = await callHandler("GET", "/api/me");
 assert.equal(response.statusCode, 200);
 assert.equal(response.body.user.registrationNumber, 58);
+assert.equal(response.body.user.email, "demo@arabai.top");
+const originalPhone = response.body.user.phone;
+assert.equal(response.body.wallet.creditBalance, 5);
+
+response = await callHandler("POST", "/api/auth/verified-signin", {
+  displayName: "Phone Collision",
+  email: "phone-collision@arabai.top",
+  phone: originalPhone,
+  country: "SA",
+  preferredLanguage: "ar"
+});
+assert.equal(response.statusCode, 409);
+assert.match(response.body.error.code, /EMAIL_ALREADY_REGISTERED|PHONE_ALREADY_REGISTERED/);
+
+response = await callHandler("POST", "/api/auth/verified-signin", {
+  displayName: "Email Collision",
+  email: "demo@arabai.top",
+  phone: "+966****9999",
+  country: "SA",
+  preferredLanguage: "ar"
+});
+assert.equal(response.statusCode, 409);
+assert.match(response.body.error.code, /EMAIL_ALREADY_REGISTERED|PHONE_ALREADY_REGISTERED/);
+
+response = await callHandler("GET", "/api/me");
+assert.equal(response.statusCode, 200);
+assert.equal(response.body.user.email, "demo@arabai.top");
+assert.equal(response.body.user.phone, originalPhone);
 assert.equal(response.body.wallet.creditBalance, 5);
 
 response = await callHandler("GET", "/api/wallet");
