@@ -49,6 +49,16 @@ POST /api/wallet/top-up/webhook
 
 Provider/API cost target should stay at or below 50% of paid package value.
 
+## Payment Sandbox
+
+Use this mode to test the full recharge flow without charging real money:
+
+- `PAYMENT_PROVIDER=virtual`
+- `PAYMENT_MODE=sandbox`
+- `ENABLE_REAL_RECHARGE=false`
+
+The sandbox checkout should return a local checkout payload, the webhook should accept success/failure/cancel, and duplicate callbacks must not double-credit the wallet. The UI should label this flow clearly as a sandbox test and keep the real Lemon Squeezy flow disabled until the store is approved.
+
 ## AI Tasks
 
 ```text

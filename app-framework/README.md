@@ -61,6 +61,16 @@ To enable it later:
 
 When enabled, `/api/auth/verified-signin`, `/api/me`, `/api/wallet`, `/api/wallet/transactions`, and `/api/tasks/confirm` can save and read users, wallets, transactions, and task records from Supabase.
 
+## Payment Sandbox
+
+For local or staging verification of recharge flow, use the virtual sandbox mode instead of a real payment provider:
+
+- `PAYMENT_PROVIDER=virtual`
+- `PAYMENT_MODE=sandbox`
+- `ENABLE_REAL_RECHARGE=false`
+
+In this mode the checkout, webhook, credits ledger, and anti-duplicate logic run end-to-end without charging real money. The UI should clearly show that it is a sandbox test.
+
 ## Important Rule
 
 Published ARABAI guide content remains free. Paid features are only:
