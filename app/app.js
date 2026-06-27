@@ -978,28 +978,28 @@ const operationGroups = [
     id: "text",
     label: "نص وكتابة",
     description: "للأسئلة، الكتابة، إعادة الصياغة، والخطط القصيرة.",
-    modelRoute: "AI_MODEL_DEFAULT_CHAT",
+    modelRoute: "DeepSeek · ChatGPT · Gemini",
     tasks: ["premium_short_chat", "prompt_improvement", "premium_long_answer", "long_document_summary"]
   },
   {
     id: "image",
     label: "صورة",
     description: "لتحضير برومبت صورة أو توليد صورة بسيطة.",
-    modelRoute: "AI_MODEL_IMAGE",
+    modelRoute: "DALL·E · Gemini · Seedream",
     tasks: ["image_prompt_review", "image_generation_low"]
   },
   {
     id: "slides",
     label: "عرض أو خطة",
     description: "لبناء مخطط عرض تقديمي أو ترتيب فكرة مشروع.",
-    modelRoute: "AI_MODEL_DEFAULT_CHAT",
+    modelRoute: "ChatGPT · Gemini · Claude",
     tasks: ["ppt_outline"]
   },
   {
     id: "video",
     label: "فيديو",
     description: "لكتابة سكربت فيديو وتقسيمه إلى مشاهد قبل استخدام أداة الفيديو.",
-    modelRoute: "AI_MODEL_DEFAULT_CHAT",
+    modelRoute: "ChatGPT · Gemini · Seedance",
     tasks: ["video_script"]
   }
 ];
