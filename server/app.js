@@ -1316,7 +1316,7 @@ function grantBalanceTestCreditsIfNeeded({ wallet, user }) {
   }
   if (wallet.redeemableCreditBalance >= balanceTestCredits) {
     wallet.transactions.push({
-      type: "test_balance_marker",
+      type: "top_up",
       credits: 0,
       status: "available",
       provider: "virtual",
@@ -1329,7 +1329,7 @@ function grantBalanceTestCreditsIfNeeded({ wallet, user }) {
 
   const credits = balanceTestCredits - wallet.redeemableCreditBalance;
   addCredits(wallet, {
-    type: "test_balance",
+    type: "top_up",
     credits,
     status: "available",
     provider: "virtual",

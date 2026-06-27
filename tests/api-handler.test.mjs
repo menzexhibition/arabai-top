@@ -74,7 +74,10 @@ assert.equal(response.statusCode, 200);
 assert.equal(response.body.user.registrationNumber, 58);
 assert.equal(response.body.wallet.creditBalance, 500);
 assert.equal(response.body.wallet.redeemableCreditBalance, 500);
-assert.ok(response.body.wallet.transactions.some((item) => item.type === "test_balance"));
+const balanceTestTransactions = response.body.wallet.transactions.filter(
+  (item) => item.type === "top_up" && item.providerReference?.startsWith("arabai_balance_test_")
+);
+assert.equal(balanceTestTransactions.length, 1);
 
 response = await callHandler("GET", "/api/me");
 assert.equal(response.statusCode, 200);
@@ -127,7 +130,12 @@ response = await callHandler("POST", "/api/auth/verified-signin", {
 });
 assert.equal(response.statusCode, 200);
 assert.equal(response.body.wallet.creditBalance, 500);
-assert.equal(response.body.wallet.transactions.filter((item) => item.type === "test_balance").length, 1);
+assert.equal(
+  response.body.wallet.transactions.filter(
+    (item) => item.type === "top_up" && item.providerReference?.startsWith("arabai_balance_test_")
+  ).length,
+  1
+);
 
 response = await callHandler("POST", "/api/tasks/estimate", {
   pricingRuleId: "premium_short_chat",
