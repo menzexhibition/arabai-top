@@ -773,6 +773,11 @@ function transactionFromRow(row) {
     type: row.type,
     status: row.status,
     credits: Number(row.credits || 0),
+    moneyAmount: row.money_amount === null || row.money_amount === undefined ? null : Number(row.money_amount),
+    currency: row.currency || "SAR",
+    provider: row.provider || null,
+    providerReference: row.provider_reference || null,
+    sourceId: row.source_id || null,
     note: row.note || "",
     createdAt: row.created_at
   };
