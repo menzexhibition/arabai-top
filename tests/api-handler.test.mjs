@@ -3,6 +3,9 @@ import { EventEmitter } from "node:events";
 
 process.env.ENABLE_AI_REDEMPTION = "true";
 process.env.ENABLE_FOUNDING_USER_CAMPAIGN = "false";
+process.env.PAYMENT_PROVIDER = "virtual";
+process.env.PAYMENT_MODE = "sandbox";
+process.env.ENABLE_REAL_RECHARGE = "false";
 
 const { default: handler } = await import("../server/app.js");
 
@@ -63,20 +66,22 @@ assert.equal(response.body.error.code, "AUTH_REQUIRED");
 response = await callHandler("POST", "/api/auth/verified-signin", {
   displayName: "Demo User",
   email: "demo@arabai.top",
-  phone: "+966500000000",
+  phone: "+966****0000",
   country: "SA",
   preferredLanguage: "ar"
 });
 assert.equal(response.statusCode, 200);
 assert.equal(response.body.user.registrationNumber, 58);
-assert.equal(response.body.wallet.creditBalance, 5);
+assert.equal(response.body.wallet.creditBalance, 500);
+assert.equal(response.body.wallet.redeemableCreditBalance, 500);
+assert.ok(response.body.wallet.transactions.some((item) => item.type === "test_balance"));
 
 response = await callHandler("GET", "/api/me");
 assert.equal(response.statusCode, 200);
 assert.equal(response.body.user.registrationNumber, 58);
 assert.equal(response.body.user.email, "demo@arabai.top");
 const originalPhone = response.body.user.phone;
-assert.equal(response.body.wallet.creditBalance, 5);
+assert.equal(response.body.wallet.creditBalance, 500);
 
 response = await callHandler("POST", "/api/auth/verified-signin", {
   displayName: "Phone Collision",
@@ -102,16 +107,27 @@ response = await callHandler("GET", "/api/me");
 assert.equal(response.statusCode, 200);
 assert.equal(response.body.user.email, "demo@arabai.top");
 assert.equal(response.body.user.phone, originalPhone);
-assert.equal(response.body.wallet.creditBalance, 5);
+assert.equal(response.body.wallet.creditBalance, 500);
 
 response = await callHandler("GET", "/api/wallet");
 assert.equal(response.statusCode, 200);
-assert.equal(response.body.creditBalance, 5);
+assert.equal(response.body.creditBalance, 500);
 
 response = await callHandler("GET", "/api/wallet/transactions");
 assert.equal(response.statusCode, 200);
 assert.equal(Array.isArray(response.body.transactions), true);
 assert.ok(response.body.transactions.length >= 1);
+
+response = await callHandler("POST", "/api/auth/verified-signin", {
+  displayName: "Demo User",
+  email: "demo@arabai.top",
+  phone: "+966****0000",
+  country: "SA",
+  preferredLanguage: "ar"
+});
+assert.equal(response.statusCode, 200);
+assert.equal(response.body.wallet.creditBalance, 500);
+assert.equal(response.body.wallet.transactions.filter((item) => item.type === "test_balance").length, 1);
 
 response = await callHandler("POST", "/api/tasks/estimate", {
   pricingRuleId: "premium_short_chat",
@@ -126,7 +142,7 @@ response = await callHandler("POST", "/api/tasks/confirm", {
   prompt: "Rewrite this message."
 });
 assert.equal(response.body.status, "completed");
-assert.equal(response.body.wallet.creditBalance, 3);
+assert.equal(response.body.wallet.creditBalance, 498);
 
 response = await callHandler("POST", "/api/wallet/claim-daily-login");
 assert.equal(response.statusCode, 200);
@@ -144,12 +160,61 @@ assert.equal(response.body.status, "completed");
 assert.equal(response.body.taskType, "chat");
 assert.equal(response.body.pricingRuleId, "premium_short_chat");
 
-response = await callHandler("POST", "/api/wallet/top-up/create-checkout", {
+const walletBeforeTopUp = await callHandler("GET", "/api/wallet");
+const checkoutResponse = await callHandler("POST", "/api/wallet/top-up/create-checkout", {
   packageId: "sa_starter_10"
 });
-assert.equal(response.statusCode, 403);
-assert.equal(response.body.status, "coming_soon");
-assert.equal(response.body.error.code, "FEATURE_DISABLED");
+assert.equal(checkoutResponse.statusCode, 200);
+assert.equal(checkoutResponse.body.status, "checkout_ready");
+assert.equal(checkoutResponse.body.provider, "virtual");
+assert.equal(checkoutResponse.body.mode, "sandbox");
+assert.equal(checkoutResponse.body.packageId, "sa_starter_10");
+assert.equal(checkoutResponse.body.credits, 100);
+assert.match(checkoutResponse.body.checkoutUrl, /payment=virtual/);
+
+response = await callHandler("POST", "/api/wallet/top-up/webhook", {
+  provider: "virtual",
+  event: "payment_succeeded",
+  checkoutId: checkoutResponse.body.checkoutId
+});
+assert.equal(response.statusCode, 200);
+assert.equal(response.body.ok, true);
+assert.equal(response.body.credited, 100);
+assert.equal(response.body.wallet.creditBalance, walletBeforeTopUp.body.creditBalance + 100);
+
+response = await callHandler("POST", "/api/wallet/top-up/webhook", {
+  provider: "virtual",
+  event: "payment_succeeded",
+  checkoutId: checkoutResponse.body.checkoutId
+});
+assert.equal(response.statusCode, 200);
+assert.equal(response.body.duplicate, true);
+assert.equal(response.body.wallet.creditBalance, walletBeforeTopUp.body.creditBalance + 100);
+
+const failedCheckoutResponse = await callHandler("POST", "/api/wallet/top-up/create-checkout", {
+  packageId: "sa_starter_10",
+  simulate: "failed"
+});
+response = await callHandler("POST", "/api/wallet/top-up/webhook", {
+  provider: "virtual",
+  event: "payment_failed",
+  checkoutId: failedCheckoutResponse.body.checkoutId
+});
+assert.equal(response.statusCode, 200);
+assert.equal(response.body.ok, true);
+assert.equal(response.body.credited, 0);
+assert.equal(response.body.wallet.creditBalance, walletBeforeTopUp.body.creditBalance + 100);
+
+response = await callHandler("POST", "/api/wallet/top-up/webhook", {
+  provider: "virtual",
+  event: "payment_succeeded",
+  checkoutId: failedCheckoutResponse.body.checkoutId
+});
+assert.equal(response.statusCode, 200);
+assert.equal(response.body.duplicate, true);
+assert.equal(response.body.credited, 0);
+assert.equal(response.body.status, "failed");
+assert.equal(response.body.wallet.creditBalance, walletBeforeTopUp.body.creditBalance + 100);
 
 response = await callHandler("POST", "/api/outbound-clicks", {
   articleId: "create-images",

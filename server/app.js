@@ -37,16 +37,25 @@ const pricingRules = [
 ];
 
 const launchTaskRuleIds = ["premium_short_chat", "prompt_improvement", "premium_long_answer", "image_prompt_review"];
+const balanceTestAccounts = new Set(
+  (process.env.ARABAI_BALANCE_TEST_ACCOUNTS || "demo@arabai.top,test@arabai.top,+966****0000")
+    .split(",")
+    .map((item) => normalizeText(item).toLowerCase())
+    .filter(Boolean)
+);
+const balanceTestCredits = Number(process.env.ARABAI_BALANCE_TEST_CREDITS || 500);
 
 const state = globalThis.__ARABAI_VERCEL_DEMO_STATE__ || {
   user: null,
   wallet: createWallet(0),
   registrationCount: 57,
   foundingRewardCount: 57,
-  tasks: new Map()
+  tasks: new Map(),
+  virtualCheckouts: new Map()
 };
 
 globalThis.__ARABAI_VERCEL_DEMO_STATE__ = state;
+if (!state.virtualCheckouts) state.virtualCheckouts = new Map();
 rewardRules.foundingUserCampaign.enabled = process.env.ENABLE_FOUNDING_USER_CAMPAIGN === "true";
 
 const adapter = createRuntimeAdapter();
@@ -145,7 +154,7 @@ async function handlePersistedRequest(req, res, path) {
   }
 
   if (path === "/api/wallet/top-up/webhook" && req.method === "POST") {
-    return handleLemonWebhook(req, res);
+    return handleTopUpWebhook(req, res);
   }
 
   if (path === "/api/wallet" && req.method === "GET") {
@@ -333,6 +342,7 @@ async function handlePersistedVerifiedSignin(req, res) {
   if (!user.signupRewardGranted) {
     grantSignupRewardRoute({ wallet, user });
   }
+  grantBalanceTestCreditsIfNeeded({ wallet, user });
 
   const foundingRewardCount = await store.countFoundingRewardsGranted();
   let foundingUserReward = {
@@ -478,6 +488,7 @@ async function handleDemoRequest(req, res, path) {
 
     state.user = user;
     state.wallet = result.wallet;
+    grantBalanceTestCreditsIfNeeded({ wallet: state.wallet, user: state.user });
     return json(res, result);
   }
 
@@ -499,7 +510,7 @@ async function handleDemoRequest(req, res, path) {
   }
 
   if (path === "/api/wallet/top-up/webhook" && req.method === "POST") {
-    return handleLemonWebhook(req, res);
+    return handleTopUpWebhook(req, res);
   }
 
   if (path === "/api/wallet" && req.method === "GET") {
@@ -751,7 +762,9 @@ function packageView() {
     priceAmount: item.priceAmount,
     currency: item.currency,
     credits: item.credits,
-    status: packageAvailable(item) ? "available" : "coming_soon"
+    status: virtualRechargeEnabled() || packageAvailable(item) ? "available" : "coming_soon",
+    provider: virtualRechargeEnabled() ? "virtual" : packageAvailable(item) ? "lemon_squeezy" : null,
+    mode: virtualRechargeEnabled() ? "sandbox" : null
   }));
 }
 
@@ -818,15 +831,27 @@ function featureDisabledResponse(message) {
 }
 
 async function handleCreateCheckout(req, res, session) {
-  if (!rechargeEnabled()) {
-    return json(res, featureDisabledResponse("Recharge is not open yet."), 403);
-  }
-
   const body = await readJson(req);
   const selectedPackage = findPackage(body.packageId, body.currencyHint);
   if (!selectedPackage) {
     return json(res, { error: { code: "PACKAGE_NOT_FOUND", message: "Selected credit package is not available." } }, 404);
   }
+
+  if (virtualRechargeEnabled()) {
+    const checkout = createVirtualCheckout({
+      user: session.user,
+      packageItem: selectedPackage,
+      simulate: body.simulate,
+      origin: requestOrigin(req)
+    });
+    state.virtualCheckouts.set(checkout.id, checkout);
+    return json(res, virtualCheckoutView(checkout));
+  }
+
+  if (!rechargeEnabled()) {
+    return json(res, featureDisabledResponse("Recharge is not open yet."), 403);
+  }
+
   if (!packageAvailable(selectedPackage)) {
     return json(res, featureDisabledResponse("This package is not connected to Lemon Squeezy yet."), 403);
   }
@@ -844,6 +869,14 @@ async function handleCreateCheckout(req, res, session) {
     checkoutUrl: checkout.url,
     checkoutId: checkout.id || null
   });
+}
+
+async function handleTopUpWebhook(req, res) {
+  if (virtualRechargeEnabled()) {
+    const body = await readJson(req);
+    return handleVirtualWebhook(req, res, body);
+  }
+  return handleLemonWebhook(req, res);
 }
 
 async function handleLemonWebhook(req, res) {
@@ -900,6 +933,132 @@ async function handleLemonWebhook(req, res) {
   await persistWallet(userId, wallet, previousTransactionCount);
 
   return json(res, { ok: true, credited: packageItem.credits, userId, packageId });
+}
+
+function virtualRechargeEnabled() {
+  return process.env.PAYMENT_PROVIDER === "virtual" && process.env.PAYMENT_MODE === "sandbox" && process.env.ENABLE_REAL_RECHARGE !== "true";
+}
+
+function createVirtualCheckout({ user, packageItem, simulate, origin }) {
+  const id = `virtual_${randomUUID()}`;
+  const simulation = ["failed", "cancelled"].includes(simulate) ? simulate : "success";
+  return {
+    id,
+    userId: user.id,
+    packageId: packageItem.id,
+    credits: packageItem.credits,
+    moneyAmount: packageItem.priceAmount,
+    currency: packageItem.currency,
+    label: packageItem.label,
+    simulation,
+    status: "pending",
+    providerReference: `virtual_checkout_${id}`,
+    checkoutUrl: `${origin}/app/?payment=virtual&checkout_id=${encodeURIComponent(id)}&simulate=${simulation}`,
+    createdAt: new Date().toISOString()
+  };
+}
+
+function virtualCheckoutView(checkout) {
+  return {
+    status: "checkout_ready",
+    provider: "virtual",
+    mode: "sandbox",
+    packageId: checkout.packageId,
+    credits: checkout.credits,
+    moneyAmount: checkout.moneyAmount,
+    currency: checkout.currency,
+    checkoutId: checkout.id,
+    checkoutUrl: checkout.checkoutUrl,
+    sandboxNotice: "Sandbox payment only. No real money will be charged.",
+    sandboxNoticeArabic: "دفع تجريبي فقط. لن يتم خصم أي مبلغ حقيقي."
+  };
+}
+
+async function handleVirtualWebhook(req, res, body) {
+  if (body?.provider !== "virtual") {
+    return json(res, { error: { code: "INVALID_PROVIDER", message: "Virtual sandbox webhook requires provider=virtual." } }, 400);
+  }
+
+  const checkoutId = normalizeText(body.checkoutId);
+  const checkout = state.virtualCheckouts.get(checkoutId);
+  if (!checkout) {
+    return json(res, { error: { code: "CHECKOUT_NOT_FOUND", message: "Virtual checkout was not found." } }, 404);
+  }
+
+  const session = await virtualSessionForWebhook(req, res);
+  if (!session) return;
+  if (checkout.userId !== session.user.id) {
+    return json(res, { error: { code: "CHECKOUT_USER_MISMATCH", message: "Virtual checkout does not match the signed-in user." } }, 403);
+  }
+
+  if (checkout.status === "credited") {
+    return json(res, { ok: true, duplicate: true, credited: 0, wallet: walletView(session.wallet) });
+  }
+  if (["failed", "cancelled"].includes(checkout.status)) {
+    return json(res, { ok: true, duplicate: true, credited: 0, status: checkout.status, wallet: walletView(session.wallet) });
+  }
+
+  const event = normalizeText(body.event || virtualEventForSimulation(checkout.simulation));
+  if (["payment_failed", "payment_cancelled", "checkout_cancelled"].includes(event)) {
+    checkout.status = event.includes("cancel") ? "cancelled" : "failed";
+    checkout.completedAt = new Date().toISOString();
+    return json(res, { ok: true, credited: 0, status: checkout.status, wallet: walletView(session.wallet) });
+  }
+
+  if (event !== "payment_succeeded") {
+    return json(res, { ok: true, ignored: true, event, wallet: walletView(session.wallet) });
+  }
+
+  return creditVirtualCheckout(res, checkout, session);
+}
+
+async function virtualSessionForWebhook(req, res) {
+  if (store?.isReady) return requirePersistedSession(req, res);
+  if (!state.user) {
+    json(res, { error: { code: "AUTH_REQUIRED", message: "Sign in before confirming sandbox payment." } }, 401);
+    return null;
+  }
+  return { user: state.user, wallet: state.wallet };
+}
+
+async function creditVirtualCheckout(res, checkout, session) {
+  const existing = session.wallet.transactions.find(
+    (item) => item.provider === "virtual" && item.providerReference === checkout.providerReference
+  );
+  if (existing) {
+    checkout.status = "credited";
+    return json(res, { ok: true, duplicate: true, credited: 0, wallet: walletView(session.wallet) });
+  }
+
+  const previousTransactionCount = session.wallet.transactions.length;
+  addCredits(session.wallet, {
+    type: "top_up",
+    credits: checkout.credits,
+    status: "available",
+    moneyAmount: checkout.moneyAmount,
+    currency: checkout.currency,
+    provider: "virtual",
+    providerReference: checkout.providerReference,
+    note: `Virtual sandbox top-up: ${checkout.label}`
+  });
+  if (store?.isReady) {
+    await persistWallet(session.user.id, session.wallet, previousTransactionCount);
+  }
+  checkout.status = "credited";
+  checkout.completedAt = new Date().toISOString();
+
+  return json(res, {
+    ok: true,
+    credited: checkout.credits,
+    status: checkout.status,
+    wallet: walletView(session.wallet)
+  });
+}
+
+function virtualEventForSimulation(simulation) {
+  if (simulation === "failed") return "payment_failed";
+  if (simulation === "cancelled") return "payment_cancelled";
+  return "payment_succeeded";
 }
 
 function rechargeEnabled() {
@@ -1022,10 +1181,11 @@ function healthView(persisted) {
     ok: true,
     mode: persisted ? "supabase" : "demo",
     features: {
-      recharge: process.env.ENABLE_REAL_RECHARGE === "true",
+      recharge: process.env.ENABLE_REAL_RECHARGE === "true" || virtualRechargeEnabled(),
       aiRedemption: process.env.ENABLE_AI_REDEMPTION === "true",
       realGateway: process.env.USE_REAL_AI_GATEWAY === "true",
-      lemonSqueezy: rechargeEnabled()
+      lemonSqueezy: rechargeEnabled(),
+      virtualSandbox: virtualRechargeEnabled()
     },
     debug: {
       enableSupabaseStore: process.env.ENABLE_SUPABASE_STORE === "true",
@@ -1144,6 +1304,45 @@ function failReservedTask(wallet, taskId, reservedCredits) {
     createdAt: new Date().toISOString()
   });
   return wallet;
+}
+
+function grantBalanceTestCreditsIfNeeded({ wallet, user }) {
+  if (!isBalanceTestAccount(user)) return false;
+  if (!Number.isFinite(balanceTestCredits) || balanceTestCredits <= 0) return false;
+
+  const providerReference = `arabai_balance_test_${user.id}`;
+  if (wallet.transactions.some((item) => item.provider === "virtual" && item.providerReference === providerReference)) {
+    return false;
+  }
+  if (wallet.redeemableCreditBalance >= balanceTestCredits) {
+    wallet.transactions.push({
+      type: "test_balance_marker",
+      credits: 0,
+      status: "available",
+      provider: "virtual",
+      providerReference,
+      note: "ARABAI balance test account already met the test credit target",
+      createdAt: new Date().toISOString()
+    });
+    return true;
+  }
+
+  const credits = balanceTestCredits - wallet.redeemableCreditBalance;
+  addCredits(wallet, {
+    type: "test_balance",
+    credits,
+    status: "available",
+    provider: "virtual",
+    providerReference,
+    note: "ARABAI balance test account credits"
+  });
+  return true;
+}
+
+function isBalanceTestAccount(user) {
+  const email = normalizeText(user?.email).toLowerCase();
+  const phone = normalizeText(user?.phone).toLowerCase();
+  return Boolean((email && balanceTestAccounts.has(email)) || (phone && balanceTestAccounts.has(phone)));
 }
 
 function grantSignupRewardRoute({ wallet, user }) {

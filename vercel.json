@@ -1,1 +1,15 @@
-{}
+{
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "testapi.arabai.top"
+        }
+      ],
+      "destination": "/app/",
+      "permanent": false
+    }
+  ]
+}

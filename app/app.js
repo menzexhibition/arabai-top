@@ -164,6 +164,7 @@ let localTaskHistory = [];
 const signupForm = document.querySelector("#signupForm");
 const signupMessage = document.querySelector("#signupMessage");
 const packageGrid = document.querySelector("#packageGrid");
+const modelMarketplaceGrid = document.querySelector("#modelMarketplaceGrid");
 const taskGrid = document.querySelector("#taskGrid");
 const operationSelect = document.querySelector("#operationSelect");
 const operationHelp = document.querySelector("#operationHelp");
@@ -313,6 +314,7 @@ async function boot() {
   renderServiceStatus();
   renderWallet();
   await renderPackages();
+  renderModelMarketplace();
   renderOperationSelect();
   renderTasks();
   renderGuide(null);
@@ -447,13 +449,19 @@ async function renderPackages() {
     .map(
       (item) => {
         const available = item.status === "available";
+        const sandbox = item.provider === "virtual" || item.mode === "sandbox";
+        const description = sandbox
+          ? "دفع تجريبي فقط. لن يتم خصم أي مبلغ حقيقي، وسيضاف الرصيد لاختبار مسار المحفظة."
+          : available
+            ? "يتم الدفع عبر Lemon Squeezy، ثم يضاف الرصيد تلقائيا بعد تأكيد الدفع."
+            : "Coming Soon - التكلفة الحقيقية للـ API لا تتجاوز تقريبا 50% من قيمة الباقة.";
         return `
         <article>
           <span>${item.currency}</span>
           <h3>${formatPrice(item)}</h3>
           <p>${item.credits} credits</p>
-          <p>${available ? "يتم الدفع عبر Lemon Squeezy، ثم يضاف الرصيد تلقائيا بعد تأكيد الدفع." : "Coming Soon - التكلفة الحقيقية للـ API لا تتجاوز تقريبا 50% من قيمة الباقة."}</p>
-          <button type="button" data-package-id="${item.id}">${available ? "اشحن الآن" : "اطلب هذه الباقة"}</button>
+          <p>${description}</p>
+          <button type="button" data-package-id="${item.id}">${sandbox ? "اختبر الشحن" : available ? "اشحن الآن" : "اطلب هذه الباقة"}</button>
         </article>
       `;
       }
@@ -466,6 +474,40 @@ async function renderPackages() {
     });
   });
 
+}
+
+function renderModelMarketplace() {
+  if (!modelMarketplaceGrid) return;
+  modelMarketplaceGrid.innerHTML = operationGroups
+    .map((group) => {
+      const rules = pricingRules.filter((rule) => group.tasks.includes(rule.id));
+      const availableRules = rules.filter((rule) => allowedTaskIds.includes(rule.id) && rule.enabled !== false && !rule.comingSoon);
+      const creditValues = availableRules.flatMap((rule) => [rule.minCredits, rule.maxCredits]).filter((value) => Number.isFinite(value));
+      const minCredit = creditValues.length ? Math.min(...creditValues) : null;
+      const maxCredit = creditValues.length ? Math.max(...creditValues) : null;
+      const creditLabel = minCredit === null ? "قريبا" : minCredit === maxCredit ? `${minCredit} credits` : `${minCredit}-${maxCredit} credits`;
+      return `
+        <article data-operation-id="${group.id}">
+          <span>${group.modelRoute}</span>
+          <h3>${group.label}</h3>
+          <p>${group.description}</p>
+          <div class="model-meta">
+            <strong>${availableRules.length} مهام متاحة</strong>
+            <span>${creditLabel}</span>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+
+  modelMarketplaceGrid.querySelectorAll("article[data-operation-id]").forEach((card) => {
+    card.addEventListener("click", () => {
+      if (!operationSelect) return;
+      operationSelect.value = card.dataset.operationId || "";
+      operationSelect.dispatchEvent(new Event("change"));
+      document.querySelector("#use-ai")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
 }
 
 function renderTasks() {
@@ -632,6 +674,29 @@ async function handleTopUpClick(packageId) {
       packageMessage.textContent = data.error?.message || "الشحن غير متاح حاليا.";
       return;
     }
+    if (data.provider === "virtual" && data.checkoutId) {
+      packageMessage.textContent = data.sandboxNoticeArabic || "دفع تجريبي فقط. لن يتم خصم أي مبلغ حقيقي.";
+      const webhookResponse = await fetchWithTimeout("/api/wallet/top-up/webhook", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          provider: "virtual",
+          event: "payment_succeeded",
+          checkoutId: data.checkoutId
+        })
+      });
+      const webhookData = await parseApiResponse(webhookResponse, "تعذر تأكيد الدفع التجريبي.");
+      if (webhookData.wallet) {
+        wallet.creditBalance = webhookData.wallet.creditBalance;
+        wallet.redeemableCreditBalance = webhookData.wallet.redeemableCreditBalance;
+        wallet.reservedCreditBalance = webhookData.wallet.reservedCreditBalance;
+        wallet.transactions = Array.isArray(webhookData.wallet.transactions) ? webhookData.wallet.transactions : wallet.transactions;
+        renderWallet();
+        await refreshAccountViews();
+      }
+      packageMessage.textContent = `تمت إضافة ${webhookData.credited || 0} credits عبر دفع تجريبي آمن. لم يتم خصم أي مبلغ حقيقي.`;
+      return;
+    }
     if (data.checkoutUrl) {
       packageMessage.textContent = "سيتم فتح صفحة الدفع الآن.";
       window.location.assign(data.checkoutUrl);
@@ -662,7 +727,7 @@ function renderServiceStatus() {
 
   const featureLines = [
     `حفظ الحساب: ${appFlags.persisted ? "مفعل" : healthState.mode === "demo" ? "تجريبي" : "غير متصل"}`,
-    `الشحن الحقيقي: ${healthState.features.recharge ? "مفتوح" : "مغلق حاليا"}`,
+    `الشحن: ${healthState.features.virtualSandbox ? "دفع تجريبي آمن" : healthState.features.recharge ? "مفتوح" : "مغلق حاليا"}`,
     `تشغيل AI المدفوع: ${healthState.features.aiRedemption ? "جاهز عند التفعيل" : "في وضع الإعداد"}`,
     `بوابة المزود: ${healthState.features.realGateway ? "مرتبطة فعليا" : "نسخة محاكاة آمنة"}`
   ];
