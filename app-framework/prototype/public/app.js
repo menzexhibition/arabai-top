@@ -815,28 +815,28 @@ const operationGroups = [
     id: "text",
     label: "نص وكتابة",
     description: "للأسئلة، الكتابة، إعادة الصياغة، والخطط القصيرة.",
-    modelRoute: "AI_MODEL_DEFAULT_CHAT",
+    modelRoute: "gpt-5.5 · claude-sonnet-4-6 · deepseek-v3.2 · qwen3.6-plus",
     tasks: ["premium_short_chat", "prompt_improvement", "premium_long_answer", "long_document_summary"]
   },
   {
     id: "image",
     label: "صورة",
     description: "لتحضير برومبت صورة أو توليد صورة بسيطة.",
-    modelRoute: "AI_MODEL_IMAGE",
+    modelRoute: "gpt-image-2",
     tasks: ["image_prompt_review", "image_generation_low"]
   },
   {
     id: "slides",
     label: "عرض أو خطة",
     description: "لبناء مخطط عرض تقديمي أو ترتيب فكرة مشروع.",
-    modelRoute: "AI_MODEL_DEFAULT_CHAT",
+    modelRoute: "gpt-5.4 · claude-opus-4-6 · MiniMax-M3 · qwen3.5-plus",
     tasks: ["ppt_outline"]
   },
   {
     id: "video",
     label: "فيديو",
     description: "لكتابة سكربت فيديو وتقسيمه إلى مشاهد قبل استخدام أداة الفيديو.",
-    modelRoute: "AI_MODEL_DEFAULT_CHAT",
+    modelRoute: "gpt-5.4-mini · mimo-v2.5 · MiniMax-M2.7",
     tasks: ["video_script"]
   }
 ];
