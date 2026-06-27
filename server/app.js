@@ -292,6 +292,7 @@ async function handlePersistedVerifiedSignin(req, res) {
   let userRow = sessionUserId ? await store.findUserById(sessionUserId) : null;
   const existingByEmail = email ? await store.findUserByEmail(email) : null;
   const existingByPhone = phone ? await store.findUserByPhone(phone) : null;
+  userRow ||= existingByEmail || existingByPhone;
   if (userRow && email && email !== normalizeText(userRow.email)) {
     return json(res, registrationConflict("EMAIL_ALREADY_REGISTERED").body, 409);
   }
@@ -300,7 +301,6 @@ async function handlePersistedVerifiedSignin(req, res) {
   }
   const conflictResponse = registrationConflictResponse({ userRow, existingByEmail, existingByPhone });
   if (conflictResponse) return json(res, conflictResponse.body, conflictResponse.status);
-  userRow ||= existingByEmail || existingByPhone;
 
   const referralCode = normalizeText(body.referralCode);
   let isNewUser = false;
