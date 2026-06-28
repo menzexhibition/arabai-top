@@ -13,6 +13,7 @@
         <span class="brand-wordmark" aria-label="ARABAI"><span class="brand-arab">arab</span><span class="brand-ai">AI</span></span>
       </a>
       <nav aria-label="App navigation">
+        <a href="#model-marketplace">سوق النماذج</a>
         <a href="#wallet">الرصيد</a>
         <a href="#use-ai">استخدم الذكاء الاصطناعي</a>
         <a href="#rewards">المكافآت</a>
@@ -37,12 +38,37 @@
         </aside>
       </section>
 
+      <section id="model-marketplace" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Model Marketplace</p>
+          <h2>سوق النماذج</h2>
+          <p>يعرض ARABAI قائمة النماذج المتاحة من مزود الخدمة كما هي: اسم النموذج، نوع الاستخدام، طريقة التسعير، والواجهة المدعومة.</p>
+        </div>
+        <div id="modelMarketplaceGrid" class="model-marketplace-grid"></div>
+      </section>
+
+      <section id="use-ai" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">الذكاء الاصطناعي في المهام اليومية</p>
+          <h2>اختر نوع العملية فقط.</h2>
+          <p>المستخدم العادي لا يحتاج اختيار النموذج. ARABAI يختار نموذجا مناسبا لكل نوع: نص، صورة، فيديو، أو عرض.</p>
+        </div>
+        <div class="operation-picker">
+          <label for="operationSelect">ماذا تريد أن تفعل؟</label>
+          <select id="operationSelect">
+            <option value="">اختر العملية</option>
+          </select>
+          <p id="operationHelp">كل عملية تستخدم نموذجا واحدا مناسبا في الخلفية حتى لا يحتار المستخدم.</p>
+        </div>
+        <div id="taskGrid" class="task-grid"></div>
+      </section>
+
       <section id="signup" class="section signup-panel">
         <div>
-          <p class="eyebrow">Start Free Trial</p>
-          <h2>سجل أولا حتى نحفظ رصيدك وتجاربك.</h2>
+          <p class="eyebrow">بعد اختيار ما تريد تجربته</p>
+          <h2>سجل فقط عندما تريد حفظ الرصيد وتشغيل تجربة.</h2>
           <p>
-            قراءة الدروس لا تحتاج تسجيل. لكن تشغيل AI، تسجيل الرصيد، ومعرفة رقمك بين المستخدمين تحتاج حسابا موثقا.
+            يمكنك مشاهدة سوق النماذج وأنواع المهام أولا. التسجيل مطلوب فقط لحفظ الرصيد، تجربة الأدوات، ومعرفة رقمك بين المستخدمين.
           </p>
         </div>
         <form id="signupForm" class="signup-form">

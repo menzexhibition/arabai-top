@@ -476,38 +476,47 @@ async function renderPackages() {
 
 }
 
+function translateModelKind(kind) {
+  return kind === "image" ? "صورة" : "نص";
+}
+
+function translateModelBilling(model) {
+  if (model.billing === "per_request") return `${model.unitPrice} credits / طلب`;
+  return `إدخال ${model.inputRatio}x · إخراج ${model.outputRatio}x`;
+}
+
+function translateModelAudience(audience) {
+  return audience === "ordinary" ? "مناسب للمستخدم العام" : "للاستخدام المتقدم";
+}
+
 function renderModelMarketplace() {
   if (!modelMarketplaceGrid) return;
-  modelMarketplaceGrid.innerHTML = operationGroups
-    .map((group) => {
-      const rules = pricingRules.filter((rule) => group.tasks.includes(rule.id));
-      const availableRules = rules.filter((rule) => allowedTaskIds.includes(rule.id) && rule.enabled !== false && !rule.comingSoon);
-      const creditValues = availableRules.flatMap((rule) => [rule.minCredits, rule.maxCredits]).filter((value) => Number.isFinite(value));
-      const minCredit = creditValues.length ? Math.min(...creditValues) : null;
-      const maxCredit = creditValues.length ? Math.max(...creditValues) : null;
-      const creditLabel = minCredit === null ? "قريبا" : minCredit === maxCredit ? `${minCredit} credits` : `${minCredit}-${maxCredit} credits`;
-      return `
-        <article data-operation-id="${group.id}">
-          <span>${group.modelRoute}</span>
-          <h3>${group.label}</h3>
-          <p>${group.description}</p>
-          <div class="model-meta">
-            <strong>${availableRules.length} مهام متاحة</strong>
-            <span>${creditLabel}</span>
+  modelMarketplaceGrid.innerHTML = marketplaceModels
+    .map(
+      (model) => `
+        <article class="model-card" data-model-name="${model.name}">
+          <div class="model-card-heading">
+            <span>${translateModelKind(model.kind)}</span>
+            <h3>${model.name}</h3>
           </div>
+          <dl class="model-specs">
+            <div>
+              <dt>التسعير</dt>
+              <dd>${translateModelBilling(model)}</dd>
+            </div>
+            <div>
+              <dt>الواجهة</dt>
+              <dd>${model.endpoints}</dd>
+            </div>
+            <div>
+              <dt>الاستخدام</dt>
+              <dd>${translateModelAudience(model.audience)}</dd>
+            </div>
+          </dl>
         </article>
-      `;
-    })
+      `
+    )
     .join("");
-
-  modelMarketplaceGrid.querySelectorAll("article[data-operation-id]").forEach((card) => {
-    card.addEventListener("click", () => {
-      if (!operationSelect) return;
-      operationSelect.value = card.dataset.operationId || "";
-      operationSelect.dispatchEvent(new Event("change"));
-      document.querySelector("#use-ai")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  });
 }
 
 function renderTasks() {
@@ -973,12 +982,35 @@ function translateTask(id) {
   }[id] || id;
 }
 
+const marketplaceModels = [
+  { name: "claude-opus-4-6", kind: "text", billing: "metered", inputRatio: 15, outputRatio: 5, unitPrice: 0, endpoints: "anthropic, openai", audience: "advanced" },
+  { name: "claude-sonnet-4-6", kind: "text", billing: "metered", inputRatio: 1, outputRatio: 5, unitPrice: 0, endpoints: "openai", audience: "ordinary" },
+  { name: "gpt-5.5", kind: "text", billing: "metered", inputRatio: 5, outputRatio: 8, unitPrice: 0, endpoints: "openai", audience: "ordinary" },
+  { name: "gpt-image-2", kind: "image", billing: "per_request", inputRatio: 0, outputRatio: 0, unitPrice: 2, endpoints: "openai", audience: "ordinary" },
+  { name: "qwen3.5-plus", kind: "text", billing: "metered", inputRatio: 2, outputRatio: 5, unitPrice: 0, endpoints: "openai", audience: "advanced" },
+  { name: "deepseek-v4-pro", kind: "text", billing: "metered", inputRatio: 9, outputRatio: 3.75, unitPrice: 0, endpoints: "openai", audience: "advanced" },
+  { name: "gpt-5.3-codex-spark", kind: "text", billing: "metered", inputRatio: 4, outputRatio: 8, unitPrice: 0, endpoints: "openai", audience: "advanced" },
+  { name: "mimo-v2-pro", kind: "text", billing: "metered", inputRatio: 4, outputRatio: 5, unitPrice: 0, endpoints: "anthropic, openai", audience: "advanced" },
+  { name: "MiniMax-M3", kind: "text", billing: "metered", inputRatio: 2, outputRatio: 1, unitPrice: 0, endpoints: "openai", audience: "advanced" },
+  { name: "mimo-v2-omni", kind: "text", billing: "metered", inputRatio: 4, outputRatio: 5, unitPrice: 0, endpoints: "anthropic, openai", audience: "advanced" },
+  { name: "deepseek-v3.2", kind: "text", billing: "metered", inputRatio: 3, outputRatio: 5, unitPrice: 0, endpoints: "openai", audience: "ordinary" },
+  { name: "deepseek-v4-flash", kind: "text", billing: "metered", inputRatio: 3, outputRatio: 5, unitPrice: 0, endpoints: "openai", audience: "advanced" },
+  { name: "gpt-5.3-codex", kind: "text", billing: "metered", inputRatio: 5, outputRatio: 8, unitPrice: 0, endpoints: "openai", audience: "advanced" },
+  { name: "gpt-5.4-mini", kind: "text", billing: "metered", inputRatio: 3, outputRatio: 6, unitPrice: 0, endpoints: "openai", audience: "advanced" },
+  { name: "claude-opus-4-7", kind: "text", billing: "metered", inputRatio: 15, outputRatio: 5, unitPrice: 0, endpoints: "anthropic, openai", audience: "advanced" },
+  { name: "gpt-5.4", kind: "text", billing: "metered", inputRatio: 5, outputRatio: 6, unitPrice: 0, endpoints: "openai", audience: "advanced" },
+  { name: "mimo-v2.5", kind: "text", billing: "metered", inputRatio: 2, outputRatio: 5, unitPrice: 0, endpoints: "anthropic, openai", audience: "advanced" },
+  { name: "MiniMax-M2.7", kind: "text", billing: "metered", inputRatio: 1, outputRatio: 5, unitPrice: 0, endpoints: "openai", audience: "advanced" },
+  { name: "MiniMax-M2.7-highspeed", kind: "text", billing: "metered", inputRatio: 1, outputRatio: 5, unitPrice: 0, endpoints: "openai", audience: "advanced" },
+  { name: "qwen3.6-plus", kind: "text", billing: "metered", inputRatio: 4, outputRatio: 5, unitPrice: 0, endpoints: "openai", audience: "ordinary" }
+];
+
 const operationGroups = [
   {
     id: "text",
     label: "نص وكتابة",
     description: "للأسئلة، الكتابة، إعادة الصياغة، والخطط القصيرة.",
-    modelRoute: "gpt-5.5 · claude-sonnet-4-6 · deepseek-v3.2 · qwen3.6-plus",
+    modelRoute: "gpt-5.5",
     tasks: ["premium_short_chat", "prompt_improvement", "premium_long_answer", "long_document_summary"]
   },
   {
@@ -992,14 +1024,14 @@ const operationGroups = [
     id: "slides",
     label: "عرض أو خطة",
     description: "لبناء مخطط عرض تقديمي أو ترتيب فكرة مشروع.",
-    modelRoute: "gpt-5.4 · claude-opus-4-6 · MiniMax-M3 · qwen3.5-plus",
+    modelRoute: "gpt-5.4",
     tasks: ["ppt_outline"]
   },
   {
     id: "video",
     label: "فيديو",
     description: "لكتابة سكربت فيديو وتقسيمه إلى مشاهد قبل استخدام أداة الفيديو.",
-    modelRoute: "gpt-5.4-mini · mimo-v2.5 · MiniMax-M2.7",
+    modelRoute: "gpt-5.4-mini",
     tasks: ["video_script"]
   }
 ];
