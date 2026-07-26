@@ -672,7 +672,7 @@ function expertArticle([id, title, intro, next]) {
 
   return {
     section: "expert",
-    sectionLabel: "Beyond the Basics",
+    sectionLabel: "AI Expert",
     backUrl: "expert.html",
     title,
     intro,
@@ -1853,6 +1853,62 @@ ARTICLES["make-videos"].tutorialVideo = {
       text: "اجعل كل الصور بنفس الأسلوب البصري، واحتفظ بنفس الشخصيات أو المنتج، ولا تولد صورا متفرقة تبدو كأنها من قصص مختلفة."
     }
   ]
+};
+
+ARTICLES["what-is-ai"].tutorialVideo = {
+  title: "مقدمة فيديو: ما هو ARABAI وما الذي يفعله؟",
+  summary: "فيديو عربي قصير من داخل المشروع يشرح الفكرة الأساسية ببساطة: ARABAI يساعد المستخدم العربي أن يفهم AI أولا، ثم يستخدمه خطوة بخطوة بدون تعقيد.",
+  src: "/assets/videos/arabai-intro-ar.mp4",
+  subtitles: "",
+  link: "/ar-tutorials.html#arabai-intro-remotion",
+  chapters: [
+    "00:00 - ما الذي يقدمه ARABAI؟",
+    "00:05 - كيف تبدأ من المقالات البسيطة",
+    "00:10 - كيف تنتقل من الفهم إلى التجربة"
+  ],
+  promptNoteText: "هذا فيديو تمهيدي قصير يربط بين فكرة الموقع وبين أول خطوة عملية للمستخدم العربي."
+};
+
+ARTICLES["what-is-a-prompt"].tutorialVideo = {
+  title: "فيديو قصير: كيف تكتب Prompt واضحا؟",
+  summary: "فيديو عربي قصير من داخل المشروع يختصر أهم فكرة للمبتدئ: لا تبحث عن كلام ذكي، بل ابدأ بالمهمة، ثم الجمهور، ثم النتيجة، وبعدها اطلب التعديل بوضوح.",
+  src: "/assets/videos/arabai-prompt-ar.mp4",
+  subtitles: "",
+  link: "/ar-tutorials.html#arabai-prompt-remotion",
+  chapters: [
+    "00:00 - ابدأ بالمهمة",
+    "00:05 - أضف الجمهور والنتيجة",
+    "00:10 - اطلب التعديل بدل البدء من الصفر"
+  ],
+  promptNoteText: "هذا الفيديو التمهيدي لا يغني عن المثال المكتوب داخل المقال، لكنه يثبت الفكرة بسرعة قبل أن تبدأ التجربة بنفسك."
+};
+
+ARTICLES["organize-prompt-first"].tutorialVideo = {
+  title: "فيديو قصير: دع AI يرتب فكرتك أولا",
+  summary: "هذا الفيديو القصير يشرح نفس الفكرة العملية للمبتدئ: تكلّم بطريقتك الطبيعية أولا، ثم اطلب من AI أن يعيد الفهم ويرتب الفكرة إلى Prompt قابل للنسخ.",
+  src: "/assets/videos/arabai-prompt-ar.mp4",
+  subtitles: "",
+  link: "/ar-tutorials.html#arabai-prompt-remotion",
+  chapters: [
+    "00:00 - الفكرة قبل الصياغة",
+    "00:05 - إعادة الفهم",
+    "00:10 - التحويل إلى Prompt واضح"
+  ],
+  promptNoteText: "الفكرة الأساسية هنا: لا تطلب الناتج النهائي مباشرة إذا كانت فكرتك ما زالت غير مرتبة."
+};
+
+ARTICLES["what-is-api"].tutorialVideo = {
+  title: "فيديو قصير: كيف يعمل ARABAI في الخلفية؟",
+  summary: "فيديو عربي قصير يشرح الطريق العملي داخل ARABAI: حساب، رصيد، اختيار مهمة، ثم وصول النتيجة من نفس المكان، بدون أن يرى المستخدم التفاصيل التقنية المعقدة.",
+  src: "/assets/videos/arabai-api-flow-ar.mp4",
+  subtitles: "",
+  link: "/ar-tutorials.html#arabai-api-remotion",
+  chapters: [
+    "00:00 - تسجيل الحساب",
+    "00:05 - اختيار المهمة",
+    "00:10 - رؤية النتيجة وسجل الاستخدام"
+  ],
+  promptNoteText: "هذا الفيديو يشرح رحلة الاستخدام من جهة المستخدم، وليس طريقة البرمجة أو الكود."
 };
 
 window.ARTICLES = ARTICLES;

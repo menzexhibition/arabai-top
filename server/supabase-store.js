@@ -169,6 +169,30 @@ export function createSupabaseStore() {
     async updateTask(taskId, patch) {
       const rows = await patchRows("ai_tasks", { id: taskId }, patch);
       return rows[0] || null;
+    },
+    async insertWaitlistLead(lead) {
+      try {
+        const rows = await insertRows("waitlist_leads", [lead]);
+        return { row: rows[0] || null, storage: "waitlist_leads" };
+      } catch (error) {
+        const fallbackRows = await insertRows("task_marketplace_leads", [
+          {
+            id: lead.id,
+            user_id: null,
+            task_title: JSON.stringify(lead),
+            task_type: "arabai_waitlist",
+            budget_amount: null,
+            currency: "USD",
+            status: "waitlist",
+            created_at: lead.created_at
+          }
+        ]);
+        return {
+          row: fallbackRows[0] || null,
+          storage: "task_marketplace_leads",
+          fallbackReason: error instanceof Error ? error.message : "waitlist table unavailable"
+        };
+      }
     }
   };
 }

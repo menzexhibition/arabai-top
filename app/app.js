@@ -26,7 +26,15 @@ const pricingRules = [
   { id: "music_generation", taskType: "music", label: "Music generation", minCredits: 30, maxCredits: 80, costLevel: "high", freeCreditsAllowed: false, requiresConfirmation: true }
 ];
 
-const launchTaskRuleIds = ["premium_short_chat", "prompt_improvement", "premium_long_answer", "image_prompt_review"];
+const launchTaskRuleIds = [
+  "premium_short_chat",
+  "prompt_improvement",
+  "premium_long_answer",
+  "image_prompt_review",
+  "image_generation_low",
+  "ppt_outline",
+  "video_script"
+];
 
 function createWallet(initialCredits = 0) {
   return {
@@ -68,7 +76,7 @@ function estimateTaskCredits(input) {
       requiresConfirmation: true,
       freeCreditsAllowed: false,
       available: false,
-      message: `${rule.label} is coming soon.`
+      message: `هذه المهمة ستفتح لاحقا داخل ARABAI.`
     };
   }
 
@@ -117,15 +125,15 @@ function estimateComplexity(input) {
 
 function buildEstimateMessage(rule, estimatedCredits) {
   if (rule.costLevel === "low") {
-    return `This paid AI task may use about ${estimatedCredits} credits.`;
+    return `هذه المهمة قد تستهلك حوالي ${estimatedCredits} credits.`;
   }
   if (rule.costLevel === "medium") {
-    return `This task may use about ${estimatedCredits} credits. Please confirm before running.`;
+    return `هذه المهمة قد تستهلك حوالي ${estimatedCredits} credits. راجع التقدير قبل التشغيل.`;
   }
   if (rule.costLevel === "high") {
-    return `This is a high-cost paid AI task and may use about ${estimatedCredits} credits.`;
+    return `هذه مهمة أعلى تكلفة وقد تستهلك حوالي ${estimatedCredits} credits.`;
   }
-  return "This task needs manual pricing or is coming soon.";
+  return "هذه المهمة تحتاج تسعيرا خاصا أو ستفتح لاحقا.";
 }
 
 function requirePositiveCredits(credits) {
@@ -160,6 +168,7 @@ let healthState = {
   }
 };
 let localTaskHistory = [];
+let latestSignupRewardState = null;
 
 const signupForm = document.querySelector("#signupForm");
 const signupMessage = document.querySelector("#signupMessage");
@@ -168,9 +177,11 @@ const modelMarketplaceGrid = document.querySelector("#modelMarketplaceGrid");
 const taskGrid = document.querySelector("#taskGrid");
 const operationSelect = document.querySelector("#operationSelect");
 const operationHelp = document.querySelector("#operationHelp");
+const deepLinkNote = document.querySelector("#deepLinkNote");
 const estimateTitle = document.querySelector("#estimateTitle");
 const estimateMessage = document.querySelector("#estimateMessage");
 const confirmButton = document.querySelector("#confirmButton");
+const latestResult = document.querySelector("#latestResult");
 const guideContent = document.querySelector("#guideContent");
 const serviceMode = document.querySelector("#serviceMode");
 const serviceNote = document.querySelector("#serviceNote");
@@ -191,6 +202,19 @@ const accountSignedState = document.querySelector("#accountSignedState");
 const allowedTaskIds = [...launchTaskRuleIds];
 let signupInFlight = false;
 const signupSubmitButton = signupForm?.querySelector('button[type="submit"]');
+
+const articleTaskMap = {
+  "what-is-a-prompt": { operation: "text", task: "prompt_improvement" },
+  "organize-prompt-first": { operation: "text", task: "prompt_improvement" },
+  "write-with-ai": { operation: "text", task: "premium_short_chat" },
+  "make-a-plan": { operation: "text", task: "premium_long_answer" },
+  "summarize-documents": { operation: "text", task: "long_document_summary" },
+  "create-images": { operation: "image", task: "image_generation_low" },
+  "edit-images": { operation: "image", task: "image_prompt_review" },
+  "make-slides": { operation: "slides", task: "ppt_outline" },
+  "make-videos": { operation: "video", task: "video_script" },
+  "what-is-api": { operation: "text", task: "premium_long_answer" }
+};
 
 signupForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -273,6 +297,7 @@ signOutButton?.addEventListener("click", async () => {
   renderTaskHistory(localTaskHistory);
   renderAccountPanel();
   clearSelection();
+  renderLatestResult(null);
 });
 
 confirmButton.addEventListener("click", async () => {
@@ -284,16 +309,16 @@ confirmButton.addEventListener("click", async () => {
   }
 
   try {
-    const demoTaskId = `demo-${Date.now()}`;
-    reserveCredits(wallet, demoTaskId, selectedEstimate.estimatedCredits);
+    const previewTaskId = `preview-${Date.now()}`;
+    reserveCredits(wallet, previewTaskId, selectedEstimate.estimatedCredits);
     localTaskHistory.unshift({
-      id: demoTaskId,
+      id: previewTaskId,
       status: "reserved",
       taskType: pricingRules.find((rule) => rule.id === selectedTask)?.taskType || "chat",
       pricingRuleId: selectedTask,
       estimatedCredits: selectedEstimate.estimatedCredits,
       actualCredits: null,
-      outputText: "هذه معاينة محلية. عند ربط الخادم الحقيقي ستظهر النتيجة الفعلية هنا.",
+      outputText: "هذه معاينة محلية آمنة. عند ربط الخدمة الحية ستظهر النتيجة الفعلية هنا داخل نفس الصفحة.",
       createdAt: new Date().toISOString()
     });
     renderWallet();
@@ -301,6 +326,11 @@ confirmButton.addEventListener("click", async () => {
     renderTaskHistory(localTaskHistory);
     estimateTitle.textContent = "تم حجز الرصيد لهذه المهمة";
     estimateMessage.textContent = "في التطبيق الحقيقي ستدخل المهمة الآن إلى التشغيل أو قائمة الانتظار.";
+    renderLatestResult({
+      taskType: pricingRules.find((rule) => rule.id === selectedTask)?.taskType || "chat",
+      outputText: "هذه معاينة محلية آمنة. عند ربط الخدمة الحية ستظهر النتيجة النهائية هنا، وقد تكون نصا أو صورة أو رابط ملف.",
+      outputUrl: ""
+    });
     confirmButton.disabled = true;
   } catch (error) {
     estimateTitle.textContent = "لا يوجد رصيد كاف";
@@ -320,6 +350,7 @@ async function boot() {
   renderGuide(null);
   renderAccountPanel();
   await refreshAccountViews();
+  await applyDeepLinkState();
 }
 
 async function detectBackend() {
@@ -348,10 +379,17 @@ async function signinWithApi(profile) {
 
   if (!apiMode) {
     signedIn = true;
-    currentUser = { ...profile, registrationNumber: 58, referralCode: "arabai-demo" };
-    wallet.creditBalance = 5;
-    wallet.redeemableCreditBalance = 5;
+    currentUser = { ...profile, displayName: profile.displayName || "مستخدم ARABAI", registrationNumber: 58, referralCode: "arabai-preview" };
+    wallet.creditBalance = 105;
+    wallet.redeemableCreditBalance = 105;
     wallet.transactions = [
+      {
+        type: "founding_user_reward",
+        status: "available",
+        credits: 100,
+        note: "رصيد إطلاق لأول 100 مستخدم موثق.",
+        createdAt: new Date().toISOString()
+      },
       {
         type: "signup_reward",
         status: "available",
@@ -360,7 +398,8 @@ async function signinWithApi(profile) {
         createdAt: new Date().toISOString()
       }
     ];
-    signupMessage.textContent = "أنت المستخدم رقم 58 في ARABAI. تمت إضافة رصيد التجربة المجانية.";
+    latestSignupRewardState = { eligible: true, granted: true, credits: 100, remainingSlots: 42 };
+    signupMessage.textContent = "أنت المستخدم رقم 58 في ARABAI. تمت إضافة رصيد التسجيل ورصيد الإطلاق المبكر لتبدأ التجربة من داخل الموقع.";
     renderWallet();
     renderTransactionHistory(wallet.transactions);
     renderTaskHistory(localTaskHistory);
@@ -389,6 +428,7 @@ async function signinWithApi(profile) {
 function hydrateSession(data) {
   currentUser = data.user;
   signedIn = Boolean(data.user);
+  latestSignupRewardState = data.foundingUserReward || latestSignupRewardState;
   appFlags = {
     ...appFlags,
     ...(data.flags || {})
@@ -416,7 +456,7 @@ function renderAccountPanel() {
 
   accountStatus.textContent = "حسابك جاهز الآن للتجربة المجانية والمهام منخفضة التكلفة.";
   accountName.textContent = currentUser.displayName || currentUser.email || "مستخدم ARABAI";
-  accountMeta.textContent = `المستخدم رقم #${currentUser.registrationNumber || "-"}. البلد: ${currentUser.country || "SA"}.`;
+  accountMeta.textContent = accountMetaText();
   accountReferralCode.textContent = currentUser.referralCode || "-";
   accountSignedState.textContent = "مسجل";
   if (dailyRewardButton) dailyRewardButton.disabled = false;
@@ -451,10 +491,10 @@ async function renderPackages() {
         const available = item.status === "available";
         const sandbox = item.provider === "virtual" || item.mode === "sandbox";
         const description = sandbox
-          ? "دفع تجريبي فقط. لن يتم خصم أي مبلغ حقيقي، وسيضاف الرصيد لاختبار مسار المحفظة."
+          ? "هذا مسار آمن لاختبار الرصيد فقط. لن يتم خصم أي مبلغ حقيقي."
           : available
-            ? "يتم الدفع عبر Lemon Squeezy، ثم يضاف الرصيد تلقائيا بعد تأكيد الدفع."
-            : "Coming Soon - التكلفة الحقيقية للـ API لا تتجاوز تقريبا 50% من قيمة الباقة.";
+            ? "عند فتح الدفع الحقيقي، سيضاف الرصيد تلقائيا إلى حسابك بعد تأكيد الدفع."
+            : "الباقة معروضة الآن لتوضيح منطق الشحن، وسيتم تفعيل الشراء بعد ربط الدفع.";
         return `
         <article>
           <span>${item.currency}</span>
@@ -477,16 +517,16 @@ async function renderPackages() {
 }
 
 function translateModelKind(kind) {
-  return kind === "image" ? "صورة" : "نص";
+  return kind === "image" ? "صورة" : "مساعدة نصية";
 }
 
 function translateModelBilling(model) {
-  if (model.billing === "per_request") return `${model.unitPrice} credits / طلب`;
-  return `إدخال ${model.inputRatio}x · إخراج ${model.outputRatio}x`;
+  if (model.billing === "per_request") return `${model.unitPrice} credits لكل طلب`;
+  return `استهلاك متدرج حسب الاستخدام`;
 }
 
 function translateModelAudience(audience) {
-  return audience === "ordinary" ? "مناسب للمستخدم العام" : "للاستخدام المتقدم";
+  return audience === "ordinary" ? "مناسب للمهام العامة" : "أفضل للمهام الأثقل";
 }
 
 function renderModelMarketplace() {
@@ -497,19 +537,19 @@ function renderModelMarketplace() {
         <article class="model-card" data-model-name="${model.name}">
           <div class="model-card-heading">
             <span>${translateModelKind(model.kind)}</span>
-            <h3>${model.name}</h3>
+            <h3>${model.publicLabel || model.name}</h3>
           </div>
           <dl class="model-specs">
             <div>
-              <dt>التسعير</dt>
+              <dt>ما الذي يفيده</dt>
+              <dd>${model.useCase || "قدرة داخلية يختارها ARABAI تلقائيا حسب نوع المهمة."}</dd>
+            </div>
+            <div>
+              <dt>طريقة الاستخدام</dt>
               <dd>${translateModelBilling(model)}</dd>
             </div>
             <div>
-              <dt>الواجهة</dt>
-              <dd>${model.endpoints}</dd>
-            </div>
-            <div>
-              <dt>الاستخدام</dt>
+              <dt>المستوى المناسب</dt>
               <dd>${translateModelAudience(model.audience)}</dd>
             </div>
           </dl>
@@ -529,7 +569,7 @@ function renderTasks() {
           <span>${translateCost(rule.costLevel)}</span>
           <h3>${translateTask(rule.id)}</h3>
           <p>${rule.minCredits === rule.maxCredits ? rule.minCredits : `${rule.minCredits}-${rule.maxCredits}`} credits</p>
-          <p>${rule.freeCreditsAllowed ? "يمكن استخدام الرصيد المجاني ضمن الحدود." : "يتطلب رصيدا مدفوعا غالبا."}</p>
+          <p>${rule.freeCreditsAllowed ? "يمكن استخدامها مع الرصيد المجاني ضمن الحدود." : "غالبا تحتاج رصيدا مدفوعا عند الإطلاق الكامل."}</p>
         </article>
       `
     )
@@ -537,13 +577,7 @@ function renderTasks() {
 
   taskGrid.querySelectorAll("article").forEach((card) => {
     card.addEventListener("click", async () => {
-      taskGrid.querySelectorAll("article").forEach((item) => item.classList.remove("active"));
-      card.classList.add("active");
-      selectedTask = card.dataset.ruleId;
-      const requestBody = selectedTaskRequest();
-      selectedEstimate = apiMode ? await estimateWithApi(requestBody) : estimateTaskCredits(requestBody);
-      renderEstimate();
-      renderGuide(selectedTask);
+      await activateTask(card.dataset.ruleId);
     });
   });
 }
@@ -573,10 +607,97 @@ function getVisibleRules(allTaskIds) {
 function clearSelection() {
   selectedTask = null;
   selectedEstimate = null;
+  syncTaskUrl("");
   estimateTitle.textContent = "اختر مهمة أولا";
-  estimateMessage.textContent = "سيظهر هنا عدد credits المتوقع قبل تشغيل المهمة.";
+  estimateMessage.textContent = "سيظهر هنا مقدار الرصيد المتوقع قبل تشغيل المهمة.";
   confirmButton.disabled = true;
+  renderLatestResult(null);
   renderGuide(null);
+}
+
+async function activateTask(taskId) {
+  const card = taskGrid.querySelector(`article[data-rule-id="${taskId}"]`);
+  if (!card) return;
+  taskGrid.querySelectorAll("article").forEach((item) => item.classList.remove("active"));
+  card.classList.add("active");
+  selectedTask = taskId;
+  syncTaskUrl(taskId);
+  const requestBody = selectedTaskRequest();
+  selectedEstimate = apiMode ? await estimateWithApi(requestBody) : estimateTaskCredits(requestBody);
+  renderEstimate();
+  renderGuide(selectedTask);
+}
+
+async function applyDeepLinkState() {
+  const params = new URLSearchParams(window.location.search);
+  const requestedTask = params.get("task");
+  const requestedOperation = params.get("operation");
+  const requestedArticle = params.get("fromArticle");
+  const linked = requestedTask
+    ? { task: requestedTask, operation: requestedOperation || operationForTask(requestedTask) }
+    : requestedArticle && articleTaskMap[requestedArticle]
+      ? articleTaskMap[requestedArticle]
+      : null;
+
+  if (!linked) return;
+
+  if (deepLinkNote) {
+    deepLinkNote.hidden = false;
+    deepLinkNote.textContent = requestedArticle
+      ? `تم فتح هذه المهمة لأنك جئت من مقال مرتبط: ${translateArticleSource(requestedArticle)}.`
+      : "تم اختيار هذه المهمة لك مباشرة من رابط خارجي داخل ARABAI.";
+  }
+
+  if (linked.operation) {
+    operationSelect.value = linked.operation;
+    const group = operationGroups.find((item) => item.id === linked.operation);
+    operationHelp.textContent = group
+      ? `${group.description} يستخدم ARABAI نموذجا واحدا مناسبا لهذه العملية في الخلفية.`
+      : "كل عملية تستخدم نموذجا واحدا مناسبا في الخلفية حتى لا يحتار المستخدم.";
+  }
+
+  clearSelection();
+  renderTasks();
+  await activateTask(linked.task);
+
+  const useAiSection = document.querySelector("#use-ai");
+  useAiSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function operationForTask(taskId) {
+  return operationGroups.find((group) => group.tasks.includes(taskId))?.id || "";
+}
+
+function syncTaskUrl(taskId) {
+  if (!window.history?.replaceState) return;
+  const url = new URL(window.location.href);
+  if (taskId) {
+    url.searchParams.set("task", taskId);
+    const operation = operationForTask(taskId);
+    if (operation) url.searchParams.set("operation", operation);
+  } else {
+    url.searchParams.delete("task");
+    if (!url.searchParams.get("fromArticle")) {
+      url.searchParams.delete("operation");
+    }
+  }
+  if (!url.hash) url.hash = "use-ai";
+  window.history.replaceState({}, "", url.toString());
+}
+
+function translateArticleSource(articleId) {
+  return {
+    "what-is-a-prompt": "ما هو البرومبت؟",
+    "organize-prompt-first": "دع AI يرتب فكرتك أولا",
+    "write-with-ai": "أريد أن أكتب",
+    "make-a-plan": "أريد خطة",
+    "summarize-documents": "أريد تلخيص مستند",
+    "create-images": "أريد إنشاء صورة",
+    "edit-images": "أريد تعديل الصور",
+    "make-slides": "أريد عرضا تقديميا",
+    "make-videos": "أريد عمل فيديو",
+    "what-is-api": "ما هو API؟"
+  }[articleId] || articleId;
 }
 
 async function estimateWithApi(requestBody) {
@@ -603,7 +724,7 @@ async function confirmWithApi() {
     });
     const data = await response.json();
     if (!response.ok || data.error) {
-      throw new Error(data.error?.message || "Task failed.");
+      throw new Error(data.error?.message || "تعذر إكمال المهمة الآن.");
     }
     wallet.creditBalance = data.wallet.creditBalance;
     wallet.redeemableCreditBalance = data.wallet.redeemableCreditBalance;
@@ -611,8 +732,13 @@ async function confirmWithApi() {
     wallet.pendingCreditBalance = data.wallet.pendingCreditBalance;
     wallet.transactions = Array.isArray(data.wallet.transactions) ? data.wallet.transactions : wallet.transactions;
     renderWallet();
-    estimateTitle.textContent = "تم تشغيل المهمة التجريبية";
-    estimateMessage.textContent = data.outputText || "اكتملت المهمة التجريبية.";
+    estimateTitle.textContent = "تم تشغيل المهمة";
+    estimateMessage.textContent = data.outputText || "اكتملت المهمة.";
+    renderLatestResult({
+      taskType: pricingRules.find((rule) => rule.id === selectedTask)?.taskType || "chat",
+      outputText: data.outputText || "",
+      outputUrl: data.outputUrl || ""
+    });
     confirmButton.disabled = true;
     await refreshAccountViews();
   } catch (error) {
@@ -623,7 +749,29 @@ async function confirmWithApi() {
 
 function arabicSigninMessage(data) {
   if (!data.user?.registrationNumber) return "تم تسجيل الدخول.";
-  return `أنت المستخدم رقم ${data.user.registrationNumber} في ARABAI. تمت إضافة 5 credits لتجربة المهام الصغيرة.`;
+  if (data.foundingUserReward?.granted) {
+    return `أنت المستخدم رقم ${data.user.registrationNumber} في ARABAI. تمت إضافة رصيد التسجيل ورصيد الإطلاق المبكر. بقي ${Math.max(Number(data.foundingUserReward.remainingSlots || 0) - 1, 0)} مكانا تقريبا ضمن أول 100 مستخدم موثق.`;
+  }
+  return `أنت المستخدم رقم ${data.user.registrationNumber} في ARABAI. تمت إضافة رصيد البداية لتجربة المهام الصغيرة من داخل الموقع.`;
+}
+
+function accountMetaText() {
+  const registration = currentUser?.registrationNumber || "-";
+  const country = currentUser?.country || "SA";
+  const roleText = testerRoleLabel(currentUser?.role);
+  if (latestSignupRewardState?.granted) {
+    const remaining = Math.max(Number(latestSignupRewardState.remainingSlots || 0) - 1, 0);
+    return `المستخدم رقم #${registration}. البلد: ${country}.${roleText ? ` ${roleText}.` : ""} حصلت على رصيد الإطلاق المبكر، والمتبقي تقريبا ${remaining} مكانا ضمن أول 100 مستخدم.`;
+  }
+  return `المستخدم رقم #${registration}. البلد: ${country}.${roleText ? ` ${roleText}.` : ""}`;
+}
+
+function testerRoleLabel(role) {
+  return {
+    tester_basic: "هذا حساب اختبار أساسي",
+    tester_pro: "هذا حساب اختبار مرتفع الصلاحية",
+    internal_admin: "هذا حساب اختبار داخلي واسع الصلاحية"
+  }[role] || "";
 }
 
 function selectedTaskRequest() {
@@ -632,10 +780,11 @@ function selectedTaskRequest() {
   return {
     pricingRuleId: selectedTask,
     taskType: pricingRules.find((rule) => rule.id === selectedTask).taskType,
-    prompt: guide?.copyPrompt || "Demo prompt for ARABAI app prototype.",
+    prompt: guide?.copyPrompt || "ARABAI guided task prompt.",
     options: {
       quality: selectedTask.includes("image") ? "standard" : "normal",
-      modelRoute: operation?.modelRoute
+      modelRoute: operation?.modelRoute,
+      model: operation?.modelRoute
     }
   };
 }
@@ -650,7 +799,7 @@ function renderEstimate() {
 
   estimateTitle.textContent = `${selectedEstimate.estimatedCredits} credits`;
   estimateMessage.textContent = `${selectedEstimate.message} ${
-    selectedEstimate.freeCreditsAllowed ? "يمكن استخدام الرصيد المجاني ضمن الحدود." : "هذه المهمة لا تستخدم الرصيد المجاني."
+    selectedEstimate.freeCreditsAllowed ? "يمكن استخدام الرصيد المجاني ضمن الحدود." : "هذه المهمة غالبا تحتاج رصيدا مدفوعا عند الإطلاق الكامل."
   }`;
   confirmButton.disabled = false;
 }
@@ -684,7 +833,7 @@ async function handleTopUpClick(packageId) {
       return;
     }
     if (data.provider === "virtual" && data.checkoutId) {
-      packageMessage.textContent = data.sandboxNoticeArabic || "دفع تجريبي فقط. لن يتم خصم أي مبلغ حقيقي.";
+      packageMessage.textContent = data.sandboxNoticeArabic || "هذا مسار آمن لاختبار الرصيد فقط. لن يتم خصم أي مبلغ حقيقي.";
       const webhookResponse = await fetchWithTimeout("/api/wallet/top-up/webhook", {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -694,7 +843,7 @@ async function handleTopUpClick(packageId) {
           checkoutId: data.checkoutId
         })
       });
-      const webhookData = await parseApiResponse(webhookResponse, "تعذر تأكيد الدفع التجريبي.");
+      const webhookData = await parseApiResponse(webhookResponse, "تعذر تأكيد عملية اختبار الرصيد.");
       if (webhookData.wallet) {
         wallet.creditBalance = webhookData.wallet.creditBalance;
         wallet.redeemableCreditBalance = webhookData.wallet.redeemableCreditBalance;
@@ -703,7 +852,7 @@ async function handleTopUpClick(packageId) {
         renderWallet();
         await refreshAccountViews();
       }
-      packageMessage.textContent = `تمت إضافة ${webhookData.credited || 0} credits عبر دفع تجريبي آمن. لم يتم خصم أي مبلغ حقيقي.`;
+      packageMessage.textContent = `تمت إضافة ${webhookData.credited || 0} credits في مسار اختبار الرصيد. لم يتم خصم أي مبلغ حقيقي.`;
       return;
     }
     if (data.checkoutUrl) {
@@ -719,26 +868,28 @@ async function handleTopUpClick(packageId) {
 
 function isStaticPreviewHost() {
   const host = window.location.hostname;
-  return host === "arabai.top" || host === "www.arabai.top" || host.endsWith(".github.io");
+  const protocol = window.location.protocol;
+  if (protocol === "file:") return true;
+  return host.endsWith(".github.io");
 }
 
 function renderServiceStatus() {
   const modeLabel = {
-    demo: "وضع العرض التجريبي",
+    demo: "استخدام ARABAI داخل الموقع",
     supabase: "وضع الاتصال الفعلي",
     offline: "معاينة دون اتصال"
-  }[healthState.mode] || "وضع العرض التجريبي";
+  }[healthState.mode] || "استخدام ARABAI داخل الموقع";
 
   serviceMode.textContent = modeLabel;
   serviceNote.textContent = healthState.ok
-    ? "يمكننا حفظ التسجيلات والسجل حسب حالة الخادم، لكن الدفع الحقيقي ما زال مغلقا."
-    : "أنت تشاهد نسخة واجهة فقط. بعض الأزرار لن تتصل بخادم حي من هذا الملف المحلي.";
+    ? "يمكننا حفظ الحسابات والسجل وتجربة المهام من داخل ARABAI، بينما بوابة الدفع العربية ما زالت في مرحلة الربط النهائي."
+    : "أنت ترى نسخة واجهة فقط. بعض الأزرار لن تتصل بخادم حي من هذا الملف المحلي.";
 
   const featureLines = [
-    `حفظ الحساب: ${appFlags.persisted ? "مفعل" : healthState.mode === "demo" ? "تجريبي" : "غير متصل"}`,
-    `الشحن: ${healthState.features.virtualSandbox ? "دفع تجريبي آمن" : healthState.features.recharge ? "مفتوح" : "مغلق حاليا"}`,
-    `تشغيل AI المدفوع: ${healthState.features.aiRedemption ? "جاهز عند التفعيل" : "في وضع الإعداد"}`,
-    `بوابة المزود: ${healthState.features.realGateway ? "مرتبطة فعليا" : "نسخة محاكاة آمنة"}`
+    `حفظ الحساب: ${appFlags.persisted ? "مفعل" : healthState.mode === "demo" ? "جاهز" : "غير متصل"}`,
+    `الشحن: ${healthState.features.virtualSandbox ? "مسار تمهيدي" : healthState.features.recharge ? "مفتوح" : "قيد الربط"}`,
+    `تشغيل AI داخل الموقع: ${healthState.features.aiRedemption ? "جاهز" : "يُفعّل بعد ربط المفتاح الفعلي"}`,
+    `مصدر القدرات الخلفي: ${healthState.features.realGateway ? "مرتبط فعليا" : "قناة تمهيدية"}`
   ];
 
   serviceFeatures.innerHTML = featureLines.map((line) => `<li>${line}</li>`).join("");
@@ -864,13 +1015,13 @@ function renderTransactionHistory(transactions) {
 function renderTaskHistory(tasks) {
   if (!tasks?.length) {
     taskHistorySummary.textContent = signedIn
-      ? "اختر مهمة من الأعلى، وبعد التنفيذ سنعرض النتيجة هنا مع التكلفة."
-      : "هذا السجل مفيد بعد التسجيل، لأنه يريك ما الذي جرّبته وما الذي نجح معك.";
+      ? "اختر مهمة من الأعلى، وبعد التنفيذ سنعرض النتيجة هنا مع مقدار الرصيد الذي استهلكته."
+      : "هذا السجل يظهر بعد التسجيل، حتى ترى ما الذي جرّبته وما الذي نجح معك.";
     taskHistoryList.innerHTML = `<div class="history-empty">لا توجد مهام محفوظة بعد.</div>`;
     return;
   }
 
-  taskHistorySummary.textContent = `آخر ${Math.min(tasks.length, 6)} مهام تم حفظها في حسابك.`;
+  taskHistorySummary.textContent = `آخر ${Math.min(tasks.length, 6)} مهام تم حفظها في حسابك مع النتيجة والرصيد المستهلك.`;
   taskHistoryList.innerHTML = tasks
     .slice(0, 6)
     .map(
@@ -883,10 +1034,58 @@ function renderTaskHistory(tasks) {
           </div>
           <strong>${translateTaskStatus(task.status)}</strong>
           <p>${task.outputText || taskHistoryFallback(task)}</p>
+          ${renderTaskOutput(task)}
         </article>
       `
     )
     .join("");
+}
+
+function renderLatestResult(task) {
+  if (!latestResult) return;
+  if (!task) {
+    latestResult.innerHTML = "";
+    return;
+  }
+  latestResult.innerHTML = `
+    <article class="guide-card latest-result-card">
+      <span>آخر نتيجة</span>
+      <h3>المخرجات تظهر هنا بعد التشغيل</h3>
+      ${task.outputText ? `<p>${escapeHtml(task.outputText)}</p>` : ""}
+      ${renderTaskOutput(task)}
+    </article>
+  `;
+}
+
+function renderTaskOutput(task) {
+  if (!task?.outputUrl) return "";
+  const safeUrl = escapeAttribute(task.outputUrl);
+  if (task.taskType === "image") {
+    return `
+      <div class="task-output-media">
+        <img src="${safeUrl}" alt="ARABAI generated result" loading="lazy" />
+        <a class="guide-link" href="${safeUrl}" target="_blank" rel="noopener noreferrer">افتح الصورة بالحجم الكامل</a>
+      </div>
+    `;
+  }
+  return `
+    <div class="task-output-media">
+      <a class="guide-link" href="${safeUrl}" target="_blank" rel="noopener noreferrer">افتح الملف أو النتيجة</a>
+    </div>
+  `;
+}
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function escapeAttribute(value) {
+  return escapeHtml(value);
 }
 
 function translateTransactionType(type) {
@@ -983,26 +1182,12 @@ function translateTask(id) {
 }
 
 const marketplaceModels = [
-  { name: "claude-opus-4-6", kind: "text", billing: "metered", inputRatio: 15, outputRatio: 5, unitPrice: 0, endpoints: "anthropic, openai", audience: "advanced" },
-  { name: "claude-sonnet-4-6", kind: "text", billing: "metered", inputRatio: 1, outputRatio: 5, unitPrice: 0, endpoints: "openai", audience: "ordinary" },
-  { name: "gpt-5.5", kind: "text", billing: "metered", inputRatio: 5, outputRatio: 8, unitPrice: 0, endpoints: "openai", audience: "ordinary" },
-  { name: "gpt-image-2", kind: "image", billing: "per_request", inputRatio: 0, outputRatio: 0, unitPrice: 2, endpoints: "openai", audience: "ordinary" },
-  { name: "qwen3.5-plus", kind: "text", billing: "metered", inputRatio: 2, outputRatio: 5, unitPrice: 0, endpoints: "openai", audience: "advanced" },
-  { name: "deepseek-v4-pro", kind: "text", billing: "metered", inputRatio: 9, outputRatio: 3.75, unitPrice: 0, endpoints: "openai", audience: "advanced" },
-  { name: "gpt-5.3-codex-spark", kind: "text", billing: "metered", inputRatio: 4, outputRatio: 8, unitPrice: 0, endpoints: "openai", audience: "advanced" },
-  { name: "mimo-v2-pro", kind: "text", billing: "metered", inputRatio: 4, outputRatio: 5, unitPrice: 0, endpoints: "anthropic, openai", audience: "advanced" },
-  { name: "MiniMax-M3", kind: "text", billing: "metered", inputRatio: 2, outputRatio: 1, unitPrice: 0, endpoints: "openai", audience: "advanced" },
-  { name: "mimo-v2-omni", kind: "text", billing: "metered", inputRatio: 4, outputRatio: 5, unitPrice: 0, endpoints: "anthropic, openai", audience: "advanced" },
-  { name: "deepseek-v3.2", kind: "text", billing: "metered", inputRatio: 3, outputRatio: 5, unitPrice: 0, endpoints: "openai", audience: "ordinary" },
-  { name: "deepseek-v4-flash", kind: "text", billing: "metered", inputRatio: 3, outputRatio: 5, unitPrice: 0, endpoints: "openai", audience: "advanced" },
-  { name: "gpt-5.3-codex", kind: "text", billing: "metered", inputRatio: 5, outputRatio: 8, unitPrice: 0, endpoints: "openai", audience: "advanced" },
-  { name: "gpt-5.4-mini", kind: "text", billing: "metered", inputRatio: 3, outputRatio: 6, unitPrice: 0, endpoints: "openai", audience: "advanced" },
-  { name: "claude-opus-4-7", kind: "text", billing: "metered", inputRatio: 15, outputRatio: 5, unitPrice: 0, endpoints: "anthropic, openai", audience: "advanced" },
-  { name: "gpt-5.4", kind: "text", billing: "metered", inputRatio: 5, outputRatio: 6, unitPrice: 0, endpoints: "openai", audience: "advanced" },
-  { name: "mimo-v2.5", kind: "text", billing: "metered", inputRatio: 2, outputRatio: 5, unitPrice: 0, endpoints: "anthropic, openai", audience: "advanced" },
-  { name: "MiniMax-M2.7", kind: "text", billing: "metered", inputRatio: 1, outputRatio: 5, unitPrice: 0, endpoints: "openai", audience: "advanced" },
-  { name: "MiniMax-M2.7-highspeed", kind: "text", billing: "metered", inputRatio: 1, outputRatio: 5, unitPrice: 0, endpoints: "openai", audience: "advanced" },
-  { name: "qwen3.6-plus", kind: "text", billing: "metered", inputRatio: 4, outputRatio: 5, unitPrice: 0, endpoints: "openai", audience: "ordinary" }
+  { name: "claude-sonnet-4-6", publicLabel: "مساعد كتابة قوي", kind: "text", billing: "metered", inputRatio: 1, outputRatio: 5, unitPrice: 0, audience: "ordinary", useCase: "يستخدم عندما تحتاج كتابة أفضل، إعادة صياغة، أو شرحا واضحا." },
+  { name: "gpt-5.5", publicLabel: "مساعد يومي سريع", kind: "text", billing: "metered", inputRatio: 5, outputRatio: 8, unitPrice: 0, audience: "ordinary", useCase: "مناسب للأسئلة اليومية، الترتيب السريع، وتوضيح الأفكار." },
+  { name: "gpt-image-2", publicLabel: "مساعد صناعة الصور", kind: "image", billing: "per_request", inputRatio: 0, outputRatio: 0, unitPrice: 2, audience: "ordinary", useCase: "يحوّل الفكرة أو الوصف إلى صورة أولية قابلة للتجربة." },
+  { name: "deepseek-v3.2", publicLabel: "مساعد شرح وتحليل", kind: "text", billing: "metered", inputRatio: 3, outputRatio: 5, unitPrice: 0, audience: "ordinary", useCase: "مفيد لفهم النصوص الطويلة أو ترتيب نقاط كثيرة بشكل واضح." },
+  { name: "gpt-5.4", publicLabel: "مساعد عروض وخطط", kind: "text", billing: "metered", inputRatio: 5, outputRatio: 6, unitPrice: 0, audience: "advanced", useCase: "مفيد لبناء مخطط عرض، خطة مشروع، أو أفكار مرتبة قبل التنفيذ." },
+  { name: "gpt-5.4-mini", publicLabel: "مساعد سكربت فيديو", kind: "text", billing: "metered", inputRatio: 3, outputRatio: 6, unitPrice: 0, audience: "advanced", useCase: "مفيد لتحضير سكربت قصير وتقسيمه إلى لقطات أو مشاهد." }
 ];
 
 const operationGroups = [
@@ -1065,6 +1250,12 @@ function renderGuide(ruleId) {
       <p>${guide.articleNote}</p>
       <a class="guide-link" href="${guide.articleHref}">افتح المقال المرتبط</a>
     </article>
+    <article class="guide-card">
+      <span>من مكتبة الفيديو</span>
+      <h3>شاهد الشرح المرتبط إن وجد</h3>
+      <p>${guide.tutorialNote || "إذا كان للمهمة شرح فيديو مناسب، افتحه هنا ثم ارجع مباشرة إلى نفس المهمة داخل ARABAI."}</p>
+      <a class="guide-link" href="${guide.tutorialHref || "/ar-tutorials.html"}">${guide.tutorialLabel || "افتح فيديو الشرح"}</a>
+    </article>
   `;
 }
 
@@ -1075,8 +1266,11 @@ const defaultGuide = {
   steps: ["اختر المهمة من البطاقات.", "اقرأ تقدير الرصيد.", "انسخ البرومبت الجاهز وعدله.", "شغّل المهمة ثم اطلب تعديلا واضحا."],
   copyPrompt: "أريد استخدام الذكاء الاصطناعي في: (اكتب المهمة هنا). النتيجة المطلوبة: (رسالة / صورة / عرض / سكربت). الجمهور: (من سيقرأ أو يشاهد). الأسلوب: (بسيط / رسمي / تجاري).",
   refinements: ["اجعل النتيجة أبسط.", "غيّر الأسلوب ليكون أكثر ودية.", "اعطني نسخة أقصر.", "اعطني 3 بدائل."],
-  articleNote: "هذه المنطقة تربط استخدام API بالمقالات، حتى لا تبقى المقالات منفصلة عن التجربة.",
-  articleHref: "../../ar-beginner.html"
+  articleNote: "هذه المنطقة تربط التجربة العملية بالمقالات، حتى لا تبقى المعرفة منفصلة عن الاستخدام.",
+  articleHref: "/ar-beginner.html",
+  tutorialNote: "ابدأ من مكتبة الفيديو إذا أردت رؤية أمثلة قبل اختيار المهمة.",
+  tutorialHref: "/ar-tutorials.html",
+  tutorialLabel: "افتح مكتبة الفيديو"
 };
 
 const taskGuides = {
@@ -1100,8 +1294,11 @@ const taskGuides = {
       "أعطني 3 صيغ مختلفة.",
       "حوّل الجواب إلى نقاط."
     ],
-    articleNote: "هذه هي أبسط طريقة لاستخدام نموذج أقوى بدون الدخول في تفاصيل تقنية.",
-    articleHref: "../../ar/articles/write-with-ai.html"
+    articleNote: "هذه هي أبسط طريقة لتحويل سؤال عادي إلى طلب واضح يمكن أن يفهمه AI بسرعة.",
+    articleHref: "/ar/articles/write-with-ai.html",
+    tutorialNote: "بعد فهم الكتابة، يمكنك مشاهدة فيديو ChatGPT العملي لرؤية كيف تتحول الأسئلة إلى عمل يومي.",
+    tutorialHref: "/ar-tutorials.html#chatgpt-video",
+    tutorialLabel: "افتح فيديو ChatGPT"
   },
   premium_long_answer: {
     label: "إجابة طويلة",
@@ -1111,7 +1308,7 @@ const taskGuides = {
       "اكتب الموضوع والهدف من الإجابة.",
       "قل لمن ستستخدم النتيجة: لنفسك، لفريق، لعميل، أو لإدارة.",
       "حدد الشكل: خطة، مقارنة، تقرير مختصر، أو خطوات تنفيذ.",
-      "اطلب من AI أن يبدأ بملخص ثم تفاصيل.",
+      "اطلب من AI أن يبدأ بملخص قصير ثم تفاصيل.",
       "راجع النتيجة واطلب منه إضافة أمثلة عملية."
     ],
     copyPrompt:
@@ -1124,7 +1321,10 @@ const taskGuides = {
       "أضف قائمة تحقق في النهاية."
     ],
     articleNote: "هذه الصيغة تناسب كتابة الخطط، المقارنات، الشروحات، ورسائل العمل الطويلة.",
-    articleHref: "../../ar/articles/make-a-plan.html"
+    articleHref: "/ar/articles/make-a-plan.html",
+    tutorialNote: "يمكنك أيضا مشاهدة فيديو Gemini لفهم كيف تتحول الفكرة إلى تقرير أو نتيجة مرتبة.",
+    tutorialHref: "/ar-tutorials.html#gemini-video",
+    tutorialLabel: "افتح فيديو Gemini"
   },
   long_document_summary: {
     label: "تلخيص مستند",
@@ -1147,7 +1347,10 @@ const taskGuides = {
       "أضف أسئلة أطرحها في الاجتماع."
     ],
     articleNote: "هذه الطريقة تجعل تلخيص المستند عملا مفيدا، وليس مجرد اختصار طويل.",
-    articleHref: "../../ar/articles/summarize-documents.html"
+    articleHref: "/ar/articles/summarize-documents.html",
+    tutorialNote: "فيديو ChatGPT يوضح أيضا كيف يتعامل المستخدم مع الملفات والجداول وتحليل المستندات.",
+    tutorialHref: "/ar-tutorials.html#chatgpt-video",
+    tutorialLabel: "افتح فيديو الملفات والتحليل"
   },
   image_generation_low: {
     label: "توليد صورة",
@@ -1170,7 +1373,10 @@ const taskGuides = {
       "اعطني نسخة مناسبة لمنشور إنستغرام."
     ],
     articleNote: "هذا هو نفس منطق مقال توليد الصور: وصف واضح أولا، ثم تعديل صغير بعد النتيجة.",
-    articleHref: "../../ar/articles/create-images.html"
+    articleHref: "/ar/articles/create-images.html",
+    tutorialNote: "فيديو image-2 يشرح نفس الطريق عمليا: من الوصف إلى البوستر أو صورة المنتج.",
+    tutorialHref: "/ar-tutorials.html#image2-video",
+    tutorialLabel: "افتح فيديو image-2"
   },
   image_prompt_review: {
     label: "برومبت صورة",
@@ -1193,7 +1399,10 @@ const taskGuides = {
       "أضف قائمة بالأشياء التي يجب تجنبها."
     ],
     articleNote: "هذه خطوة تحضيرية تساعد المستخدم على تقليل التجارب الضائعة في أدوات الصور.",
-    articleHref: "../../ar/articles/create-images.html"
+    articleHref: "/ar/articles/create-images.html",
+    tutorialNote: "ابدأ بفيديو image-2 إذا أردت رؤية كيف يتحول البرومبت إلى صورة أو بوستر عملي.",
+    tutorialHref: "/ar-tutorials.html#image2-video",
+    tutorialLabel: "افتح فيديو image-2"
   },
   prompt_improvement: {
     label: "تحسين البرومبت",
@@ -1216,7 +1425,10 @@ const taskGuides = {
       "اجعل النتيجة مناسبة للمبتدئين."
     ],
     articleNote: "هذا يربط مباشرة بين استخدام الأداة ومقال ARABAI عن البرومبت.",
-    articleHref: "../../ar/articles/what-is-a-prompt.html"
+    articleHref: "/ar/articles/what-is-a-prompt.html",
+    tutorialNote: "الفيديو القصير الخاص بالـ Prompt مناسب قبل أن تبدأ في نسخ البرومبت أو تعديله.",
+    tutorialHref: "/ar-tutorials.html#arabai-prompt-remotion",
+    tutorialLabel: "افتح فيديو الـ Prompt"
   },
   ppt_outline: {
     label: "عرض تقديمي",
@@ -1239,7 +1451,10 @@ const taskGuides = {
       "حوّل المخطط إلى نص مناسب لـ Gamma."
     ],
     articleNote: "الهدف أن يرى المستخدم كيف ينتقل من فكرة إلى مخطط ثم إلى أداة PPT.",
-    articleHref: "../../ar/articles/make-slides.html"
+    articleHref: "/ar/articles/make-slides.html",
+    tutorialNote: "فيديو Gamma يريك نفس الرحلة: من النص أو الفكرة إلى عرض جاهز قابل للتعديل.",
+    tutorialHref: "/ar-tutorials.html#gamma-video",
+    tutorialLabel: "افتح فيديو Gamma"
   },
   video_script: {
     label: "سكربت فيديو",
@@ -1262,7 +1477,10 @@ const taskGuides = {
       "أضف دعوة بسيطة في النهاية."
     ],
     articleNote: "هذا يربط طريقة GPT لكتابة السكربت مع طريقة الصور ثم تحويلها إلى فيديو لاحقا.",
-    articleHref: "../../ar/articles/make-videos.html"
+    articleHref: "/ar/articles/make-videos.html",
+    tutorialNote: "فيديو صناعة الفيديو يريك المنهج الأبسط للمبتدئ: سكربت، ثم 9 صور، ثم تحويلها إلى فيديو.",
+    tutorialHref: "/ar-tutorials.html#videomake-video",
+    tutorialLabel: "افتح فيديو صناعة الفيديو"
   }
 };
 

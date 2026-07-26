@@ -36,14 +36,63 @@ const pricingRules = [
   { id: "music_generation", taskType: "music", label: "Music generation", minCredits: 30, maxCredits: 80, costLevel: "high", freeCreditsAllowed: false, requiresConfirmation: true }
 ];
 
-const launchTaskRuleIds = ["premium_short_chat", "prompt_improvement", "premium_long_answer", "image_prompt_review"];
+const launchTaskRuleIds = [
+  "premium_short_chat",
+  "prompt_improvement",
+  "premium_long_answer",
+  "image_prompt_review",
+  "image_generation_low",
+  "ppt_outline",
+  "video_script"
+];
 const balanceTestAccounts = new Set(
-  (process.env.ARABAI_BALANCE_TEST_ACCOUNTS || "demo@arabai.top,test@arabai.top,+966****0000")
+  (process.env.ARABAI_BALANCE_TEST_ACCOUNTS || "preview@arabai.top,test@arabai.top,+966****0000")
     .split(",")
     .map((item) => normalizeText(item).toLowerCase())
     .filter(Boolean)
 );
 const balanceTestCredits = Number(process.env.ARABAI_BALANCE_TEST_CREDITS || 500);
+const testerTierConfigs = [
+  {
+    role: "tester_basic",
+    accounts: new Set(
+      (process.env.ARABAI_TESTER_BASIC_ACCOUNTS || "")
+        .split(",")
+        .map((item) => normalizeText(item).toLowerCase())
+        .filter(Boolean)
+    ),
+    targetCredits: Number(process.env.ARABAI_TESTER_BASIC_CREDITS || 1000),
+    bypassDailyCap: false,
+    allowPaidAiTesting: true,
+    label: "basic tester"
+  },
+  {
+    role: "tester_pro",
+    accounts: new Set(
+      (process.env.ARABAI_TESTER_PRO_ACCOUNTS || "")
+        .split(",")
+        .map((item) => normalizeText(item).toLowerCase())
+        .filter(Boolean)
+    ),
+    targetCredits: Number(process.env.ARABAI_TESTER_PRO_CREDITS || 5000),
+    bypassDailyCap: true,
+    allowPaidAiTesting: true,
+    label: "pro tester"
+  },
+  {
+    role: "internal_admin",
+    accounts: new Set(
+      (process.env.ARABAI_TESTER_ADMIN_ACCOUNTS || "")
+        .split(",")
+        .map((item) => normalizeText(item).toLowerCase())
+        .filter(Boolean)
+    ),
+    targetCredits: Number(process.env.ARABAI_TESTER_ADMIN_CREDITS || 20000),
+    bypassDailyCap: true,
+    allowPaidAiTesting: true,
+    label: "internal admin tester"
+  }
+];
 
 const state = globalThis.__ARABAI_VERCEL_DEMO_STATE__ || {
   user: null,
@@ -56,7 +105,7 @@ const state = globalThis.__ARABAI_VERCEL_DEMO_STATE__ || {
 
 globalThis.__ARABAI_VERCEL_DEMO_STATE__ = state;
 if (!state.virtualCheckouts) state.virtualCheckouts = new Map();
-rewardRules.foundingUserCampaign.enabled = process.env.ENABLE_FOUNDING_USER_CAMPAIGN === "true";
+rewardRules.foundingUserCampaign.enabled = process.env.ENABLE_FOUNDING_USER_CAMPAIGN !== "false";
 
 const adapter = createRuntimeAdapter();
 const store = process.env.ENABLE_SUPABASE_STORE === "true" ? createSupabaseStore() : null;
@@ -70,6 +119,14 @@ const allowedLaunchTaskIds = new Set(
 export default async function handler(req, res) {
   try {
     const path = new URL(req.url, "https://arabai.top").pathname;
+
+    if (path === "/api/waitlist") {
+      applyWaitlistCors(req, res);
+      if (req.method === "OPTIONS") {
+        res.statusCode = 204;
+        return res.end();
+      }
+    }
 
     if (store?.isReady) {
       return handlePersistedRequest(req, res, path);
@@ -91,6 +148,10 @@ export default async function handler(req, res) {
 }
 
 async function handlePersistedRequest(req, res, path) {
+  if (path === "/api/waitlist" && req.method === "POST") {
+    return handleWaitlistSubmission(req, res);
+  }
+
   if (path === "/api/health" && req.method === "GET") {
     return json(res, healthView(true));
   }
@@ -113,12 +174,12 @@ async function handlePersistedRequest(req, res, path) {
     return json(res, {
       user: userView(session.user),
       wallet: walletView(session.wallet),
-      flags: {
-        realRecharge: false,
-        aiRedemption: true,
-        persisted: true
-      }
-    });
+        flags: {
+          realRecharge: false,
+          aiRedemption: process.env.ENABLE_AI_REDEMPTION === "true",
+          persisted: true
+        }
+      });
   }
 
   if (path === "/api/auth/verified-signin" && req.method === "POST") {
@@ -213,8 +274,8 @@ async function handlePersistedRequest(req, res, path) {
     if (!session) return;
 
     const body = await readJson(req);
-    if (process.env.ENABLE_AI_REDEMPTION !== "true") {
-      return json(res, featureDisabledResponse("Paid AI tasks are not open yet."), 403);
+    if (!canUseAiRedemption(session.user)) {
+      return json(res, featureDisabledResponse("تشغيل المهام المدفوعة داخل ARABAI لم يفتح بعد."), 403);
     }
     if (!taskAllowed(body.pricingRuleId)) {
       return json(res, unavailableTask(body.pricingRuleId), 400);
@@ -319,7 +380,7 @@ async function handlePersistedVerifiedSignin(req, res) {
       country: body.country || "SA",
       registration_number: registrationNumber,
       preferred_language: body.preferredLanguage || "ar",
-      role: "user",
+      role: detectedRoleForAccount(body) || "user",
       referral_code: `arabai-${randomUUID().slice(0, 8)}`,
       referred_by_user_id: referrerRow?.id || null,
       signup_reward_granted: false,
@@ -331,7 +392,8 @@ async function handlePersistedVerifiedSignin(req, res) {
       display_name: body.displayName || userRow.display_name || "ARABAI user",
       country: body.country || userRow.country || "SA",
       preferred_language: body.preferredLanguage || userRow.preferred_language || "ar",
-      last_login_at: new Date().toISOString()
+      last_login_at: new Date().toISOString(),
+      role: detectedRoleForAccount(body) || userRow.role || "user"
     });
   }
 
@@ -343,6 +405,7 @@ async function handlePersistedVerifiedSignin(req, res) {
     grantSignupRewardRoute({ wallet, user });
   }
   grantBalanceTestCreditsIfNeeded({ wallet, user });
+  grantTesterCreditsIfNeeded({ wallet, user });
 
   const foundingRewardCount = await store.countFoundingRewardsGranted();
   let foundingUserReward = {
@@ -412,6 +475,15 @@ async function handlePersistedVerifiedSignin(req, res) {
 }
 
 async function handleDemoRequest(req, res, path) {
+  if (path === "/api/waitlist" && req.method === "POST") {
+    return json(res, {
+      error: {
+        code: "WAITLIST_STORAGE_UNAVAILABLE",
+        message: "تعذر حفظ الطلب الآن. يرجى المحاولة مرة أخرى لاحقا."
+      }
+    }, 503);
+  }
+
   if (path === "/api/health" && req.method === "GET") {
     return json(res, healthView(false));
   }
@@ -434,7 +506,7 @@ async function handleDemoRequest(req, res, path) {
       wallet: walletView(state.wallet),
       flags: {
         realRecharge: false,
-        aiRedemption: true
+        aiRedemption: process.env.ENABLE_AI_REDEMPTION === "true"
       }
     });
   }
@@ -468,6 +540,7 @@ async function handleDemoRequest(req, res, path) {
         displayName: body.displayName || "ARABAI user",
         country: body.country || "SA",
         preferredLanguage: body.preferredLanguage || "ar",
+        role: detectedRoleForAccount(body) || "user",
         verified: true,
         signupRewardGranted: false,
         foundingUserRewardGranted: false
@@ -489,6 +562,7 @@ async function handleDemoRequest(req, res, path) {
     state.user = user;
     state.wallet = result.wallet;
     grantBalanceTestCreditsIfNeeded({ wallet: state.wallet, user: state.user });
+    grantTesterCreditsIfNeeded({ wallet: state.wallet, user: state.user });
     return json(res, result);
   }
 
@@ -561,8 +635,8 @@ async function handleDemoRequest(req, res, path) {
     }
 
     const body = await readJson(req);
-    if (process.env.ENABLE_AI_REDEMPTION !== "true") {
-      return json(res, featureDisabledResponse("Paid AI tasks are not open yet."), 403);
+    if (!canUseAiRedemption(state.user)) {
+      return json(res, featureDisabledResponse("تشغيل المهام المدفوعة داخل ARABAI لم يفتح بعد."), 403);
     }
     if (!taskAllowed(body.pricingRuleId)) {
       return json(res, unavailableTask(body.pricingRuleId), 400);
@@ -680,12 +754,27 @@ function userFromRow(row) {
     country: row.country || "SA",
     preferredLanguage: row.preferred_language || "ar",
     registrationNumber: row.registration_number,
-    referralCode: row.referral_code || "arabai-demo",
+    referralCode: row.referral_code || "arabai-preview",
     role: row.role || "user",
     verified: true,
     signupRewardGranted: Boolean(row.signup_reward_granted),
     foundingUserRewardGranted: Boolean(row.founding_user_reward_granted)
   };
+}
+
+function detectedRoleForAccount(profile) {
+  return getTesterProfile(profile)?.role || null;
+}
+
+function getTesterProfile(user) {
+  const email = normalizeText(user?.email).toLowerCase();
+  const phone = normalizeText(user?.phone).toLowerCase();
+  for (const config of testerTierConfigs) {
+    if ((email && config.accounts.has(email)) || (phone && config.accounts.has(phone))) {
+      return config;
+    }
+  }
+  return null;
 }
 
 function registrationConflictResponse({ userRow, existingByEmail, existingByPhone }) {
@@ -741,7 +830,7 @@ function userView(user) {
     preferredLanguage: user.preferredLanguage || "ar",
     country: user.country || "SA",
     role: user.role || "user",
-    referralCode: user.referralCode || "arabai-demo"
+    referralCode: user.referralCode || "arabai-preview"
   };
 }
 
@@ -835,6 +924,110 @@ function featureDisabledResponse(message) {
   };
 }
 
+async function handleWaitlistSubmission(req, res) {
+  const body = await readJson(req);
+  if (normalizeText(body.website)) {
+    return json(res, { ok: true, persisted: false });
+  }
+
+  const email = normalizeText(body.email).toLowerCase();
+  const whatsapp = normalizeWhatsapp(body.whatsapp);
+  if (!email && !whatsapp) {
+    return json(res, {
+      error: { code: "CONTACT_REQUIRED", message: "أدخل البريد الإلكتروني أو رقم WhatsApp." }
+    }, 400);
+  }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return json(res, {
+      error: { code: "INVALID_EMAIL", message: "تحقق من عنوان البريد الإلكتروني." }
+    }, 400);
+  }
+  if (whatsapp && !/^\+[1-9]\d{7,14}$/.test(whatsapp)) {
+    return json(res, {
+      error: { code: "INVALID_WHATSAPP", message: "اكتب رقم WhatsApp مع مفتاح الدولة، مثل +966." }
+    }, 400);
+  }
+  if (body.consent !== true) {
+    return json(res, {
+      error: { code: "CONSENT_REQUIRED", message: "يجب الموافقة على استلام إشعار الإطلاق." }
+    }, 400);
+  }
+
+  const lead = {
+    id: randomUUID(),
+    email: email || null,
+    whatsapp: whatsapp || null,
+    country: limitedText(body.country, 80) || null,
+    interested_models: limitedText(body.interestedModels, 240) || null,
+    intended_use: limitedText(body.intendedUse, 500) || null,
+    consent: true,
+    source_page: safeSourcePath(body.sourcePage),
+    referrer: safeExternalUrl(body.referrer),
+    utm_source: limitedText(body.utmSource, 120) || null,
+    utm_medium: limitedText(body.utmMedium, 120) || null,
+    utm_campaign: limitedText(body.utmCampaign, 160) || null,
+    status: "new",
+    created_at: new Date().toISOString()
+  };
+
+  const saved = await store.insertWaitlistLead(lead);
+  return json(res, {
+    ok: true,
+    persisted: true,
+    leadId: lead.id,
+    message: "تم تسجيلك في القائمة المبكرة بنجاح."
+  }, 201, { "x-arabai-storage": saved.storage });
+}
+
+function applyWaitlistCors(req, res) {
+  const origin = normalizeText(req.headers?.origin);
+  const allowedOrigins = new Set([
+    "https://arabai.top",
+    "https://www.arabai.top",
+    "https://testapi.arabai.top",
+    "http://127.0.0.1:8895",
+    "http://localhost:8895"
+  ]);
+  if (allowedOrigins.has(origin)) res.setHeader("access-control-allow-origin", origin);
+  res.setHeader("vary", "Origin");
+  res.setHeader("access-control-allow-methods", "POST, OPTIONS");
+  res.setHeader("access-control-allow-headers", "content-type");
+  res.setHeader("access-control-max-age", "86400");
+}
+
+function normalizeWhatsapp(value) {
+  const text = normalizeText(value);
+  if (!text) return "";
+  const leadingPlus = text.trim().startsWith("+") ? "+" : "";
+  return `${leadingPlus}${text.replace(/\D/g, "")}`;
+}
+
+function limitedText(value, maxLength) {
+  return normalizeText(value).slice(0, maxLength);
+}
+
+function safeSourcePath(value) {
+  const text = limitedText(value, 300);
+  if (!text) return null;
+  try {
+    const url = new URL(text, "https://arabai.top");
+    return `${url.pathname}${url.search}`.slice(0, 300);
+  } catch {
+    return null;
+  }
+}
+
+function safeExternalUrl(value) {
+  const text = limitedText(value, 500);
+  if (!text) return null;
+  try {
+    const url = new URL(text);
+    return ["http:", "https:"].includes(url.protocol) ? url.toString().slice(0, 500) : null;
+  } catch {
+    return null;
+  }
+}
+
 async function handleCreateCheckout(req, res, session) {
   const body = await readJson(req);
   const selectedPackage = findPackage(body.packageId, body.currencyHint);
@@ -854,11 +1047,11 @@ async function handleCreateCheckout(req, res, session) {
   }
 
   if (!rechargeEnabled()) {
-    return json(res, featureDisabledResponse("Recharge is not open yet."), 403);
+    return json(res, featureDisabledResponse("الشحن الحقيقي لم يفتح بعد."), 403);
   }
 
   if (!packageAvailable(selectedPackage)) {
-    return json(res, featureDisabledResponse("This package is not connected to Lemon Squeezy yet."), 403);
+    return json(res, featureDisabledResponse("هذه الباقة غير موصولة بعد بمزود الدفع."), 403);
   }
 
   const checkout = await createLemonCheckout({
@@ -1344,6 +1537,40 @@ function grantBalanceTestCreditsIfNeeded({ wallet, user }) {
   return true;
 }
 
+function grantTesterCreditsIfNeeded({ wallet, user }) {
+  const testerProfile = getTesterProfile(user);
+  if (!testerProfile) return false;
+  if (!Number.isFinite(testerProfile.targetCredits) || testerProfile.targetCredits <= 0) return false;
+
+  const providerReference = `arabai_${testerProfile.role}_${user.id}`;
+  if (wallet.transactions.some((item) => item.provider === "virtual" && item.providerReference === providerReference)) {
+    return false;
+  }
+  if (wallet.redeemableCreditBalance >= testerProfile.targetCredits) {
+    wallet.transactions.push({
+      type: "top_up",
+      credits: 0,
+      status: "available",
+      provider: "virtual",
+      providerReference,
+      note: `ARABAI ${testerProfile.label} account already met the target credit balance`,
+      createdAt: new Date().toISOString()
+    });
+    return true;
+  }
+
+  const credits = testerProfile.targetCredits - wallet.redeemableCreditBalance;
+  addCredits(wallet, {
+    type: "top_up",
+    credits,
+    status: "available",
+    provider: "virtual",
+    providerReference,
+    note: `ARABAI ${testerProfile.label} credits`
+  });
+  return true;
+}
+
 function isBalanceTestAccount(user) {
   const email = normalizeText(user?.email).toLowerCase();
   const phone = normalizeText(user?.phone).toLowerCase();
@@ -1548,7 +1775,7 @@ function estimateTaskCredits(input) {
       requiresConfirmation: true,
       freeCreditsAllowed: false,
       available: false,
-      message: `${rule.label} is coming soon.`
+      message: `هذه المهمة ستفتح لاحقا داخل ARABAI.`
     };
   }
   const complexity = estimateComplexity(input);
@@ -1590,10 +1817,10 @@ function estimateComplexity(input) {
 }
 
 function buildEstimateMessage(rule, estimatedCredits) {
-  if (rule.costLevel === "low") return `This paid AI task may use about ${estimatedCredits} credits.`;
-  if (rule.costLevel === "medium") return `This task may use about ${estimatedCredits} credits. Please confirm before running.`;
-  if (rule.costLevel === "high") return `This is a high-cost paid AI task and may use about ${estimatedCredits} credits.`;
-  return "This task needs manual pricing or is coming soon.";
+  if (rule.costLevel === "low") return `هذه المهمة قد تستهلك حوالي ${estimatedCredits} credits.`;
+  if (rule.costLevel === "medium") return `هذه المهمة قد تستهلك حوالي ${estimatedCredits} credits. راجع التقدير قبل التشغيل.`;
+  if (rule.costLevel === "high") return `هذه مهمة أعلى تكلفة وقد تستهلك حوالي ${estimatedCredits} credits.`;
+  return "هذه المهمة تحتاج تسعيرا خاصا أو ستفتح لاحقا.";
 }
 
 function shouldQueue(taskType) {
@@ -1618,7 +1845,7 @@ function createGatewayAdapter({
   return {
     async runTextTask(input) {
       const startedAt = Date.now();
-      const model = input.options?.model || defaultTextModel;
+      const model = input.options?.model || input.options?.modelRoute || defaultTextModel;
       const response = await fetch(withApiPath(baseUrl, "/chat/completions"), {
         method: "POST",
         headers: {
@@ -1642,7 +1869,7 @@ function createGatewayAdapter({
     },
     async runImageTask(input) {
       const startedAt = Date.now();
-      const model = input.options?.model || defaultImageModel;
+      const model = input.options?.model || input.options?.modelRoute || defaultImageModel;
       const response = await fetch(withApiPath(baseUrl, "/images/generations"), {
         method: "POST",
         headers: {
@@ -1673,7 +1900,7 @@ function createMockGatewayAdapter() {
   return {
     async runTextTask(input) {
       return {
-        outputText: `Demo result for ${input.pricingRuleId}: ARABAI would call the paid AI provider here.`,
+        outputText: `هذه نتيجة توضيحية لمهمة ${input.pricingRuleId}. عند تفعيل المزود الحقيقي سيظهر الناتج الفعلي هنا داخل ARABAI.`,
         actualCredits: undefined,
         providerCost: 0.01,
         providerMeta: { mock: true }
@@ -1681,7 +1908,7 @@ function createMockGatewayAdapter() {
     },
     async runImageTask(input) {
       return {
-        outputText: `Demo image task accepted for ${input.pricingRuleId}.`,
+        outputText: `تم استلام مهمة الصورة ${input.pricingRuleId}. عند تفعيل المزود الحقيقي ستظهر الصورة النهائية هنا.`,
         outputUrl: null,
         actualCredits: undefined,
         providerCost: 0.05,
@@ -1694,10 +1921,10 @@ function createMockGatewayAdapter() {
 function createDisabledAdapter() {
   return {
     async runTextTask() {
-      throw new Error("AI gateway is not configured.");
+      throw new Error("بوابة الذكاء الاصطناعي غير مهيأة بعد على الخادم.");
     },
     async runImageTask() {
-      throw new Error("AI gateway is not configured.");
+      throw new Error("بوابة الذكاء الاصطناعي غير مهيأة بعد على الخادم.");
     }
   };
 }
@@ -1721,7 +1948,7 @@ async function parseProviderResponse(response) {
     data = { raw: text };
   }
   if (!response.ok) {
-    const message = data.error?.message || data.message || `Provider request failed with ${response.status}.`;
+    const message = data.error?.message || data.message || `فشل الاتصال بمزود الذكاء الاصطناعي برمز ${response.status}.`;
     const error = new Error(message);
     error.status = response.status;
     error.providerResponse = data;
@@ -1800,18 +2027,25 @@ function taskAllowed(pricingRuleId) {
   return allowedLaunchTaskIds.has(pricingRuleId);
 }
 
+function canUseAiRedemption(user) {
+  if (process.env.ENABLE_AI_REDEMPTION === "true") return true;
+  return Boolean(getTesterProfile(user)?.allowPaidAiTesting);
+}
+
 function unavailableTask(pricingRuleId) {
   return {
     error: {
       code: "TASK_NOT_OPEN",
       message: pricingRuleId
-        ? `This task is not open in the current launch phase: ${pricingRuleId}.`
-        : "This task is not open in the current launch phase."
+        ? `هذه المهمة ليست مفتوحة بعد في مرحلة الإطلاق الحالية: ${pricingRuleId}.`
+        : "هذه المهمة ليست مفتوحة بعد في مرحلة الإطلاق الحالية."
     }
   };
 }
 
 function validateDailySpendCap(wallet, estimatedCredits) {
+  const testerProfile = currentTesterProfileFromWallet(wallet);
+  if (testerProfile?.bypassDailyCap) return "";
   const dailyCap = Number(process.env.FREE_CREDIT_DAILY_SPEND_CAP || rewardRules.signupVerified.credits);
   const todayKey = new Date().toISOString().slice(0, 10);
   const spentToday = wallet.transactions.reduce((sum, item) => {
@@ -1821,10 +2055,20 @@ function validateDailySpendCap(wallet, estimatedCredits) {
   }, 0);
 
   if (spentToday + Number(estimatedCredits || 0) > dailyCap) {
-    return `Daily usage cap reached. Today's remaining limit is ${Math.max(dailyCap - spentToday, 0)} credits.`;
+    return `تم الوصول إلى حد الاستخدام اليومي. المتبقي اليوم هو ${Math.max(dailyCap - spentToday, 0)} credits.`;
   }
 
   return "";
+}
+
+function currentTesterProfileFromWallet(wallet) {
+  const providerReference = wallet?.transactions?.find((item) => typeof item.providerReference === "string" && item.providerReference.startsWith("arabai_tester_"))?.providerReference;
+  if (!providerReference) {
+    const adminRef = wallet?.transactions?.find((item) => typeof item.providerReference === "string" && item.providerReference.startsWith("arabai_internal_admin_"))?.providerReference;
+    if (!adminRef) return null;
+    return testerTierConfigs.find((item) => item.role === "internal_admin") || null;
+  }
+  return testerTierConfigs.find((item) => providerReference.includes(item.role)) || null;
 }
 
 function json(res, payload, status = 200, headers = {}) {

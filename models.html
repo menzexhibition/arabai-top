@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="قارن نماذج AI وأسعار API المتاحة عبر ARABAI." />
+    <title>سوق النماذج | ARABAI</title>
+    <link rel="canonical" href="https://arabai.top/models.html" />
+    <link rel="alternate" hreflang="ar" href="https://arabai.top/models.html" />
+    <link rel="alternate" hreflang="x-default" href="https://arabai.top/models.html" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png" />
+    <link rel="stylesheet" href="styles.css?v=20260723-platform1" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"سوق نماذج ARABAI","url":"https://arabai.top/models.html","inLanguage":"ar","description":"مقارنة نماذج AI وأسعار API المرجعية عبر ARABAI.","isPartOf":{"@type":"WebSite","name":"ARABAI","url":"https://arabai.top/"}}</script>
+  </head>
+  <body class="rtl product-site no-bridge">
+    <header class="platform-header">
+      <a class="platform-brand" href="index.html" aria-label="الصفحة الرئيسية ARABAI"><img src="assets/brand/arabai-logo-320.png" alt="" width="44" height="50" /><span>ARABAI</span></a>
+      <nav class="platform-nav" aria-label="التنقل الرئيسي">
+        <a href="index.html">الرئيسية</a><a href="models.html" aria-current="page">سوق النماذج</a><a href="console.html">لوحة التحكم</a><a href="learn.html">دليل AI</a>
+      </nav>
+      <div class="platform-account-actions"><a class="header-login" href="app/#accountPanel">تسجيل الدخول</a><a class="header-register" href="#early-access">القائمة المبكرة</a></div>
+    </header>
+    <main>
+      <section class="platform-page-hero">
+        <p class="platform-kicker">سوق النماذج</p>
+        <h1>اختر النموذج المناسب لعملك</h1>
+        <p>قارن النماذج المتاحة وأسعار الإدخال والإخراج قبل ربط تطبيقك مع API.</p>
+      </section>
+      <section class="marketplace-controls" aria-label="تصنيفات النماذج">
+        <label class="model-search-field">
+          <span>ابحث عن نموذج</span>
+          <input type="search" data-model-search placeholder="مثال: GPT أو Claude" autocomplete="off" />
+        </label>
+        <div class="model-filter-group" aria-label="تصفية النماذج">
+          <button class="active" type="button" data-model-filter="all">كل النماذج</button>
+          <button type="button" data-model-filter="text">النصوص</button>
+          <button type="button" data-model-filter="code">البرمجة</button>
+          <button type="button" data-model-filter="image">الصور</button>
+          <button type="button" data-model-filter="reasoning">التحليل</button>
+        </div>
+      </section>
+      <section class="platform-section marketplace-section">
+        <div data-arabai-pricing="marketplace" data-locale="ar" data-limit="30"></div>
+        <p class="model-empty-state" data-model-empty hidden>لا توجد نماذج تطابق هذا البحث.</p>
+        <div class="marketplace-cta">
+          <div><h2>هل وجدت النموذج المناسب؟</h2><p>انضم إلى القائمة المبكرة وسنخبرك عند فتح API.</p></div>
+          <a class="platform-primary" href="#early-access">القائمة المبكرة</a>
+        </div>
+      </section>
+      <section class="platform-section waitlist-section compact-waitlist" id="early-access">
+        <div class="waitlist-copy"><p class="platform-kicker">القائمة المبكرة</p><h2>تابع أسعار النماذج واحصل على إشعار الإطلاق</h2><p>اترك البريد الإلكتروني أو رقم WhatsApp. لا يوجد دفع أو التزام مالي حاليا.</p></div>
+        <form class="waitlist-form" data-waitlist-form data-model-interest="سوق النماذج">
+          <div class="waitlist-contact-grid"><label><span>البريد الإلكتروني</span><input type="email" name="email" autocomplete="email" placeholder="name@example.com" /></label><label><span>رقم WhatsApp</span><input type="tel" name="whatsapp" autocomplete="tel" dir="ltr" placeholder="+966 5X XXX XXXX" /></label></div>
+          <p class="waitlist-field-note">يكفي إدخال البريد الإلكتروني أو رقم WhatsApp.</p>
+          <label><span>النماذج التي تهمك</span><input type="text" name="interestedModels" placeholder="مثال: GPT، Claude، DeepSeek" /></label>
+          <label class="waitlist-consent"><input type="checkbox" name="consent" required /><span>أوافق على استلام إشعار الإطلاق والعروض المبكرة.</span></label>
+          <label class="waitlist-honeypot" aria-hidden="true"><span>الموقع</span><input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+          <button class="platform-primary" type="submit">انضم إلى القائمة المبكرة</button><p class="waitlist-status" data-waitlist-status aria-live="polite"></p><p class="waitlist-privacy"><a href="privacy.html">سياسة الخصوصية</a></p>
+        </form>
+      </section>
+    </main>
+    <footer class="platform-footer"><div><strong>ARABAI</strong><span>منصة API للذكاء الاصطناعي باللغة العربية.</span></div><nav aria-label="روابط التذييل"><a href="index.html">الرئيسية</a><a href="learn.html">دليل AI</a><a href="privacy.html">الخصوصية</a><a href="terms.html">الشروط</a><a href="mailto:support@arabai.top">support@arabai.top</a></nav></footer>
+    <script src="pricing.js?v=20260723-platform1"></script>
+    <script src="waitlist.js?v=20260726-waitlist1"></script>
+    <script src="script.js?v=20260723-platform1"></script>
+  </body>
+</html>

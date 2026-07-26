@@ -29,6 +29,8 @@ const BRAND_WORDMARK_HTML =
   '<span class="brand-wordmark" aria-label="ARABAI"><span class="brand-arab">arab</span><span class="brand-ai">AI</span></span>';
 const INLINE_BRAND_HTML =
   '<span class="inline-brand" aria-label="ARABAI"><span class="brand-arab">arab</span><span class="brand-ai">AI</span></span>';
+const IS_ARABIC_PAGE = document.documentElement.lang === "ar" || document.body.classList.contains("rtl");
+injectBridgeFloatingEntry();
 
 // Article HTML is assembled from trusted local content in articles.js. Do not
 // pass future user-generated comments, submissions, or community posts into
@@ -84,6 +86,8 @@ if (articleRoot && window.ARTICLES) {
 
     const externalRefs = renderExternalRefs(article.externalRefs);
     const toolLinks = renderToolLinks(article.externalRefs);
+    const developerCta = renderDeveloperApiCta(articleId, "en");
+    const inAppCta = renderInAppCta(articleId, "en");
 
     updateRechargeIntent(articleId, article);
     const rechargeNudge = renderRechargeNudge(articleId, article);
@@ -109,8 +113,10 @@ if (articleRoot && window.ARTICLES) {
         ${workflow}
         <h2>Try this</h2>
         ${prompt}
+        ${inAppCta}
         ${toolLinks}
         ${externalRefs}
+        ${developerCta}
         ${rechargeNudge}
         ${next}
       </section>
@@ -170,6 +176,7 @@ if (arArticleRoot && window.ARTICLES) {
     const toolLinks = renderToolLinks(article.externalRefs, "ar");
     const externalRefs = renderExternalRefs(article.externalRefs, "ar");
     const developerCta = renderDeveloperApiCta(articleId);
+    const inAppCta = renderInAppCta(articleId, "ar");
     const next = article.next
       ? `<div class="next-step"><span>المقال التالي</span><a href="${getArabicArticleHref(article.next[0])}">${getArabicTitle(article.next[0], article.next[1])}</a></div>`
       : "";
@@ -191,6 +198,7 @@ if (arArticleRoot && window.ARTICLES) {
         ${workflow}
         ${prompt}
         ${renderTutorialVideo(article.tutorialVideo, "ar")}
+        ${inAppCta}
         ${toolLinks}
         ${externalRefs}
         ${developerCta}
@@ -205,7 +213,7 @@ function getArabicArticleHref(articleId) {
   return document.body?.dataset?.staticArticle ? `${articleId}.html` : `ar/articles/${articleId}.html`;
 }
 
-function renderDeveloperApiCta(articleId) {
+function renderDeveloperApiCta(articleId, locale = "ar") {
   const apiLearningPath = new Set([
     "what-is-api",
     "official-api-platforms",
@@ -217,13 +225,67 @@ function renderDeveloperApiCta(articleId) {
 
   if (!apiLearningPath.has(articleId)) return "";
 
+  const prefix = document.body?.dataset?.staticArticle === "true" ? "../../" : "";
+  if (locale === "en") {
+    return `
+      <aside class="next-step api-next-step">
+        <span>Next practical step</span>
+        <a href="${prefix}developer-api.html">Open the ARABAI API route explanation</a>
+        <p>See how this article turns into one clear API route, one wallet path, and one in-site experience instead of a separate website.</p>
+      </aside>
+    `;
+  }
+
   return `
     <aside class="next-step api-next-step">
       <span>الخطوة العملية بعد الفهم</span>
-      <a href="../../ar-developer-api.html">افتح شرح واجهة ARABAI للمطورين و API Token</a>
-      <p>اقرأ كيف يتحول هذا الشرح إلى بوابة تجريبية منفصلة قبل أي إطلاق عام أو بيع رصيد.</p>
+      <a href="${prefix}ar-developer-api.html">افتح شرح واجهة ARABAI للمطورين و API Token</a>
+      <p>اقرأ كيف يتحول هذا الشرح إلى بوابة تشغيل منفصلة ومنظمة قبل أي إطلاق عام أو بيع رصيد.</p>
     </aside>
   `;
+}
+
+function renderInAppCta(articleId, locale = "en") {
+  const map = {
+    "what-is-a-prompt": { task: "prompt_improvement", operation: "text" },
+    "organize-prompt-first": { task: "prompt_improvement", operation: "text" },
+    "write-with-ai": { task: "premium_short_chat", operation: "text" },
+    "make-a-plan": { task: "premium_long_answer", operation: "text" },
+    "summarize-documents": { task: "long_document_summary", operation: "text" },
+    "create-images": { task: "image_generation_low", operation: "image" },
+    "edit-images": { task: "image_prompt_review", operation: "image" },
+    "make-slides": { task: "ppt_outline", operation: "slides" },
+    "make-videos": { task: "video_script", operation: "video" },
+    "what-is-api": { task: "premium_long_answer", operation: "text" }
+  };
+
+  const target = map[articleId];
+  if (!target) return "";
+
+  const href = getAppTaskHref(articleId, target);
+
+  if (locale === "ar") {
+    return `
+      <aside class="next-step in-app-step">
+        <span>جرّبها داخل ARABAI</span>
+        <a href="${href}">افتح المهمة الجاهزة داخل ARABAI</a>
+        <p>سنفتح صفحة الاستخدام داخل الموقع مع اختيار المهمة الأقرب لهذا المقال، حتى لا تبدأ من شاشة فارغة.</p>
+      </aside>
+    `;
+  }
+
+  return `
+    <aside class="next-step in-app-step">
+      <span>Try it inside ARABAI</span>
+      <a href="${href}">Open the matching task in ARABAI</a>
+      <p>This opens the in-site ARABAI flow with the closest task already selected, so the user does not start from a blank screen.</p>
+    </aside>
+  `;
+}
+
+function getAppTaskHref(articleId, target) {
+  const query = `?fromArticle=${encodeURIComponent(articleId)}&operation=${encodeURIComponent(target.operation)}&task=${encodeURIComponent(target.task)}#use-ai`;
+  return document.body?.dataset?.staticArticle ? `../../app/${query}` : `app/${query}`;
 }
 
 function renderMissingArticle(root, locale = "en") {
@@ -384,10 +446,65 @@ function renderRechargeNudge(articleId, article) {
     <aside class="recharge-nudge" aria-label="ARABAI Credits note">
       <p class="eyebrow">${isArabic ? "رصيد ARABAI" : "Credit wallet"}</p>
       <h2>${isArabic ? "ابدأ بمبلغ صغير وجرّب قدرات الذكاء الاصطناعي المدفوعة" : "Start with $5, try paid AI capabilities"}</h2>
-      <p>${isArabic ? "رصيد ARABAI سيسمح للمستخدم المتكرر أن يجرّب المحادثة المتقدمة، تحليل الملفات، توليد الصور، مسودات العروض، وبعض مهام الوسائط من مكان واحد. يمكن تسجيل مكافآت المساهمة أولا، ثم يفتح الاستخدام المدفوع لاحقا." : "ARABAI Credits will let frequent users test paid-level chat, file analysis, image generation, slide drafts, and selected media tasks from one place. Contribution rewards can be recorded first; paid AI use opens later."}</p>
-      <a href="credits.html">${isArabic ? "تعرّف على الرصيد" : "Learn about Credits"}</a>
+      <p>${isArabic ? "رصيد ARABAI يتيح للمستخدم المتكرر أن يجرّب المحادثة المتقدمة، تحليل الملفات، توليد الصور، مسودات العروض، وبعض مهام الوسائط من مكان واحد. يمكن تسجيل مكافآت المساهمة من الآن، ويبدأ الشراء فور اعتماد بوابة الدفع." : "ARABAI Credits gives frequent users one place to try paid-level chat, file analysis, image generation, slide drafts, and selected media tasks. Contribution rewards can be recorded now, and checkout opens as soon as the payment gateway is approved."}</p>
+      <a href="${isArabic ? "ar-expert.html#model-marketplace" : "expert.html#model-marketplace"}">${isArabic ? "افتح AI Expert والأسعار" : "Open AI Expert pricing"}</a>
     </aside>
   `;
+}
+
+function injectBridgeFloatingEntry() {
+  if (document.querySelector(".arabai-bridge-float")) return;
+  if (document.body?.classList.contains("no-bridge")) return;
+  if (window.location.pathname.includes("/app/")) return;
+  const staticPrefix = document.body?.dataset?.staticArticle === "true" ? "../../" : "";
+  const path = window.location.pathname;
+  const inExpertArea =
+    path.includes("expert") || path.includes("credits") || path.includes("developer-api");
+  const prefix = staticPrefix;
+  const expertHref = `${prefix}${IS_ARABIC_PAGE ? "ar-expert.html" : "expert.html"}`;
+  const appHref = `${prefix}app/#signup`;
+  const guideHref = `${prefix}${IS_ARABIC_PAGE ? "ar-advanced.html" : "advanced.html"}`;
+
+  const aside = document.createElement("aside");
+  aside.className = "arabai-bridge-float";
+  aside.setAttribute("aria-label", IS_ARABIC_PAGE ? "دخول سريع إلى ARABAI" : "Quick ARABAI access");
+  if (inExpertArea) {
+    aside.innerHTML = IS_ARABIC_PAGE
+      ? `
+        <p class="eyebrow">داخل ARABAI</p>
+        <strong>هذه صفحة الاستخدام والشراء. إذا أردت الشرح العملي، ارجع إلى المهام اليومية.</strong>
+        <div class="arabai-bridge-actions">
+          <a class="bridge-primary" href="${appHref}">سجل وابدأ</a>
+          <a class="bridge-secondary" href="${guideHref}">ارجع إلى الشرح</a>
+        </div>
+      `
+      : `
+        <p class="eyebrow">Inside ARABAI</p>
+        <strong>This is the buying and usage side. Go back to the guides any time.</strong>
+        <div class="arabai-bridge-actions">
+          <a class="bridge-primary" href="${appHref}">Register and start</a>
+          <a class="bridge-secondary" href="${guideHref}">Back to guides</a>
+        </div>
+      `;
+  } else {
+    aside.innerHTML = IS_ARABIC_PAGE
+      ? `
+        <p class="eyebrow">داخل ARABAI</p>
+        <strong>بعد أن تفهم الأساسيات، انتقل إلى AI Expert لترى الأسعار وسوق النماذج.</strong>
+        <div class="arabai-bridge-actions">
+          <a class="bridge-primary" href="${expertHref}">اذهب إلى AI Expert</a>
+        </div>
+      `
+      : `
+        <p class="eyebrow">Inside ARABAI</p>
+        <strong>After the guide, move into AI Expert to see pricing and the model marketplace.</strong>
+        <div class="arabai-bridge-actions">
+          <a class="bridge-primary" href="${expertHref}">Go to AI Expert</a>
+        </div>
+      `;
+  }
+
+  document.body.appendChild(aside);
 }
 
 function shouldShowRechargeNudge(articleId, article) {
@@ -725,7 +842,7 @@ function renderTutorialVideo(video, locale = "en") {
       </div>
       <video class="output-video" controls playsinline preload="metadata">
         <source src="${escapeHtml(video.src)}" type="video/mp4" />
-        <track src="${escapeHtml(video.subtitles)}" kind="subtitles" srclang="ar" label="العربية" default />
+        ${video.subtitles ? `<track src="${escapeHtml(video.subtitles)}" kind="subtitles" srclang="ar" label="العربية" default />` : ""}
       </video>
       ${chapters ? `<div class="video-chapters"><h3>الفصول</h3><ul>${chapters}</ul></div>` : ""}
       ${promptNotes}
@@ -2286,7 +2403,7 @@ function assetUrl(src) {
 function arSectionLabel(section) {
   if (section === "beginner") return "مدخل إلى الذكاء الاصطناعي";
   if (section === "advanced") return "الذكاء الاصطناعي في المهام اليومية";
-  return "ما بعد الأساسيات";
+  return "AI Expert";
 }
 
 function arBackUrl(section) {

@@ -190,3 +190,25 @@ create table task_marketplace_leads (
   status text default 'draft',
   created_at timestamptz default now()
 );
+
+create table waitlist_leads (
+  id uuid primary key,
+  email text,
+  whatsapp text,
+  country text,
+  interested_models text,
+  intended_use text,
+  consent boolean not null default false,
+  source_page text,
+  referrer text,
+  utm_source text,
+  utm_medium text,
+  utm_campaign text,
+  status text not null default 'new',
+  created_at timestamptz default now(),
+  constraint waitlist_contact_required check (coalesce(nullif(email, ''), nullif(whatsapp, '')) is not null)
+);
+
+create index waitlist_leads_created_idx on waitlist_leads (created_at desc);
+create index waitlist_leads_email_idx on waitlist_leads (lower(email));
+create index waitlist_leads_whatsapp_idx on waitlist_leads (whatsapp);

@@ -70,9 +70,9 @@ const PAGE_SEO = {
   "expert.html": {
     en: {
       url: "/expert.html",
-      title: "Beyond the Basics - APIs, Credits, Gateways | ARABAI",
+      title: "AI Expert - API, Pricing, And Model Marketplace | ARABAI",
       description:
-        "A plain-language guide to AI APIs, official API platforms, AI gateways, credits, pricing, automation, and safer business workflows."
+        "The ARABAI API sales path: understand model pricing, compare routes, and move from AI learning into one simple place to buy and use stronger models."
     },
     ar: { url: "/ar-expert.html" }
   },
@@ -81,7 +81,7 @@ const PAGE_SEO = {
       url: "/ar-credits.html",
       title: "رصيد ARABAI - تجربة أدوات ذكاء اصطناعي كثيرة برصيد واحد",
       description:
-        "تعرف على فكرة رصيد ARABAI: إضافة رصيد صغيرة لاحقا لتجربة المحادثة والصور والفيديو والموسيقى والعروض، مع بقاء المقالات والدروس مجانية."
+        "تعرف على رصيد ARABAI: محفظة واحدة لتجربة المحادثة والصور والفيديو والموسيقى والعروض، مع بقاء المقالات والدروس مجانية."
     },
     en: { url: "/credits.html" }
   },
@@ -90,7 +90,7 @@ const PAGE_SEO = {
       url: "/credits.html",
       title: "ARABAI Credits - One Wallet For AI Tools",
       description:
-        "ARABAI Credits will help users try chat, image, video, music, slides, and document AI tools from one simple wallet while all guides stay free."
+        "ARABAI Credits is the wallet path for trying chat, image, video, music, slides, and document AI tools from one simple wallet while guides stay free."
     },
     ar: { url: "/ar-credits.html" }
   },
@@ -108,7 +108,7 @@ const PAGE_SEO = {
       url: "/community.html",
       title: "ARABAI Updates And Community",
       description:
-        "Follow ARABAI updates, suggest AI tools and tutorials, and learn how useful community contributions can later earn recorded credits."
+        "Follow ARABAI updates, suggest AI tools and tutorials, and learn how useful community contributions can earn recorded credits inside ARABAI."
     },
     ar: { url: "/ar-community.html" }
   },
@@ -129,6 +129,24 @@ const PAGE_SEO = {
         "Practical ARABAI tutorial videos for slides, images, short videos, API flows, credits, prompts, and beginner-friendly AI workflows."
     },
     ar: { url: "/ar-tutorials.html" }
+  },
+  "ar-developer-api.html": {
+    ar: {
+      url: "/ar-developer-api.html",
+      title: "واجهة المطورين و API Token - ARABAI",
+      description:
+        "شرح عربي بسيط لمسار ARABAI عبر API Token: ما الفرق بين فتح النموذج من موقعه مباشرة، وبين استخدامه من خلال ARABAI في الخلفية."
+    },
+    en: { url: "/developer-api.html" }
+  },
+  "developer-api.html": {
+    en: {
+      url: "/developer-api.html",
+      title: "Developer Route And API Token - ARABAI",
+      description:
+        "A simple English explanation of the ARABAI API route: the difference between opening AI on its own website and using it through ARABAI in the background."
+    },
+    ar: { url: "/ar-developer-api.html" }
   }
 };
 

@@ -4,7 +4,20 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node --check server/app.js && node --check server/supabase-store.js && for f in api/*.js api/*/*.js api/*/*/*.js app-framework/prototype/public/app.js app-framework/mock-app/server.mjs; do node --check \"$f\"; done && node app-framework/prototype/tests/pricing.test.mjs && node app-framework/mock-app/tests/mock-app.test.mjs && node tests/api-handler.test.mjs && node tests/new-api-gateway.test.mjs",
-    "check:mock": "node app-framework/mock-app/tests/mock-app.test.mjs"
+    "check": "node --check server/app.js && node --check server/supabase-store.js && for f in api/*.js api/*/*.js api/*/*/*.js app-framework/prototype/public/app.js app-framework/mock-app/server.mjs; do node --check \"$f\"; done && node app-framework/prototype/tests/pricing.test.mjs && node app-framework/mock-app/tests/mock-app.test.mjs && node tests/api-handler.test.mjs && node tests/waitlist-handler.test.mjs && node tests/new-api-gateway.test.mjs",
+    "check:mock": "node app-framework/mock-app/tests/mock-app.test.mjs",
+    "check:pages": "node scripts/smoke-check-pages.mjs",
+    "video:studio": "remotion studio remotion/index.ts",
+    "video:render:all": "npm run video:render:cover && npm run video:render:intro && npm run video:render:prompt && npm run video:render:api",
+    "video:render:cover": "remotion render remotion/index.ts arabai-cover-ar remotion-renders/arabai-cover-ar.mp4",
+    "video:render:intro": "remotion render remotion/index.ts arabai-intro-ar remotion-renders/arabai-intro-ar.mp4",
+    "video:render:prompt": "remotion render remotion/index.ts arabai-prompt-ar remotion-renders/arabai-prompt-ar.mp4",
+    "video:render:api": "remotion render remotion/index.ts arabai-api-flow-ar remotion-renders/arabai-api-flow-ar.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.484",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "remotion": "^4.0.484"
   }
 }

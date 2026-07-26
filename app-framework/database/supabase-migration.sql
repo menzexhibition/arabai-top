@@ -220,6 +220,28 @@ create table public.task_marketplace_leads (
   created_at timestamptz default now()
 );
 
+create table if not exists public.waitlist_leads (
+  id uuid primary key,
+  email text,
+  whatsapp text,
+  country text,
+  interested_models text,
+  intended_use text,
+  consent boolean not null default false,
+  source_page text,
+  referrer text,
+  utm_source text,
+  utm_medium text,
+  utm_campaign text,
+  status text not null default 'new',
+  created_at timestamptz default now(),
+  constraint waitlist_contact_required check (coalesce(nullif(email, ''), nullif(whatsapp, '')) is not null)
+);
+
+create index if not exists waitlist_leads_created_idx on public.waitlist_leads (created_at desc);
+create index if not exists waitlist_leads_email_idx on public.waitlist_leads (lower(email));
+create index if not exists waitlist_leads_whatsapp_idx on public.waitlist_leads (whatsapp);
+
 create index wallet_transactions_user_created_idx on public.wallet_transactions (user_id, created_at desc);
 create index campaign_rewards_campaign_granted_idx on public.campaign_rewards (campaign_id, granted_at);
 create index ai_tasks_user_created_idx on public.ai_tasks (user_id, created_at desc);

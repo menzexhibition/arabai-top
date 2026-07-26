@@ -55,6 +55,10 @@ let response = await callHandler("GET", "/api/me");
 assert.equal(response.statusCode, 200);
 assert.equal(response.body.user, null);
 
+response = await callHandler("POST", "/api/waitlist", { email: "demo@example.com", consent: true });
+assert.equal(response.statusCode, 503);
+assert.equal(response.body.error.code, "WAITLIST_STORAGE_UNAVAILABLE");
+
 response = await callHandler("POST", "/api/tasks/confirm", {
   pricingRuleId: "premium_short_chat",
   taskType: "chat",

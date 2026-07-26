@@ -279,6 +279,10 @@ main {
   gap: 1rem;
 }
 
+.app-flow-grid article {
+  min-height: 8.75rem;
+}
+
 .model-marketplace-grid {
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
 }
@@ -336,6 +340,13 @@ main {
   margin: 0;
   color: var(--muted);
   line-height: 1.6;
+}
+
+.deep-link-note {
+  padding: 0.8rem 0.95rem;
+  border: 1px solid rgba(0, 140, 149, 0.22);
+  border-radius: 16px;
+  background: rgba(255, 254, 250, 0.78);
 }
 
 .wallet-grid article,
@@ -548,6 +559,27 @@ main {
   gap: 0.75rem;
 }
 
+.latest-result {
+  width: 100%;
+}
+
+.latest-result-card {
+  margin-top: 0.5rem;
+}
+
+.task-output-media {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 0.75rem;
+}
+
+.task-output-media img {
+  width: min(100%, 420px);
+  display: block;
+  border-radius: 12px;
+  border: 1px solid rgba(25, 32, 31, 0.08);
+}
+
 .history-item {
   display: grid;
   gap: 0.45rem;
@@ -641,6 +673,24 @@ main {
   display: inline-flex;
   margin-top: 0.8rem;
   color: var(--teal);
+  font-weight: 800;
+}
+
+.app-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: center;
+  justify-content: center;
+  margin: 1.25rem 0 0;
+  padding: 1.25rem 0 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.app-footer a {
+  padding: 0.35rem 0;
   font-weight: 800;
 }
 

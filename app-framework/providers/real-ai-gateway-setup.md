@@ -9,6 +9,9 @@ This guide explains how to connect ARABAI to a real OpenAI-compatible gateway, s
 - Payment remains disabled while Airwallex is under review.
 - Real AI gateway can be tested privately now.
 - Users should still see Credits and recharge as coming soon until owner approval.
+- For the current stage, `api.mytokenland.com` may be used as the temporary upstream supply layer.
+- The current goal is product validation first, not maximum provider margin.
+- Frontend users should experience ARABAI as one simple in-site entry, not as a raw API panel.
 
 ## Required Environment Variables
 
@@ -41,6 +44,25 @@ AI_MODEL_STRONG_REASONING=deepseek-v4-pro
 AI_MODEL_CODING=gpt-5.3-codex
 AI_MODEL_IMAGE=gpt-image-2
 ```
+
+## Current Product Rule For Temporary Gateway Use
+
+When ARABAI uses `api.mytokenland.com` in this phase:
+
+1. keep real Arabic payment disabled
+2. keep articles and learning content free
+3. use signup + wallet + task flow to validate demand
+4. open only low-risk tasks first
+5. hide raw provider complexity from ordinary users
+
+This means:
+
+- users choose tasks, not models
+- users see credits, not token formulas
+- ARABAI owns the interface and user trust layer
+- the upstream gateway is only a temporary backend supply choice
+
+Do not redesign the app UI to look like a developer console just because the backend gateway is developer-oriented.
 
 Never put `AI_GATEWAY_API_KEY` in frontend JavaScript, GitHub Pages, browser localStorage, or public HTML.
 
@@ -131,6 +153,22 @@ Keep disabled:
 - storyboard image batch
 - high-tier image edit
 - music generation
+
+## Recommended Rollout Order For This Phase
+
+1. verified signup
+2. persistent wallet
+3. daily reward and referral reward records
+4. text tasks through real gateway
+5. image prompt review
+6. low-tier image generation
+7. package display with recharge still marked as not open
+
+Only after this flow feels stable should ARABAI move to:
+
+- real Arabic payment
+- higher-cost media tasks
+- cheaper upstream procurement
 
 ## Cost Logging Requirement
 

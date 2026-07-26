@@ -1,0 +1,95 @@
+{
+  "updated": "2026-06-29",
+  "siteCore": [
+    "index.html",
+    "ar.html",
+    "en.html",
+    "ar-beginner.html",
+    "ar-advanced.html",
+    "ar-expert.html",
+    "ar-article.html",
+    "ar-tutorials.html",
+    "ar-credits.html",
+    "ar-community.html",
+    "ar-developer-api.html",
+    "article.html",
+    "beginner.html",
+    "advanced.html",
+    "expert.html",
+    "tutorials.html",
+    "community.html",
+    "credits.html",
+    "what-is-ai.html",
+    "what-can-ai-do.html",
+    "styles.css",
+    "script.js",
+    "seo.js",
+    "articles.js"
+  ],
+  "content": {
+    "arabicArticles": "ar/articles/*.html",
+    "englishArticles": "en/articles/*.html"
+  },
+  "legalAndSeo": [
+    "privacy.html",
+    "terms.html",
+    "refund.html",
+    "disclosure.html",
+    "robots.txt",
+    "sitemap.xml",
+    "site.webmanifest",
+    "CNAME",
+    ".nojekyll",
+    "vercel.json"
+  ],
+  "publicAssets": [
+    "assets/brand/*",
+    "assets/videos/*",
+    "assets/subtitles/*",
+    "assets/outputs/*"
+  ],
+  "appSurface": [
+    "app/index.html",
+    "app/app.js",
+    "app/styles.css"
+  ],
+  "serverRuntime": [
+    "server/app.js",
+    "server/supabase-store.js",
+    "api/health.js",
+    "api/me.js",
+    "api/auth/verified-signin.js",
+    "api/auth/sign-out.js",
+    "api/tasks/index.js",
+    "api/tasks/estimate.js",
+    "api/tasks/confirm.js",
+    "api/wallet/packages.js",
+    "api/wallet/transactions.js",
+    "api/wallet/claim-daily-login.js",
+    "api/wallet/top-up/create-checkout.js",
+    "api/wallet/top-up/webhook.js"
+  ],
+  "runtimeSupport": [
+    "package.json",
+    "VERCEL_SUPABASE_ENABLE_CHECKLIST.md",
+    "app-framework/.env.example",
+    "app-framework/database/schema.sql",
+    "app-framework/database/supabase-migration.sql",
+    "app-framework/providers/real-ai-gateway-setup.md"
+  ],
+  "supportOnly": [
+    "docs/",
+    "tests/",
+    "scripts/",
+    "app-framework/prototype/",
+    "app-framework/mock-app/",
+    "agents/",
+    "research/",
+    "Upload/",
+    "tmp/",
+    "dist/",
+    "*.zip"
+  ],
+  "remotionReady": false,
+  "remotionNote": "No remotion dependency exists in package.json yet."
+}

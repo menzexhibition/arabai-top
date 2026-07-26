@@ -5,6 +5,22 @@ Primary owner communication language: Chinese
 Public site primary audience: Arabic-speaking beginners, especially Saudi / Middle East users
 Public domain: `https://arabai.top`
 
+## 0. Latest operating update
+
+The project now also includes:
+
+- a working in-project Remotion video layer
+- published short Arabic explainer videos in `assets/videos/`
+- article-level Arabic video inserts for key beginner/expert concepts
+- a tester-account runbook for pre-payment internal verification
+
+This means the site is no longer only a static reading experience; it now has:
+
+- static public education pages
+- an `/app/` product flow
+- server-side wallet/task logic
+- a small internal video production pipeline
+
 ## 1. What This Project Is
 
 ARABAI is an Arabic-first AI guide website for ordinary users.

@@ -6,21 +6,21 @@
 
 当前分支：`main`
 
-交接基准提交：`b299bacb05f35d040d49232664e3e2fd29b0addc`（`Add model marketplace links to Arabic navigation`）
+交接基准提交：`45655e85cb9f56719dbbce00965ac6746fd7d317`（`Add ARABAI handover notes`）
 
 ## 1. 项目定位
 
-ARABAI 是面向阿拉伯语用户的 AI 教育与轻量产品入口。
+ARABAI 是面向阿拉伯语普通用户的 AI 入门教育站点，并逐步演进为站内可直接使用 AI 的轻量产品入口。
 
 当前仓库同时包含：
 
 - 静态官网：`arabai.top`，GitHub Pages/静态页面模式。
-- App 预览入口：`/app/`，展示钱包、任务、模型市场、沙盒充值等前端体验。
+- App 站内使用入口：`/app/`，展示注册、钱包、任务、沙盒充值、未来站内 AI 使用体验。
 - Vercel/API MVP：`api/` 和 `server/`，用于登录、钱包、任务估算、任务确认、充值沙盒、Supabase 持久化、New API/OpenAI-compatible 网关适配。
 - 产品/技术文档：`app-framework/` 和 `docs/`。
 - AI Agent 配置库：`agents/`。
 
-重要原则：`arabai.top` 的公开内容和导航应优先使用自然完整的阿拉伯语，不要半英半阿；支付和充值必须保持“沙盒/规划/未正式销售”的清晰状态，直到法律、支付、隐私、退款和客服流程全部完成。
+重要原则：`arabai.top` 的公开内容和导航应优先使用自然完整的阿拉伯语，不要半英半阿；前台以“任务优先、隐藏模型复杂度”为核心；支付和充值必须保持“沙盒/规划/未正式销售”的清晰状态，直到法律、支付、隐私、退款和客服流程全部完成。
 
 ## 2. 当前仓库状态
 
@@ -40,6 +40,32 @@ git branch -vv
 也就是说，交接前已检查并修复过的程序修改已经上传到远端 `main`。本交接文件提交后，新团队应以最新 `origin/main` 为准拉取。
 
 ## 3. 已完成/已修复的主要内容
+
+### 3.0 本次最新补充（2026-06-29 晚间）
+
+- 已新增 Remotion 站内短视频流水线，并生成可直接发布的视频资产：
+  - `assets/videos/arabai-cover-ar.mp4`
+  - `assets/videos/arabai-intro-ar.mp4`
+  - `assets/videos/arabai-prompt-ar.mp4`
+  - `assets/videos/arabai-api-flow-ar.mp4`
+- 已将站内短视频接入：
+  - `ar-tutorials.html`
+  - `tutorials.html`
+  - 阿语文章页中的 `what-is-ai`、`what-is-a-prompt`、`organize-prompt-first`、`what-is-api`
+  - 原有阿语实操文章页中的 `make-slides`、`create-images`、`make-videos`
+- 已新增测试账号运行说明：
+  - `docs/operations/TESTER_ACCOUNT_RUNBOOK.md`
+- 已补充视频流水线说明：
+  - `docs/product/REMOTION_VIDEO_PIPELINE.md`
+- 已继续清理前台“demo / coming soon / paused”语气，使用户看到的是“功能路径已就绪，真实支付待接通”，而不是空占位页。
+- 已新增文章到 `/app/` 的任务直达链路：
+  - 用户从相关文章可以直接跳到 `app/?fromArticle=...&operation=...&task=...#use-ai`
+  - `/app/` 会自动预选对应任务，不再让用户从空白状态自己找
+- 已新增 `/app/` 内部的任务 URL 同步：
+  - 当用户在 `/app/` 里切换任务时，URL 会自动写入 `task` 和 `operation`
+  - 这样可以直接复制当前页面链接发给别人，打开后仍然定位到相同任务
+- 已新增 `/app/` 任务指导卡中的视频入口：
+  - 写作 / Prompt / 文件总结 / 图片 / PPT / 视频脚本等任务都已连到对应 `ar-tutorials.html` 视频锚点
 
 ### 3.1 静态官网与阿语内容
 
