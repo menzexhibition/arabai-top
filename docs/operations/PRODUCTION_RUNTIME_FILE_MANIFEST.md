@@ -106,8 +106,9 @@ These files are needed for account signup, wallet, credits, task estimation, tas
 - `api/wallet/packages.js`
 - `api/wallet/transactions.js`
 - `api/wallet/claim-daily-login.js`
-- `api/wallet/top-up/create-checkout.js`
 - `api/wallet/top-up/webhook.js`
+
+The checkout route implementation remains in `server/app.js`, but its standalone Vercel function is not deployed while payments are disabled.
 
 ## 8. Runtime support and deployment config
 

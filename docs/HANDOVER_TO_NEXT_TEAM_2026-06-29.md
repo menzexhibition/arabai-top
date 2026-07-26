@@ -112,7 +112,6 @@ git branch -vv
 - `api/wallet/packages.js`
 - `api/wallet/transactions.js`
 - `api/wallet/claim-daily-login.js`
-- `api/wallet/top-up/create-checkout.js`
 - `api/wallet/top-up/webhook.js`
 - `api/tasks/index.js`
 - `api/tasks/estimate.js`
@@ -147,7 +146,6 @@ git branch -vv
 
 - `docs/payments/VIRTUAL_SANDBOX_RECHARGE.md`
 - `app-framework/providers/payments.md`
-- `api/wallet/top-up/create-checkout.js`
 - `api/wallet/top-up/webhook.js`
 - `server/app.js`
 
@@ -155,6 +153,7 @@ git branch -vv
 
 - 虚拟充值沙盒可用于端到端测试，不产生真实扣款。
 - 真实 Lemon Squeezy 支付只保留框架和开关，不建议新团队直接启用。
+- 结账路由实现保留在 `server/app.js`，支付关闭期间不部署独立 Vercel 函数。
 - 公开页面文案必须避免“现在可购买/现在可充值”的误导。
 
 ### 3.6 AI 网关 / New API
