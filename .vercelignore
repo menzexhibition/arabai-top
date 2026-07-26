@@ -1,0 +1,16 @@
+# GitHub Pages media and local working files are not needed by the API deployment.
+assets/videos/
+remotion-renders/
+remotion/
+research/
+Upload/
+tmp/
+投标制作/
+docs/
+agents/
+en/
+ar/
+node_modules/
+.git/
+*.zip
+*.mp4
