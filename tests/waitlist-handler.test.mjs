@@ -6,8 +6,10 @@ process.env.SUPABASE_URL = "https://database.example";
 process.env.SUPABASE_SERVICE_ROLE_KEY = "test-service-key";
 
 const writes = [];
+let storageAvailable = true;
 globalThis.fetch = async (url, options = {}) => {
-  assert.match(String(url), /database\.example\/rest\/v1\/waitlist_leads/);
+  assert.match(String(url), /database\.example\/rest\/v1\/(waitlist_leads|task_marketplace_leads)/);
+  if (!storageAvailable) throw new Error("simulated database outage");
   const rows = JSON.parse(options.body || "[]");
   writes.push(...rows);
   return new Response(JSON.stringify(rows), { status: 201, headers: { "content-type": "application/json" } });
@@ -72,4 +74,11 @@ assert.equal(response.status, 400);
 assert.equal(response.body.error.code, "CONSENT_REQUIRED");
 
 assert.equal(writes.length, 2);
+
+storageAvailable = false;
+response = await call("POST", { email: "outage@example.com", consent: true });
+assert.equal(response.status, 503);
+assert.equal(response.body.error.code, "WAITLIST_STORAGE_UNAVAILABLE");
+assert.equal(response.body.persisted, undefined);
+
 console.log("ARABAI waitlist persistence and validation tests passed.");

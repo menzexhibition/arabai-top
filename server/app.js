@@ -129,10 +129,10 @@ export default async function handler(req, res) {
     }
 
     if (store?.isReady) {
-      return handlePersistedRequest(req, res, path);
+      return await handlePersistedRequest(req, res, path);
     }
 
-    return handleDemoRequest(req, res, path);
+    return await handleDemoRequest(req, res, path);
   } catch (error) {
     return json(
       res,
@@ -970,7 +970,20 @@ async function handleWaitlistSubmission(req, res) {
     created_at: new Date().toISOString()
   };
 
-  const saved = await store.insertWaitlistLead(lead);
+  let saved;
+  try {
+    saved = await store.insertWaitlistLead(lead);
+  } catch (error) {
+    console.error("[arabai] waitlist storage unavailable", {
+      message: error instanceof Error ? error.message : "unknown storage error"
+    });
+    return json(res, {
+      error: {
+        code: "WAITLIST_STORAGE_UNAVAILABLE",
+        message: "تعذر حفظ الطلب الآن. يرجى المحاولة مرة أخرى لاحقا."
+      }
+    }, 503);
+  }
   return json(res, {
     ok: true,
     persisted: true,
