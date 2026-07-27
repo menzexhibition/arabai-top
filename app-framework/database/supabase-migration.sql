@@ -242,6 +242,10 @@ create index if not exists waitlist_leads_created_idx on public.waitlist_leads (
 create index if not exists waitlist_leads_email_idx on public.waitlist_leads (lower(email));
 create index if not exists waitlist_leads_whatsapp_idx on public.waitlist_leads (whatsapp);
 
+alter table public.waitlist_leads enable row level security;
+revoke all on table public.waitlist_leads from anon, authenticated;
+grant select, insert, update, delete on table public.waitlist_leads to service_role;
+
 create index wallet_transactions_user_created_idx on public.wallet_transactions (user_id, created_at desc);
 create index campaign_rewards_campaign_granted_idx on public.campaign_rewards (campaign_id, granted_at);
 create index ai_tasks_user_created_idx on public.ai_tasks (user_id, created_at desc);
