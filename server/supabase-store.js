@@ -8,6 +8,11 @@ export function createSupabaseStore() {
 
   return {
     isReady: true,
+    async ping() {
+      const response = await request("/rest/v1/waitlist_leads?select=id&limit=1", { method: "GET" });
+      await assertOk(response, "health check");
+      return true;
+    },
     diagnostics() {
       return supabaseDiagnostics();
     },

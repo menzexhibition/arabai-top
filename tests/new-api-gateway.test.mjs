@@ -27,6 +27,7 @@ const { port } = gateway.address();
 
 process.env.ENABLE_AI_REDEMPTION = "true";
 process.env.ENABLE_FOUNDING_USER_CAMPAIGN = "false";
+process.env.ENABLE_PUBLIC_REGISTRATION = "true";
 process.env.USE_REAL_AI_GATEWAY = "true";
 process.env.AI_GATEWAY_BASE_URL = `http://127.0.0.1:${port}/v1`;
 process.env.AI_GATEWAY_API_KEY = "test-new-api-token";

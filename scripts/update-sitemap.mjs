@@ -3,7 +3,7 @@ import path from "node:path";
 
 const root = process.cwd();
 const sitemapPath = path.join(root, "sitemap.xml");
-const date = "2026-07-26";
+const date = new Date().toISOString().slice(0, 10);
 let xml = await fs.readFile(sitemapPath, "utf8");
 xml = xml.replace(/\n  <!-- GENERATED SEO PAGES -->[\s\S]*?<!-- \/GENERATED SEO PAGES -->/g, "");
 

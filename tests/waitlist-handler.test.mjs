@@ -10,6 +10,9 @@ let storageAvailable = true;
 globalThis.fetch = async (url, options = {}) => {
   assert.match(String(url), /database\.example\/rest\/v1\/(waitlist_leads|task_marketplace_leads)/);
   if (!storageAvailable) throw new Error("simulated database outage");
+  if ((options.method || "GET") === "GET") {
+    return new Response("[]", { status: 200, headers: { "content-type": "application/json" } });
+  }
   const rows = JSON.parse(options.body || "[]");
   writes.push(...rows);
   return new Response(JSON.stringify(rows), { status: 201, headers: { "content-type": "application/json" } });
@@ -34,8 +37,8 @@ class MockResponse {
   end(payload = "") { this.payload = payload; }
 }
 
-async function call(method, body = null, origin) {
-  const req = new MockRequest(method, "/api/waitlist", body, origin);
+async function call(method, body = null, origin, url = "/api/waitlist") {
+  const req = new MockRequest(method, url, body, origin);
   const res = new MockResponse();
   await handler(req, res);
   return { status: res.statusCode, headers: res.headers, body: res.payload ? JSON.parse(res.payload) : null };
@@ -75,7 +78,17 @@ assert.equal(response.body.error.code, "CONSENT_REQUIRED");
 
 assert.equal(writes.length, 2);
 
+response = await call("GET", null, undefined, "/api/health");
+assert.equal(response.status, 200);
+assert.equal(response.body.ok, true);
+assert.equal(response.body.mode, "supabase");
+
 storageAvailable = false;
+response = await call("GET", null, undefined, "/api/health");
+assert.equal(response.status, 503);
+assert.equal(response.body.ok, false);
+assert.equal(response.body.error.code, "DATABASE_UNAVAILABLE");
+
 response = await call("POST", { email: "outage@example.com", consent: true });
 assert.equal(response.status, 503);
 assert.equal(response.body.error.code, "WAITLIST_STORAGE_UNAVAILABLE");

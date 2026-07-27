@@ -153,7 +153,19 @@ async function handlePersistedRequest(req, res, path) {
   }
 
   if (path === "/api/health" && req.method === "GET") {
-    return json(res, healthView(true));
+    try {
+      await store.ping();
+      return json(res, healthView(true));
+    } catch (error) {
+      return json(res, {
+        ...healthView(true),
+        ok: false,
+        error: {
+          code: "DATABASE_UNAVAILABLE",
+          message: "قاعدة البيانات غير متاحة حاليا."
+        }
+      }, 503);
+    }
   }
 
   if (path === "/api/me" && req.method === "GET") {
@@ -183,6 +195,9 @@ async function handlePersistedRequest(req, res, path) {
   }
 
   if (path === "/api/auth/verified-signin" && req.method === "POST") {
+    if (process.env.ENABLE_PUBLIC_REGISTRATION !== "true") {
+      return registrationUnavailable(res);
+    }
     try {
       return await handlePersistedVerifiedSignin(req, res);
     } catch (error) {
@@ -512,6 +527,9 @@ async function handleDemoRequest(req, res, path) {
   }
 
   if (path === "/api/auth/verified-signin" && req.method === "POST") {
+    if (process.env.ENABLE_PUBLIC_REGISTRATION !== "true") {
+      return registrationUnavailable(res);
+    }
     const body = await readJson(req);
     console.log("[arabai] verified-signin:demo-start", {
       hasEmail: Boolean(body.email),
@@ -818,6 +836,15 @@ function registrationConflict(code) {
       }
     }
   };
+}
+
+function registrationUnavailable(res) {
+  return json(res, {
+    error: {
+      code: "REGISTRATION_NOT_AVAILABLE",
+      message: "التسجيل غير متاح حاليا. انضم إلى القائمة المبكرة وسنخبرك عند الإطلاق."
+    }
+  }, 503);
 }
 
 function userView(user) {

@@ -6,6 +6,7 @@ process.env.ENABLE_FOUNDING_USER_CAMPAIGN = "false";
 process.env.PAYMENT_PROVIDER = "virtual";
 process.env.PAYMENT_MODE = "sandbox";
 process.env.ENABLE_REAL_RECHARGE = "false";
+process.env.ENABLE_PUBLIC_REGISTRATION = "true";
 
 const { default: handler } = await import("../server/app.js");
 
@@ -252,5 +253,13 @@ assert.equal(response.body.mode, "demo");
 response = await callHandler("POST", "/api/auth/sign-out");
 assert.equal(response.statusCode, 200);
 assert.equal(response.body.ok, true);
+
+process.env.ENABLE_PUBLIC_REGISTRATION = "false";
+const { default: registrationDisabledHandler } = await import(`../server/app.js?registration-disabled=${Date.now()}`);
+const disabledReq = new MockRequest("POST", "/api/auth/verified-signin", { email: "blocked@example.com" });
+const disabledRes = new MockResponse();
+await registrationDisabledHandler(disabledReq, disabledRes);
+assert.equal(disabledRes.statusCode, 503);
+assert.equal(JSON.parse(disabledRes.payload).error.code, "REGISTRATION_NOT_AVAILABLE");
 
 console.log("ARABAI Vercel API handler tests passed.");

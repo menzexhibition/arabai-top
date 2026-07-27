@@ -21,7 +21,7 @@
       <nav class="platform-nav" aria-label="التنقل الرئيسي">
         <a href="index.html">الرئيسية</a><a href="models.html" aria-current="page">سوق النماذج</a><a href="console.html">لوحة التحكم</a><a href="learn.html">دليل AI</a>
       </nav>
-      <div class="platform-account-actions"><a class="header-login" href="app/#accountPanel">تسجيل الدخول</a><a class="header-register" href="#early-access">القائمة المبكرة</a></div>
+      <div class="platform-account-actions"><a class="header-register" href="#early-access">القائمة المبكرة</a></div>
     </header>
     <main>
       <section class="platform-page-hero">
@@ -55,7 +55,7 @@
         <form class="waitlist-form" data-waitlist-form data-model-interest="سوق النماذج">
           <div class="waitlist-contact-grid"><label><span>البريد الإلكتروني</span><input type="email" name="email" autocomplete="email" placeholder="name@example.com" /></label><label><span>رقم WhatsApp</span><input type="tel" name="whatsapp" autocomplete="tel" dir="ltr" placeholder="+966 5X XXX XXXX" /></label></div>
           <p class="waitlist-field-note">يكفي إدخال البريد الإلكتروني أو رقم WhatsApp.</p>
-          <label><span>النماذج التي تهمك</span><input type="text" name="interestedModels" placeholder="مثال: GPT، Claude، DeepSeek" /></label>
+          <input type="hidden" name="interestedModels" value="سوق النماذج" />
           <label class="waitlist-consent"><input type="checkbox" name="consent" required /><span>أوافق على استلام إشعار الإطلاق والعروض المبكرة.</span></label>
           <label class="waitlist-honeypot" aria-hidden="true"><span>الموقع</span><input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
           <button class="platform-primary" type="submit">انضم إلى القائمة المبكرة</button><p class="waitlist-status" data-waitlist-status aria-live="polite"></p><p class="waitlist-privacy"><a href="privacy.html">سياسة الخصوصية</a></p>

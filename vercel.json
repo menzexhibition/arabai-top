@@ -11,5 +11,11 @@
       "destination": "/app/",
       "permanent": false
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/health",
+      "schedule": "17 3 * * *"
+    }
   ]
 }

@@ -89,7 +89,7 @@ function compactPrice(model, locale, source = false) {
   const input = source ? model.sourceInputUsd : model.arabaiInputUsd;
   const output = source ? model.sourceOutputUsd : model.arabaiOutputUsd;
   return locale === "ar"
-    ? `دخول ${formatUsd(input)} | خروج ${formatUsd(output)}`
+    ? `دخول ${formatUsd(input)} | خروج ${formatUsd(output)} لكل 1M token`
     : `in ${formatUsd(input)} | out ${formatUsd(output)}`;
 }
 
@@ -97,6 +97,7 @@ function renderPricingCards(container, payload, locale, mode = "featured", limit
   const list = mode === "full" || mode === "marketplace" ? payload.models : payload.featured;
   const items = list.slice(0, limit);
   const updated = new Date(payload.generatedAt);
+  const isStale = !Number.isFinite(updated.getTime()) || Date.now() - updated.getTime() > 72 * 60 * 60 * 1000;
   const multiplier = Number(payload.source?.priceMultiplier || 1.2);
   const sourceLabel =
     locale === "ar"
@@ -105,14 +106,14 @@ function renderPricingCards(container, payload, locale, mode = "featured", limit
 
   if (mode === "marketplace") {
     container.innerHTML = `
-      <div class="pricing-meta">${sourceLabel}</div>
+      <div class="pricing-meta">${sourceLabel}${isStale && locale === "ar" ? "<br><strong>تنبيه: مر أكثر من 72 ساعة على آخر تحديث للأسعار. تحقق من السعر قبل الاعتماد عليه.</strong>" : ""}</div>
       <div class="output-table-wrap marketplace-table-wrap">
         <table class="output-table marketplace-table">
           <thead>
             <tr>
               <th>${locale === "ar" ? "النموذج" : "Model"}</th>
-              <th>${locale === "ar" ? "سعر المصدر المرجعي" : "Reference source price"}</th>
-              <th>${locale === "ar" ? "سعر ARABAI" : "ARABAI price"}</th>
+              <th>${locale === "ar" ? "سعر المصدر المرجعي ووحدة الحساب" : "Reference source price"}</th>
+              <th>${locale === "ar" ? "سعر ARABAI ووحدة الحساب" : "ARABAI price"}</th>
               <th>${locale === "ar" ? "مناسب لأي شيء؟" : "Best for"}</th>
             </tr>
           </thead>
@@ -140,7 +141,7 @@ function renderPricingCards(container, payload, locale, mode = "featured", limit
   }
 
   container.innerHTML = `
-    <div class="pricing-meta">${sourceLabel}</div>
+    <div class="pricing-meta">${sourceLabel}${isStale && locale === "ar" ? "<br><strong>تنبيه: مر أكثر من 72 ساعة على آخر تحديث للأسعار. تحقق من السعر قبل الاعتماد عليه.</strong>" : ""}</div>
     <div class="pricing-card-grid">
       ${items
         .map((model) => {
