@@ -3,7 +3,7 @@ import { readdir } from "node:fs/promises";
 import { createReadStream, existsSync } from "node:fs";
 import path from "node:path";
 
-const root = "/Users/benny/Documents/New project";
+const root = process.cwd();
 const pages = [
   "/index.html",
   "/models.html",
