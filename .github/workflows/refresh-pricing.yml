@@ -1,0 +1,32 @@
+name: Refresh model pricing
+
+on:
+  schedule:
+    - cron: "23 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh-pricing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Refresh pricing and model pages
+        run: |
+          node scripts/update-mytokenland-pricing.mjs
+          node scripts/generate-model-seo-pages.mjs
+          node scripts/update-sitemap.mjs
+          node scripts/smoke-check-pages.mjs
+      - name: Commit changed pricing
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "ARABAI Pricing Bot"
+          git config user.email "support@arabai.top"
+          git add assets/data/mytokenland-pricing-derived.json models compare sitemap.xml
+          git commit -m "Refresh public model pricing"
+          git push
