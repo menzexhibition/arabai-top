@@ -233,7 +233,11 @@ function setSeoMeta({ title, description, canonical, alternateAr, alternateEn, l
   addOrUpdateMeta('meta[name="description"]', "meta", { name: "description", content: description });
   addOrUpdateMeta('link[rel="canonical"]', "link", { rel: "canonical", href: canonical });
   addOrUpdateMeta('link[rel="alternate"][hreflang="ar"]', "link", { rel: "alternate", hreflang: "ar", href: alternateAr });
-  addOrUpdateMeta('link[rel="alternate"][hreflang="en"]', "link", { rel: "alternate", hreflang: "en", href: alternateEn });
+  if (alternateEn) {
+    addOrUpdateMeta('link[rel="alternate"][hreflang="en"]', "link", { rel: "alternate", hreflang: "en", href: alternateEn });
+  } else {
+    document.head.querySelector('link[rel="alternate"][hreflang="en"]')?.remove();
+  }
   addOrUpdateMeta('link[rel="alternate"][hreflang="x-default"]', "link", { rel: "alternate", hreflang: "x-default", href: alternateAr });
   addOrUpdateMeta('meta[property="og:type"]', "meta", { property: "og:type", content: type });
   addOrUpdateMeta('meta[property="og:site_name"]', "meta", { property: "og:site_name", content: BRAND_EXPLAINED });
@@ -259,7 +263,7 @@ function getPageSeo(page, locale) {
     description: current.description,
     canonical: absoluteUrl(current.url),
     alternateAr: absoluteUrl(arUrl),
-    alternateEn: absoluteUrl(enUrl),
+    alternateEn: locale === "ar" ? null : absoluteUrl(enUrl),
     locale
   };
 }
@@ -277,7 +281,7 @@ function getArticleSeo(articleId, article, locale = "en") {
       description: ar[1],
       canonical: absoluteUrl(`/ar-article.html?id=${encodeURIComponent(articleId)}`),
       alternateAr: absoluteUrl(`/ar-article.html?id=${encodeURIComponent(articleId)}`),
-      alternateEn: absoluteUrl(`/article.html?id=${encodeURIComponent(articleId)}`),
+      alternateEn: null,
       locale: "ar",
       type: "article"
     };

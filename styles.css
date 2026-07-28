@@ -2203,6 +2203,13 @@ body.rtl .video-note {
 }
 
 @media (max-width: 640px) {
+  .arabai-bridge-float,
+  .rtl .arabai-bridge-float {
+    position: static;
+    width: calc(100% - 2rem);
+    margin: 1rem auto;
+  }
+
   .language-switch {
     width: 100%;
     justify-content: space-between;

@@ -144,7 +144,7 @@ if (arArticleRoot && window.ARTICLES) {
   if (!article) {
     renderMissingArticle(arArticleRoot, "ar");
   } else {
-    const arArticle = getArabicArticle(articleId, article);
+    const renderedArticle = buildArabicArticleMarkup(articleId, article);
     applyArticleSeo(articleId, article, "ar");
 
     document
@@ -157,31 +157,54 @@ if (arArticleRoot && window.ARTICLES) {
       footerLink.textContent = `العودة إلى ${arSectionLabel(article.section)}`;
     }
 
-    const sections = arArticle.sections
-      .map(([heading, text]) => `<h2>${heading}</h2><p>${escapeHtml(text)}</p>`)
-      .join("");
+    arArticleRoot.innerHTML = renderedArticle.html;
+  }
+  }
+}
 
-    const arCaseStudy = mergeArabicCaseStudy(arArticle.caseStudy, article.caseStudy);
-    const arWorkflow = arArticle.workflow?.length ? arArticle.workflow : arCaseStudy?.steps;
-    const workflow = arWorkflow?.length
-      ? `<h2>اتبعه خطوة بخطوة</h2><ol class="workflow-list">${arWorkflow
-          .map((step) => `<li>${escapeHtml(step)}</li>`)
-          .join("")}</ol>`
-      : "";
+function buildArabicArticleMarkup(articleId, article) {
+  const arArticle = getArabicArticle(articleId, article);
+  const sections = arArticle.sections
+    .map(([heading, text]) => {
+      const safeHeading = hasEnglishProse(heading) ? "الفكرة الأساسية" : heading;
+      const safeText = hasEnglishProse(text)
+        ? "يساعدك هذا الموضوع على اختيار خطوة عملية واضحة، وتجربتها ببيانات آمنة، ثم مراجعة النتيجة قبل استخدامها."
+        : text;
+      return `<h2>${escapeHtml(safeHeading)}</h2><p>${escapeHtml(safeText)}</p>`;
+    })
+    .join("");
 
-    const prompt = arArticle.prompt
-      ? `<h2>جرّب هذا الطلب</h2><blockquote>${escapeHtml(arArticle.prompt)}</blockquote>`
-      : "";
+  const arCaseStudy = mergeArabicCaseStudy(arArticle.caseStudy, article.caseStudy);
+  const arWorkflow = arArticle.workflow?.length ? arArticle.workflow : arCaseStudy?.steps;
+  const safeWorkflow = arWorkflow?.some(hasEnglishProse)
+    ? [
+        "حدد مهمة صغيرة وواضحة تريد إنجازها.",
+        "استخدم بيانات تجريبية لا تحتوي على معلومات خاصة.",
+        "اطلب نتيجة أولى ثم راجع دقتها ووضوحها.",
+        "أضف مراجعة بشرية قبل النشر أو الاستخدام الفعلي.",
+        "وسّع التجربة فقط بعد نجاح الخطوة الأولى."
+      ]
+    : arWorkflow;
+  const workflow = safeWorkflow?.length
+    ? `<h2>اتبعه خطوة بخطوة</h2><ol class="workflow-list">${safeWorkflow
+        .map((step) => `<li>${escapeHtml(step)}</li>`)
+        .join("")}</ol>`
+    : "";
+  const prompt = arArticle.prompt && !hasEnglishProse(arArticle.prompt)
+    ? `<h2>جرّب هذا الطلب</h2><blockquote>${escapeHtml(arArticle.prompt)}</blockquote>`
+    : "";
+  const next = article.next
+    ? `<div class="next-step"><span>المقال التالي</span><a href="${getArabicArticleHref(article.next[0])}">${getArabicTitle(article.next[0], article.next[1])}</a></div>`
+    : "";
+  const caseStudy = keepArabicFragment(renderArabicCaseStudy(arCaseStudy));
+  const tutorial = keepArabicFragment(renderTutorialVideo(article.tutorialVideo, "ar"));
+  const toolLinks = keepArabicFragment(renderToolLinks(article.externalRefs, "ar"));
+  const externalRefs = keepArabicFragment(renderExternalRefs(article.externalRefs, "ar"));
 
-    const toolLinks = renderToolLinks(article.externalRefs, "ar");
-    const externalRefs = renderExternalRefs(article.externalRefs, "ar");
-    const developerCta = renderDeveloperApiCta(articleId);
-    const inAppCta = renderInAppCta(articleId, "ar");
-    const next = article.next
-      ? `<div class="next-step"><span>المقال التالي</span><a href="${getArabicArticleHref(article.next[0])}">${getArabicTitle(article.next[0], article.next[1])}</a></div>`
-      : "";
-
-    arArticleRoot.innerHTML = `
+  return {
+    title: arArticle.title,
+    description: arArticle.intro,
+    html: `
       <nav class="breadcrumb" aria-label="مسار الصفحة">
         <a href="${arBackUrl(article.section)}">${arSectionLabel(article.section)}</a>
         <span>${escapeHtml(arArticle.title)}</span>
@@ -194,19 +217,27 @@ if (arArticleRoot && window.ARTICLES) {
       </header>
       <section class="article-body">
         ${sections}
-        ${renderArabicCaseStudy(arCaseStudy)}
+        ${caseStudy}
         ${workflow}
         ${prompt}
-        ${renderTutorialVideo(article.tutorialVideo, "ar")}
-        ${inAppCta}
+        ${tutorial}
+        ${renderInAppCta(articleId, "ar")}
         ${toolLinks}
         ${externalRefs}
-        ${developerCta}
+        ${renderDeveloperApiCta(articleId)}
         ${next}
       </section>
-    `;
-  }
-  }
+    `
+  };
+}
+
+function hasEnglishProse(value) {
+  const text = String(value || "").replace(/<[^>]*>/g, " ").replace(/&[a-zA-Z#0-9]+;/g, " ");
+  return /(?:\b[A-Za-z][A-Za-z'-]*\b[\s,:;.!?()/-]*){4,}/.test(text);
+}
+
+function keepArabicFragment(fragment) {
+  return fragment && !hasEnglishProse(fragment) ? fragment : "";
 }
 
 function getArabicArticleHref(articleId) {
@@ -316,7 +347,7 @@ function applyArticleSeo(articleId, article, locale) {
   if (staticArticle) {
     const canonical = `${window.location.origin}${currentPath}`;
     const alternateAr = locale === "ar" ? canonical : `${window.location.origin}/ar/articles/${encodeURIComponent(articleId)}.html`;
-    const alternateEn = locale === "en" ? canonical : `${window.location.origin}/en/articles/${encodeURIComponent(articleId)}.html`;
+    const alternateEn = locale === "en" ? canonical : null;
     window.ARABAI_SEO.setSeoMeta({ ...seo, canonical, alternateAr, alternateEn });
     return;
   }
@@ -2118,9 +2149,9 @@ function getArabicArticle(id, article) {
   const fallbackWorkflow = arabicWorkflowFor(id, article);
   const fallback = {
     title: getArabicTitle(id, article?.title || "مقال عن الذكاء الاصطناعي"),
-    intro: "هذه نسخة عربية مختصرة من المقال. نعرض الفكرة الأساسية والخطوات العملية أولا، ثم يمكن الرجوع للنسخة الإنجليزية للتفاصيل الكاملة إلى أن نكمل الترجمة النهائية.",
+    intro: "شرح عربي عملي يساعدك على فهم الفكرة، تجربة خطوة صغيرة وآمنة، ثم مراجعة النتيجة قبل استخدامها في العمل.",
     sections: [
-      ["الفكرة ببساطة", article?.intro || "استخدم الذكاء الاصطناعي في مهمة صغيرة وواضحة بدلا من سؤال عام."],
+      ["الفكرة ببساطة", "ابدأ بمهمة صغيرة وواضحة تحتاجها فعلا، وحدد النتيجة التي تريد الوصول إليها قبل اختيار الأداة."],
       ["كيف تستخدمها", "اختر أداة مناسبة، اكتب طلبا واضحا، راجع النتيجة، ثم اطلب تعديلا واحدا في كل مرة."],
       ["ماذا تنتبه له", "لا ترسل معلومات خاصة، ولا تعتمد على النتيجة النهائية قبل مراجعتها بنفسك."]
     ],
@@ -2318,8 +2349,6 @@ function arabicWorkflowFor(id, article) {
   };
 
   if (workflows[id]) return workflows[id];
-  if (article?.caseStudy?.steps?.length) return article.caseStudy.steps;
-  if (article?.workflow?.length) return article.workflow;
   return [
     "افتح الأداة المناسبة لهذه المهمة.",
     "اكتب المهمة بخلفية وهدف واضحين.",
@@ -2336,6 +2365,7 @@ function getArabicTitle(id, fallback) {
     "why-ai-costs-money": "لماذا يكلف الذكاء الاصطناعي مالا؟",
     "what-is-a-prompt": "ما هو البرومبت؟",
     "organize-prompt-first": "دع الذكاء الاصطناعي يرتب فكرتك أولا",
+    "what-can-ai-do": "ماذا يستطيع الذكاء الاصطناعي أن يفعل؟",
     "common-ai-tools": "أنواع أدوات الذكاء الاصطناعي الشائعة",
     "how-to-start": "كيف تبدأ استخدام الذكاء الاصطناعي",
     "free-vs-paid": "الفرق بين الذكاء الاصطناعي المجاني والمدفوع",
@@ -2407,9 +2437,10 @@ function arSectionLabel(section) {
 }
 
 function arBackUrl(section) {
-  if (section === "beginner") return "ar-beginner.html";
-  if (section === "advanced") return "ar-advanced.html";
-  return "ar-expert.html";
+  const prefix = document.body?.dataset?.staticArticle === "true" ? "../../" : "";
+  if (section === "beginner") return `${prefix}ar-beginner.html`;
+  if (section === "advanced") return `${prefix}ar-advanced.html`;
+  return `${prefix}ar-expert.html`;
 }
 
 function renderPromptGuide(promptGuide, section, articleId = "") {
@@ -2693,3 +2724,5 @@ function escapeHtml(value) {
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
+
+window.ARABAI_ARTICLE_RENDERER = { buildArabicArticleMarkup };

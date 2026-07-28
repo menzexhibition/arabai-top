@@ -46,6 +46,9 @@ for (const directory of ["models", "compare"]) {
   pages.push(...files.filter((file) => file.endsWith(".html")).map((file) => `/${directory}/${file}`));
 }
 
+const arabicArticleFiles = await readdir(path.join(root, "ar", "articles"));
+pages.push(...arabicArticleFiles.filter((file) => file.endsWith(".html")).map((file) => `/ar/articles/${file}`));
+
 const mimeByExt = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
@@ -95,6 +98,20 @@ for (const page of pages) {
   }
   if (!/<!doctype html>/i.test(text) || !/<title>/i.test(text)) {
     failures.push(`${page} did not look like a complete HTML page`);
+  }
+  if (page.startsWith("/ar/articles/")) {
+    if (text.includes("جاري تحميل المقال")) failures.push(`${page} still contains the loading placeholder`);
+    if (!text.includes('data-arabai-article-schema')) failures.push(`${page} is missing Article structured data`);
+    if (text.includes('hreflang="en"')) failures.push(`${page} links to a noindex English alternate`);
+    if (!/<section class="article-body">[\s\S]*?<h2>/i.test(text)) failures.push(`${page} is missing static article content`);
+    if (/href="ar-(beginner|advanced|expert)\.html"/.test(text)) failures.push(`${page} has a broken section breadcrumb`);
+    const articleText = (text.match(/<article class="article-page"[\s\S]*?<\/article>/i)?.[0] || "")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/&[^;]+;/g, " ")
+      .replace(/\s+/g, " ");
+    if (/(?:\b[A-Za-z][A-Za-z'-]*\b[\s,:;.!?()/-]*){4,}/.test(articleText)) {
+      failures.push(`${page} contains an untranslated English sentence`);
+    }
   }
 }
 
