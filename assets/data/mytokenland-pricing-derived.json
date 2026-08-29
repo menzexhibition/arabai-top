@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-28T14:24:53.730Z",
+  "generatedAt": "2026-08-29T09:08:37.833Z",
   "source": {
     "quotaDisplayType": "USD",
     "baseUnitPriceUsd": 0.2,
@@ -255,7 +255,7 @@
   ],
   "models": [
     {
-      "model": "deepseek-v4-flash",
+      "model": "deepseek-v3.2",
       "vendor": "DeepSeek",
       "quotaType": "metered",
       "endpoints": [
@@ -280,32 +280,7 @@
       "arabaiCacheWriteUsd": null
     },
     {
-      "model": "deepseek-v4-pro",
-      "vendor": "DeepSeek",
-      "quotaType": "metered",
-      "endpoints": [
-        "openai"
-      ],
-      "groups": [
-        "default"
-      ],
-      "sourceModelRatio": 9,
-      "sourceCompletionRatio": 3.75,
-      "sourceCacheRatio": null,
-      "sourceCreateCacheRatio": null,
-      "sourceModelPrice": 0,
-      "unit": "1M_tokens",
-      "sourceInputUsd": 3.6,
-      "sourceOutputUsd": 13.5,
-      "sourceCacheReadUsd": null,
-      "sourceCacheWriteUsd": null,
-      "arabaiInputUsd": 4.32,
-      "arabaiOutputUsd": 16.2,
-      "arabaiCacheReadUsd": null,
-      "arabaiCacheWriteUsd": null
-    },
-    {
-      "model": "gpt-5.6-sol",
+      "model": "gpt-5.3-codex-spark",
       "vendor": "OpenAI",
       "quotaType": "metered",
       "endpoints": [
@@ -314,70 +289,93 @@
       "groups": [
         "default"
       ],
-      "sourceModelRatio": 10,
+      "sourceModelRatio": 4,
       "sourceCompletionRatio": 8,
-      "sourceCacheRatio": 0.2,
+      "sourceCacheRatio": 0.5,
       "sourceCreateCacheRatio": null,
       "sourceModelPrice": 0,
       "unit": "1M_tokens",
-      "sourceInputUsd": 4,
-      "sourceOutputUsd": 32,
+      "sourceInputUsd": 1.6,
+      "sourceOutputUsd": 12.8,
       "sourceCacheReadUsd": 0.8,
       "sourceCacheWriteUsd": null,
-      "arabaiInputUsd": 4.8,
-      "arabaiOutputUsd": 38.4,
+      "arabaiInputUsd": 1.92,
+      "arabaiOutputUsd": 15.36,
       "arabaiCacheReadUsd": 0.96,
       "arabaiCacheWriteUsd": null
     },
     {
-      "model": "mimo-v2-omni",
-      "vendor": "",
+      "model": "gpt-5.5",
+      "vendor": "OpenAI",
       "quotaType": "metered",
       "endpoints": [
-        "anthropic",
         "openai"
       ],
       "groups": [
         "default"
       ],
-      "sourceModelRatio": 4,
-      "sourceCompletionRatio": 5,
+      "sourceModelRatio": 5,
+      "sourceCompletionRatio": 8,
+      "sourceCacheRatio": 0.5,
+      "sourceCreateCacheRatio": null,
+      "sourceModelPrice": 0,
+      "unit": "1M_tokens",
+      "sourceInputUsd": 2,
+      "sourceOutputUsd": 16,
+      "sourceCacheReadUsd": 1,
+      "sourceCacheWriteUsd": null,
+      "arabaiInputUsd": 2.4,
+      "arabaiOutputUsd": 19.2,
+      "arabaiCacheReadUsd": 1.2,
+      "arabaiCacheWriteUsd": null
+    },
+    {
+      "model": "MiniMax-M3",
+      "vendor": "",
+      "quotaType": "metered",
+      "endpoints": [
+        "openai"
+      ],
+      "groups": [
+        "default"
+      ],
+      "sourceModelRatio": 2,
+      "sourceCompletionRatio": 1,
       "sourceCacheRatio": null,
       "sourceCreateCacheRatio": null,
       "sourceModelPrice": 0,
       "unit": "1M_tokens",
-      "sourceInputUsd": 1.6,
-      "sourceOutputUsd": 8,
+      "sourceInputUsd": 0.8,
+      "sourceOutputUsd": 0.8,
       "sourceCacheReadUsd": null,
       "sourceCacheWriteUsd": null,
-      "arabaiInputUsd": 1.92,
-      "arabaiOutputUsd": 9.6,
+      "arabaiInputUsd": 0.96,
+      "arabaiOutputUsd": 0.96,
       "arabaiCacheReadUsd": null,
       "arabaiCacheWriteUsd": null
     },
     {
-      "model": "mimo-v2-pro",
-      "vendor": "",
+      "model": "qwen3.5-plus",
+      "vendor": "Alibaba Cloud",
       "quotaType": "metered",
       "endpoints": [
-        "anthropic",
         "openai"
       ],
       "groups": [
         "default"
       ],
-      "sourceModelRatio": 4,
+      "sourceModelRatio": 2,
       "sourceCompletionRatio": 5,
       "sourceCacheRatio": null,
       "sourceCreateCacheRatio": null,
       "sourceModelPrice": 0,
       "unit": "1M_tokens",
-      "sourceInputUsd": 1.6,
-      "sourceOutputUsd": 8,
+      "sourceInputUsd": 0.8,
+      "sourceOutputUsd": 4,
       "sourceCacheReadUsd": null,
       "sourceCacheWriteUsd": null,
-      "arabaiInputUsd": 1.92,
-      "arabaiOutputUsd": 9.6,
+      "arabaiInputUsd": 0.96,
+      "arabaiOutputUsd": 4.8,
       "arabaiCacheReadUsd": null,
       "arabaiCacheWriteUsd": null
     },
@@ -404,31 +402,6 @@
       "arabaiInputUsd": 1.92,
       "arabaiOutputUsd": 9.6,
       "arabaiCacheReadUsd": null,
-      "arabaiCacheWriteUsd": null
-    },
-    {
-      "model": "gpt-5.3-codex",
-      "vendor": "OpenAI",
-      "quotaType": "metered",
-      "endpoints": [
-        "openai"
-      ],
-      "groups": [
-        "default"
-      ],
-      "sourceModelRatio": 5,
-      "sourceCompletionRatio": 8,
-      "sourceCacheRatio": 0.4,
-      "sourceCreateCacheRatio": null,
-      "sourceModelPrice": 0,
-      "unit": "1M_tokens",
-      "sourceInputUsd": 2,
-      "sourceOutputUsd": 16,
-      "sourceCacheReadUsd": 0.8,
-      "sourceCacheWriteUsd": null,
-      "arabaiInputUsd": 2.4,
-      "arabaiOutputUsd": 19.2,
-      "arabaiCacheReadUsd": 0.96,
       "arabaiCacheWriteUsd": null
     },
     {
@@ -474,32 +447,6 @@
       "unit": "request",
       "sourcePriceUsd": 0.4,
       "arabaiPriceUsd": 0.48
-    },
-    {
-      "model": "mimo-v2.5",
-      "vendor": "",
-      "quotaType": "metered",
-      "endpoints": [
-        "anthropic",
-        "openai"
-      ],
-      "groups": [
-        "default"
-      ],
-      "sourceModelRatio": 2,
-      "sourceCompletionRatio": 5,
-      "sourceCacheRatio": null,
-      "sourceCreateCacheRatio": null,
-      "sourceModelPrice": 0,
-      "unit": "1M_tokens",
-      "sourceInputUsd": 0.8,
-      "sourceOutputUsd": 4,
-      "sourceCacheReadUsd": null,
-      "sourceCacheWriteUsd": null,
-      "arabaiInputUsd": 0.96,
-      "arabaiOutputUsd": 4.8,
-      "arabaiCacheReadUsd": null,
-      "arabaiCacheWriteUsd": null
     },
     {
       "model": "claude-opus-4-6",
@@ -579,33 +526,8 @@
       "arabaiCacheWriteUsd": null
     },
     {
-      "model": "gpt-5.3-codex-spark",
-      "vendor": "讯飞",
-      "quotaType": "metered",
-      "endpoints": [
-        "openai"
-      ],
-      "groups": [
-        "default"
-      ],
-      "sourceModelRatio": 4,
-      "sourceCompletionRatio": 8,
-      "sourceCacheRatio": 0.5,
-      "sourceCreateCacheRatio": null,
-      "sourceModelPrice": 0,
-      "unit": "1M_tokens",
-      "sourceInputUsd": 1.6,
-      "sourceOutputUsd": 12.8,
-      "sourceCacheReadUsd": 0.8,
-      "sourceCacheWriteUsd": null,
-      "arabaiInputUsd": 1.92,
-      "arabaiOutputUsd": 15.36,
-      "arabaiCacheReadUsd": 0.96,
-      "arabaiCacheWriteUsd": null
-    },
-    {
-      "model": "gpt-5.4-mini",
-      "vendor": "OpenAI",
+      "model": "deepseek-v4-flash",
+      "vendor": "DeepSeek",
       "quotaType": "metered",
       "endpoints": [
         "openai"
@@ -614,18 +536,43 @@
         "default"
       ],
       "sourceModelRatio": 3,
-      "sourceCompletionRatio": 6,
-      "sourceCacheRatio": 0.5,
+      "sourceCompletionRatio": 5,
+      "sourceCacheRatio": null,
       "sourceCreateCacheRatio": null,
       "sourceModelPrice": 0,
       "unit": "1M_tokens",
       "sourceInputUsd": 1.2,
-      "sourceOutputUsd": 7.2,
-      "sourceCacheReadUsd": 0.6,
+      "sourceOutputUsd": 6,
+      "sourceCacheReadUsd": null,
       "sourceCacheWriteUsd": null,
       "arabaiInputUsd": 1.44,
-      "arabaiOutputUsd": 8.64,
-      "arabaiCacheReadUsd": 0.72,
+      "arabaiOutputUsd": 7.2,
+      "arabaiCacheReadUsd": null,
+      "arabaiCacheWriteUsd": null
+    },
+    {
+      "model": "gpt-5.3-codex",
+      "vendor": "OpenAI",
+      "quotaType": "metered",
+      "endpoints": [
+        "openai"
+      ],
+      "groups": [
+        "default"
+      ],
+      "sourceModelRatio": 5,
+      "sourceCompletionRatio": 8,
+      "sourceCacheRatio": 0.4,
+      "sourceCreateCacheRatio": null,
+      "sourceModelPrice": 0,
+      "unit": "1M_tokens",
+      "sourceInputUsd": 2,
+      "sourceOutputUsd": 16,
+      "sourceCacheReadUsd": 0.8,
+      "sourceCacheWriteUsd": null,
+      "arabaiInputUsd": 2.4,
+      "arabaiOutputUsd": 19.2,
+      "arabaiCacheReadUsd": 0.96,
       "arabaiCacheWriteUsd": null
     },
     {
@@ -650,6 +597,84 @@
       "sourceCacheWriteUsd": null,
       "arabaiInputUsd": 0.48,
       "arabaiOutputUsd": 2.4,
+      "arabaiCacheReadUsd": null,
+      "arabaiCacheWriteUsd": null
+    },
+    {
+      "model": "mimo-v2-omni",
+      "vendor": "",
+      "quotaType": "metered",
+      "endpoints": [
+        "anthropic",
+        "openai"
+      ],
+      "groups": [
+        "default"
+      ],
+      "sourceModelRatio": 4,
+      "sourceCompletionRatio": 5,
+      "sourceCacheRatio": null,
+      "sourceCreateCacheRatio": null,
+      "sourceModelPrice": 0,
+      "unit": "1M_tokens",
+      "sourceInputUsd": 1.6,
+      "sourceOutputUsd": 8,
+      "sourceCacheReadUsd": null,
+      "sourceCacheWriteUsd": null,
+      "arabaiInputUsd": 1.92,
+      "arabaiOutputUsd": 9.6,
+      "arabaiCacheReadUsd": null,
+      "arabaiCacheWriteUsd": null
+    },
+    {
+      "model": "mimo-v2-pro",
+      "vendor": "",
+      "quotaType": "metered",
+      "endpoints": [
+        "anthropic",
+        "openai"
+      ],
+      "groups": [
+        "default"
+      ],
+      "sourceModelRatio": 4,
+      "sourceCompletionRatio": 5,
+      "sourceCacheRatio": null,
+      "sourceCreateCacheRatio": null,
+      "sourceModelPrice": 0,
+      "unit": "1M_tokens",
+      "sourceInputUsd": 1.6,
+      "sourceOutputUsd": 8,
+      "sourceCacheReadUsd": null,
+      "sourceCacheWriteUsd": null,
+      "arabaiInputUsd": 1.92,
+      "arabaiOutputUsd": 9.6,
+      "arabaiCacheReadUsd": null,
+      "arabaiCacheWriteUsd": null
+    },
+    {
+      "model": "mimo-v2.5",
+      "vendor": "",
+      "quotaType": "metered",
+      "endpoints": [
+        "anthropic",
+        "openai"
+      ],
+      "groups": [
+        "default"
+      ],
+      "sourceModelRatio": 2,
+      "sourceCompletionRatio": 5,
+      "sourceCacheRatio": null,
+      "sourceCreateCacheRatio": null,
+      "sourceModelPrice": 0,
+      "unit": "1M_tokens",
+      "sourceInputUsd": 0.8,
+      "sourceOutputUsd": 4,
+      "sourceCacheReadUsd": null,
+      "sourceCacheWriteUsd": null,
+      "arabaiInputUsd": 0.96,
+      "arabaiOutputUsd": 4.8,
       "arabaiCacheReadUsd": null,
       "arabaiCacheWriteUsd": null
     },
@@ -679,7 +704,32 @@
       "arabaiCacheWriteUsd": null
     },
     {
-      "model": "deepseek-v3.2",
+      "model": "gpt-5.6-sol",
+      "vendor": "OpenAI",
+      "quotaType": "metered",
+      "endpoints": [
+        "openai"
+      ],
+      "groups": [
+        "default"
+      ],
+      "sourceModelRatio": 10,
+      "sourceCompletionRatio": 8,
+      "sourceCacheRatio": 0.2,
+      "sourceCreateCacheRatio": null,
+      "sourceModelPrice": 0,
+      "unit": "1M_tokens",
+      "sourceInputUsd": 4,
+      "sourceOutputUsd": 32,
+      "sourceCacheReadUsd": 0.8,
+      "sourceCacheWriteUsd": null,
+      "arabaiInputUsd": 4.8,
+      "arabaiOutputUsd": 38.4,
+      "arabaiCacheReadUsd": 0.96,
+      "arabaiCacheWriteUsd": null
+    },
+    {
+      "model": "deepseek-v4-pro",
       "vendor": "DeepSeek",
       "quotaType": "metered",
       "endpoints": [
@@ -688,18 +738,18 @@
       "groups": [
         "default"
       ],
-      "sourceModelRatio": 3,
-      "sourceCompletionRatio": 5,
+      "sourceModelRatio": 9,
+      "sourceCompletionRatio": 3.75,
       "sourceCacheRatio": null,
       "sourceCreateCacheRatio": null,
       "sourceModelPrice": 0,
       "unit": "1M_tokens",
-      "sourceInputUsd": 1.2,
-      "sourceOutputUsd": 6,
+      "sourceInputUsd": 3.6,
+      "sourceOutputUsd": 13.5,
       "sourceCacheReadUsd": null,
       "sourceCacheWriteUsd": null,
-      "arabaiInputUsd": 1.44,
-      "arabaiOutputUsd": 7.2,
+      "arabaiInputUsd": 4.32,
+      "arabaiOutputUsd": 16.2,
       "arabaiCacheReadUsd": null,
       "arabaiCacheWriteUsd": null
     },
@@ -729,7 +779,7 @@
       "arabaiCacheWriteUsd": null
     },
     {
-      "model": "gpt-5.5",
+      "model": "gpt-5.4-mini",
       "vendor": "OpenAI",
       "quotaType": "metered",
       "endpoints": [
@@ -738,69 +788,19 @@
       "groups": [
         "default"
       ],
-      "sourceModelRatio": 5,
-      "sourceCompletionRatio": 8,
+      "sourceModelRatio": 3,
+      "sourceCompletionRatio": 6,
       "sourceCacheRatio": 0.5,
       "sourceCreateCacheRatio": null,
       "sourceModelPrice": 0,
       "unit": "1M_tokens",
-      "sourceInputUsd": 2,
-      "sourceOutputUsd": 16,
-      "sourceCacheReadUsd": 1,
+      "sourceInputUsd": 1.2,
+      "sourceOutputUsd": 7.2,
+      "sourceCacheReadUsd": 0.6,
       "sourceCacheWriteUsd": null,
-      "arabaiInputUsd": 2.4,
-      "arabaiOutputUsd": 19.2,
-      "arabaiCacheReadUsd": 1.2,
-      "arabaiCacheWriteUsd": null
-    },
-    {
-      "model": "MiniMax-M3",
-      "vendor": "",
-      "quotaType": "metered",
-      "endpoints": [
-        "openai"
-      ],
-      "groups": [
-        "default"
-      ],
-      "sourceModelRatio": 2,
-      "sourceCompletionRatio": 1,
-      "sourceCacheRatio": null,
-      "sourceCreateCacheRatio": null,
-      "sourceModelPrice": 0,
-      "unit": "1M_tokens",
-      "sourceInputUsd": 0.8,
-      "sourceOutputUsd": 0.8,
-      "sourceCacheReadUsd": null,
-      "sourceCacheWriteUsd": null,
-      "arabaiInputUsd": 0.96,
-      "arabaiOutputUsd": 0.96,
-      "arabaiCacheReadUsd": null,
-      "arabaiCacheWriteUsd": null
-    },
-    {
-      "model": "qwen3.5-plus",
-      "vendor": "Alibaba Cloud",
-      "quotaType": "metered",
-      "endpoints": [
-        "openai"
-      ],
-      "groups": [
-        "default"
-      ],
-      "sourceModelRatio": 2,
-      "sourceCompletionRatio": 5,
-      "sourceCacheRatio": null,
-      "sourceCreateCacheRatio": null,
-      "sourceModelPrice": 0,
-      "unit": "1M_tokens",
-      "sourceInputUsd": 0.8,
-      "sourceOutputUsd": 4,
-      "sourceCacheReadUsd": null,
-      "sourceCacheWriteUsd": null,
-      "arabaiInputUsd": 0.96,
-      "arabaiOutputUsd": 4.8,
-      "arabaiCacheReadUsd": null,
+      "arabaiInputUsd": 1.44,
+      "arabaiOutputUsd": 8.64,
+      "arabaiCacheReadUsd": 0.72,
       "arabaiCacheWriteUsd": null
     }
   ]
