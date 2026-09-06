@@ -413,32 +413,33 @@
 
 
 
+
   <!-- GENERATED SEO PAGES -->
-  <url><loc>https://arabai.top/models/claude-opus-4-6.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/claude-opus-4-7.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/claude-sonnet-4-6.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/deepseek-v3-2.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/deepseek-v4-flash.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/deepseek-v4-pro.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/gpt-5-3-codex-spark.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/gpt-5-3-codex.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/gpt-5-4-mini.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/gpt-5-4.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/gpt-5-5.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/gpt-5-6-luna.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/gpt-5-6-sol.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/gpt-image-2.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/mimo-v2-5.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/mimo-v2-omni.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/mimo-v2-pro.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/minimax-m2-7-highspeed.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/minimax-m2-7.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/minimax-m3.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/qwen3-5-plus.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/models/qwen3-6-plus.html</loc><lastmod>2026-09-05</lastmod><priority>0.80</priority></url>
-  <url><loc>https://arabai.top/compare/best-ai-api-for-arabic.html</loc><lastmod>2026-09-05</lastmod><priority>0.75</priority></url>
-  <url><loc>https://arabai.top/compare/deepseek-v4-pro-vs-gpt-5-4-mini.html</loc><lastmod>2026-09-05</lastmod><priority>0.75</priority></url>
-  <url><loc>https://arabai.top/compare/gpt-5-4-vs-claude-sonnet-4-6.html</loc><lastmod>2026-09-05</lastmod><priority>0.75</priority></url>
-  <url><loc>https://arabai.top/compare/gpt-codex-vs-qwen.html</loc><lastmod>2026-09-05</lastmod><priority>0.75</priority></url>
+  <url><loc>https://arabai.top/models/claude-opus-4-6.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/claude-opus-4-7.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/claude-sonnet-4-6.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/deepseek-v3-2.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/deepseek-v4-flash.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/deepseek-v4-pro.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/gpt-5-3-codex-spark.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/gpt-5-3-codex.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/gpt-5-4-mini.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/gpt-5-4.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/gpt-5-5.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/gpt-5-6-luna.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/gpt-5-6-sol.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/gpt-image-2.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/mimo-v2-5.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/mimo-v2-omni.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/mimo-v2-pro.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/minimax-m2-7-highspeed.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/minimax-m2-7.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/minimax-m3.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/qwen3-5-plus.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/models/qwen3-6-plus.html</loc><lastmod>2026-09-06</lastmod><priority>0.80</priority></url>
+  <url><loc>https://arabai.top/compare/best-ai-api-for-arabic.html</loc><lastmod>2026-09-06</lastmod><priority>0.75</priority></url>
+  <url><loc>https://arabai.top/compare/deepseek-v4-pro-vs-gpt-5-4-mini.html</loc><lastmod>2026-09-06</lastmod><priority>0.75</priority></url>
+  <url><loc>https://arabai.top/compare/gpt-5-4-vs-claude-sonnet-4-6.html</loc><lastmod>2026-09-06</lastmod><priority>0.75</priority></url>
+  <url><loc>https://arabai.top/compare/gpt-codex-vs-qwen.html</loc><lastmod>2026-09-06</lastmod><priority>0.75</priority></url>
   <!-- /GENERATED SEO PAGES -->
 </urlset>
